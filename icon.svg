@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="MeslapBooks">
+  <!-- 배경: 브랜드 딥그린 클로스 -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#226B47"/>
+      <stop offset="1" stop-color="#143F2A"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#EBCF96"/>
+      <stop offset="1" stop-color="#B89253"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <!-- 금박 헤어라인 프레임 -->
+  <rect x="44" y="44" width="424" height="424" rx="80" fill="none" stroke="url(#gold)" stroke-opacity="0.45" stroke-width="2"/>
+  <!-- 책 모티프: 펼쳐진 책 + 세로 스파인 -->
+  <g fill="none" stroke="url(#gold)" stroke-width="13" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M256 168 C 222 150, 178 146, 150 152 L150 330 C 178 324, 222 328, 256 346"/>
+    <path d="M256 168 C 290 150, 334 146, 362 152 L362 330 C 334 324, 290 328, 256 346"/>
+    <line x1="256" y1="168" x2="256" y2="346"/>
+  </g>
+  <!-- 'M' 모노그램 (책 위 금박 점 오너먼트) -->
+  <g fill="url(#gold)">
+    <circle cx="150" cy="138" r="5"/>
+    <circle cx="362" cy="138" r="5"/>
+  </g>
+  <!-- 워드마크 이니셜 M -->
+  <text x="256" y="406" text-anchor="middle" font-family="Georgia, 'Noto Serif KR', serif" font-size="64" font-weight="700" fill="url(#gold)" letter-spacing="6">M</text>
+</svg>

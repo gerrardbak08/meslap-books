@@ -1,0 +1,3244 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>MeslapBooks — 말씀이 삶이 되는 자리</title>
+<!-- OG / SNS 공유 메타 -->
+<meta property="og:type"        content="website">
+<meta property="og:site_name"   content="MeslapBooks">
+<meta property="og:title"       content="MeslapBooks — 말씀이 삶이 되는 자리">
+<meta property="og:description" content="박상혁 목사의 말씀 묵상을 주제별로 엮은 모바일 전자책. 성령론·기도·조직신학 등 13권을 손 안에서.">
+<meta property="og:url"         content="https://meslap-books.netlify.app">
+<meta property="og:image"       content="https://meslap-books.netlify.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale"      content="ko_KR">
+<!-- Twitter Card -->
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:title"       content="MeslapBooks — 말씀이 삶이 되는 자리">
+<meta name="twitter:description" content="박상혁 목사의 말씀 묵상을 주제별로 엮은 모바일 전자책. 무료책으로 시작하세요.">
+<meta name="twitter:image"       content="https://meslap-books.netlify.app/og-image.png">
+<!-- 카카오톡 공유 -->
+<meta name="description"         content="박상혁 목사의 말씀 묵상을 주제별로 엮은 모바일 전자책. 성령론·기도·조직신학 등 13권을 손 안에서.">
+<!-- ── PWA(설치형 웹) ── -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1A5C3A">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<!-- iOS 홈화면 -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MeslapBooks">
+<link rel="apple-touch-icon" href="icon-180.png">
+<!-- 서비스워커 등록 (없으면 조용히 무시) -->
+<script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&family=Gowun+Batang:wght@400;700&family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sans:'Pretendard Variable',Pretendard,-apple-system,sans-serif;
+  --serif:'Noto Serif KR',Georgia,serif;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --bg:#FBF8F2;--bg2:#F3EEE4;--ink:#1A1714;--ink2:#5C554D;--ink3:#9A9089;
+  --line:#E5DECF;--gold:#9A7B4F;--gold-bg:#F0E8D8;--reader-fs:16px;
+  --reader-font:'Noto Serif KR',Georgia,serif;--reader-lh:1.9;
+}
+.app.sepia{--bg:#F4ECD8;--bg2:#EADFC4;--ink:#3A2F1E;--ink2:#6B5C42;--ink3:#9C8A6A;--line:#DDCDA8;--gold:#8A6A3A;--gold-bg:#E5D7B5}
+.app.night{--bg:#161514;--bg2:#211F1C;--ink:#D8D2C8;--ink2:#A39C90;--ink3:#6E675C;--line:#322F2A;--gold:#C9A86A;--gold-bg:#2A2620}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;margin:0;padding:0}
+body{font-family:var(--sans);-webkit-font-smoothing:antialiased;background:radial-gradient(circle at 50% 30%,#3A3A40,#1C1C20);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:28px 16px}
+.hint{text-align:center;color:#8A8A92;font-size:12.5px;line-height:1.7;max-width:360px}
+.hint b{color:#C8C8D0;font-weight:600}
+
+/* 아이폰 목업 프레임 (데스크탑 쇼케이스) */
+.iphone{width:390px;height:844px;background:#0A0A0C;border-radius:56px;padding:13px;box-shadow:0 0 0 2px #2A2A2E,0 0 0 11px #0A0A0C,0 0 0 13px #3A3A40,0 50px 100px rgba(0,0,0,.55);position:relative;flex-shrink:0}
+.iphone::before{content:'';position:absolute;left:-15px;top:180px;width:4px;height:64px;background:#2A2A2E;border-radius:3px 0 0 3px;box-shadow:0 96px 0 #2A2A2E,0 -52px 0 #2A2A2E}
+.iphone::after{content:'';position:absolute;right:-15px;top:230px;width:4px;height:96px;background:#2A2A2E;border-radius:0 3px 3px 0}
+.screen{width:100%;height:100%;border-radius:44px;overflow:hidden;background:var(--bg);position:relative}
+.island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:122px;height:34px;background:#000;border-radius:20px;z-index:100}
+.statusbar{position:absolute;top:0;left:0;right:0;height:54px;z-index:90;display:flex;align-items:center;justify-content:space-between;padding:16px 32px 0;pointer-events:none}
+.statusbar .time{font-size:15px;font-weight:600;color:var(--ink);letter-spacing:.02em}
+.statusbar .icons{display:flex;align-items:center;gap:6px;color:var(--ink)}
+.home-indicator{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;background:var(--ink);opacity:.32;border-radius:3px;z-index:100}
+
+@media(max-height:920px){.iphone{transform:scale(.86);margin:-58px 0}}
+@media(max-width:440px){.iphone{transform:scale(.8);margin:-80px 0}.hint{margin-top:48px}}
+
+/* 모바일/PWA 전체화면 — 홈화면 설치 후 또는 모바일 브라우저에서 목업 제거 */
+@media (display-mode:standalone),(max-width:480px){
+  body{background:var(--bg);padding:0;gap:0;justify-content:flex-start}
+  .iphone{width:100%;height:100dvh;border-radius:0;padding:0;box-shadow:none;position:fixed;inset:0}
+  .iphone::before,.iphone::after{display:none}
+  .screen{border-radius:0;height:100dvh}
+  .island,.statusbar,.home-indicator,.hint{display:none}
+}
+
+/* 앱 */
+.app{position:absolute;inset:0;background:var(--bg);transition:background .4s var(--ease)}
+.view{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);transition:transform .38s var(--ease),opacity .38s var(--ease);transform:translateX(100%);opacity:0;pointer-events:none}
+.view.active{transform:translateX(0);opacity:1;pointer-events:auto}
+
+/* 표지 — 책 재킷(컬러 클로스 + 금박) 처리 */
+#cover{
+  justify-content:space-between;
+  background:linear-gradient(170deg,#2A3A30 0%,#1C2620 100%);
+  /* 재킷 전용 토큰 — 컬러 표지 위에서 가독성·금박 일관성 확보(테마 무관) */
+  --jk-ink:#FBF6EC;--jk-ink2:rgba(251,246,236,.80);--jk-ink3:rgba(251,246,236,.55);
+  --jk-gold:#EBCF96;--jk-line:rgba(235,207,150,.5);
+}
+.cover-top{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 38px 28px;text-align:center}
+.c-motif{color:var(--jk-gold);margin-bottom:26px;line-height:0}
+.c-motif svg{width:48px;height:48px;margin:0 auto}
+.ornament{width:34px;height:1px;background:var(--jk-line);margin:18px 0 22px;position:relative}
+.ornament::before,.ornament::after{content:'';position:absolute;top:50%;width:3.5px;height:3.5px;border-radius:50%;background:var(--jk-gold);transform:translateY(-50%)}
+.ornament::before{left:-10px}.ornament::after{right:-10px}
+.c-series{font-size:10.5px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--jk-gold);margin-bottom:14px}
+.c-vol{font-family:var(--serif);font-size:12.5px;font-weight:400;letter-spacing:.32em;color:var(--jk-ink2);margin-bottom:20px;padding-left:.32em}
+.c-title{font-family:var(--serif);font-size:31px;font-weight:700;line-height:1.52;color:var(--jk-ink);margin-bottom:4px;word-break:keep-all;letter-spacing:-.01em}
+.c-sub{font-family:var(--serif);font-size:13.5px;font-weight:300;font-style:italic;color:var(--jk-ink2);line-height:1.8;letter-spacing:.01em}
+.cover-btm{padding:0 36px 52px;text-align:center}
+.c-author{font-family:var(--serif);font-size:14px;font-weight:600;color:var(--jk-ink);margin-bottom:3px;letter-spacing:.04em}
+.c-church{font-size:11.5px;color:var(--jk-ink3);margin-bottom:26px;letter-spacing:.06em}
+.btn-p{display:block;width:100%;padding:17px;background:var(--ink);color:var(--bg);border:none;border-radius:14px;font-family:var(--sans);font-size:15px;font-weight:600;cursor:pointer;transition:transform .15s;margin-bottom:8px}
+.btn-p:active{transform:scale(.97)}
+.btn-t{display:block;width:100%;padding:12px;background:none;border:none;color:var(--ink2);font-family:var(--sans);font-size:13px;font-weight:500;cursor:pointer}
+#cover .btn-p{background:var(--jk-ink);color:#2B2722}
+#cover .btn-t{color:var(--jk-ink2)}
+.c-meta{font-size:11px;color:var(--jk-ink3);margin-top:14px;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:.04em}
+.c-meta .dot{width:2px;height:2px;background:var(--jk-ink3);border-radius:50%}
+
+/* ── 표지 그래픽 강화(2단계): 키비주얼·재킷 프레임·엠블럼·질감 ── */
+/* 본문 레이어를 그래픽 위로 */
+.cover-top,.cover-btm{position:relative;z-index:2}
+/* (4) 질감 — 종이/클로스 결. 아주 미세한 교차 해칭 */
+#cover .c-texture{position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(255,255,255,.022) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(-45deg, rgba(0,0,0,.022) 0 1px, transparent 1px 4px);}
+/* (1) 키비주얼 — 책 모티프 워터마크(금박톤·아주 낮은 불투명도) */
+#cover .c-watermark{position:absolute;top:48%;left:50%;transform:translate(-50%,-50%);
+  z-index:0;pointer-events:none;color:var(--jk-gold);opacity:.075;line-height:0}
+#cover .c-watermark svg{width:228px;height:228px;stroke-width:1}
+/* (2) 재킷 프레임 — 금박 헤어라인 이중 인셋 보더 + 절제된 코너 오너먼트 */
+#cover .c-frame{position:absolute;inset:14px;z-index:3;pointer-events:none;border:1px solid var(--jk-line)}
+#cover .c-frame::before{content:'';position:absolute;inset:4px;border:1px solid rgba(235,207,150,.26)}
+#cover .c-frame i{position:absolute;width:3px;height:3px;border-radius:50%;background:var(--jk-gold);opacity:.7}
+#cover .c-frame i.tl{top:1px;left:1px}#cover .c-frame i.tr{top:1px;right:1px}
+#cover .c-frame i.bl{bottom:1px;left:1px}#cover .c-frame i.br{bottom:1px;right:1px}
+/* (3) 시리즈 엠블럼 — 모노그램 + 워드마크 띠(시리즈 일관 아이덴티티) */
+#cover .c-emblem{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;gap:10px;padding:52px 38px 0}
+.c-mono{width:25px;height:25px;border:1px solid var(--jk-line);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:12.5px;font-weight:700;color:var(--jk-gold);flex-shrink:0}
+.c-wordmark{font-size:9.5px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--jk-ink3);padding-left:.3em}
+
+/* 목차 */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:1px solid var(--line);flex-shrink:0;background:var(--bg);padding-top:56px}
+.tb-btn{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border:none;background:none;color:var(--ink2);cursor:pointer;border-radius:10px;transition:background .12s}
+.tb-btn:active{background:var(--bg2)}
+.tb-title{font-size:14px;font-weight:600;color:var(--ink)}
+/* 모바일 전체화면 시 safe-area 대응 */
+@media (display-mode:standalone),(max-width:480px){
+  .topbar{padding-top:calc(12px + env(safe-area-inset-top))}
+  .r-topbar{padding-top:calc(8px + env(safe-area-inset-top))}
+}
+.tb-btn{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border:none;background:none;color:var(--ink2);cursor:pointer;border-radius:10px;transition:background .12s}
+.tb-btn:active{background:var(--bg2)}
+.tb-title{font-size:14px;font-weight:600;color:var(--ink)}
+.scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.scroll::-webkit-scrollbar{display:none}
+.toc-hd{padding:24px 24px 18px;border-bottom:1px solid var(--line)}
+.toc-hd-s{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:7px}
+.toc-hd-t{font-family:var(--serif);font-size:21px;font-weight:700;color:var(--ink);line-height:1.4;word-break:keep-all}
+/* 대분류 아코디언 */
+.toc-cat{border-bottom:1px solid var(--line)}
+.toc-cat-head{display:flex;align-items:center;justify-content:space-between;padding:16px 22px 12px;cursor:pointer;transition:background .12s}
+.toc-cat-head:active{background:var(--bg2)}
+.toc-cat-left{display:flex;align-items:center;gap:12px}
+.toc-cat-num{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--gold);font-weight:600}
+.toc-cat-name{font-size:15px;font-weight:700;color:var(--ink)}
+.toc-cat-cnt{font-size:11px;font-weight:600;color:var(--gold);background:var(--gold-bg);padding:2px 9px;border-radius:20px}
+.toc-cat-chev{color:var(--ink3);transition:transform .25s var(--ease)}
+.toc-cat.open .toc-cat-chev{transform:rotate(180deg)}
+.toc-items-wrap{display:grid;grid-template-rows:0fr;transition:grid-template-rows .28s var(--ease)}
+.toc-cat.open .toc-items-wrap{grid-template-rows:1fr}
+.toc-items-inner{overflow:hidden;min-height:0}
+.toc-art{padding:11px 22px 11px 46px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:background .12s;border-top:1px solid var(--line)}
+.toc-art:active{background:var(--bg2)}
+.toc-art.curr .toc-art-title{color:var(--gold);font-weight:600}
+.toc-art-title{font-size:13.5px;color:var(--ink2);line-height:1.45;flex:1;word-break:keep-all;padding-right:10px}
+.toc-art-date{font-size:10px;color:var(--ink3);flex-shrink:0}
+
+/* 리더 */
+.r-topbar{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;flex-shrink:0;background:var(--bg);transition:opacity .25s,transform .25s var(--ease);padding-top:56px}
+.r-topbar.hidden{opacity:0;transform:translateY(-100%);pointer-events:none}
+.r-prog-track{height:2px;background:var(--line);flex-shrink:0}
+.r-prog-fill{height:100%;background:var(--gold);width:0%;transition:width .15s linear}
+.r-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.r-scroll::-webkit-scrollbar{display:none}
+.r-body{padding:24px 26px 50px;max-width:100%}
+.r-lbl{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-align:center;margin-bottom:14px}
+.r-title{font-family:var(--reader-font);font-size:24px;font-weight:700;line-height:1.5;color:var(--ink);text-align:center;word-break:keep-all;margin-bottom:10px}
+.r-sub{font-family:var(--reader-font);font-size:14px;font-style:italic;font-weight:300;color:var(--ink2);text-align:center;margin-bottom:22px}
+.r-div{width:28px;height:1px;background:var(--gold);margin:0 auto 28px}
+.r-p{font-family:var(--reader-font);font-size:var(--reader-fs);line-height:var(--reader-lh);color:var(--ink);margin-bottom:20px;word-break:keep-all}
+/* 본문 소제목 위계: r-title > r-h2 > r-h3 > r-lead > r-p (모두 명조 --reader-font) */
+.r-h2{font-family:var(--reader-font);font-size:calc(var(--reader-fs) + 4px);font-weight:700;line-height:1.5;color:var(--ink);margin:40px 0 16px;word-break:keep-all;letter-spacing:-.01em}
+.r-h2::before{content:'';display:block;width:26px;height:2px;background:var(--gold);border-radius:1px;margin-bottom:13px}
+.r-h2:first-child{margin-top:6px}
+.r-h3{font-family:var(--reader-font);font-size:calc(var(--reader-fs) + 2px);font-weight:600;line-height:1.55;color:var(--ink);margin:28px 0 12px;padding-left:11px;border-left:2px solid var(--gold);word-break:keep-all}
+.r-h3:first-child{margin-top:6px}
+.r-lead{font-family:var(--reader-font);font-size:calc(var(--reader-fs) + 2px);font-style:italic;color:var(--ink2);text-align:center;line-height:1.85;margin-bottom:26px}
+.r-pq{margin:32px 0;text-align:center;padding:0 4px}
+.r-pq::before{content:'';display:block;width:20px;height:1px;background:var(--gold);margin:0 auto 16px}
+.r-pq p{font-family:var(--reader-font);font-style:italic;font-size:calc(var(--reader-fs) + 2px);color:var(--ink);line-height:1.7}
+.r-sc{background:var(--bg2);border-radius:12px;padding:16px 18px;margin:22px 0;text-align:center}
+.r-sc-ref{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:7px}
+.r-sc-txt{font-family:var(--reader-font);font-size:calc(var(--reader-fs) - 1px);font-style:italic;line-height:1.85;color:var(--ink2)}
+/* 글 끝 네비 */
+.art-nav{display:flex;gap:8px;margin-top:40px;padding-top:24px;border-top:1px solid var(--line)}
+.art-nav-btn{flex:1;padding:14px;border:1px solid var(--line);border-radius:12px;background:none;cursor:pointer;text-align:left;transition:background .12s}
+.art-nav-btn:active{background:var(--bg2)}
+.art-nav-btn:disabled{opacity:.3;pointer-events:none}
+.art-nav-dir{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);margin-bottom:3px}
+.art-nav-title{font-size:12px;font-weight:600;color:var(--ink);line-height:1.4;word-break:keep-all}
+.art-nav-btn.next{text-align:right}
+/* 하단 컨트롤 */
+.r-ctrl{display:flex;align-items:center;justify-content:space-around;padding:10px 16px 14px;border-top:1px solid var(--line);background:var(--bg);flex-shrink:0;transition:opacity .25s,transform .25s var(--ease)}
+.r-ctrl.hidden{opacity:0;transform:translateY(100%);pointer-events:none}
+.ctrl-btn{display:flex;flex-direction:column;align-items:center;gap:3px;border:none;background:none;color:var(--ink2);cursor:pointer;padding:4px 10px;border-radius:10px;transition:background .12s}
+.ctrl-btn:active{background:var(--bg2)}
+.ctrl-btn span{font-size:10px;font-weight:500}
+
+/* 설정 패널 */
+.backdrop{position:absolute;inset:0;background:rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .3s;z-index:80}
+.backdrop.show{opacity:1;pointer-events:auto}
+.panel{position:absolute;left:0;right:0;bottom:0;background:var(--bg);border-radius:22px 22px 0 0;padding:20px 22px 36px;transform:translateY(100%);transition:transform .35s var(--ease);z-index:81;box-shadow:0 -8px 32px rgba(0,0,0,.15);max-height:82%;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.panel::-webkit-scrollbar{display:none}
+.panel.show{transform:translateY(0)}
+.panel-handle{width:36px;height:4px;background:var(--line);border-radius:2px;margin:0 auto 20px}
+.p-sec{margin-bottom:20px}.p-sec:last-child{margin-bottom:0}
+.p-lbl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px}
+.theme-row{display:flex;gap:8px}
+.th-opt{flex:1;padding:13px 0;border-radius:12px;border:2px solid var(--line);cursor:pointer;text-align:center;font-size:13px;font-weight:600;transition:border-color .15s}
+.th-opt:active{transform:scale(.96)}
+.th-opt.white{background:#FBF8F2;color:#1A1714}
+.th-opt.sepia{background:#F4ECD8;color:#3A2F1E}
+.th-opt.night{background:#161514;color:#D8D2C8}
+.th-opt.sel{border-color:var(--gold)}
+.fs-row{display:flex;align-items:center;gap:12px}
+.fs-btn{width:50px;height:46px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);cursor:pointer;color:var(--ink);font-family:var(--serif);font-weight:600}
+.fs-btn:active{transform:scale(.94)}
+.fs-btn.sm{font-size:14px}.fs-btn.lg{font-size:21px}
+.fs-val{flex:1;text-align:center;font-size:13px;color:var(--ink2);font-weight:500}
+/* 글꼴 칩 */
+.font-row{display:flex;flex-wrap:wrap;gap:8px}
+.font-opt{padding:10px 14px;border-radius:12px;border:2px solid var(--line);background:var(--bg2);cursor:pointer;font-size:14px;font-weight:600;color:var(--ink);transition:border-color .15s,color .15s}
+.font-opt:active{transform:scale(.95)}
+.font-opt.sel{border-color:var(--gold);color:var(--gold)}
+/* 줄간격 세그먼트 */
+.lh-row{display:flex;gap:8px}
+.lh-opt{flex:1;padding:12px 0;border-radius:12px;border:2px solid var(--line);background:var(--bg2);cursor:pointer;text-align:center;font-size:12.5px;font-weight:600;color:var(--ink);transition:border-color .15s,color .15s}
+.lh-opt:active{transform:scale(.95)}
+.lh-opt.sel{border-color:var(--gold);color:var(--gold)}
+/* 보기 방식 토글 */
+.rm-opt{flex:1;padding:13px 0;border-radius:12px;border:2px solid var(--line);cursor:pointer;text-align:center;font-size:13px;font-weight:600;color:var(--ink);background:var(--bg2);transition:border-color .15s,color .15s}
+.rm-opt:active{transform:scale(.96)}
+.rm-opt.sel{border-color:var(--gold);color:var(--gold)}
+/* 페이지 넘김(페이지네이션) 모드 */
+.r-scroll.paged{overflow:hidden;touch-action:pan-y}
+.r-scroll.paged .r-body{height:100%;padding:22px 0 30px;column-fill:auto;transition:transform .3s var(--ease);will-change:transform}
+.r-scroll.paged .art-nav{display:none}
+.r-pageind{flex-shrink:0;text-align:center;font-size:11px;color:var(--ink3);padding:7px 0 3px;letter-spacing:.06em;display:none;background:var(--bg)}
+svg{display:block}
+
+/* ── UI 모션 · 앱 전역 효과 ── */
+/* 키프레임 */
+@keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes fadeBlur{from{opacity:0;filter:blur(8px)}to{opacity:1;filter:blur(0)}}
+@keyframes ripple{to{transform:scale(5);opacity:0}}
+@keyframes pulsering{0%{transform:scale(1);opacity:.6}100%{transform:scale(2.5);opacity:0}}
+@keyframes shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
+
+/* 뷰 전환: 활성 뷰 진입 시 fade+blur */
+.view.active{animation:fadeBlur .32s cubic-bezier(.2,.7,.3,1) both}
+/* 뷰가 이미 active였다가 다시 active 되는 경우엔 과하지 않도록 짧게 */
+.view{animation:none}
+
+/* 버튼 리플 */
+.btn-p,.btn-t,.social-btn,.tb-btn,.ctrl-btn{position:relative;overflow:hidden}
+.ripple-ink{position:absolute;border-radius:50%;background:rgba(255,255,255,.45);
+  transform:scale(0);animation:ripple .55s ease-out;pointer-events:none}
+.app.night .ripple-ink{background:rgba(255,255,255,.25)}
+
+/* 서재 책 카드: stagger slideUp + lift hover */
+.bk{transition:transform .18s ease, box-shadow .18s ease, border-color .15s}
+.bk:hover:not(.locked){transform:translateY(-3px);box-shadow:0 8px 22px rgba(0,0,0,.1)}
+.app.night .bk:hover:not(.locked){box-shadow:0 8px 22px rgba(0,0,0,.35)}
+/* stagger: JS에서 animation-delay 주입 */
+.bk.revealed{animation:slideUp .45s cubic-bezier(.2,.7,.3,1) both}
+
+/* 목차 글 제목: hover 밑줄 흐름 */
+.toc-art-title{position:relative;display:inline}
+.toc-art-title::after{content:'';position:absolute;left:0;bottom:-2px;height:1.5px;
+  width:100%;background:var(--gold);transform:scaleX(0);transform-origin:left;
+  transition:transform .24s ease}
+.toc-art:hover .toc-art-title::after{transform:scaleX(1)}
+
+/* 무료 뱃지 펄스 */
+.bk-tag.free{position:relative}
+.bk-tag.free::before{content:'';position:absolute;inset:0;border-radius:20px;
+  background:inherit;animation:pulsering 2s ease-out infinite}
+
+/* 스위치(설정)에 스프링 탄성 */
+.sw .kn{transition:transform .28s cubic-bezier(.2,1.4,.4,1)}
+
+/* 스켈레톤 로딩(서재 초기) */
+.skel-card{display:flex;gap:14px;padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--bg)}
+.sk{border-radius:8px;background:linear-gradient(90deg,var(--bg2) 25%,var(--line) 37%,var(--bg2) 63%);
+    background-size:400% 100%;animation:shimmer 1.4s ease infinite}
+.sk.cover{width:62px;height:84px;flex-shrink:0;border-radius:8px}
+.sk.line{height:13px;width:80%}
+.sk.line-sm{height:11px;width:55%}
+.skel-info{flex:1;display:flex;flex-direction:column;gap:9px;padding-top:4px}
+
+/* ── 랜딩 ── */
+#landing{background:radial-gradient(125% 80% at 50% 0%, var(--bg2) 0%, var(--bg) 56%)}
+.lp-hero{padding:88px 36px 26px;text-align:center}
+.lp-kicker{font-size:10px;font-weight:700;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+.lp-brand{font-family:var(--serif);font-size:34px;font-weight:700;color:var(--ink);letter-spacing:.02em;margin-bottom:18px}
+.lp-rule{width:32px;height:1px;background:var(--gold);margin:0 auto 18px;position:relative}
+.lp-rule::before,.lp-rule::after{content:'';position:absolute;top:50%;width:3px;height:3px;border-radius:50%;background:var(--gold);transform:translateY(-50%)}
+.lp-rule::before{left:-9px}.lp-rule::after{right:-9px}
+.lp-tagline{font-family:var(--serif);font-size:15px;font-style:italic;color:var(--ink2);font-weight:300}
+.lp-body{padding:16px 40px 6px}
+.lp-sec{margin-bottom:30px;text-align:center}
+.lp-sec-lbl{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.lp-sec p{font-family:var(--serif);font-size:15px;line-height:2.0;color:var(--ink2);word-break:keep-all;margin-bottom:10px}
+.lp-sign{text-align:center;padding:4px 36px 36px}
+.lp-sign-author{font-family:var(--serif);font-size:14px;font-weight:600;color:var(--ink)}
+.lp-sign-church{font-size:12px;color:var(--ink3);margin-top:3px}
+.lp-cta{padding:18px 34px 46px;background:linear-gradient(0deg,var(--bg) 35%,transparent);flex-shrink:0}
+.lp-links{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:14px}
+.lp-links button{background:none;border:none;color:var(--ink2);font-family:var(--sans);font-size:12.5px;font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.lp-links span{color:var(--ink3);font-size:11px}
+/* 소개 */
+.about-sec{padding:26px 28px;border-bottom:1px solid var(--line)}
+.about-label{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.about-name{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--ink);margin-bottom:14px}
+.about-body p{font-family:var(--serif);font-size:14.5px;line-height:1.95;color:var(--ink2);word-break:keep-all;margin-bottom:10px}
+/* 도서 안내 */
+.cg-hd{padding:24px 26px 8px;border-bottom:1px solid var(--line)}
+.cg-hd-t{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--ink);margin-bottom:8px}
+.cg-hd-d{font-size:13px;color:var(--ink2);line-height:1.65;word-break:keep-all}
+.cg-track{padding:20px 24px 4px;font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--gold)}
+.cg-bk{display:flex;gap:12px;padding:11px 24px;align-items:center;border-top:1px solid var(--line)}
+.cg-chip{width:32px;height:44px;border-radius:5px;flex-shrink:0;box-shadow:0 2px 6px rgba(0,0,0,.16);position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.cg-motif{width:14px;height:14px;color:rgba(255,255,255,.8);position:relative;z-index:1}
+.cg-chip-wm{position:absolute;right:-5px;bottom:-5px;width:30px;height:30px;color:rgba(255,255,255,.14);stroke-width:1;z-index:0}
+.cg-info{flex:1;min-width:0}
+.cg-t{font-size:14px;font-weight:700;color:var(--ink);line-height:1.35;word-break:keep-all}
+.cg-s{font-size:11.5px;color:var(--ink3);margin-top:3px;word-break:keep-all}
+.cg-meta{font-size:11px;font-weight:700;color:var(--gold);flex-shrink:0;text-align:right;line-height:1.5}
+.cg-meta .cnt{display:block;color:var(--ink3);font-weight:500}
+
+/* ── 소셜 로그인 버튼 ── */
+.social-row{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+.social-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:14px;border:1.5px solid var(--line);border-radius:14px;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14.5px;font-weight:600;cursor:pointer;transition:background .12s,border-color .12s}
+.social-btn:active{transform:scale(.98)}
+.social-btn.kakao{background:#FEE500;border-color:#FEE500;color:#191919}
+.social-btn.naver{background:#03C75A;border-color:#03C75A;color:#fff}
+.social-btn.google{background:#fff;border-color:#E0E0E0;color:#3C4043}
+.social-btn .s-icon{width:20px;height:20px;flex-shrink:0}
+.social-divider{display:flex;align-items:center;gap:10px;margin:16px 0 14px;color:var(--ink3);font-size:12px}
+.social-divider::before,.social-divider::after{content:'';flex:1;height:1px;background:var(--line)}
+.auth-wrap{padding:30px 30px 40px}
+.auth-lead{font-size:14px;color:var(--ink2);text-align:center;margin-bottom:26px;line-height:1.6}
+.fld{display:block;margin-bottom:16px}
+.fld span{display:block;font-size:12px;font-weight:600;color:var(--ink2);margin-bottom:7px}
+.fld input{width:100%;padding:14px 15px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;outline:none;transition:border-color .15s}
+.fld input:focus{border-color:var(--gold)}
+.auth-wrap .btn-p{margin-top:10px}
+.auth-note{font-size:11px;color:var(--ink3);text-align:center;margin-top:18px;line-height:1.6}
+
+/* ── 서재 ── */
+.lib-hd{padding:22px 24px 6px}
+.lib-hd #libHi{display:block;font-family:var(--serif);font-size:20px;font-weight:700;color:var(--ink)}
+.lib-hd-sub{display:block;font-size:12.5px;color:var(--ink3);margin-top:5px}
+.shelf{padding:14px 20px 40px;display:flex;flex-direction:column;gap:14px}
+.bk{display:flex;gap:14px;padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--bg);cursor:pointer;transition:transform .15s,border-color .15s;align-items:center}
+.bk:active{transform:scale(.985)}
+.bk.locked{cursor:default}
+.bk-cover{width:62px;height:84px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 4px 12px rgba(0,0,0,.18);overflow:hidden}
+.bk-cover span{font-family:var(--serif);font-size:9px;color:rgba(255,255,255,.92);text-align:center;line-height:1.3;padding:0 6px;font-weight:600;margin-top:12px;position:relative;z-index:1}
+.chip-motif{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:15px;height:15px;color:rgba(255,255,255,.82);z-index:1}
+.bk-cover-wm{position:absolute;left:50%;top:56%;transform:translate(-50%,-50%);width:58px;height:58px;color:rgba(255,255,255,.11);stroke-width:1;z-index:0}
+.bk-info{flex:1;min-width:0}
+.bk-series{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.bk-title{font-family:var(--serif);font-size:16px;font-weight:700;color:var(--ink);line-height:1.4;word-break:keep-all;margin-bottom:4px}
+.bk-sub{font-size:12px;color:var(--ink3);line-height:1.45;word-break:keep-all}
+.bk-tag{display:inline-flex;align-items:center;gap:4px;margin-top:9px;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px}
+.bk-tag.free{color:#1A5C3A;background:#DDF0E4}
+.bk-tag.paid{color:var(--gold);background:var(--gold-bg)}
+.app.night .bk-tag.free{color:#8FD3A8;background:#1E2A22}
+/* 전권 패스 배너 */
+.pass-card{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;border-radius:14px;background:linear-gradient(135deg,var(--ink),#2e2a24);cursor:pointer;margin-bottom:4px;transition:transform .15s}
+.pass-card:active{transform:scale(.985)}
+.pass-title{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--bg);margin-bottom:3px}
+.pass-desc{font-size:11.5px;color:rgba(255,255,255,.62);line-height:1.4;word-break:keep-all}
+.pass-price{font-size:16px;font-weight:700;color:var(--gold);flex-shrink:0}
+.app.night .pass-card{background:linear-gradient(135deg,#2A2620,#3a352c)}
+.app.night .pass-price{color:#C9A86A}
+
+/* ── 약관·정책(legal) ── */
+.lg-hd{padding:24px 24px 16px;border-bottom:1px solid var(--line)}
+.lg-hd-t{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--ink);margin-bottom:8px}
+.lg-hd-d{font-size:12.5px;color:var(--ink2);line-height:1.65;word-break:keep-all}
+.lg-bible{display:flex;gap:9px;align-items:flex-start;margin:14px 24px 4px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--bg2)}
+.lg-bible svg{flex-shrink:0;color:var(--gold);margin-top:1px}
+.lg-bible p{font-size:11.5px;line-height:1.65;color:var(--ink2);word-break:keep-all}
+.lg-sec{border-bottom:1px solid var(--line)}
+.lg-sec-head{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;cursor:pointer;transition:background .12s}
+.lg-sec-head:active{background:var(--bg2)}
+.lg-sec-title{font-size:14.5px;font-weight:700;color:var(--ink);word-break:keep-all;padding-right:10px}
+.lg-chev{color:var(--ink3);transition:transform .25s var(--ease);flex-shrink:0}
+.lg-sec.open .lg-chev{transform:rotate(180deg)}
+.lg-wrap{display:grid;grid-template-rows:0fr;transition:grid-template-rows .28s var(--ease)}
+.lg-sec.open .lg-wrap{grid-template-rows:1fr}
+.lg-inner{overflow:hidden;min-height:0}
+.lg-body{padding:0 22px 18px}
+.lg-body p{font-size:13px;line-height:1.8;color:var(--ink2);word-break:keep-all;margin-bottom:9px}
+.lg-body p:last-child{margin-bottom:0}
+.lg-note{padding:18px 24px 36px;font-size:11.5px;color:var(--ink3);line-height:1.7;word-break:keep-all}
+/* 소개·설정 패널의 약관·정책 링크 */
+.legal-link-sec{padding:20px 28px 28px}
+.legal-link{display:flex;align-items:center;justify-content:space-between;width:100%;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:none;cursor:pointer;color:var(--ink);font-family:var(--sans);font-size:13.5px;font-weight:600;transition:background .12s}
+.legal-link:active{background:var(--bg2)}
+.legal-link svg{color:var(--ink3)}
+/* 리더 본문 말미 — 성경 저작권 고지(상시·절제) */
+.r-copyright{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);font-size:10.5px;line-height:1.6;color:var(--ink3);text-align:center;word-break:keep-all}
+
+/* ── 모바일/PWA 전체화면(full-bleed) — 목업 프레임 없이 진짜 설치앱처럼 ── */
+@media (display-mode: standalone), (max-width:480px){
+  html,body{height:100dvh}
+  body{background:var(--bg);display:block;min-height:100dvh;height:100dvh;gap:0;padding:0}
+  .hint{display:none}
+  /* 아이폰 목업 프레임 → 전체화면 */
+  .iphone{width:100%;height:100dvh;border-radius:0;padding:0;box-shadow:none;transform:none;margin:0;flex-shrink:1}
+  .iphone::before,.iphone::after{display:none}      /* 측면 버튼 제거 */
+  .screen{width:100%;height:100%;border-radius:0}
+  .island,.statusbar,.home-indicator{display:none}  /* 목업 전용 요소 숨김 */
+  /* 노치/안전영역: 박힌 상단바 padding-top:56px 를 safe-area 로 보정 */
+  .topbar,.r-topbar{padding-top:calc(env(safe-area-inset-top) + 12px)}
+  /* 하단 컨트롤·CTA·시트 안전영역 반영 */
+  .r-ctrl{padding-bottom:calc(env(safe-area-inset-bottom) + 14px)}
+  .lp-cta{padding-bottom:calc(env(safe-area-inset-bottom) + 46px)}
+  .panel{padding-bottom:calc(env(safe-area-inset-bottom) + 36px)}
+  /* 상단바가 없는 화면(표지·랜딩)도 노치 침범 방지 */
+  #cover .c-emblem{padding-top:calc(env(safe-area-inset-top) + 52px)}
+  .lp-hero{padding-top:calc(env(safe-area-inset-top) + 72px)}
+}
+</style>
+</head>
+<body>
+
+<div class="iphone">
+  <div class="screen">
+    <div class="island"></div>
+    <div class="statusbar">
+      <span class="time">9:41</span>
+      <span class="icons">
+        <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+        <svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor"><path d="M8 2.5c2 0 3.8.8 5.2 2L14.5 3.2C12.8 1.6 10.5.6 8 .6S3.2 1.6 1.5 3.2L2.8 4.5C4.2 3.3 6 2.5 8 2.5zM8 5.5c1.1 0 2.1.4 2.9 1.1l1.3-1.3C11 4.2 9.6 3.6 8 3.6s-3 .6-4.2 1.7l1.3 1.3C5.9 5.9 6.9 5.5 8 5.5zm0 3l2.1-2.1C9.5 5.8 8.8 5.5 8 5.5s-1.5.3-2.1.9L8 8.5z"/></svg>
+        <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="1" y="1" width="21" height="10" rx="3" stroke="currentColor" stroke-opacity=".4" stroke-width="1"/><rect x="2.5" y="2.5" width="16" height="7" rx="1.5" fill="currentColor"/><rect x="23" y="4" width="1.5" height="4" rx="0.75" fill="currentColor" fill-opacity=".4"/></svg>
+      </span>
+    </div>
+    <div class="home-indicator"></div>
+
+    <div class="app" id="app">
+
+      <!-- 랜딩 (출간 배경·목적) -->
+      <div class="view active" id="landing">
+        <div class="scroll">
+          <div class="lp-hero">
+            <div class="lp-kicker" id="lpKicker">메스랩북스</div>
+            <div class="lp-brand" id="lpBrand">MeslapBooks</div>
+            <div class="lp-rule"></div>
+            <div class="lp-tagline" id="lpTagline">말씀이 삶이 되는 자리</div>
+          </div>
+          <div class="lp-body" id="lpBody"></div>
+          <div class="lp-sign">
+            <div class="lp-sign-author" id="lpAuthor">박상혁 목사</div>
+            <div class="lp-sign-church" id="lpChurch">사랑과 평안의 교회</div>
+          </div>
+        </div>
+        <div class="lp-cta">
+          <button class="btn-p" onclick="go('auth')">시작하기</button>
+          <button class="btn-t" onclick="enterAsGuest()">먼저 둘러보기</button>
+          <div class="lp-links">
+            <button onclick="go('catalog')">도서 안내</button>
+            <span>·</span>
+            <button onclick="go('about')">교회·저자 소개</button>
+            <span>·</span>
+            <button onclick="openLegal('landing')">약관·정책</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 회원가입 / 로그인 -->
+      <div class="view" id="auth">
+        <div class="topbar">
+          <button class="tb-btn" onclick="go('landing')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <span class="tb-title" id="authTitle">회원가입</span>
+          <div style="width:38px"></div>
+        </div>
+        <div class="scroll">
+          <div class="auth-wrap">
+            <p class="auth-lead" id="authLead">가입하면 무료책을 바로 읽을 수 있어요.</p>
+
+            <!-- 소셜 로그인 (1순위) -->
+            <div class="social-row">
+              <button class="social-btn kakao" onclick="socialLogin('kakao')">
+                <svg class="s-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3C7.03 3 3 6.36 3 10.5c0 2.64 1.7 4.97 4.25 6.3L6.1 20.4a.35.35 0 0 0 .5.4l4.5-2.97c.29.03.59.07.9.07 4.97 0 9-3.36 9-7.4S16.97 3 12 3z" fill="#191919"/></svg>
+                카카오로 계속하기
+              </button>
+              <button class="social-btn naver" onclick="socialLogin('naver')">
+                <svg class="s-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.5 12.56L10.44 7H7v10h3.5V11.44L13.56 17H17V7h-3.5v5.56z" fill="#fff"/></svg>
+                네이버로 계속하기
+              </button>
+              <button class="social-btn google" onclick="socialLogin('google')">
+                <svg class="s-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21.8 12.2c0-.7-.1-1.3-.2-1.9H12v3.7h5.5c-.2 1.2-1 2.3-2.1 3v2.5h3.4c2-1.8 3-4.5 3-7.3z" fill="#4285F4"/><path d="M12 22c2.7 0 5-.9 6.7-2.4l-3.4-2.5c-.9.6-2 1-3.3 1-2.6 0-4.7-1.7-5.5-4H3v2.6C4.7 19.8 8.1 22 12 22z" fill="#34A853"/><path d="M6.5 14.1c-.2-.6-.3-1.3-.3-2.1s.1-1.4.3-2.1V7.3H3A9.9 9.9 0 0 0 2 12c0 1.6.4 3.1 1 4.7l3.5-2.6z" fill="#FBBC05"/><path d="M12 5.5c1.5 0 2.8.5 3.8 1.5l2.9-2.9C16.9 2.4 14.7 1.5 12 1.5 8.1 1.5 4.7 3.7 3 7.3L6.5 10c.8-2.4 2.9-4.5 5.5-4.5z" fill="#EA4335"/></svg>
+                Google로 계속하기
+              </button>
+            </div>
+
+            <div class="social-divider">또는 이메일로</div>
+
+            <label class="fld" id="fldName"><span>이름</span><input id="inName" type="text" placeholder="이름" autocomplete="name"></label>
+            <label class="fld"><span>이메일</span><input id="inEmail" type="email" placeholder="you@example.com" autocomplete="email"></label>
+            <label class="fld"><span>비밀번호</span><input id="inPw" type="password" placeholder="비밀번호" autocomplete="current-password"></label>
+            <button class="btn-p" id="authSubmit" onclick="submitAuth()">가입하고 시작하기</button>
+            <button class="btn-t" id="authToggle" onclick="toggleAuthMode()">이미 계정이 있어요 · 로그인</button>
+            <p class="auth-note">※ 소셜 로그인은 Supabase 연동 후 활성화됩니다. 지금은 이메일로 가입해 주세요.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 서재 -->
+      <div class="view" id="library">
+        <div class="topbar">
+          <button class="tb-btn" onclick="go('about')" title="소개"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg></button>
+          <span class="tb-title">내 서재</span>
+          <div style="flex:1"></div>
+          <button class="tb-btn" onclick="go('catalog')" title="도서 안내"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M8 7h8M8 11h8"/></svg></button>
+          <button class="tb-btn" onclick="signOut()" title="로그아웃"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></button>
+        </div>
+        <div class="scroll">
+          <div class="lib-hd"><span id="libHi">안녕하세요</span><span class="lib-hd-sub">오늘도 말씀 앞에 머무는 시간 되시길</span></div>
+          <div class="shelf" id="shelf"></div>
+        </div>
+      </div>
+
+      <!-- 전체 도서 안내 -->
+      <div class="view" id="catalog">
+        <div class="topbar">
+          <button class="tb-btn" onclick="go('library')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <span class="tb-title">도서 안내</span>
+          <div style="width:38px"></div>
+        </div>
+        <div class="scroll">
+          <div class="cg-hd">
+            <div class="cg-hd-t" id="cgTitle">이 앱에 담긴 책</div>
+            <div class="cg-hd-d" id="cgDesc"></div>
+          </div>
+          <div id="catalogList"></div>
+        </div>
+      </div>
+
+      <!-- 교회·저자 소개 -->
+      <div class="view" id="about">
+        <div class="topbar">
+          <button class="tb-btn" onclick="go('library')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <span class="tb-title">소개</span>
+          <div style="width:38px"></div>
+        </div>
+        <div class="scroll">
+          <div class="about-sec">
+            <div class="about-label">저자</div>
+            <div class="about-name" id="aboutAuthorName">박상혁 목사</div>
+            <div class="about-body" id="aboutAuthorBody"></div>
+          </div>
+          <div class="about-sec">
+            <div class="about-label">공동체</div>
+            <div class="about-name" id="aboutChurchName">사랑과 평안의 교회</div>
+            <div class="about-body" id="aboutChurchBody"></div>
+          </div>
+          <div class="legal-link-sec">
+            <button class="legal-link" onclick="openLegal('about')">
+              <span>약관·정책</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 약관·정책 -->
+      <div class="view" id="legal">
+        <div class="topbar">
+          <button class="tb-btn" onclick="goBackFromLegal()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <span class="tb-title">약관·정책</span>
+          <div style="width:38px"></div>
+        </div>
+        <div class="scroll">
+          <div class="lg-hd">
+            <div class="lg-hd-t">약관·정책 안내</div>
+            <div class="lg-hd-d" id="lgIntro"></div>
+          </div>
+          <div class="lg-bible" id="lgBible">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 6.4C9.8 5 6.8 5 4 6.2v11.6c2.8-1.2 5.8-1.2 8 .2"/><path d="M12 6.4C14.2 5 17.2 5 20 6.2v11.6c-2.8-1.2-5.8-1.2-8 .2"/><path d="M12 6.4v11.6"/></svg>
+            <p id="lgBibleTxt"></p>
+          </div>
+          <div id="legalList"></div>
+          <div class="lg-note" id="lgNote"></div>
+        </div>
+      </div>
+
+      <!-- 표지 -->
+      <div class="view" id="cover">
+        <div class="c-texture" aria-hidden="true"></div>
+        <div class="c-watermark" id="coverWm" aria-hidden="true"></div>
+        <div class="c-frame" aria-hidden="true"><i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i></div>
+        <div class="c-emblem">
+          <span class="c-mono" id="coverMono">M</span>
+          <span class="c-wordmark" id="coverWordmark">MESLAPBOOKS</span>
+        </div>
+        <div class="cover-top">
+          <div class="c-motif" id="coverMotif"></div>
+          <div class="c-series" id="coverSeries">복된 교회 시리즈</div>
+          <div class="c-vol" id="coverVol" style="display:none">제1권</div>
+          <h1 class="c-title" id="coverTitle">예수 이름의<br>권세가 흐르는 교회</h1>
+          <div class="ornament"></div>
+          <p class="c-sub" id="coverSub">돌아섬과 회개, 그리고 믿음의 갱신</p>
+        </div>
+        <div class="cover-btm">
+          <div class="c-author" id="coverAuthor">박상혁 목사</div>
+          <div class="c-church" id="coverChurch">사랑과 평안의 교회</div>
+          <button class="btn-p" onclick="startReading()">읽기 시작하기</button>
+          <button class="btn-t" onclick="go('contents')">목차 보기</button>
+          <button class="btn-t" onclick="go('library')">← 서재로</button>
+          <div class="c-meta" id="coverMeta"><span>로딩 중…</span></div>
+        </div>
+      </div>
+
+      <!-- 목차 -->
+      <div class="view" id="contents">
+        <div class="topbar">
+          <button class="tb-btn" onclick="go('cover')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <span class="tb-title">목차</span>
+          <div style="width:38px"></div>
+        </div>
+        <div class="scroll">
+          <div class="toc-hd">
+            <div class="toc-hd-s">복된 교회 시리즈</div>
+            <div class="toc-hd-t" id="tocTitle">예수 이름의 권세가 흐르는 교회</div>
+          </div>
+          <div id="tocList"></div>
+        </div>
+      </div>
+
+      <!-- 리더 -->
+      <div class="view" id="reader">
+        <div class="r-topbar" id="rTop">
+          <button class="tb-btn" onclick="go('contents')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <span style="font-size:12px;color:var(--ink3);font-weight:500" id="rTopLabel"></span>
+          <button class="tb-btn" onclick="go('contents')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+        </div>
+        <div class="r-prog-track"><div class="r-prog-fill" id="progFill"></div></div>
+        <div class="r-scroll" id="rScroll"><div class="r-body" id="rContent"></div></div>
+        <div class="r-pageind" id="pageInd"></div>
+        <div class="r-ctrl" id="rCtrl">
+          <button class="ctrl-btn" onclick="pagePrev()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg><span>이전</span></button>
+          <button class="ctrl-btn" onclick="openPanel()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg><span>설정</span></button>
+          <button class="ctrl-btn" onclick="go('contents')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span>목차</span></button>
+          <button class="ctrl-btn" onclick="pageNext()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18l6-6-6-6"/></svg><span>다음</span></button>
+        </div>
+      </div>
+
+      <!-- 설정 패널 -->
+      <div class="backdrop" id="backdrop" onclick="closePanel()"></div>
+      <div class="panel" id="panel">
+        <div class="panel-handle"></div>
+        <div class="p-sec">
+          <div class="p-lbl">테마</div>
+          <div class="theme-row">
+            <div class="th-opt white sel" data-t="white" onclick="setTheme('white')">백색</div>
+            <div class="th-opt sepia" data-t="sepia" onclick="setTheme('sepia')">세피아</div>
+            <div class="th-opt night" data-t="night" onclick="setTheme('night')">야간</div>
+          </div>
+        </div>
+        <div class="p-sec">
+          <div class="p-lbl">글꼴</div>
+          <div class="font-row">
+            <div class="font-opt sel" data-f="noto" style="font-family:'Noto Serif KR',serif" onclick="setFont('noto')">본명조</div>
+            <div class="font-opt" data-f="nanummyeong" style="font-family:'Nanum Myeongjo',serif" onclick="setFont('nanummyeong')">나눔명조</div>
+            <div class="font-opt" data-f="gowun" style="font-family:'Gowun Batang',serif" onclick="setFont('gowun')">고운바탕</div>
+            <div class="font-opt" data-f="pretendard" style="font-family:'Pretendard Variable',Pretendard,sans-serif" onclick="setFont('pretendard')">프리텐다드</div>
+            <div class="font-opt" data-f="nanumgothic" style="font-family:'Nanum Gothic',sans-serif" onclick="setFont('nanumgothic')">나눔고딕</div>
+          </div>
+        </div>
+        <div class="p-sec">
+          <div class="p-lbl">글자 크기</div>
+          <div class="fs-row">
+            <button class="fs-btn sm" onclick="chgFont(-1)">가</button>
+            <span class="fs-val" id="fsVal">보통</span>
+            <button class="fs-btn lg" onclick="chgFont(1)">가</button>
+          </div>
+        </div>
+        <div class="p-sec">
+          <div class="p-lbl">줄간격 · <span id="lhVal">보통</span></div>
+          <div class="lh-row">
+            <div class="lh-opt" data-l="0" onclick="setLh(0)">좁게</div>
+            <div class="lh-opt sel" data-l="1" onclick="setLh(1)">보통</div>
+            <div class="lh-opt" data-l="2" onclick="setLh(2)">넓게</div>
+            <div class="lh-opt" data-l="3" onclick="setLh(3)">아주넓게</div>
+          </div>
+        </div>
+        <div class="p-sec">
+          <div class="p-lbl">보기 방식</div>
+          <div class="theme-row">
+            <div class="rm-opt" data-m="scroll" onclick="setReadMode('scroll')">스크롤</div>
+            <div class="rm-opt sel" data-m="page" onclick="setReadMode('page')">페이지 넘김</div>
+          </div>
+        </div>
+        <div class="p-sec">
+          <button class="legal-link" onclick="closePanel();openLegal('reader')">
+            <span>약관·정책</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<p class="hint"><b>읽기 시작하기</b> 터치 · 본문 <b>탭</b>으로 메뉴 숨김 · <b>설정</b>에서 테마·글자크기 · 좌우 <b>스와이프</b>로 글 이동</p>
+
+<script>
+const BOOK_META = {
+  "series": "조직신학 · 제7권",
+  "title": "마지막 때와<br>영원한 소망",
+  "subtitle": "종말론 — 재림·부활·심판",
+  "author": "박상혁 목사",
+  "church": "사랑과 평안의 교회",
+  "coverFrom": "#3A2A5C",
+  "coverTo": "#5A3C8A",
+  "coverMotif": "star",
+  "volume": "제7권",
+  "price": 1500,
+  "free": false
+};
+const PUBLISHER = {
+  "name": "MeslapBooks",
+  "korName": "메스랩북스",
+  "tagline": "말씀이 삶이 되는 자리",
+  "background": [
+    "MeslapBooks는 박상혁 목사가 네이버 블로그에 나눠 온 말씀 묵상을 주제별로 엮어 펴내는 모바일 전자책입니다.",
+    "흩어져 있던 글들을 한 권의 흐름으로 모아, 손 안에서 차분히 읽을 수 있도록 다듬었습니다."
+  ],
+  "purpose": [
+    "바쁜 일상 속에서도 말씀 앞에 머무는 시간을 돕기 위해 시작했습니다.",
+    "언제 어디서나 묵상하고, 다시 하나님께 걸어가는 길을 함께 걷기를 바랍니다."
+  ]
+};
+const ABOUT = {
+  "author": {
+    "name": "박상혁 목사",
+    "lines": [
+      "거대한 전략보다 성경을 읽고 기도하며, 성령의 인도하심을 따라 한 걸음씩 반응해 온 목회자입니다.",
+      "오순절의 역동성과 개혁주의 신학을 함께 붙들며, \"성령 51, 말씀 49\"라는 표현으로 그 균형을 설명합니다.",
+      "약 7년간 조직신학을 교회의 언어로 풀어 설교하며, 성도들이 흔들리지 않는 신앙의 골격을 세우도록 힘써 왔습니다."
+    ]
+  },
+  "church": {
+    "name": "사랑과 평안의 교회",
+    "lines": [
+      "거대한 시스템이 아니라, 말씀과 기도로 삶 자체를 예수께 배우는 공동체로 25년간 형성되어 왔습니다.",
+      "중심축은 '경외와 순종' — 하나님을 경외함으로 기꺼이 즐거운 마음으로 순종하는 삶입니다.",
+      "경외 → 성령의 인도 → 말씀과 기도 → 즐거운 순종 → 삶의 변화 → 공동체 형성으로 이어지는 영적 생태계를 지향합니다."
+    ]
+  }
+};
+const PASS = {
+  "price": 9900,
+  "title": "전권 패스",
+  "desc": "모든 책을 영구 소장 · 신간 자동 포함"
+};
+const LEGAL = {
+  "_comment": "법무 초안(legal/*.md)의 간결한 요약. 전문이 아닌 요지이며, 전문은 정식 출시 시 앱 내 제공.",
+  "intro": "아래는 주요 정책의 요지입니다. 각 정책의 전문은 정식 출시 시 앱 내에 제공됩니다.",
+  "bibleNotice": "인용 성경 본문의 저작권은 각 번역본 저작권자에게 있습니다. 개역개정 © 대한성서공회 등.",
+  "footnote": "본 내용은 베타용 요약 초안이며, 정식 시행 전 변경될 수 있습니다.",
+  "sections": [
+    {
+      "id": "privacy",
+      "title": "개인정보처리방침",
+      "body": [
+        "회원가입 시 이메일·이름·비밀번호를 수집하고, 이용 과정에서 접속 기록·기기 정보·읽기 진행률이 자동 생성됩니다.",
+        "수집한 정보는 회원 식별과 인증, 콘텐츠 열람 권한 관리, 읽기 환경 제공, 문의 응대와 서비스 개선에 사용합니다.",
+        "회원 탈퇴 시 정보는 지체 없이 파기하며, 법령상 보존이 필요한 기록은 해당 기간 동안 보관합니다.",
+        "인증·데이터 저장은 Supabase가 처리하며, 유료 결제 도입 시 결제는 Toss Payments가 처리합니다(결제수단 정보는 결제대행사가 보관).",
+        "이용자는 본인 정보의 열람·정정·삭제·처리정지를 언제든 요청할 수 있습니다."
+      ]
+    },
+    {
+      "id": "terms",
+      "title": "이용약관",
+      "body": [
+        "콘텐츠는 박상혁 목사의 말씀 묵상을 주제별로 엮은 전자책이며, 저작권은 박상혁 목사와 MeslapBooks에 귀속됩니다.",
+        "회원은 개인적·비상업적 열람 목적으로만 이용할 수 있으며, 무단 복제·배포·전송·캡처 공유는 금지됩니다.",
+        "무료책은 무상 제공되며, 유료책은 단건 구매로 영구 열람 권한을 얻습니다(유료 도입 시).",
+        "콘텐츠에 인용된 성경 등 제3자 저작물의 권리는 각 권리자에게 있습니다.",
+        "본 약관은 대한민국 법령에 따르며, 변경 시 적용일자와 사유를 앱 내에 공지합니다."
+      ]
+    },
+    {
+      "id": "refund",
+      "title": "환불 규정 (유료 시 적용)",
+      "body": [
+        "베타(무료) 기간에는 결제가 없어 적용되지 않으며, 유료 결제 도입 시 시행됩니다.",
+        "콘텐츠 열람을 시작하지 않았다면 결제일로부터 7일 이내 청약철회 및 전액 환불이 가능합니다.",
+        "열람을 시작한 디지털콘텐츠는 전자상거래법에 따라 청약철회가 제한될 수 있습니다.",
+        "다만 콘텐츠에 하자(열람 불가, 표시와 다른 내용 등)가 있으면 열람 여부와 관계없이 환불·교환이 가능합니다."
+      ]
+    },
+    {
+      "id": "bible",
+      "title": "성경·인용 저작권 고지",
+      "body": [
+        "콘텐츠에는 성경 본문 인용이 포함되며, 성경 번역본의 저작권은 각 번역본 저작권자에게 있습니다.",
+        "개역개정판 © 대한성서공회. NIV © Biblica, Inc. 무단 전재·복제를 금합니다.",
+        "인용 시 장·절과 번역본명을 표기하며, 상업적 배포 시 저작권자의 허락 조건을 준수합니다."
+      ]
+    },
+    {
+      "id": "beta",
+      "title": "베타 안내",
+      "body": [
+        "현재 서비스는 베타(시험 제공) 단계입니다.",
+        "콘텐츠·기능·데이터는 사전 통지 없이 변경·중단될 수 있으며, 베타 기간 중 데이터 보존은 보장되지 않습니다.",
+        "회원 정보는 현재 기기에 임시 저장되며, 추후 정식 계정 체계로 대체될 예정입니다."
+      ]
+    }
+  ]
+};
+const BOOK_CATALOG = [
+  {
+    "slug": "spirit-guide",
+    "series": "복된 삶 시리즈 · 제1권",
+    "title": "성령의 인도하심을<br>따라가는 복된 삶의 지침",
+    "subtitle": "로마서 8장, 성령을 따라 사는 열 걸음",
+    "price": 0,
+    "free": true,
+    "coverFrom": "#1A5C3A",
+    "coverTo": "#2D8A55",
+    "coverMotif": "dove",
+    "count": 11,
+    "current": false
+  },
+  {
+    "slug": "spirit-secret",
+    "series": "복된 삶 시리즈 · 제2권",
+    "title": "성령의 인도하심을<br>따라가는 복된 삶의 비결",
+    "subtitle": "분별·말씀·기도로 길을 밝히는 여덟 비결",
+    "price": 1500,
+    "free": false,
+    "coverFrom": "#2A6F4A",
+    "coverTo": "#3C9A66",
+    "coverMotif": "lamp",
+    "count": 8,
+    "current": false
+  },
+  {
+    "slug": "blessed-church",
+    "series": "복된 교회 시리즈",
+    "title": "예수 이름의 권세가<br>흐르는 복된 교회",
+    "subtitle": "돌아섬과 회개, 그리고 믿음의 갱신",
+    "price": 1500,
+    "free": false,
+    "coverFrom": "#7A4A2A",
+    "coverTo": "#A8703C",
+    "coverMotif": "flame",
+    "count": 13,
+    "current": false
+  },
+  {
+    "slug": "blessed-family",
+    "series": "복된 가정 시리즈",
+    "title": "하나님이 기뻐하시는<br>복된 가정",
+    "subtitle": "말씀 위에 세우는 가정의 길",
+    "price": 1500,
+    "free": false,
+    "coverFrom": "#8A5A2A",
+    "coverTo": "#B8843C",
+    "coverMotif": "home",
+    "count": 13,
+    "current": false
+  },
+  {
+    "slug": "prayer",
+    "series": "복된 삶 시리즈",
+    "title": "기도,<br>주님과의 소통",
+    "subtitle": "응답을 넘어 동행으로",
+    "price": 2500,
+    "free": false,
+    "coverFrom": "#3A4A6A",
+    "coverTo": "#5A6E9A",
+    "coverMotif": "hands",
+    "count": 33,
+    "current": false
+  },
+  {
+    "slug": "bible-guide",
+    "series": "조직신학 길잡이",
+    "title": "말씀 앞에 서다",
+    "subtitle": "성경을 어떻게 읽을 것인가",
+    "price": 2500,
+    "free": false,
+    "coverFrom": "#4A3A6A",
+    "coverTo": "#6E5A9A",
+    "coverMotif": "book",
+    "count": 25,
+    "current": false
+  },
+  {
+    "slug": "doctrine-god",
+    "series": "조직신학 · 제1권",
+    "title": "하나님은<br>어떤 분이신가",
+    "subtitle": "신론 — 삼위일체와 하나님의 속성",
+    "price": 2500,
+    "free": false,
+    "coverFrom": "#3A3A5C",
+    "coverTo": "#55558A",
+    "coverMotif": "trinity",
+    "count": 37,
+    "current": false
+  },
+  {
+    "slug": "doctrine-man",
+    "series": "조직신학 · 제2권",
+    "title": "존귀한 인간,<br>그리고 죄",
+    "subtitle": "인간론과 죄론",
+    "price": 2500,
+    "free": false,
+    "coverFrom": "#5C3A4A",
+    "coverTo": "#8A556E",
+    "coverMotif": "dust",
+    "count": 55,
+    "current": false
+  },
+  {
+    "slug": "doctrine-christ",
+    "series": "조직신학 · 제3권",
+    "title": "예수 그리스도를<br>아는 지식",
+    "subtitle": "기독론 — 그리스도의 인격과 사역",
+    "price": 2500,
+    "free": false,
+    "coverFrom": "#6A2A2A",
+    "coverTo": "#9A3C3C",
+    "coverMotif": "cross",
+    "count": 54,
+    "current": false
+  },
+  {
+    "slug": "doctrine-salvation",
+    "series": "조직신학 · 제4권",
+    "title": "은혜로 받은 구원",
+    "subtitle": "구원론 — 칭의·성화·견인의 확신",
+    "price": 2500,
+    "free": false,
+    "coverFrom": "#2A5C6A",
+    "coverTo": "#3C8A9A",
+    "coverMotif": "anchor",
+    "count": 79,
+    "current": false
+  },
+  {
+    "slug": "doctrine-spirit",
+    "series": "조직신학 · 제5권",
+    "title": "성령을 따라<br>사는 삶",
+    "subtitle": "성령론 — 성령의 인격과 사역",
+    "price": 2500,
+    "free": false,
+    "coverFrom": "#2A6A5C",
+    "coverTo": "#3C9A86",
+    "coverMotif": "fire",
+    "count": 55,
+    "current": false
+  },
+  {
+    "slug": "doctrine-church",
+    "series": "조직신학 · 제6권",
+    "title": "교회를<br>아는 지식",
+    "subtitle": "교회론 — 교회의 본질과 예배",
+    "price": 2500,
+    "free": false,
+    "coverFrom": "#4A5A2A",
+    "coverTo": "#6E8A3C",
+    "coverMotif": "pillar",
+    "count": 37,
+    "current": false
+  },
+  {
+    "slug": "doctrine-last",
+    "series": "조직신학 · 제7권",
+    "title": "마지막 때와<br>영원한 소망",
+    "subtitle": "종말론 — 재림·부활·심판",
+    "price": 1500,
+    "free": false,
+    "coverFrom": "#3A2A5C",
+    "coverTo": "#5A3C8A",
+    "coverMotif": "star",
+    "count": 4,
+    "current": true
+  }
+];
+const BOOK_CHAPTERS = [
+  {
+    "cat": "I",
+    "catName": "종말론",
+    "articles": [
+      {
+        "id": "223182284817",
+        "label": "I-1 · 종말론",
+        "title": "최후 승리의 확신으로 사는 삶",
+        "sub": "",
+        "date": "2023.08.13",
+        "url": "https://blog.naver.com/meslap3/223182284817",
+        "blocks": [
+          {
+            "t": "h3",
+            "c": "본문 | 요한복음 10:22-33"
+          },
+          {
+            "t": "p",
+            "c": "22 예루살렘에 수전절이 이르니 때는 겨울이라 23 예수께서 성전 안 솔로몬 행각에서 거니시니 24 유대인들이 에워싸고 이르되 당신이 언제까지나 우리 마음을 의혹하게 하려 하나이까 그리스도이면 밝히 말씀하소서 하니 25 예수께서 대답하시되 내가 너희에게 말하였으되 믿지 아니하는도다 내가 내 아버지의 이름으로 행하는 일들이 나를 증거하는 것이거늘 26 너희가 내 양이 아니므로 믿지 아니하는도다 27 내 양은 내 음성을 들으며 나는 그들을 알며 그들은 나를 따르느니라 28 내가 그들에게 영생을 주노니 영원히 멸망하지 아니할 것이요 또 그들을 내 손에서 빼앗을 자가 없느니라 29 그들을 주신 내 아버지는 만물보다 크시매 아무도 아버지 손에서 빼앗을 수 없느니라 30 나와 아버지는 하나이니라 하신대 31 유대인들이 다시 돌을 들어 치려 하거늘 32 예수께서 대답하시되 내가 아버지로 말미암아 여러 가지 선한 일로 너희에게 보였거늘 그 중에 어떤 일로 나를 돌로 치려 하느냐 33 유대인들이 대답하되 선한 일로 말미암아 우리가 너를 돌로 치려는 것이 아니라 신성모독으로 인함이니 네가 사람이 되어 자칭 하나님이라 함이로라"
+          },
+          {
+            "t": "p",
+            "c": "본문은 예수께서 솔로몬 행각에서 유대인과 논쟁하시는 장면입니다."
+          },
+          {
+            "t": "p",
+            "c": "유대인이 예수께서 그리스도이시거든 확실하게 말해 달라고 요청했습니다. 이에 예수께서 자신이 하나님 아버지의 이름으로 행하는 일들이 자신을 증거하는 것이라고 하시면서 유대인들이 자신을 믿지 않는다고 하셨습니다. 덧붙여 너희는 내 양이 아니므로 나를 믿지 않는다고 하셨습니다."
+          },
+          {
+            "t": "p",
+            "c": "양과 목자는 서로를 잘 압니다. 드넓은 푸른 풀밭에 여러 목자와 여러 양 떼가 뒤섞여 있어도 목자는 자기 양무리를 알고 양도 자기 목자를 압니다. 양은 자기 목자의 휘파람 소리를 듣고 따라갑니다. 이처럼 목자이신 예수 그리스도는 자기 양을 압니다. 양도 목자이신 예수 그리스도를 압니다. 양은 목자이신 예수 그리스도를 믿고 따릅니다. 목자이신 예수 그리스도의 음성에 귀를 기울여 듣고 따라갑니다."
+          },
+          {
+            "t": "p",
+            "c": "예수 그리스도는 자기 양들에게 영생을 주셨습니다. 그들은 영원히 멸망하지 않습니다. 예수 그리스도의 손에서 그들을 빼앗을 자가 없습니다. 하나님 아버지의 손에서 그들을 빼앗을 자가 아무도 없습니다. 그리스도의 양들은 &lt;최후 승리&gt;가 보장되었습니다. 이는 하나님 아버지가 만물보다 크시기 때문입니다. 그리고 하나님을 그 누구도 이길 자가 없기 때문입니다. 영적 세계에도 없으며 물질세계에도 없습니다. 타락한 천사의 우두머리인 마귀 사탄도 하나님을 이길 수 없으며 미혹하는 영과 귀신들도 하나님을 이길 수 없습니다. 골리앗과 같은 거대한 장수도 하나님을 이길 수 없으며 로마 제국의 황제도 하나님을 이길 수 없습니다. 이 세상에도 없으며 오는 세상에도 없습니다. 과거에도 없었으며 현재에도 없고 미래에도 없습니다."
+          },
+          {
+            "t": "p",
+            "c": "예수께서 &lt;하나님 아버지와 나는 하나&gt;라고 하자 유대인들이 [신성모독]이라고 예수 그리스도를 돌로 치려 했습니다."
+          },
+          {
+            "t": "p",
+            "c": "본문에서 예수 그리스도의 양은 영원히 멸망하지 않고 영생을 소유했다고 합니다. 즉, &lt;최후 승리&gt;가 보장되었다고 합니다. 참 신자를 위해 성부 성자 성령 거룩하신 삼위일체 하나님께서 역사하시기 때문입니다."
+          },
+          {
+            "t": "p",
+            "c": "오늘은 아래와 같은 순서로 살펴보겠습니다."
+          },
+          {
+            "t": "h2",
+            "c": "첫째, 나는 예수 그리스도의 양인가?"
+          },
+          {
+            "t": "h2",
+            "c": "둘째, 나의 최후 승리를 위한 성부의 사역"
+          },
+          {
+            "t": "h2",
+            "c": "셋째, 나의 최후 승리를 위한 성자의 사역"
+          },
+          {
+            "t": "h2",
+            "c": "넷째, 나의 최후 승리를 위한 성령의 사역"
+          },
+          {
+            "t": "h2",
+            "c": "1. 나는 예수 그리스도의 양인가?"
+          },
+          {
+            "t": "p",
+            "c": "우리는 내가 예수 &lt;그리스도의 양&gt;인지 곰곰히 생각해 보아야 합니다. &lt;예수 그리스도의 양&gt;은 예수 그리스도가 누구신지 잘 압니다. 예수 그리스도를 믿고 섬깁니다. 예수 그리스도의 음성에 귀를 기울이고 그 음성을 따라갑니다."
+          },
+          {
+            "t": "p",
+            "c": "첫째, &lt;예수 그리스도의 참된 양&gt;은 아브라함과 다윗의 자손이신 나사렛 예수를 주는 그리스도시며 살아계신 하나님의 아들이라고 믿고 고백합니다."
+          },
+          {
+            "t": "p",
+            "c": "둘째, &lt;예수 그리스도의 참된 양&gt;은 하나님의 말씀에 관심을 기울입니다. 주님의 음성을 들으려고 합니다. 주님의 음성을 따라갑니다. 신앙 성장과 비례 하여 말씀에 더욱 관심을 갖습니다. 시편의 복 있는 사람처럼 신앙 성장에 비례 하여 점점 더 하나님의 말씀을 즐거워하고 주야로 말씀을 묵상합니다. 하나님의 말씀을 듣고 읽고 공부하며 묵상합니다. 하나님의 말씀을 삶에 적용하며 순종합니다. 점점 더 &lt;하나님의 말씀을 듣고 기도하며 행동하는 사람&gt;이 됩니다."
+          },
+          {
+            "t": "p",
+            "c": "&lt;그리스도의 양&gt;을 여러 가지로 표현할 수 있습니다. 성경은 하나님의 백성, 하나님의 자녀, 하나님의 사람, 구원받은 사람, 하나님의 택함을 받은 사람, 하나님의 부르심을 받은 사람, 중생한 사람, 구원 얻은 회심을 한 사람, 믿는 사람, 의롭다고 인정받은 사람, 성도, 신자, 그리스도의 제자, 그리스도인 등 다양하게 표현합니다."
+          },
+          {
+            "t": "p",
+            "c": "Q. 참 신자입니까?"
+          },
+          {
+            "t": "p",
+            "c": "Q. 예수 그리스도의 양입니까?"
+          },
+          {
+            "t": "p",
+            "c": "Q. 최후 승리를 믿으십니까?"
+          },
+          {
+            "t": "h2",
+            "c": "2. 성부가 우리의 최후 승리를 위해 역사해 주신다"
+          },
+          {
+            "t": "p",
+            "c": "하나님 아버지께서 참 신자인 내가 최후 승리를 할 수 있도록 역사해 주십니다. 세상 끝날까지 나의 손을 절대 놓지 않고 꼭 붙잡아 주십니다."
+          },
+          {
+            "t": "h2",
+            "c": "1) 성부가 작정하신 일이기 때문에 반드시 이루어진다"
+          },
+          {
+            "t": "p",
+            "c": "성경에 하나님이 하신 사역이 많이 기록되어 있습니다. 이것을 분류하여 정리하면 크게 다섯 가지입니다. 계획, 창조, 섭리, 구원, 완성입니다. 스스로 존재하시는 하나님께서 우주 만물을 창조하시기 전에 자기의 기뻐하시는 뜻을 따라 완전한 계획 을 하셨습니다. 그리고 그 계획을 따라 영적 세계와 물질 세계를 &lt;창조&gt;하셨습니다. 하나님은 완전하시고 기뻐하시는 자기의 뜻을 따라 창조 세계를 경영하십니다. &lt;섭리&gt;하십니다."
+          },
+          {
+            "t": "p",
+            "c": "하나님의 계획은 영원한 계획 입니다. 영원한 계획이라고 한 것은 영원하신 하나님이 영원 전에 계획하셨고, 만물의 시작과 인류의 역사 가운데 실행하시고, 영원 후까지 이루어지기 때문입니다. 만물에 관한 계획을 &lt;작정&gt;이라고 하고 인간에 관한 계획을 &lt;예정&gt;이라고 합니다. 인간이 만물에 포함되기 때문에 예정은 작정에 포함됩니다. 작정이 예정보다 큰 범주입니다. 그리고 하나님이 작정하신 일은 반드시 이루어집니다."
+          },
+          {
+            "t": "p",
+            "c": "욥기 23:13-14"
+          },
+          {
+            "t": "p",
+            "c": "13 그는 뜻이 일정하시니 누가 능히 돌이키랴 그의 마음에 하고자 하시는 것이면 그것을 행하시나니 14 그런즉 내게 작정하신 것을 이루실 것이라 이런 일이 그에게 많이 있느니라"
+          },
+          {
+            "t": "p",
+            "c": "사도행전 13:48"
+          },
+          {
+            "t": "p",
+            "c": "이방인들이 듣고 기뻐하여 하나님의 말씀을 찬송하며 영생을 주시기로 작정된 자는 다 믿더라"
+          },
+          {
+            "t": "p",
+            "c": "영원 전 하나님이 계획하시고 작정하심"
+          },
+          {
+            "t": "p",
+            "c": "영원 전에 성부께서 우리를 구원할 계획을 하셨습니다. 우리를 구원하기로 작정하신 것입니다. 하나님의 기뻐하시는 뜻과 하나님의 그 큰 사랑으로 우리를 구원하기로 작정하시고 선택해 주셨습니다. 하나님이 계획하시고 작정하신 일은 반드시 이루어집니다."
+          },
+          {
+            "t": "p",
+            "c": "현세에 우리를 부르시고 자녀 삼아 주심"
+          },
+          {
+            "t": "p",
+            "c": "현세에 성부가 우리를 부르셨습니다. 성부의 계획과 작정을 따라 우리를 부르신 것입니다. 하나님의 부르심에는 후회가 없습니다. 우리를 부르셔서 의롭다 하시고 하나님의 자녀로 입양해 주셨습니다."
+          },
+          {
+            "t": "p",
+            "c": "좀 더 자세히 생각해 보겠습니다. 성부의 계획과 작정을 따라 성부는 하나님의 아들이신 예수 그리스도를 이 땅에 보내주셨습니다. 성자가 인성을 취하여 성육신하신 것입니다 . 그리스도께서 우리가 못 지키는 율법을 대신 지켜 주시고 십자가에서 우리의 죄의 문제를 해결해 주셨습니다. 중보자이며 보증인으로서 해주신 것입니다. 성자이신 예수 그리스도께서 부활 승천하셔서 하나님 보좌 우편에서 성부에게 성령을 받아 교회공동체에 보내주셨습니다."
+          },
+          {
+            "t": "p",
+            "c": "현세에 성령이 우리를 부르시고 거듭 태어나게 해주셨습니다. 하나님께 회개하고 예수 그리스도를 믿게 해주셨습니다. 우리를 부르시고 의롭다 하시고 자녀 삼아주셨습니다. 우리는 죄에 대한 형벌적 책임으로부터 해방되었습니다. 우리는 하나님의 자녀가 된 권세를 획득했습니다. 우리는 영생의 권리를 획득했습니다."
+          },
+          {
+            "t": "p",
+            "c": "영원 후 우리를 영화롭게 해 주심"
+          },
+          {
+            "t": "p",
+            "c": "성부는 자기의 기뻐하시는 계획과 작정을 따라 우리를 부르시고 의롭다 하시고 자녀 삼아주시고 우리를 거룩한 하나님의 사람으로 구별해 주셨습니다. 우리의 성화를 확정해 놓으시고 점진적으로 우리의 성화를 이루어 가시며 완성해 주십니다. 성령께서 말씀과 성례 그리고 기도를 수단으로 사용하셔서 우리의 성화를 점진적으로 이루어 가십니다. 예수 그리스도의 형상을 본받아 살아가도록 인도해 주십니다."
+          },
+          {
+            "t": "p",
+            "c": "마침내 우리 주님이 다시 오셔서 최후 심판을 하십니다. 이때 우리의 몸은 부활하여 성화가 완성되고 영화롭게 됩니다. 우리의 구원이 완성되고 최후 승리를 하게 되는 것입니다."
+          },
+          {
+            "t": "p",
+            "c": "이 모든 일이 하나님이 계획하시고 작정하신 일입니다. 하나님께서 작정하신 일이기 때문에 반드시 이루어집니다. 하나님께서 시작하신 일이기 때문에 반드시 완성됩니다. 하나님의 뜻은 절대로 변하지 않습니다. 하나님께서 작정하신 일인데 그 누가 방해할 수 있겠습니까?"
+          },
+          {
+            "t": "p",
+            "c": "창세 전에 하나님이 작정하시고 우리를 택하셨고 현세에 우리를 자녀 삼아 주셨다"
+          },
+          {
+            "t": "p",
+            "c": "에베소서 1:4-5"
+          },
+          {
+            "t": "p",
+            "c": "4 곧 창세 전에 그리스도 안에서 우리를 택하사 우리로 사랑 안에서 그 앞에 거룩하고 흠이 없게 하시려고 5 그 기쁘신 뜻대로 우리를 예정하사 예수 그리스도로 말미암아 자기의 아들들이 되게 하셨으니"
+          },
+          {
+            "t": "p",
+            "c": "하나님이 작정하신 대로 우리를 부르시고 의롭다 하시고 영화롭게 하신다"
+          },
+          {
+            "t": "p",
+            "c": "로마서 8:30"
+          },
+          {
+            "t": "p",
+            "c": "또 미리 정하신 그들 을 또한 부르시고 부르신 그들을 또한 의롭다 하시고 의롭다 하신 그들을 또한 영화롭게 하셨느니라"
+          },
+          {
+            "t": "p",
+            "c": "하나님의 부르심에는 후회가 없다"
+          },
+          {
+            "t": "p",
+            "c": "로마서 11:29"
+          },
+          {
+            "t": "p",
+            "c": "하나님의 은사와 부르심에는 후회하심이 없느니라"
+          },
+          {
+            "t": "p",
+            "c": "우리의 몸이 부활한다"
+          },
+          {
+            "t": "p",
+            "c": "고린도전서 15:42-44"
+          },
+          {
+            "t": "p",
+            "c": "42 죽은 자의 부활도 그와 같으니 썩을 것으로 심고 썩지 아니할 것으로 다시 살아나며 43 욕된 것으로 심고 영광스러운 것으로 다시 살아나며 약한 것으로 심고 강한 것으로 다시 살아나며 44 육의 몸으로 심고 신령한 몸으로 다시 살아나나니 육의 몸이 있은즉 또 영의 몸도 있느니라"
+          },
+          {
+            "t": "h2",
+            "c": "2) 아버지의 손에서 우리를 빼앗을 자가 없다"
+          },
+          {
+            "t": "p",
+            "c": "요한복음 10:29"
+          },
+          {
+            "t": "p",
+            "c": "그들을 주신 내 아버지는 만물보다 크시매 아무도 아버지 손에서 빼앗을 수 없느니라"
+          },
+          {
+            "t": "h2",
+            "c": "3) 그 무엇도 하나님과 우리의 사랑의 관계에서 끊을 수 없다"
+          },
+          {
+            "t": "p",
+            "c": "로마서 8:35-39"
+          },
+          {
+            "t": "p",
+            "c": "35 누가 우리를 그리스도의 사랑에서 끊으리요 환난이나 곤고나 박해나 기근이나 적신이나 위험이나 칼이랴 36 기록된 바 우리가 종일 주를 위하여 죽임을 당하게 되며 도살 당할 양 같이 여김을 받았나이다 함과 같으니라 37 그러나 이 모든 일에 우리를 사랑하시는 이로 말미암아 우리가 넉넉히 이기느니라 38 내가 확신하노니 사망이나 생명이나 천사들이나 권세자들이나 현재 일이나 장래 일이나 능력이나 39 높음이나 깊음이나 다른 어떤 피조물이라도 우리를 우리 주 그리스도 예수 안에 있는 하나님의 사랑에서 끊을 수 없으리라"
+          },
+          {
+            "t": "h2",
+            "c": "4) 끝까지 우리를 지켜주신다"
+          },
+          {
+            "t": "p",
+            "c": "베드로전서 1:3-7"
+          },
+          {
+            "t": "p",
+            "c": "3 우리 주 예수 그리스도의 아버지 하나님을 찬송하리로다 그의 많으신 긍휼대로 예수 그리스도를 죽은 자 가운데서 부활하게 하심으로 말미암아 우리를 거듭나게 하사 산 소망이 있게 하시며 4 썩지 않고 더럽지 않고 쇠하지 아니하는 유업을 잇게 하시나니 곧 너희를 위하여 하늘에 간직하신 것이라 5 너희는 말세에 나타내기로 예비하신 구원을 얻기 위하여 믿음으로 말미암아 하나님의 능력으로 보호하심을 받았느니라 6 그러므로 너희가 이제 여러 가지 시험으로 말미암아 잠깐 근심하게 되지 않을 수 없으나 오히려 크게 기뻐하는도다 7 &lt;너희 믿음의 확실함&gt;은 불로 연단하여도 없어질 금보다 더 귀하여 예수 그리스도께서 나타나실 때에 칭찬과 영광과 존귀를 얻게 할 것이니라"
+          },
+          {
+            "t": "p",
+            "c": "우리의 &lt;최후 승리&gt;는 하나님 아버지께서 작정하신 일입니다. 하나님이 작정하신 일이기 때문에 반드시 이루어집니다. 하나님 아버지와 우리의 사랑의 관계는 그 누구도 끊을 수 없습니다. 전능하신 하나님 아버지의 손에서 우리를 빼앗을 자가 아무도 없습니다. 하나님 아버지께서 참 신자인 우리를 세상 끝날까지 지켜 주십니다. 그래서 우리는 반드시 &lt;최후 승리&gt;를 하게 됩니다."
+          },
+          {
+            "t": "p",
+            "c": "Q. 최후 승리를 믿게 되었습니까?"
+          },
+          {
+            "t": "p",
+            "c": "3 성자가 우리의 최후 승리를 위해 역사해 주신다"
+          },
+          {
+            "t": "p",
+            "c": "우리의 목자되신 예수 그리스도께서 세상 끝날까지 양인 우리의 손을 꼭 붙잡아 주십니다. 그래서 참 신자인 우리가 최후 승리를 할 수 있게 되는 것입니다. 예수 그리스도께서 우리의 최후 승리를 위해 끝까지 역사해 주십니다."
+          },
+          {
+            "t": "h2",
+            "c": "1) 우리를 하나도 잃어버리지 않고 마지막 날에 다시 살리신다"
+          },
+          {
+            "t": "p",
+            "c": "요한복음 6:38-40"
+          },
+          {
+            "t": "p",
+            "c": "38 내가 하늘에서 내려온 것은 내 뜻을 행하려 함이 아니요 나를 보내신 이의 뜻을 행하려 함이니라 39 나를 보내신 이의 뜻은 내게 주신 자 중에 내가 하나도 잃어버리지 아니하고 마지막 날에 다시 살리는 이것이니라 40 내 아버지의 뜻은 아들을 보고 믿는 자마다 영생을 얻는 이것이니 마지막 날에 내가 이를 다시 살리리라 하시니라"
+          },
+          {
+            "t": "h2",
+            "c": "2) 주님의 손에서 우리를 빼앗을 자가 없다"
+          },
+          {
+            "t": "p",
+            "c": "요한복음 10:26-28"
+          },
+          {
+            "t": "p",
+            "c": "26 너희가 내 양이 아니므로 믿지 아니하는도다 27 내 양은 내 음성을 들으며 나는 그들을 알며 그들은 나를 따르느니라 28 내가 그들에게 영생을 주노니 영원히 멸망하지 아니할 것이요 또 그들을 내 손에서 빼앗을 자가 없느니라"
+          },
+          {
+            "t": "h2",
+            "c": "3) 우리를 위하여 중보기도해 주신다"
+          },
+          {
+            "t": "p",
+            "c": "우리가 믿음이 떨어지지 않게 기도해 주신다"
+          },
+          {
+            "t": "p",
+            "c": "누가복음 22:31-32"
+          },
+          {
+            "t": "p",
+            "c": "31 시몬아, 시몬아, 보라 사탄이 너희를 밀 까부르듯 하려고 요구하였으나 32 그러나 내가 너를 위하여 네 믿음이 떨어지지 않기를 기도하였노니 너는 돌이킨 후에 네 형제를 굳게 하라"
+          },
+          {
+            "t": "p",
+            "c": "우리가 악에 빠지지 않게 보전되기를 기도해 주신다"
+          },
+          {
+            "t": "p",
+            "c": "요한복음 17:15"
+          },
+          {
+            "t": "p",
+            "c": "내가 비옵는 것은 그들을 세상에서 데려가시기를 위함이 아니요 다만 악에 빠지지 않게 보전하시기를 위함이니이다"
+          },
+          {
+            "t": "p",
+            "c": "우리의 온전한 구원을 위하여 기도해 주신다"
+          },
+          {
+            "t": "p",
+            "c": "히브리서 7:25"
+          },
+          {
+            "t": "p",
+            "c": "그러므로 자기를 힘입어 하나님께 나아가는 자들을 온전히 구원하실 수 있으니 이는 그가 항상 살아 계셔서 그들을 위하여 간구하심이라"
+          },
+          {
+            "t": "h2",
+            "c": "4. 성령이 우리의 최후 승리를 위해 역사해 주신다"
+          },
+          {
+            "t": "h2",
+            "c": "1) 우리의 연약함을 도와주신다"
+          },
+          {
+            "t": "h2",
+            "c": "2) 우리를 위하여 탄식함으로 기도해 주신다"
+          },
+          {
+            "t": "p",
+            "c": "로마서 8:26-27"
+          },
+          {
+            "t": "p",
+            "c": "26 이와 같이 성령도 우리의 연약함을 도우시나니 우리는 마땅히 기도할 바를 알지 못하나 오직 성령이 말할 수 없는 탄식으로 우리를 위하여 친히 간구하시느니라 27 마음을 살피시는 이가 성령의 생각을 아시나니 이는 성령이 하나님의 뜻대로 성도를 위하여 간구하심이니라"
+          },
+          {
+            "t": "h2",
+            "c": "3) 구원의 날까지 성령으로 도장을 찍어주셨다"
+          },
+          {
+            "t": "p",
+            "c": "하나님께서 성령으로 우리를 중생시키시고 예수 그리스도와 연합시켜 주셨습니다. 하나님 우편에 거하시는 예수 그리스도와 이 땅에 사는 우리가 성령으로 연합된 것입니다. 그리스도와 영적인 신비한 연합입니다. 그리고 성령으로 인을 쳐주셨습니다. 너는 내게 속한 내 백성이라고 성령으로 도장을 찍어 주신 것입니다. 몸이 구속되어 우리의 구원이 완성될 때까지 성령으로 인쳐주셨습니다."
+          },
+          {
+            "t": "p",
+            "c": "에베소서 4:30"
+          },
+          {
+            "t": "p",
+            "c": "하나님의 성령을 근심하게 하지 말라 그 안에서 너희가 구원의 날까지 인치심을 받았느니라"
+          },
+          {
+            "t": "h2",
+            "c": "4) 우리의 몸을 부활시켜 주신다"
+          },
+          {
+            "t": "p",
+            "c": "로마서 8:11"
+          },
+          {
+            "t": "p",
+            "c": "예수를 죽은 자 가운데서 살리신 이의 영이 너희 안에 거하시면 그리스도 예수를 죽은 자 가운데서 살리신 이가 너희 안에 거하시는 그의 영으로 말미암아 너희 죽을 몸도 살리시리라"
+          },
+          {
+            "t": "p",
+            "c": "말씀을 정리하겠습니다"
+          },
+          {
+            "t": "p",
+            "c": "참 신자인 우리는 &lt;최후 승리&gt;를 할 수 있습니다. 하나님께서 작정하셨기 때문입니다. 성부 성자 성령 삼위일체 하나님께서 역사해 주시기 때문입니다."
+          },
+          {
+            "t": "p",
+            "c": "하나님은 우리를 끝까지 붙들어 주십니다. 우리의 구원이 완성되고 우리가 최후 승리를 할 때까지 붙잡아 주십니다. 우리의 목자이시며 중보자이신 예수 그리스도께서 우리를 위하여 하나님 우편에서 기도해 주십니다. 내 안에 계신 성령께서 나의 연약함을 도와 주십니다. 내 안에서 나를 위하여 말할 수 없는 탄식으로 기도해 주십니다. 나와 영원토록 함께하시며 나를 도와 주십니다. 우리가 끝까지 인내하고 견딜 수 있도록 힘을 주십니다. 나를 세상 끝날까지 붙들어 주십니다. 쓰러진 나를 일으켜 세워 주시고 &lt;최후 승리&gt;를 할 수 있도록 도와 주십니다."
+          },
+          {
+            "t": "p",
+            "c": "우리 모두 믿음을 꼭 붙잡고 끝까지 인내하며 죄와 싸웁시다. 악한 원수 마귀를 대적합시다. 귀신을 내어 쫓읍시다. 하나님께서 함께하시며 역사해 주십니다. 하나님께서 지켜 주십니다. 하나님 우편에 계신 주님께서 우리를 위하여 기도해 주십니다. 내 안에 계신 성령께서 역사해 주십니다."
+          },
+          {
+            "t": "p",
+            "c": "믿음으로 음부의 권세를 물리칩시다. 우리는 승리할 수 있습니다. 하나님께서 우리와 함께하시기 때문입니다."
+          },
+          {
+            "t": "p",
+            "c": "믿음으로 원수 마귀를 대적합시다. 우리는 승리할 수 있습니다. 우리 주님께서 승리하셨기 때문입니다."
+          },
+          {
+            "t": "p",
+            "c": "믿음으로 세상의 유혹과 환란을 극복하고 승리합시다. 우리는 극복할 수 있습니다. 하나님이 함께하시기 때문입니다. 하나님께서 승리할 수 있도록 역사해 주시기 때문입니다. 그 누구도 하나님의 손에서 빼앗을 자 없습니다. 그 누구도 주님의 손에서 빼앗을 자 없습니다. 그 누구도 너는 내 백성이라고 성령으로 인쳐 주신 사람을 빼앗을 수 없습니다. 그 누구도 하나님의 인을 지울 수 없습니다. 우리는 &lt;최후 승리&gt;가 보장되었습니다. 참 신자이며 하나님의 진짜 백성이기 때문입니다. 주님의 양이기 때문입니다. 성령으로 인침 받은 사람이기 때문입니다."
+          },
+          {
+            "t": "p",
+            "c": "질문으로 마치겠습니다"
+          },
+          {
+            "t": "p",
+            "c": "Q. 하나님의 참 신자입니까?"
+          },
+          {
+            "t": "p",
+            "c": "Q. 주님의 양입니까?"
+          },
+          {
+            "t": "p",
+            "c": "Q. 주님을 믿고 따릅니까?"
+          },
+          {
+            "t": "p",
+            "c": "Q. 주님의 음성에 귀를 기울입니까?"
+          },
+          {
+            "t": "p",
+            "c": "Q. 성령의 인치심을 받은 하나님의 소유된 참 백성입니까?"
+          },
+          {
+            "t": "p",
+            "c": "Q. 최후 승리를 믿게 되었습니까?"
+          },
+          {
+            "t": "p",
+            "c": "Q. 최후 승리를 확신하며 살아가겠습니까?"
+          }
+        ]
+      },
+      {
+        "id": "223693868334",
+        "label": "I-2 · 종말론",
+        "title": "우리가 창세 전에 받은 신령한 복",
+        "sub": "",
+        "date": "2024.12.15",
+        "url": "https://blog.naver.com/meslap3/223693868334",
+        "blocks": [
+          {
+            "t": "h3",
+            "c": "본문 | 에베소서 1:3-6"
+          },
+          {
+            "t": "p",
+            "c": "3 찬송하리로다 하나님 곧 우리 주 예수 그리스도의 아버지께서 그리스도 안에서 하늘에 속한 모든 신령한 복을 우리에게 주시되 4 곧 창세 전에 그리스도 안에서 우리를 택하사 우리로 사랑 안에서 그 앞에 거룩하고 흠이 없게 하시려고 5 그 기쁘신 뜻대로 우리를 예정하사 예수 그리스도로 말미암아 자기의 아들들이 되게 하셨으니 6 이는 그가 사랑하시는 자 안에서 우리에게 거저 주시는바 그의 은혜의 영광을 찬송하게 하려는 것이라"
+          },
+          {
+            "t": "p",
+            "c": "구원받은 우리는 하나님의 사람 예수 그리스도의 사람 성령의 사람입니다. 풀어 말하면 우리는 하나님의 백성이며 하나님의 자녀입니다. 예수 그리스도와 성령을 통해 영적으로 신비하게 연합되어 있는 사람입니다. 내가 예수 안에 예수께서 내 안에 거하십니다. 그리고 교회공동체인 우리 모임 가운데 성령이 임하시고 교회 지체인 우리 개개인 안에 성령이 내주하여 거하시는 성령의 사람입니다. 이것이 우리의 정체성입니다."
+          },
+          {
+            "t": "p",
+            "c": "이런 정체성을 가진 우리는 하늘에 속한 모든 신령한 복을 받은 사람입니다. 하나님은 우리 주 예수 그리스도의 아버지이시며 예수 그리스도를 믿는 우리 모두의 아버지이십니다. 전능하신 하나님 아버지는 우리 모두에게 그리스도 안에서 성령을 통하여 하늘에 속한 모든 신령한 복을 주십니다."
+          },
+          {
+            "t": "h3",
+            "c": "에베소서 1:3"
+          },
+          {
+            "t": "p",
+            "c": "찬송하리로다 하나님 곧 우리 주 예수 그리스도의 아버지께서 그리스도 안에서 하늘에 속한 모든 신령한 복을 우리에게 주시되"
+          },
+          {
+            "t": "p",
+            "c": "에베소서 1장 4절부터 14절은 우리가 받은 하늘에 속한 모든 신령한 복이 무엇이며, 그 신령한 복을 언제 그리고 어떻게 받게 되었는지 잘 계시해주고 있습니다. 예수 그리스도를 믿는 사람이라면 누구나 똑같이 받은 하늘에 속한 신령한 복입니다. 첫째, 창세 전에 &lt;그리스도 안에서&gt; 받은 복입니다. 둘째, 현세에 &lt;예수 그리스도로 말미암아&gt; 받은 복입니다. 셋째, 영원 후 &lt;예수 그리스도 안에서&gt; 받을 복입니다. 창세 전부터 시작하여 현세에 그리고 영원 후까지 받을 영원한 복 입니다."
+          },
+          {
+            "t": "p",
+            "c": "오늘은 창세 전에 우리가 받은 하늘에 속한 신령한 복 에 대해 살펴보겠습니다."
+          },
+          {
+            "t": "h2",
+            "c": "첫째, 택하심의 복"
+          },
+          {
+            "t": "h2",
+            "c": "둘째, 택하심의 결과"
+          },
+          {
+            "t": "h2",
+            "c": "셋째, 택하심의 이유와 목적"
+          },
+          {
+            "t": "h2",
+            "c": "1. 택하심의 복"
+          },
+          {
+            "t": "p",
+            "c": "지난주에 살펴보았듯 하나님은 유복적 속성을 가지신 분입니다. 복의 근원이시며 복 주시는 유일하신 분은 하나님 한 분뿐입니다. 이 세상의 신은 복을 줄 수 없는 거짓 신입니다. 인간이 만든 우상이거나 하나님이 창조한 피조물입니다. 하나님이 만든 천사들 가운데 일부가 자기 지위를 지키지 않고 이탈했습니다. 죄를 짓고 타락했습니다. 이들은 마귀를 우두머리로 하는 영적인 범죄 집단입니다. 이들은 복을 줄 능력이 없습니다. 복은 고사하고 사람을 속이고 꼬여 죄 짓고 망하게 하는 자들입니다. 우리가 믿는 하나님만이 복을 주시는 유일하신 분입니다. 하나님이 생물을 만드시고 제일 먼저 하신 일도 복 주신 일이며, 인간을 만드시고 제일 먼저 하신 일도 복 주신 일입니다. 노아 시대에 인간의 죄를 물로 심판하시고 노아와 그의 가족에게 제일 먼저 하신 일도 복 주신 일입니다. 아브라함 이삭 야곱 요셉에게도 복을 주셨으며, 십브라와 브아에게도 복을 주셨습니다. 우리에게도 복을 주시는 하나님입니다."
+          },
+          {
+            "t": "p",
+            "c": "하나님의 복은 모든 피조물과 모든 사람에게 주시는 일반적인 복과 하나님의 사람에게만 주시는 특별한 복이 있습니다."
+          },
+          {
+            "t": "p",
+            "c": "하나님의 특별한 복 에는 영적인 복 과 물질적인 복 이 있습니다. 영적인 복은 눈에 보이지 않는 하늘에 속한 신령한 복이며 물질적인 복은 눈에 보이는 이 땅의 기름진 복입니다. 구체적으로 물질적인 복 은 부귀영화, 재물의 복, 건강의 복, 자손이 잘되는 복과 같이 이 땅의 기름진 복들 입니다. 영적인 복 은 죄 사함의 복, 영생의 복, 믿음으로 의롭다고 여김 받은 복, 성령 안에서 의와 희락과 화평과 같이 눈에 보이지 않는 하늘에 속한 신령한 복들 입니다. 영적인 복은 눈에 보이는 물질적인 복이 아니라 눈에 보이지 않는 신령한 복입니다. 눈에 보이지 않는 영적인 복은 내가 물질적인 복을 받아 누리는데 지대한 영향을 끼칩니다. 솔로몬이 하나님께 지혜를 구하여 받자 많은 사람이 지혜를 들으려고 몰려왔습니다. 그리고 그들이 은금패물을 가지고 왔습니다. 이에 솔로몬은 성전을 건축하고 물질과 문화를 풍성하게 누렸습니다."
+          },
+          {
+            "t": "p",
+            "c": "우리가 읽은 에베소서 본문은 하늘에 속한 모든 신령한 복의 시작 을 잘 계시해주고 있습니다. 아직 우리가 태어나기도 전에, 아니 이 세상이 만들어지기도 전에 하나님께서 우리에게 주신 복으로 그리스도 안에서 우리를 택해 주신 복입니다. 하나님은 자기의 기쁘신 뜻을 따라 우리를 사랑하셔서 조건 없이 우리를 택해 주셨습니다."
+          },
+          {
+            "t": "p",
+            "c": "그것도 창세 전에 우리를 택해 주셨습니다. 창세 전에 그리스도 안에서 저와 여러분을 택해 주셨습니다. 온 세상 만물이 창조되기도 전입니다. 우리가 태어나기도 전입니다. 이게 말이 됩니까?"
+          },
+          {
+            "t": "p",
+            "c": "우리의 조건을 전혀 보시지 않았습니다. 우리를 사랑하시기 때문입니다. 하나님의 기뻐하시는 뜻을 따라 우리를 택해 주셨습니다. 얼마나 감사한 일입니까?"
+          },
+          {
+            "t": "p",
+            "c": "아브라함만 하나님께 택함을 받은 것이 아닙니다. 이삭 야곱 요셉만 택함 받은 것이 아닙니다. 나도 택함 받았습니다. 모세와 이스라엘, 다윗 왕과 솔로몬 왕, 세례 요한이나 예레미아 같은 선지자만 택함 받은 것이 아닙니다. 나도 택함 받았습니다. 베드로와 요한 같은 예수님의 제자만 택함 받은 것이 아닙니다. 나도 택함을 받았습니다."
+          },
+          {
+            "t": "p",
+            "c": "눈에 보이는 일이 아니지만 나도 창세 전에 그리스도 안에서 하나님께 택함을 받았습니다. 이 세상이 만들어지기도 전에 이미 하나님 아버지의 마음과 계획 속에 내가 있었던 것입니다. 이것이 하늘에 속한 모든 신령한 복의 시작이며 눈에 보이지 않는 영적인 복의 시작입니다. 우리는 이 진리를 믿는 사람입니다. 하나님이 성령을 통해 눈에 보이지 않는 이 진리를 믿게 해 주셨습니다."
+          },
+          {
+            "t": "h3",
+            "c": "에베소서 1:4-5"
+          },
+          {
+            "t": "p",
+            "c": "4 곧 창세 전에 그리스도 안에서 우리를 택하사 우리로 사랑 안에서 그 앞에 거룩하고 흠이 없게 하시려고 5 그 기쁘신 뜻대로 우리를 예정하사 예수 그리스도로 말미암아 자기의 아들들이 되게 하셨으니"
+          },
+          {
+            "t": "p",
+            "c": "Q. 하나님이 언제, 누구 안에서 에베소 교회 성도를 택하셨습니까?"
+          },
+          {
+            "t": "p",
+            "c": "Q. 하나님은 자신이 기뻐하는 무엇과 무엇으로 에베소 교회 성도를 택하셨습니까?"
+          },
+          {
+            "t": "p",
+            "c": "A. 하나님이 창세 전에 그리스도 안에서 에베소 교회 성도를 택하셨으며 하나님이 기뻐하시는 뜻과 사랑 안에서 택하셨습니다."
+          },
+          {
+            "t": "h3",
+            "c": "하나님이 다윗을 택하셨다"
+          },
+          {
+            "t": "h3",
+            "c": "시편 78:70"
+          },
+          {
+            "t": "h3",
+            "c": "또 그의 종 다윗을 택하시되 양의 우리에서 취하시며"
+          },
+          {
+            "t": "h3",
+            "c": "하나님이 레위 지파의 제사장을 택하셨다"
+          },
+          {
+            "t": "h3",
+            "c": "신명기 18:5"
+          },
+          {
+            "t": "p",
+            "c": "이는 네 하나님 여호와께서 네 모든 지파 중에서 그를 택하여 내시고 그와 그의 자손에게 항상 여호와의 이름으로 서서 섬기게 하셨음이니라"
+          },
+          {
+            "t": "h3",
+            "c": "하나님이 이스라엘을 기뻐하고 사랑하여 택하셨다"
+          },
+          {
+            "t": "h3",
+            "c": "신명기 7:8-9"
+          },
+          {
+            "t": "p",
+            "c": "7 여호와께서 너희를 기뻐하시고 너희를 택하심은 너희가 다른 민족보다 수효가 많기 때문이 아니니라 너희는 오히려 모든 민족 중에 가장 적으니라 8 여호와께서 다만 너희를 사랑하심으로 말미암아, 또는 너희의 조상들에게 하신 맹세를 지키려 하심으로 말미암아 자기의 권능의 손으로 너희를 인도하여 내시되 너희를 그 종 되었던 집에서 애굽 왕 바로의 손에서 속량하셨나니"
+          },
+          {
+            "t": "h3",
+            "c": "예수께서 제자를 택하셨다"
+          },
+          {
+            "t": "h3",
+            "c": "요한복음 6:70"
+          },
+          {
+            "t": "p",
+            "c": "예수께서 대답하시되 내가 너희 열둘을 택하지 아니하였느냐 그러나 너희 중의 한 사람은 마귀니라 하시니"
+          },
+          {
+            "t": "p",
+            "c": "하나님은 아주 특별한 사람을 택하셨습니다. 성경에 기록된 아주 특별한 사람들입니다. 아브라함 같은 믿음의 조상입니다. 다윗과 같은 왕, 레위와 같은 제사장, 예레미야 같은 선지자 그리고 예수님의 제자들입니다."
+          },
+          {
+            "t": "p",
+            "c": "그런데 하나님이 저와 여러분도 택하셨다고 합니다. 우리가 태어나기도 전에 택하셨다고 합니다. 창세 전에 그리스도 안에서 저와 여러분을 택하셨으며, 하나님이 기뻐하시는 뜻과 사랑으로 택하셨습니다. 얼마나 감사한 일입니까?"
+          },
+          {
+            "t": "p",
+            "c": "베드로전서 2장 9절을 읽어보겠습니다."
+          },
+          {
+            "t": "h3",
+            "c": "베드로전서 2:9"
+          },
+          {
+            "t": "p",
+            "c": "그러나 너희는 택하신 족속이요 왕 같은 제사장들이요 거룩한 나라요 그의 소유가 된 백성이니 이는 너희를 어두운 데서 불러 내어 그의 기이한 빛에 들어가게 하신 이의 아름다운 덕을 선포하게 하려 하심이라"
+          },
+          {
+            "t": "h2",
+            "c": "2. 택하심의 결과"
+          },
+          {
+            "t": "p",
+            "c": "하나님이 창세 전에 그리스도 안에서 저와 여러분을 택해 주신 결과, 저와 여러분이 하나님의 자녀가 되었습니다. 하나님의 아들과 딸이 되었습니다. 하나님의 가족이 되었습니다. 우리의 주님이신 예수 그리스도는 하나님의 유일하신 아들이십니다. 하나님으로서의 아들이십니다. 그러나 저와 여러분은 입양된 하나님의 아들과 딸입니다. 피조물로서 입양된 하나님의 자녀입니다."
+          },
+          {
+            "t": "h3",
+            "c": "에베소서 1:4-5"
+          },
+          {
+            "t": "p",
+            "c": "4 곧 창세 전에 그리스도 안에서 우리를 택하사 우리로 사랑 안에서 그 앞에 거룩하고 흠이 없게 하시려고 5 그 기쁘신 뜻대로 우리를 예정하사 예수 그리스도로 말미암아 자기의 아들들이 되게 하셨으니"
+          },
+          {
+            "t": "p",
+            "c": "예수 그리스도를 믿기 이전 과거, 저와 여러분은 영적으로 마귀의 종이었으며 마귀의 자식이었습니다. 예수 그리스도를 믿는 현재, 우리는 영적으로 하나님의 종이며 하나님의 자녀입니다. 하나님의 자녀 된 권세까지 가졌습니다. 전능하신 하나님 아버지께 아들의 이름으로 기도하고 요구할 수 있는 권리가 있습니다."
+          },
+          {
+            "t": "p",
+            "c": "예수 그리스도를 믿기 이전 과거의 나는 마귀의 종이었으며 마귀의 자식이었다"
+          },
+          {
+            "t": "h3",
+            "c": "에베소서 2:2"
+          },
+          {
+            "t": "p",
+            "c": "그 때에 너희는 그 가운데서 행하여 이 세상 풍조를 따르고 공중의 권세 잡은 자를 따랐으니 곧 지금 불순종의 아들들 가운데서 역사하는 영 이라"
+          },
+          {
+            "t": "h3",
+            "c": "요한복음 8:44"
+          },
+          {
+            "t": "p",
+            "c": "너희는 너희 아비 마귀에게서 났으니 너희 아비의 욕심대로 너희도 행하고자 하느니라 그는 처음부터 살인한 자요 진리가 그 속에 없으므로 진리에 서지 못하고 거짓을 말할 때마다 제 것으로 말하나니 이는 그가 거짓말쟁이요 거짓의 아비가 되었음이라"
+          },
+          {
+            "t": "p",
+            "c": "예수 그리스도를 믿는 현재의 나는 하나님의 자녀가 되었으며 기도할 수 있는 권리가 있다"
+          },
+          {
+            "t": "h3",
+            "c": "요한복음 1:12-13"
+          },
+          {
+            "t": "p",
+            "c": "12 영접하는 자 곧 그 이름을 믿는 자들에게는 하나님의 자녀가 되는 권세를 주셨으니 13 이는 혈통으로나 육정으로나 사람의 뜻으로 나지 아니하고 오직 하나님께로부터 난 자들이니라"
+          },
+          {
+            "t": "h3",
+            "c": "요한복음 16:23-24"
+          },
+          {
+            "t": "p",
+            "c": "23 그 날에는 너희가 아무 것도 내게 묻지 아니하리라 내가 진실로 진실로 너희에게 이르노니 너희가 무엇이든지 아버지께 구하는 것을 내 이름으로 주시리라 24 지금까지는 너희가 내 이름으로 아무 것도 구하지 아니하였으나 구하라 그리하면 받으리니 너희 기쁨이 충만하리라"
+          },
+          {
+            "t": "p",
+            "c": "그렇다면 하나님이 왜 우리를 택하셨는가? 창세 전에 하나님이 그리스도 안에서 우리를 택하신 이유와 목적을 본문에서 살펴보겠습니다."
+          },
+          {
+            "t": "h2",
+            "c": "3. 택하심의 이유와 목적"
+          },
+          {
+            "t": "h2",
+            "c": "첫째, 택하심의 이유"
+          },
+          {
+            "t": "p",
+            "c": "하나님이 우리를 택하신 이유는 하나님 앞에 우리를 거룩하고 흠이 없게 성화시키려고 택하셨습니다."
+          },
+          {
+            "t": "h3",
+            "c": "에베소서 1:4"
+          },
+          {
+            "t": "p",
+            "c": "곧 창세 전에 그리스도 안에서 우리를 택하사 우리로 사랑 안에서 그 앞에 거룩하고 흠이 없게 하시려고"
+          },
+          {
+            "t": "p",
+            "c": "예수 그리스도를 믿기 이전 과거의 나는 죄의 종이었으며 사망의 종이었습니다. 그러나 예수 그리스도를 믿는 현재의 나는 의의 종이며 생명의 종입니다."
+          },
+          {
+            "t": "p",
+            "c": "자세히 살펴보겠습니다. 창세 전에 하나님의 택하심을 받은 나는 하나님의 부르심을 받고 중생했습니다. 성령의 감동과 감화를 받아 하나님께 죄를 회개하고 예수 그리스도를 믿게 되었습니다. 구원 얻는 회심을 했습니다. 그 결과 하나님의 법정에서 의롭다고 여김을 받았습니다. 법적으로 의롭게 되었으나 아직 여전히 죄를 짓고 있습니다. 윤리 도덕적으로 의롭게 되지 못했습니다. 하나님처럼 윤리 도덕적으로 흠결 없이 거룩하게 되지 못했습니다. 그래서 하나님은 거룩하신 성령을 내 안에 부어주셨습니다. 그리고 내 안에 계신 성령은 나를 점진적으로 성화시켜 가십니다. 율법의 요구를 이루어 가도록 해주십니다. 성령께서 하나님의 말씀을 방편 삼아 나를 점진적으로 거룩하게 인도해주십니다."
+          },
+          {
+            "t": "p",
+            "c": "그리고 때가 되면 내 몸과 영혼이 분리되어 죽게 됩니다. 내 몸은 내 안에 있는 죄로 인하여 죽어 흙으로 돌아가고 내 영혼은 낙원으로 갑니다. 이때 내 영혼의 성화가 완성됩니다. 그리고 최후 심판 때 우리 주님께서 다시 오시면 나의 몸이 부활하게 됩니다. 하나님이 내 안에 계신 성령을 통하여 산화되어 흙으로 돌아갔던 내 몸을 부활시키십니다. 거룩한 몸 신령한 몸 하늘에 속한 강한 몸으로 부활합니다. 부활하여 내 몸의 성화가 완성되는 것입니다. 그리고 낙원 있던 거룩한 영혼과 부활하여 거룩해진 나의 몸이 재결합하여 하나님의 영광에 참여하게 됩니다. 이때 나의 성화가 완성되고 영화로운 상태가 됩니다. 이렇게 하나님 앞에 나를 거룩하고 흠이 없게 하시려고 창세 전에 하나님이 그리스도 안에서 나를 택해 주신 것입니다."
+          },
+          {
+            "t": "h3",
+            "c": "로마서 8:10-11"
+          },
+          {
+            "t": "p",
+            "c": "10 또 그리스도께서 너희 안에 계시면 몸은 죄로 말미암아 죽은 것이나 영은 의로 말미암아 살아 있는 것이니라 11 예수를 죽은 자 가운데서 살리신 이의 영이 너희 안에 거하시면 그리스도 예수를 죽은 자 가운데서 살리신 이가 너희 안에 거하시는 그의 영으로 말미암아 너희 죽을 몸도 살리시리라"
+          },
+          {
+            "t": "p",
+            "c": "그렇다면 우리는 어떻게 살아야 합니까? 윤리 도덕적으로 거룩한 삶을 추구하며 살아야 합니다 . 그러기 위해 첫째, 죄와 피 흘리기까지 싸워야 합니다 . 둘째, 하나님의 말씀에 비추어 죄를 회개하고 믿음을 새롭게 갱신하며 살아야 합니다 . 셋째, 성령의 능력을 힘입어 육신의 소욕을 적극적으로 끊어 내어버리며 살아야 합니다 . 이때 우리는 성령의 인도를 받으며 거룩하고 의로운 삶을 살아가게 됩니다. 하나님이 기뻐하시는 뜻을 따라서 살게 됩니다. 성령을 쫓아 사는 삶이 됩니다. 어렵지만 성령의 인도를 받기 위해 최선을 다해 살아갑시다."
+          },
+          {
+            "t": "h2",
+            "c": "둘째, 택하심의 목적"
+          },
+          {
+            "t": "p",
+            "c": "하나님이 우리를 택하신 목적은 우리로 하나님의 은혜의 영광을 찬송하게 하려고 택하셨습니다."
+          },
+          {
+            "t": "h3",
+            "c": "에베소서 1:6"
+          },
+          {
+            "t": "p",
+            "c": "이는 그가 사랑하시는 자 안에서 우리에게 거저 주시는 바 그의 은혜의 영광을 찬송하게 하려는 것이라"
+          },
+          {
+            "t": "p",
+            "c": "우리의 구원은 성부 하나님이 계획하시고 성자 하나님이 실행하시고 성령 하나님께서 적용하시어 완성됩니다."
+          },
+          {
+            "t": "p",
+            "c": "성부 하나님의 계획을 따라 성자께서 인성을 취하여 이 땅에 오셨습니다. 그분이 아브라함과 다윗의 자손이신 나사렛 예수십니다. 예수께서 하나님 나라를 전파하시고 가르치시고 귀신을 쫓고 병자를 고치심으로 하나님 나라의 능력을 보여 주셨습니다. 구원이 있고 영생이 있음을 가르쳐주셨습니다."
+          },
+          {
+            "t": "p",
+            "c": "그리고 우리를 구원하기 위해 순종의 종이 되셨습니다. 율법에 순종하셨습니다. 십자가에 죽으시므로 순종하여 율법의 의를 충족하셨습니다. 나의 죄책을 대신하여 십자가에서 지옥 형벌을 받고 돌아가셨습니다. 그리고 부활 승천하여 하나님 우편에서 성령을 보내 주셨습니다."
+          },
+          {
+            "t": "p",
+            "c": "성령께서 나를 부르시어 중생시켜 주셨습니다. 성령의 감동과 감화를 받아 내가 하나님께 죄를 회개하고 예수 그리스도를 믿게 되었습니다. 하나님이 나를 하나님의 법정에서 의롭다고 선고해 주셨습니다. 그리고 내 안에 성령을 보내 주시어 나를 거룩한 길로 인도하십니다. 성령께서 말씀과 기도를 사용하여 나를 점진적으로 성화시켜 주십니다. 그리고 최종 심판 때에 하나님이 내 안에 계신 성령을 통해 나를 부활시키시어 나의 구원을 완성 시키고 절정에 이르게 하십니다. 하나님의 은혜의 영광에 동참하여 하나님께 영광을 돌리게 해 주십니다. 이렇게 우리의 구원은 하나님의 은혜이며 하나님의 선물입니다. 그래서 우리는 하나님의 은혜의 영광을 찬송하며 살아야 합니다."
+          },
+          {
+            "t": "h3",
+            "c": "에베소서 2:8-9"
+          },
+          {
+            "t": "p",
+            "c": "8 너희는 그 은혜에 의하여 믿음으로 말미암아 구원을 받았으니 이것은 너희에게서 난 것이 아니요 하나님의 선물이라 9 행위에서 난 것이 아니니 이는 누구든지 자랑하지 못하게 함이라"
+          },
+          {
+            "t": "h3",
+            "c": "질문으로 말씀을 맺겠습니다"
+          },
+          {
+            "t": "p",
+            "c": "Q. 하나님이 우리를 창세 전에 그리스도 안에서 택해 주셨음을 알게 되었습니까?"
+          },
+          {
+            "t": "p",
+            "c": "Q. 하나님이 아무 조건 없이 우리를 택해 주셨음을 알게 되었습니까?"
+          },
+          {
+            "t": "p",
+            "c": "Q. 하나님이 우리를 사랑하시고 하나님의 기뻐하시는 뜻을 따라서 우리를 택해 주셨음을 알게 되었습니까?"
+          },
+          {
+            "t": "p",
+            "c": "Q. 하나님이 우리를 택하신 결과 우리가 하나님의 자녀가 되었음을 이해했습니까?"
+          },
+          {
+            "t": "p",
+            "c": "Q. 우리가 거룩한 삶을 추구해야 할 이유를 알게 되었습니까?"
+          },
+          {
+            "t": "p",
+            "c": "Q. 죄와 피 흘리기까지 싸우며 살겠습니까?"
+          },
+          {
+            "t": "p",
+            "c": "Q. 죄를 지으면 즉각 회개하고 믿음을 갱신하며 살겠습니까?"
+          },
+          {
+            "t": "p",
+            "c": "Q. 성령의 능력을 힘입어 육신의 소욕을 끊어 내어 버리며 살겠습니까?"
+          },
+          {
+            "t": "p",
+            "c": "Q. 하나님의 은혜의 영광을 찬송하며 살겠습니까?"
+          }
+        ]
+      },
+      {
+        "id": "223701716925",
+        "label": "I-3 · 종말론",
+        "title": "우리가 현세에 받은 신령한 복",
+        "sub": "",
+        "date": "2024.12.22",
+        "url": "https://blog.naver.com/meslap3/223701716925",
+        "blocks": [
+          {
+            "t": "h3",
+            "c": "본문 | 에베소서 1:5-7"
+          },
+          {
+            "t": "p",
+            "c": "5 그 기쁘신 뜻대로 우리를 예정하사 예수 그리스도로 말미암아 자기의 아들들이 되게 하셨으니 6 이는 그가 사랑하시는 자 안에서 우리에게 거저 주시는바 그의 은혜의 영광을 찬송하게 하려는 것이라 7 우리는 그리스도 안에서 그의 은혜의 풍성함을 따라 그의 피로 말미암아 속량 곧 죄 사함을 받았느니라"
+          },
+          {
+            "t": "p",
+            "c": "교회공동체인 우리는 하늘에 속한 모든 신령한 복을 받은 사람들입니다. 이 자리에 모인 모든 사람은 단 한 사람도 예외 없이 모두 다 받았습니다. 첫째, 창세 전에 그리스도 안에서 받은 영적인 복입니다. 둘째, 현세에 예수 그리스도로 인하여 받은 신령한 복입니다. 셋째, 영원 후에 그리스도 안에서 받을 영원한 복입니다."
+          },
+          {
+            "t": "p",
+            "c": "지난 시간 창세 전에 우리가 받은 신령한 복에 대해서 살펴보았습니다. 우리는 창세 전에 그리스도 안에서 하나님의 택함을 받았습니다. 하나님이 아무 조건 없이 저와 여러분을 택해 주셨습니다. 하나님이 기뻐하시는 뜻을 따라서 우리를 택해 주셨으며 우리를 사랑하시기 때문에 택해 주셨습니다. 하나님이 우리를 택해 주신 이유는 하나님 앞에 저와 여러분을 거룩하고 흠이 없이 하시려고 택해 주셨습니다. 그리고 하나님이 우리를 택해 주신 목적은 하나님의 은혜의 영광을 찬송하게 하려고 택해 주셨습니다."
+          },
+          {
+            "t": "p",
+            "c": "그래서 우리는 하나님의 은혜의 영광을 찬송하며 살아야 합니다. 거룩함을 추구하며 살아야 합니다. 거룩하기 위해 죄를 미워하고 죄와 피 흘리기까지 싸워야 합니다. 죄를 지었으면 즉각 회개하고 믿음을 새롭게 갱신하며 살아야 합니다. 성령의 능력을 힘입어 적극적으로 육신의 소욕을 끊어 내어 버리며 살아야 합니다."
+          },
+          {
+            "t": "p",
+            "c": "오늘은 현세에 우리가 그리스도로 말미암아 받은 복에 대해서 본문을 통하여 살펴보겠습니다."
+          },
+          {
+            "t": "h2",
+            "c": "첫째, 속량 곧 죄 사함을 받은 복"
+          },
+          {
+            "t": "h2",
+            "c": "둘째, 하나님의 자녀로 입양된 복"
+          },
+          {
+            "t": "h2",
+            "c": "1. 속량 곧 죄 사함을 받은 복"
+          },
+          {
+            "t": "h3",
+            "c": "에베소서 1:7"
+          },
+          {
+            "t": "p",
+            "c": "우리는 그리스도 안에서 그의 은혜의 풍성함을 따라 그의 피로 말미암아 속량 곧 죄 사함을 받았느니라"
+          },
+          {
+            "t": "p",
+            "c": "교회공동체 구성원인 우리는 단 한 사람도 예외 없이 죄 사함을 받았습니다. 내 공로가 아닌 그리스도 예수 안에서 그의 은혜의 풍성함을 따라 그의 피로 말미암아 속량 곧 죄 사함을 받았습니다."
+          },
+          {
+            "t": "p",
+            "c": "우리가 죄 사함을 받은 복이 얼마나 큰 복인지 이해하려면 예수 믿기 이전의 우리를 이해해야 합니다. 그리고 우리 죄를 사하신 속량의 의미를 이해해야 합니다."
+          },
+          {
+            "t": "p",
+            "c": "우리의 죄 사함은 예수의 피로 받았습니다. 내가 나의 죗값을 치른 것이 아닙니다. 예수께서 나의 죗값을 대신 치러주셨습니다. 예수께서 자신이 피 흘려 죽음으로 내 죄에 대한 값을 대신 치르고 내 죄를 사해 준 것입니다. 이것을 속량 또는 구속이라고 합니다. 나의 공로가 아닌 하나님의 풍성한 은혜로 죄 사함을 받은 것입니다."
+          },
+          {
+            "t": "p",
+            "c": "먼저 예수 믿기 이전 과거의 우리를 생각해 보겠습니다."
+          },
+          {
+            "t": "p",
+            "c": "예수 그리스도를 믿기 이전 과거의 우리는 죄로 인하여 사망에 이르게 되었습니다. 죄 때문에 죽게 된 것입니다. 성경은 인간의 죽음을 네 가지로 설명합니다. 영적인 죽음 The Spiritual Death , 몸이 서서히 죽어 감 The Slow Death , 몸의 죽음 The Material Death 그리고 영원한 죽음 The Eternal Death 입니다."
+          },
+          {
+            "t": "p",
+            "c": "하나씩 차근차근 살펴보겠습니다. 첫째, 영적인 죽음은 뿌리가 뽑힌 나무처럼 죄로 인하여 하나님의 신적인 생명에서 이탈하게 된 것입니다. 하나님의 영원한 신적인 생명이 죄로 가로막혀 차단되었습니다. 하나님으로부터 신적인 생명을 공급받지 못하게 된 것입니다. 이것을 영적인 죽음이라고 합니다. 그 결과 내가 가지고 있던 자원과 생명을 서서히 소진하며 살아야 합니다. 내가 가지고 있는 생명을 소진하며 몸이 서서히 죽어갑니다. 이것을 둘째, The Slow Death라고 합니다. 몸이 서서히 죽어가는 것입니다. 나의 몸이 활성 산소로 서서히 노화되고 병들어 죽어 갑니다. 가시덤불과 엉겅퀴로 고단한 삶입니다. 타락한 이기적인 본성에서 나오는 악하고 더러운 생각, 이기심과 탐심으로 타인의 것을 빼앗고 착취합니다. 미움과 시기와 질투, 화와 분노로 다투고 싸우며 살아갑니다. 경쟁하고 피곤합니다. 심하면 전쟁으로 수많은 사람이 고통 가운데 살아갑니다. 셋째, 몸과 영혼이 분리되는 몸의 죽음입니다. 몸은 흙으로 돌아가고 영혼은 지옥에 가서 고통을 당하게 됩니다. 넷째, 영원한 죽음입니다. 최종 심판 때에 몸이 부활하여 지옥에 있던 영혼과 재결합합니다. 그리고 영원한 불 못에 들어가 고통을 당하게 됩니다."
+          },
+          {
+            "t": "p",
+            "c": "이것이 죄를 짓고 타락한 모든 인간의 피치 못할 운명입니다. 그래서 에베소서는 인간을 본질상 진노의 자녀라고 합니다. 로마서는 하나님의 진노가 하늘로부터 나타났다고 합니다. 히브리서는 사람이 한번 죽는 것은 정해진 것이며 죽음 후에는 심판이 있다고 합니다."
+          },
+          {
+            "t": "h3",
+            "c": "에베소서 2:3"
+          },
+          {
+            "t": "p",
+            "c": "전에는 우리도 다 그 가운데서 우리 육체의 욕심을 따라 지내며 육체와 마음의 원하는 것을 하여 다른 이들과 같이 본질상 진노의 자녀이었더니"
+          },
+          {
+            "t": "h3",
+            "c": "로마서 1:18"
+          },
+          {
+            "t": "p",
+            "c": "하나님의 진노가 불의로 진리를 막는 사람들의 모든 경건하지 않음과 불의에 대하여 하늘로부터 나타나나니"
+          },
+          {
+            "t": "h3",
+            "c": "히브리서 9:27"
+          },
+          {
+            "t": "p",
+            "c": "한번 죽는 것은 사람에게 정해진 것이요 그 후에는 심판이 있으리니"
+          },
+          {
+            "t": "h3",
+            "c": "이제 속량의 의미를 생각해 보겠습니다"
+          },
+          {
+            "t": "p",
+            "c": "속량은 교리적인 용어로 구속이라고 합니다. 전통적으로 구속으로 번역하여 사용했습니다. 영어로 리뎀션 Redemption , 헬라어로 아폴뤼트로시스 ἀπολυτρώσεως 입니다. 당시 시장에서 사용하던 상업 용어입니다. 노예 상인에게 노예의 몸값을 주고 사서 노예 문서를 완전히 없애버리고 그를 자유롭게 해주는 것입니다."
+          },
+          {
+            "t": "p",
+            "c": "구약 시대에 사용한 속량의 의미를 살펴보겠습니다. 첫째, 가족이나 친지가 종의 주인에게 종의 몸값을 주어 내가 종에서 해방되어 자유인이 되는 것입니다. 그 종의 몸값을 속전이라고 합니다. 둘째, 이스라엘이 애굽의 종살이에서 해방되어 하나님의 백성이 된 것을 의미합니다. 셋째, 하나님의 백성이 바벨론 포로에서 해방되어 예루살렘으로 귀환한 것을 의미합니다."
+          },
+          {
+            "t": "p",
+            "c": "속량은 종의 주인에게 종의 몸값을 주고 종에서 해방되어 자유인이 되는 것이다"
+          },
+          {
+            "t": "h3",
+            "c": "레위기 25:47-49"
+          },
+          {
+            "t": "p",
+            "c": "47 만일 너와 함께 있는 거류민이나 동거인은 부유하게 되고 그와 함께 있는 네 형제는 가난하게 되므로 그가 너와 함께 있는 거류민이나 동거인 또는 거류민의 가족의 후손에게 팔리면 48 그가 팔린 후에 그에게는 속량 받을 권리가 있나니 그의 형제 중 하나가 그를 속량하거나 49 또는 그의 삼촌이나 그의 삼촌의 아들이 그를 속량하거나 그의 가족 중 그의 살붙이 중에서 그를 속량할 것이요 그가 부유하게 되면 스스로 속량하되"
+          },
+          {
+            "t": "p",
+            "c": "속량은 이스라엘이 애굽의 종살이에서 해방되어 하나님의 백성이 된 것이다"
+          },
+          {
+            "t": "h3",
+            "c": "출애굽기 15:13"
+          },
+          {
+            "t": "p",
+            "c": "주의 인자하심으로 주께서 구속하신 백성 을 인도하시되 주의 힘으로 그들을 주의 거룩한 처소에 들어가게 하시나이다"
+          },
+          {
+            "t": "p",
+            "c": "속량은 이스라엘이 바벨론 포로에서 해방되어 예루살렘으로 귀환한 것이다"
+          },
+          {
+            "t": "h3",
+            "c": "이사야 43:1"
+          },
+          {
+            "t": "p",
+            "c": "야곱아 너를 창조하신 여호와께서 지금 말씀하시느니라 이스라엘아 너를 지으신 이가 말씀하시느니라 너는 두려워하지 말라 내가 너를 구속하였고 내가 너를 지명하여 불렀나니 너는 내 것이라"
+          },
+          {
+            "t": "p",
+            "c": "신약 성경에 사용한 속량 또는 구속의 의미를 생각해 보겠습니다. 내가 죽음으로 치러야 하는 내 죄의 값을 예수 그리스도께서 대신 치러주셨습니다. 십자가에서 피 흘려 죽음으로 내 죄의 값을 대신 치러주신 것입니다. 그리고 나를 구원하여 하나님의 소유된 백성 삼아 주셨습니다. 예수께서 나를 대신하여 십자가에서 피 흘려 돌아가셨습니다. 내가 받아야 하는 죄에 대한 형벌의 대가를 예수께서 대신 죽음으로 치러주신 것입니다. 내가 받아야 할 지옥 형벌을 예수께서 대신 받고 돌아가셨습니다. 그래서 나는 지옥 형벌을 받지 않습니다."
+          },
+          {
+            "t": "p",
+            "c": "속량 곧 구속이라는 의미는 하나님이 죄에 빠져 사망과 고통 가운데 있는 자기 백성을 예수 그리스도의 핏값을 주고 사서 구원했다는 의미입니다. 나의 공로나 내가 댓 가를 치르고 죄 사함을 받고 죄로부터 구원받은 것이 아닙니다. 예수께서 나의 죗값을 십자가에서 대신 치르고 나를 구원해 주신 것입니다. 십자가의 피로 내 죗값을 대신 치르고 내 죄를 사해 주신 것입니다. 이것을 속량 또는 구속이라고 합니다. 그래서 죄 사함이 나의 공로가 아닌 하나님의 풍성한 은혜라고 하는 것입니다."
+          },
+          {
+            "t": "p",
+            "c": "다시 정리하면, 우리는 내 공로가 아닌 예수 그리스도의 피로 죄 사함을 받았습니다. 이것은 내 죗값을 내가 치르지 않고 예수 그리스도께서 대신 치르신 것입니다. 나를 대신하여 예수께서 십자가에서 피 흘려 돌아가심으로 내 죗값을 대신 치르셨습니다. 그리고 그 피로 내 죄를 사해 주셨습니다. 이것을 속량 또는 구속이라고 합니다. 즉 우리는 예수 그리스도의 피로 말미암아 속량 곧 죄 사함을 받은 것입니다. 그러므로 나의 공로나 나의 의가 아닌 그리스도 안에서 그의 은혜의 풍성함을 따라 내가 죄 사함을 받은 것입니다."
+          },
+          {
+            "t": "p",
+            "c": "예수께서 나를 대신하여 지옥 형벌을 받고 피 흘려 돌아가심으로 내 죄를 사해 주셨습니다. 그러므로 내가 죄의 형벌로부터 자유 해졌습니다. 내가 죄와 사망으로부터 해방되었습니다. 하나님이 나를 예수 그리스도의 핏값을 주고 사서 하나님께 소유된 하나님의 백성 삼아 주셨습니다. 그래서 성경은 하나님이 교회와 교회 지체인 나를 핏값을 주고 사셨다고 합니다."
+          },
+          {
+            "t": "h3",
+            "c": "고린도전서 6:19-20"
+          },
+          {
+            "t": "p",
+            "c": "19 너희 몸은 너희가 하나님께로부터 받은 바 너희 가운데 계신 성령의 전인 줄을 알지 못하느냐 너희는 너희 자신의 것이 아니라 20 값으로 산 것이 되었으니 그런즉 너희 몸으로 하나님께 영광을 돌리라"
+          },
+          {
+            "t": "h3",
+            "c": "사도행전 20:28"
+          },
+          {
+            "t": "p",
+            "c": "여러분은 자기를 위하여 또는 온 양 떼를 위하여 삼가라 성령이 그들 가운데 여러분을 감독자로 삼고 하나님이 자기 피로 사신 교회 를 보살피게 하셨느니라"
+          },
+          {
+            "t": "p",
+            "c": "나의 지옥 갈 죄의 형벌을 예수께서 대신 받고 돌아가셨습니다. 예수께서 십자가에서 내가 받아야 할 지옥 형벌을 대신 받고 돌아가신 것입니다. 십자가에서 나의 죄책이 단번에 제거되었습니다. 아담이 지은 최초의 죄로 인하여 발생한 원죄의 죄책이 나에게 법적으로 전가되어 내가 죽게 된 것 같이 나의 모든 죄책이 예수 그리스도에게 법적으로 전가되어 예수께서 나를 대신하여 지옥 형벌을 받고 돌아가셨습니다."
+          },
+          {
+            "t": "p",
+            "c": "아담의 원죄로 인한 죄책과 내가 지은 모든 자범죄로 인한 죄책이 예수 그리스도에게 법적으로 전가된 것입니다. 내가 과거에 지은 죄, 현재에 지은 죄 미래에 지을 죄, 내가 부지 중에 지은 모든 죄에 대한 죄책이 예수 그리스도에게 법적으로 전가되었습니다. 그러므로 예수 그리스도께서 십자가에 피 흘려 돌아가셨습니다. 나의 모든 죄가 예수의 피로 사해졌습니다."
+          },
+          {
+            "t": "p",
+            "c": "이제 의로우신 하나님이 나를 심판할 법적인 근거가 사라졌습니다. 예수께서 나를 대신하여 지옥 형벌을 받고 십자가에서 피 흘려 돌아가셨기 때문입니다. 예수의 피로 내 죄의 값을 속량해 주셨기 때문입니다. 나의 죄를 예수의 피로 사해 주셨습니다. 나를 자신의 핏값을 주고 사서 하나님의 백성삼아 주셨습니다. 그리스도 예수 안에서 그의 은혜의 풍성함을 따라서 예수 그리스도의 피로 말미암아 속량 곧 죄 사함을 받았습니다. 그래서 나는 예수의 피밖에 없다고 찬송하며 고백하는 것입니다."
+          },
+          {
+            "t": "h3",
+            "c": "나의 죄를 씻기는 예수의 피 밖에 없네"
+          },
+          {
+            "t": "h3",
+            "c": "다시 성케 하기도 예수의 피 밖에 없네"
+          },
+          {
+            "t": "h3",
+            "c": "나를 정케 하기는 예수의 피 밖에 없네"
+          },
+          {
+            "t": "h3",
+            "c": "사죄하는 증거도 예수의 피 밖에 없네"
+          },
+          {
+            "t": "h3",
+            "c": "나의 죄 속하기는 예수의 피 밖에 없네"
+          },
+          {
+            "t": "h3",
+            "c": "나는 공로 없도다 예수의 피 밖에 없네"
+          },
+          {
+            "t": "h3",
+            "c": "평안함과 소망은 예수의 피 밖에 없네"
+          },
+          {
+            "t": "h3",
+            "c": "나의 의는 이것뿐 예수의 피 밖에 없네"
+          },
+          {
+            "t": "h3",
+            "c": "영원토록 내 할 말 예수의 피 밖에 없네"
+          },
+          {
+            "t": "h3",
+            "c": "나의 찬미 제목은 예수의 피 밖에 없네"
+          },
+          {
+            "t": "h3",
+            "c": "예수의 흘린 피 날 희게 하오니"
+          },
+          {
+            "t": "h3",
+            "c": "귀하고 귀하다 예수의 피 밖에 없네"
+          },
+          {
+            "t": "p",
+            "c": "그래서 우리는 날마다 예수의 피를 믿고 의지하며 살아야 합니다. 죄를 지으면 즉각 회개하고 믿음을 갱신하며 살아야 합니다."
+          },
+          {
+            "t": "h2",
+            "c": "2. 하나님의 자녀로 입양된 복"
+          },
+          {
+            "t": "p",
+            "c": "예수의 피로 구속 곧 죄 사함을 받은 우리는 지옥 형벌을 받지 않습니다. 죄를 용서받고 죄와 사망의 법에서 해방되었습니다. 하나님과의 관계가 회복되었으며 영생의 권리를 획득했습니다. 그리고 무엇보다도 하나님의 자녀가 되었습니다."
+          },
+          {
+            "t": "h3",
+            "c": "에베소서 1:5"
+          },
+          {
+            "t": "p",
+            "c": "그 기쁘신 뜻대로 우리를 예정하사 예수 그리스도로 말미암아 자기의 아들들이 되게 하셨으니"
+          },
+          {
+            "t": "p",
+            "c": "우리는 예수 그리스도로 말미암아 하나님의 아들과 딸이 되었습니다. 예수 그리스도를 믿기 이전 과거, 저와 여러분은 영적으로 마귀의 종이었으며 마귀의 자식이었습니다. 예수 그리스도를 믿는 현재, 우리는 영적으로 하나님의 종이며 하나님의 자녀입니다. 하나님의 자녀 된 권세를 가졌습니다. 전능하신 하나님 아버지께 아들의 이름으로 기도하고 요구할 수 있는 권리를 부여받았습니다."
+          },
+          {
+            "t": "p",
+            "c": "영접하는 자 곧 그 이름을 믿는 자에게는 하나님의 자녀가 되는 권세를 주셨다"
+          },
+          {
+            "t": "h3",
+            "c": "요한복음 1:12-13"
+          },
+          {
+            "t": "p",
+            "c": "12 영접하는 자 곧 그 이름을 믿는 자들에게는 하나님의 자녀가 되는 권세를 주셨으니 13 이는 혈통으로나 육정으로나 사람의 뜻으로 나지 아니하고 오직 하나님께로부터 난 자들이니라"
+          },
+          {
+            "t": "p",
+            "c": "우리가 무엇이든지 하나님 아버지께 예수이름으로 구하면 주신다"
+          },
+          {
+            "t": "h3",
+            "c": "요한복음 16:23-24"
+          },
+          {
+            "t": "p",
+            "c": "23 그 날에는 너희가 아무 것도 내게 묻지 아니하리라 내가 진실로 진실로 너희에게 이르노니 너희가 무엇이든지 아버지께 구하는 것을 내 이름으로 주시리라 24 지금까지는 너희가 내 이름으로 아무 것도 구하지 아니하였으나 구하라 그리하면 받으리니 너희 기쁨이 충만하리라"
+          },
+          {
+            "t": "p",
+            "c": "우리는 하나님께 입양된 아들과 딸이고 예수님은 하나님의 유일하신 독생자이십니다. 우리는 피조물로서 법적으로 입양된 아들과 딸이고 예수님은 창조주이시며 하나님으로서 유일하신 아들이십니다. 예수 그리스도를 믿고 하나님의 자녀가 된 권세를 가진 우리는 양자의 영을 받고 하나님의 자녀로 입양되었습니다. 우리도 예수님처럼 하나님을 아빠 아버지라고 믿고 부를 수 있습니다. 우리도 예수님과 함께 하나님 나라의 상속자입니다. 아들의 이름으로 하나님의 도움을 요청할 권리를 부여받았습니다."
+          },
+          {
+            "t": "h3",
+            "c": "로마서 8:15-17"
+          },
+          {
+            "t": "p",
+            "c": "15 너희는 다시 무서워하는 종의 영을 받지 아니하고 양자의 영을 받았으므로 우리가 아빠 아버지라고 부르짖느니라 16 성령이 친히 우리의 영과 더불어 우리가 하나님의 자녀인 것을 증언하시나니 17 자녀이면 또한 상속자 곧 하나님의 상속자요 그리스도와 함께 한 상속자니 우리가 그와 함께 영광을 받기 위하여 고난도 함께 받아야 할 것이니라"
+          },
+          {
+            "t": "p",
+            "c": "성경이 기록된 고대 1세기 그리스-로마 시대의 입양제도를 이해하면 우리 신앙생활에 많은 도움이 됩니다. 그 시대에 양자를 입양하는 두 가지 이유가 있습니다. 하나는 가문의 이름을 보존하기 위해서입니다. 또 하나는 유산을 물려주기 위해서입니다. 입양한 아들과 딸은 양아버지의 이름과 명예, 법적인 신분과 권세, 재산을 상속받습니다. 친아들과 법적으로 동등하게 모든 것을 물려받습니다."
+          },
+          {
+            "t": "p",
+            "c": "영화 벤허를 보면 잘 이해할 수 있습니다. 유대인 귀족 벤허와 로마 귀족 메살라는 어린 시절 절친한 친구였습니다. 성인이 되어 메살라가 로마 군대 장교가 되어 유대로 돌아왔습니다. 그리고 메살라가 벤허에게 요청했습니다. 유대인이 로마를 지지하고 자신이 하는 일에 협력하도록 유대인을 설득해 달라고 했습니다. 유대 귀족인 벤허는 그럴 수 없다고 했습니다."
+          },
+          {
+            "t": "p",
+            "c": "며칠 후 총독이 부임하는 날 벤허의 여동생이 기와 장을 떨어뜨려 총독이 말에서 낙마하는 사건이 발생했습니다. 친구 메살라가 이 사건을 수사합니다. 오래된 건물이기에 기와장이 스스로 떨어진 것인데 메살라가 이것을 총독살해 미수죄로 다루어 벤허의 어머니와 누이동생을 감옥에 가두었습니다. 벤허가 메살라를 찾아가 항의했습니다. 메살라가 벤허의 재산을 몰수하고 그를 로마 해군 갤리선의 노예로 팔았습니다."
+          },
+          {
+            "t": "p",
+            "c": "벤허가 탄 배의 군대가 해적과 전투를 벌였습니다. 벤허가 탄 배는 이 해전을 총지휘하는 집정관 퀴투스 아리우스라가 타고 있었습니다. 전투에서 그 배가 파선했습니다. 이때 벤허가 총사령관을 구출하게 되었습니다. 그리고 이 해전에서 로마 군대가 승리를 했습니다."
+          },
+          {
+            "t": "p",
+            "c": "사령관이 자기를 구해준 벤허를 노예에서 자유인의 신분으로 바꿔줬습니다. 그리고 로마로 돌아가 집정관이 유다를 양자로 입양했습니다. 벤허가 그의 가문의 상속자를 상징하는 인장 반지를 끼고 그의 명예와 권세를 물려받았습니다. 그리고 벤허가 이 권세를 가지고 유대로 돌아가 복수하는 내용입니다."
+          },
+          {
+            "t": "p",
+            "c": "양자가 된 벤허가 양부의 권세를 합법적으로 물려받은 것처럼 우리도 하나님의 자녀 된 권세를 가졌습니다. 내 안에 계신 성령께서 내 영과 더불어 내가 하나님의 자녀인 것을 증언해 주십니다. 내 안에 계신 성령께서 내가 예수 그리스도와 함께하는 하나님 나라의 상속자임을 확인해 주십니다. 하나님의 아들이신 예수님께서 하나님 아버지께 기도로 도움을 요청한 것같이 나도 하나님 아버지께 기도로 도움을 요청할 수 있습니다. 친아들인 예수 그리스도의 이름으로 기도할 수 있습니다. 친아들이신 예수님은 자신이 직접 하나님 아버지께 도움을 요청했습니다. 양자인 우리는 양자의 영이신 성령의 능력을 힘입고 친아들인 예수 그리스도의 이름으로 기도할 수 있습니다. 친아들이 기도한 것과 같이 동일한 법적 효력이 있습니다."
+          },
+          {
+            "t": "p",
+            "c": "우리 모두 하나님의 자녀 된 권리를 사용합시다. 하나님이 기뻐하십니다. 우리의 기도를 반드시 들어주십니다. 그리고 우리에게 가장 좋은 시간에 가장 좋은 것으로 응답해 주십니다. 즉시 응답해 주시기도 합니다. 기다렸다가 응답해 주시기도 합니다. 더 좋은 것으로 응답해 주시기도 합니다. 구하지 않은 것 까지 더하여 응답해 주시기도 합니다. 상황이 나쁘게 전개되다가 다른 방법으로 응답해 주시기도 합니다. 네 은혜가 족하다 하시며 무응답으로 응답해 주시기도 합니다. 그러므로 나의 연약함 가운데 그리스도의 크신 능력이 나타납니다."
+          },
+          {
+            "t": "h3",
+            "c": "질문으로 맺겠습니다"
+          },
+          {
+            "t": "p",
+            "c": "Q. 구속 곧 속량의 의미를 이해했습니까?"
+          },
+          {
+            "t": "p",
+            "c": "Q. 죄 사함의 복이 얼마나 크고 놀라운 복임을 이해했습니까?"
+          },
+          {
+            "t": "p",
+            "c": "Q. “우리는 그리스도 안에서 그의 은혜의 풍성함을 따라 그의 피로 말미암아 속량 곧 죄 사함을 받았느니라” 하는 말씀이 이해되었습니까?"
+          },
+          {
+            "t": "p",
+            "c": "Q. 예수의 피를 날마다 의지하며 살겠습니까?"
+          },
+          {
+            "t": "p",
+            "c": "Q. 매일 회개하며 믿음을 갱신하며 살겠습니까?"
+          },
+          {
+            "t": "p",
+            "c": "Q. 하나님의 자녀가 된 권세를 가지셨습니까?"
+          },
+          {
+            "t": "p",
+            "c": "Q. 양자도 친아들과 동등한 법적 지위와 권리를 갖게 됨을 이해했습니까?"
+          },
+          {
+            "t": "p",
+            "c": "Q. 기도하므로 하나님의 자녀 된 권세를 사용하며 살겠습니까?"
+          }
+        ]
+      },
+      {
+        "id": "223708132236",
+        "label": "I-4 · 종말론",
+        "title": "우리가 영원 후에 받을 신령한 복",
+        "sub": "",
+        "date": "2024.12.29",
+        "url": "https://blog.naver.com/meslap3/223708132236",
+        "blocks": [
+          {
+            "t": "h3",
+            "c": "본문 | 에베소서 1:8-12"
+          },
+          {
+            "t": "p",
+            "c": "8 이는 그가 모든 지혜와 총명을 우리에게 넘치게 하사 9 그 뜻의 비밀을 우리에게 알리신 것이요 그의 기뻐하심을 따라 그리스도 안에서 때가 찬 경륜을 위하여 예정하신 것이니 10 하늘에 있는 것이나 땅에 있는 것이 다 그리스도 안에서 통일되게 하려 하심이라 11 모든 일을 그의 뜻의 결정대로 일하시는 이의 계획을 따라 우리가 예정을 입어 그 안에서 기업이 되었으니 12 이는 우리가 그리스도 안에서 전부터 바라던 그의 영광의 찬송이 되게 하려 하심이라"
+          },
+          {
+            "t": "p",
+            "c": "우리는 하늘에 속한 모든 신령한 복을 받은 사람입니다. 창세 전에 그리스도 안에서 받았으며 현세에 예수 그리스도로 말미암아 받았습니다. 그리고 영원 후에 그리스도 안에서 받을 것입니다. 자세히 생각해 보겠습니다."
+          },
+          {
+            "t": "p",
+            "c": "첫째, 창세 전에 우리는 그리스도 안에서 하나님의 택하심을 받았습니다. 우리가 잘 생기거나 공부를 잘하거나 돈이 많아서 하나님이 우리를 택하신 것 아닙니다. 하나님이 우리를 사랑하시기에 택하셨습니다. 하나님의 기뻐하시는 뜻을 따라 우리를 택해주셨습니다. 우리를 하나님 앞에 거룩하고 흠이 없게 하시려고 택하셨으며 하나님의 은혜의 영광을 찬송하라고 택하셨습니다. 그래서 우리는 죄를 미워하며 거룩하게 살아야 합니다. 하나님의 은혜의 영광을 찬송하며 살아야 합니다."
+          },
+          {
+            "t": "p",
+            "c": "둘째, 현세에 우리는 그리스도로 말미암아 하나님의 은혜의 풍성함을 따라 죄를 용서받았습니다. 그리고 하나님의 아들과 딸이 되었습니다."
+          },
+          {
+            "t": "p",
+            "c": "우리는 예수 그리스도의 피로 속량 곧 죄 사함을 받았습니다. 예수 그리스도께서 우리 죄의 값을 대신 치르시고 나를 구원해 주셨습니다. 내가 받아야 할 지옥 형벌을 예수 그리스도께서 대신 받아 주셨습니다. 예수께서 십자가에서 피 흘려 죽음으로 나의 죗값을 대신 치러주시고 내가 받아야 할 지옥 형벌을 대신 받아 주셨습니다. 그리고 나를 죄의 형벌로부터 구원해 주셨습니다. 그 피로 내 죄를 사하시고 나를 구원해 주신 것입니다. 예수 그리스도께서 나의 죗값을 대신 치르시고 나를 구원해 주셨습니다."
+          },
+          {
+            "t": "p",
+            "c": "그리고 나를 자녀 삼아 주셨습니다. 우리는 예수 그리스도로 인하여 하나님의 자녀가 되었습니다. 영접하는 자 곧 그 이름을 믿음으로 하나님의 자녀가 되는 권세를 부여받았습니다. 그래서 우리는 하나님 아버지의 뜻을 받들어 섬기며 살아야 합니다. 이것이 하나님 아버지를 향한 나의 의무입니다. 그리고 기도로 하나님 아버지께 도움을 요청하며 살아야 합니다. 기도는 하나님의 자녀로서 우리의 권리입니다."
+          },
+          {
+            "t": "p",
+            "c": "셋째, 오늘 우리가 읽은 본문으로 영원 후 예수 그리스도 안에서 우리가 받을 신령한 복입니다. 때가 차면 하나님이 하신 모든 계획이 완성되어 그리스도 안에서 하늘과 땅이 하나로 통일되는 것입니다. 우리 구원이 완성되고 교회가 완성되는 것입니다. 지상교회와 천상교회가 예수 그리스도 안에서 하나가 되는 것입니다. 하나님 나라의 완성이며 극치입니다."
+          },
+          {
+            "t": "p",
+            "c": "오늘은 우리가 영원 후에 받을 신령한 복에 대해서 살펴보겠습니다."
+          },
+          {
+            "t": "h2",
+            "c": "첫째, 불신자의 죽음"
+          },
+          {
+            "t": "h2",
+            "c": "둘째, 신자의 죽음과 죽음 후에 받을 신령한 복"
+          },
+          {
+            "t": "h2",
+            "c": "셋째, 우리가 영원 후에 받을 신령한 복"
+          },
+          {
+            "t": "h2",
+            "c": "1. 불신자의 죽음"
+          },
+          {
+            "t": "p",
+            "c": "우리가 영원 후에 받을 신령한 복을 이해하기 위해서 우리는 먼저 성경이 말하는 네 가지 죽음을 이해해야 합니다. 영적인 죽음, 몸이 서서히 죽어가면서 생기는 고난과 고통, 몸의 죽음, 영원한 죽음 네 가지입니다. 죄를 짓고 타락한 상태에 빠진 모든 인간의 죽음입니다. 예수 그리스도를 믿기 이전 우리의 죽음이며 불신자의 죽음입니다. 자세히 살펴보겠습니다."
+          },
+          {
+            "t": "p",
+            "c": "첫째, 영적인 죽음입니다. 하나님의 생명에서 이탈하여 우리도 영이 죽은 자였습니다. 뿌리뽑힌 나무와 같습니다. 둘째, 몸이 서서히 병들어 죽어갑니다. 뿌리 뽑힌 나무가 자신의 생명과 수분을 소진하며 서서히 말라 비틀려 죽어가는 것과 같습니다. 셋째, 몸이 죽습니다. 몸과 영혼이 분리되어 죽게 됩니다. 몸은 흙으로 돌아가 산화되어 없어지고 영혼은 지옥에 가서 고통을 받게 됩니다."
+          },
+          {
+            "t": "p",
+            "c": "불신자 부자가 죽어 음부에 가서 고통을 당하고 있다"
+          },
+          {
+            "t": "p",
+            "c": "누가복음 16:22-24"
+          },
+          {
+            "t": "p",
+            "c": "22 이에 그 거지가 죽어 천사들에게 받들려 아브라함의 품에 들어가고 부자도 죽어 장사 되매 23 그가 음부에서 고통 중에 눈을 들어 멀리 아브라함과 그의 품에 있는 나사로를 보고 24 불러 이르되 아버지 아브라함이여 나를 긍휼히 여기사 나사로를 보내어 그 손가락 끝에 물을 찍어 내 혀를 서늘하게 하소서 내가 이 불꽃 가운데서 괴로워하나이다"
+          },
+          {
+            "t": "p",
+            "c": "넷째, 영원한 죽음에 처하게 됩니다. 최후 심판 때 흙으로 갔던 몸이 부활합니다. 그리고 지옥에 있던 영혼과 부활한 몸이 재결합하여 영원한 불 못에 들어가게 됩니다. 이것을 둘째 사망, 불 못, 영원한 죽음이라고 합니다."
+          },
+          {
+            "t": "p",
+            "c": "구원받지 못한 사람의 최후 상태는 영원히 불행한 상태입니다. 원수 마귀와 거짓 선지자를 위하여 예비된 영원한 불 못에 갇히게 됩니다. 하나님의 은총이 전혀 닫지 않는 곳입니다. 불신자도 이 땅에서는 일반 은총, 자연 은총을 받아 누립니다. 그래서 불신자도 이 땅에서 자녀도 낳고 손주도 보며 행복을 누립니다. 돈도 벌고 성공도 하고 명예도 얻으며 삶의 순간순간 복도 받고 행복도 누립니다."
+          },
+          {
+            "t": "p",
+            "c": "그러나 최종 심판 후에는 하나님의 일반 은총조차 전혀 없는 곳으로 들어가게 됩니다. 진리가 없이 거짓뿐입니다. 빛이 없이 어둠뿐입니다. 죄가 완전히 지배하고 원수 마귀와 귀신들이 함께 뒤엉켜 살고 있습니다. 적그리스도와 거짓 선지자들, 살인자와 사기꾼들, 각종 범죄자가 우글우글합니다. 인류 역사에 존재했던 모든 조직 폭력배와 마피아, 갱단이 서로 패권을 다툽니다. 착하고 얌전한 내 아들과 딸을 괴롭힙니다. 청송교도소나 쿠바의 관타나모 수용소와 비교도 되지 않습니다. 영혼과 육신의 극심한 고통과 끝없는 고난입니다. 양심의 가책과 고뇌, 실망과 좌절, 비애와 비탄, 이를 갈며 슬피 우는 곳입니다. 그래서 예수께서 손 하나를 가지고 천국에 가는 것이 두 손을 가지고 지옥에 가는 것보다 훨씬 좋다고 했습니다. 두 눈을 가지고 지옥 불에 떨어지는 것보다 한눈을 가지고 천국에 가는 것이 훨씬 좋다고 하셨습니다. 손이 잘리거나 눈이 하나 빠지면 얼마나 고통스럽겠습니까? 구더기도 죽지 않고 불도 꺼지지 않고 사람마다 오징어를 굽듯이 불로서 소금을 뿌려 튀는 것과 같은 고통이라고 합니다."
+          },
+          {
+            "t": "p",
+            "c": "마가복음 9:43-49"
+          },
+          {
+            "t": "p",
+            "c": "43 만일 네 손이 너를 범죄하게 하거든 찍어버리라 장애인으로 영생에 들어가는 것이 두 손을 가지고 지옥 곧 꺼지지 않는 불에 들어가는 것보다 나으니라 44 (없음) 45 만일 네 발이 너를 범죄하게 하거든 찍어버리라 다리 저는 자로 영생에 들어가는 것이 두 발을 가지고 지옥에 던져지는 것보다 나으니라 46 (없음) 47 만일 네 눈이 너를 범죄하게 하거든 빼버리라 한 눈으로 하나님의 나라에 들어가는 것이 두 눈을 가지고 지옥에 던져지는 것보다 나으니라 48 거기에서는 구더기도 죽지 않고 불도 꺼지지 아니하느니라 49 사람마다 불로써 소금 치듯 함을 받으리라"
+          },
+          {
+            "t": "p",
+            "c": "마태복음 25:41"
+          },
+          {
+            "t": "p",
+            "c": "또 왼편에 있는 자들에게 이르시되 저주를 받은 자들아 나를 떠나 마귀와 그 사자들을 위하여 예비 된 영원한 불에 들어가라"
+          },
+          {
+            "t": "h2",
+            "c": "2. 신자의 죽음과 죽음 후에 받을 신령한 복"
+          },
+          {
+            "t": "p",
+            "c": "예수 그리스도를 믿는 우리의 죽음을 살펴보겠습니다."
+          },
+          {
+            "t": "p",
+            "c": "첫째, 우리는 예수 그리스도를 믿고 영접하므로 영이 산자가 되었습니다 . 하나님께 죄를 회개하고 예수 그리스도를 믿음으로 하나님께 의롭다고 여김을 받게 되었습니다. 예수 그리스도를 믿음으로 하나님과 올바른 관계를 맺게 되었습니다. 종교적인 의를 획득하고 하나님의 신적인 생명을 공급받게 되었습니다. 예수 그리스도의 부활 생명을 획득하여 영이 산자가 되었습니다."
+          },
+          {
+            "t": "p",
+            "c": "둘째, 그러나 내 안에는 아직 타락한 이기적인 본성, 육신의 소욕이 남아 있습니다 . 아직 몸의 구속이 완성되지 않았습니다. 그래서 우리의 몸도 불신자와 마찬가지로 몸 안에 있는 죄로 인하여 서서히 병들어 죽어갑니다. 그러나 불신자와 다르게 영이 산자입니다."
+          },
+          {
+            "t": "p",
+            "c": "로마서 8:10"
+          },
+          {
+            "t": "p",
+            "c": "또 그리스도께서 너희 안에 계시면 몸은 죄로 말미암아 죽은 것이나 영은 의로 말미암아 살아 있는 것이니라"
+          },
+          {
+            "t": "p",
+            "c": "셋째, 몸과 영혼이 분리되어 죽게 됩니다 . 죽음과 동시에 내 영혼은 예수님이 계신 낙원으로 갑니다. 내 영혼의 성화가 완성되고 주님과 함께하며 안식을 누리게 됩니다. 내가 죽은 후부터 최후 심판 때까지 내 영혼이 누리게 되는 신령한 복입니다. 내 영혼이 예수 그리스도와 함께 낙원에서 왕 노릇 하며 평화와 쉼을 얻으며 안식하는 복입니다. 내가 죽은 후에 받게 될 신령한 복입니다. 아직 완성되거나 영원히 받을 복은 아닙니다."
+          },
+          {
+            "t": "p",
+            "c": "그리고 내 몸은 죄로 인하여 흙으로 돌아가 산화되어 없어집니다. 아직 몸의 구속이 완성되지 않았기 때문입니다. 아직 몸의 성화가 완성되지 않았기 때문입니다."
+          },
+          {
+            "t": "p",
+            "c": "오늘 네가 죽은 후 나와 함께 낙원에 있을 것이다"
+          },
+          {
+            "t": "p",
+            "c": "누가복음 23:42-43"
+          },
+          {
+            "t": "p",
+            "c": "42 이르되 예수여 당신의 나라에 임하실 때에 나를 기억하소서 하니 43 예수께서 이르시되 내가 진실로 네게 이르노니 오늘 네가 나와 함께 낙원에 있으리라 하시니라"
+          },
+          {
+            "t": "p",
+            "c": "바울이 원하는 바는 자신의 영혼이 몸을 떠나 그리스도와 함께 있는 것이다"
+          },
+          {
+            "t": "p",
+            "c": "고린도후서 5:6-9"
+          },
+          {
+            "t": "p",
+            "c": "6 그러므로 우리가 항상 담대하여 몸으로 있을 때에는 주와 따로 있는 줄을 아노니 7 이는 우리가 믿음으로 행하고 보는 것으로 행하지 아니함이로라 8 우리가 담대하여 원하는 바는 차라리 몸을 떠나 주와 함께 있는 그것이라 9 그런즉 우리는 몸으로 있든지 떠나든지 주를 기쁘시게 하는 자가 되기를 힘쓰노라"
+          },
+          {
+            "t": "p",
+            "c": "거지 나사로가 낙원에 가서 아브라함 품에 안겨 있다"
+          },
+          {
+            "t": "p",
+            "c": "누가복음 16:22-24"
+          },
+          {
+            "t": "p",
+            "c": "22 이에 그 거지가 죽어 천사들에게 받들려 아브라함의 품에 들어가고 부자도 죽어 장사 되매 23 그가 음부에서 고통 중에 눈을 들어 멀리 아브라함과 그의 품에 있는 나사로를 보고 24 불러 이르되 아버지 아브라함이여 나를 긍휼히 여기사 나사로를 보내어 그 손가락 끝에 물을 찍어 내 혀를 서늘하게 하소서 내가 이 불꽃 가운데서 괴로워하나이다"
+          },
+          {
+            "t": "p",
+            "c": "예수 그리스도를 믿지 않는 불신자의 죽음은 죄의 형벌에 따른 죽음입니다. 지옥 가기 위한 절차적인 죽음입니다. 그러나 예수 그리스도를 믿는 우리의 죽음은 죄의 형벌에 따른 죽음이 아닙니다. 지옥 가기 위한 절차적인 죽음이 아닙니다. 내가 받아야 할 지옥 형벌은 이미 우리 주님께서 대신 받아 주셨습니다. 내 죄에 대한 값을 대신 치르고 나의 죄를 용서해 주셨습니다. 나를 죄의 형벌적 책임에서 구원해 주셨습니다."
+          },
+          {
+            "t": "p",
+            "c": "예수 그리스도를 믿는 나의 죽음은 낙원에 가기 위한 절차적인 죽음입니다. 천국 가기 위한 절차적인 죽음입니다. 그리스도인의 죽음에 대한 정의입니다. 그래서 우리는 죽음을 두려워할 필요가 없습니다. 우리는 죽어야 낙원에 갈 수 있습니다. 우리는 죽어야 천국에 갈 수 있는 것입니다."
+          },
+          {
+            "t": "p",
+            "c": "Q. 예수 그리스도를 믿는 당신의 죽음이 낙원에 가기 위한 절차적인 죽음임을 이해했습니까?"
+          },
+          {
+            "t": "h2",
+            "c": "3. 우리가 영원 후에 받을 신령한 복"
+          },
+          {
+            "t": "p",
+            "c": "최후 심판 때가 되면 우리 주님께서 다시 오십니다. 이때 흙으로 돌아가 산화되었던 우리 몸이 부활합니다. 하나님이 내 안에 계신 성령을 통하여 나의 몸을 부활시키십니다. 나의 몸의 구속이 완성되고 나의 몸의 성화가 완성되는 것입니다."
+          },
+          {
+            "t": "p",
+            "c": "우리의 부활한 몸은 땅에 속한 몸이 아닙니다. 죄를 짓거나, 연약하여 병들거나 썩는 몸이 아닙니다. 하늘에 속한 신령한 몸입니다. 썩지 않는 몸이며 영광스럽고 강한 몸입니다."
+          },
+          {
+            "t": "p",
+            "c": "그리고 낙원에 있던 영혼과 부활한 몸이 재결합하여 나의 성화가 완성됩니다. 내가 영화롭게 되는 것입니다. 구원의 완성이고 절정입니다. 이런 상태로 영원히 주님과 함께하는 것입니다. 하나님의 은혜의 영광에 영원토록 동참하는 것입니다."
+          },
+          {
+            "t": "p",
+            "c": "하나님이 내 안에 계신 성령으로 나의 몸을 다시 살리신다"
+          },
+          {
+            "t": "p",
+            "c": "로마서 8:11"
+          },
+          {
+            "t": "p",
+            "c": "예수를 죽은 자 가운데서 살리신 이의 영이 너희 안에 거하시면 그리스도 예수를 죽은 자 가운데서 살리신 이가 너희 안에 거하시는 그의 영으로 말미암아 너희 죽을 몸도 살리시리라"
+          },
+          {
+            "t": "p",
+            "c": "우리의 부활한 몸은 썩지 않으며 영광스러우며 강하고 하늘에 속한 신령한 몸이다"
+          },
+          {
+            "t": "p",
+            "c": "고린도전서 15:42-49"
+          },
+          {
+            "t": "p",
+            "c": "42 죽은 자의 부활도 그와 같으니 썩을 것으로 심고 썩지 아니할 것으로 다시 살아나며 43 욕된 것으로 심고 영광스러운 것으로 다시 살아나며 약한 것으로 심고 강한 것으로 다시 살아나며 44 육의 몸으로 심고 신령한 몸으로 다시 살아나나니 육의 몸이 있은즉 또 영의 몸도 있느니라 45 기록된 바 첫 사람 아담은 생령이 되었다 함과 같이 마지막 아담은 살려 주는 영이 되었나니 46 그러나 먼저는 신령한 사람이 아니요 육의 사람이요 그 다음에 신령한 사람이니라 47 첫 사람은 땅에서 났으니 흙에 속한 자이거니와 둘째 사람은 하늘에서 나셨느니라 48 무릇 흙에 속한 자들은 저 흙에 속한 자와 같고 무릇 하늘에 속한 자들은 저 하늘에 속한 이와 같으니 49 우리가 흙에 속한 자의 형상을 입은 것 같이 또한 하늘에 속한 이의 형상을 입으리라"
+          },
+          {
+            "t": "p",
+            "c": "우리가 영원 후에 받을 신령한 복을 조금 더 자세히 살펴보겠습니다."
+          },
+          {
+            "t": "h2",
+            "c": "첫째, 부활한 몸으로 주님과 함께 영원히 살게 된다"
+          },
+          {
+            "t": "p",
+            "c": "둘째, 휘황찬란하게 아름다운 새 하늘과 새 땅에서 하나님의 은혜의 영광에 동참하며 하나님과 함께 영원히 살게 된다"
+          },
+          {
+            "t": "p",
+            "c": "새 하늘과 새 땅"
+          },
+          {
+            "t": "p",
+            "c": "요한계시록 21:1-2"
+          },
+          {
+            "t": "p",
+            "c": "또 내가 새 하늘과 새 땅을 보니 처음 하늘과 처음 땅이 없어졌고 바다도 다시 있지 않더라 2 또 내가 보매 거룩한 성 새 예루살렘이 하나님께로부터 하늘에서 내려오니 그 예비한 것이 신부가 남편을 위하여 단장한 것 같더라"
+          },
+          {
+            "t": "p",
+            "c": "휘황찬란하게 아름다운 곳"
+          },
+          {
+            "t": "p",
+            "c": "요한계시록 21:10-11…18-21"
+          },
+          {
+            "t": "p",
+            "c": "10 성령으로 나를 데리고 크고 높은 산으로 올라가 하나님께로부터 하늘에서 내려오는 거룩한 성 예루살렘을 보이니 11 하나님의 영광이 있으매 그 성의 빛이 지극히 귀한 보석 같고 벽옥과 수정 같이 맑더라 … 18 그 성곽은 벽옥으로 쌓였고 그 성은 정금인데 맑은 유리 같더라 19 그 성의 성곽의 기초석은 각색 보석으로 꾸몄는데 첫째 기초석은 벽옥이요 둘째는 남보석이요 셋째는 옥수요 넷째는 녹보석이요 20 다섯째는 홍마노요 여섯째는 홍보석이요 일곱째는 황옥이요 여덟째는 녹옥이요 아홉째는 담황옥이요 열째는 비취옥이요 열한째는 청옥이요 열두째는 자정이라 21 그 열두 문은 열두 진주니 문마다 한 진주요 성의 길은 맑은 유리 같은 정금이더라"
+          },
+          {
+            "t": "p",
+            "c": "하나님의 영광이 가득한 곳"
+          },
+          {
+            "t": "p",
+            "c": "요한계시록 21:22-27"
+          },
+          {
+            "t": "p",
+            "c": "22 성안에 성전을 내가 보지 못하였으니 이는 주 하나님 곧 전능하신 이와 및 어린 양이 그 성전이심이라 23 그 성은 해나 달의 비췸이 쓸데없으니 이는 하나님의 영광이 비취고 어린 양이 그 등이 되심이라 24 만국이 그 빛 가운데로 다니고 땅의 왕들이 자기 영광을 가지고 그리로 들어오리라 25 성문들을 낮에 도무지 닫지 아니하리니 거기는 밤이 없음이라 26 사람들이 만국의 영광과 존귀를 가지고 그리로 들어오겠고 27 무엇이든지 속된 것이나 가증한 일 또는 거짓말하는 자는 결코 그리로 들어오지 못하되 오직 어린 양의 생명책에 기록된 자들뿐이라"
+          },
+          {
+            "t": "h2",
+            "c": "셋째, 영원토록 죽음과 눈물, 슬픔과 아픔, 고통과 저주가 없는 삶이다"
+          },
+          {
+            "t": "p",
+            "c": "요한계시록 21:4"
+          },
+          {
+            "t": "p",
+            "c": "모든 눈물을 그 눈에서 씻기시매 다시 사망이 없고 애통하는 것이나 곡하는 것이나 아픈 것이 다시 있지 아니하리니 처음 것들이 다 지나갔음이러라"
+          },
+          {
+            "t": "p",
+            "c": "요한계시록 22:3"
+          },
+          {
+            "t": "p",
+            "c": "다시 저주가 없으며 하나님과 그 어린 양의 보좌가 그 가운데 있으리니 그의 종들이 그를 섬기며"
+          },
+          {
+            "t": "h2",
+            "c": "넷째, 상과 면류관을 받는다"
+          },
+          {
+            "t": "p",
+            "c": "전도한 사람은 자랑의 면류관을 받는다"
+          },
+          {
+            "t": "p",
+            "c": "데살로니가전서 2:19"
+          },
+          {
+            "t": "p",
+            "c": "우리의 소망이나 기쁨이나 자랑의 면류관이 무엇이냐 그의 강림하실 때 우리 주 예수 앞에 너희가 아니냐"
+          },
+          {
+            "t": "p",
+            "c": "시험을 참고 인내한 사람은 생명의 면류관을 받는다"
+          },
+          {
+            "t": "p",
+            "c": "야고보서 1:12"
+          },
+          {
+            "t": "p",
+            "c": "시험을 참는 자는 복이 있도다 이것이 옳다 인정하심을 받은 후에 주께서 자기를 사랑하는 자들에게 약속하신 생명의 면류관을 얻을 것임이니라"
+          },
+          {
+            "t": "p",
+            "c": "충성한 사람은 생명의 면류관을 받는다"
+          },
+          {
+            "t": "p",
+            "c": "요한계시록 2:10"
+          },
+          {
+            "t": "p",
+            "c": "네가 장차 받을 고난을 두려워 말라 볼지어다 마귀가 장차 너희 가운데서 몇 사람을 옥에 던져 시험을 받게 하리니 너희가 십 일 동안 환난을 받으리라 네가 죽도록 충성하라 그리하면 내가 생명의 면류관을 네게 주리라"
+          },
+          {
+            "t": "p",
+            "c": "기꺼이 즐거운 마음으로 성도를 보살핀 사람은 영광의 면류관을 받는다"
+          },
+          {
+            "t": "p",
+            "c": "베드로전서 5:2-4"
+          },
+          {
+            "t": "p",
+            "c": "2 너희 중에 있는 하나님의 양 무리를 치되 부득이함으로 하지 말고 오직 하나님의 뜻을 좇아 자원함으로 하며 더러운 이를 위하여 하지 말고 오직 즐거운 뜻으로 하며 3 맡기운 자들에게 주장하는 자세를 하지 말고 오직 양 무리의 본이 되라 4 그리하면 목자장이 나타나실 때에 시들지 아니하는 영광의 면류관을 얻으리라"
+          },
+          {
+            "t": "p",
+            "c": "주의 나타남을 사모하는 사람은 의의 면류관을 받는다"
+          },
+          {
+            "t": "p",
+            "c": "디모데후서 4:8"
+          },
+          {
+            "t": "p",
+            "c": "이제 후로는 나를 위하여 의의 면류관이 예비되었으므로 주 곧 의로우신 재판장이 그 날에 내게 주실 것이니 내게만 아니라 주의 나타나심을 사모하는 모든 자에게니라"
+          },
+          {
+            "t": "p",
+            "c": "주님을 위하여 냉수 한잔을 대접한 작은 일에도 결단코 상을 잃지 않는다"
+          },
+          {
+            "t": "p",
+            "c": "마태복음 10:40-42"
+          },
+          {
+            "t": "p",
+            "c": "40 너희를 영접하는 자는 나를 영접하는 것이요 나를 영접하는 자는 나를 보내신 이를 영접하는 것이니라 41 선지자의 이름으로 선지자를 영접하는 자는 선지자의 상을 받을 것이요 의인의 이름으로 의인을 영접하는 자는 의인의 상을 받을 것이요 42 또 누구든지 제자의 이름으로 이 작은 자 중 하나에게 냉수 한 그릇이라도 주는 자는 내가 진실로 너희에게 이르노니 그 사람이 결단코 상을 잃지 아니하리라 하시니라"
+          },
+          {
+            "t": "p",
+            "c": "질문으로 말씀을 맺겠습니다"
+          },
+          {
+            "t": "p",
+            "c": "Q. 불신자의 죽음 네 가지를 이해했습니까?"
+          },
+          {
+            "t": "p",
+            "c": "Q. 당신의 죽음이 천국에 가기 위한 절차입니까? 아니면 죄에 대한 형벌입니까?"
+          },
+          {
+            "t": "p",
+            "c": "Q. 당신이 죽은 후부터 최후 심판 때까지 받을 신령한 복을 이해했습니까?"
+          },
+          {
+            "t": "p",
+            "c": "Q. 당신이 영원 후에 받을 신령한 복을 이해했습니까?"
+          },
+          {
+            "t": "p",
+            "c": "Q. 당신은 몸이 부활하여 새 하늘과 새 땅에서 하나님과 함께 영원히 살게 됩니까?"
+          },
+          {
+            "t": "p",
+            "c": "Q. 당신은 몸이 부활하여 죽음과 눈물, 슬픔과 아픔, 고통과 저주가 없이 영원히 살게 됩니까?"
+          },
+          {
+            "t": "p",
+            "c": "Q. 당신은 몸이 부활하여 상이나 면류관을 받게 됩니까?"
+          }
+        ]
+      }
+    ]
+  }
+];
+
+/* ── 상태 ── */
+let flatList = [];   // 전체 글 펼친 배열
+let curIdx   = 0;
+let fontLv   = 1;
+let pageMode = false, pageIdx = 0, pageCount = 1, pendingLastPage = false;
+const PAGE_M = 24;   // 페이지 좌우 여백(px)
+const fsSizes = [14,16,18,20,22];
+const fsNames = ['작게','보통','조금 크게','크게','아주 크게'];
+// 글꼴 5종 (CSS 변수 --reader-font 만 교체)
+const FONTS = [
+  { key:'noto',        stack:"'Noto Serif KR',Georgia,serif" },
+  { key:'nanummyeong', stack:"'Nanum Myeongjo',serif" },
+  { key:'gowun',       stack:"'Gowun Batang',serif" },
+  { key:'pretendard',  stack:"'Pretendard Variable',Pretendard,-apple-system,sans-serif" },
+  { key:'nanumgothic', stack:"'Nanum Gothic',sans-serif" },
+];
+let fontKey = 'noto';
+// 줄간격 4단계 (CSS 변수 --reader-lh)
+const LHS = [1.6, 1.9, 2.2, 2.5];
+const LHN = ['좁게','보통','넓게','아주넓게'];
+let lhLv = 1;
+const appEl  = document.getElementById('app');
+
+/* ── 책별 표지 모티프 (금색 라인 SVG · 1.5px · currentColor) ──
+   주제를 상징하는 절제된 선화. 표지/서재칩/도서안내칩에서 공통 사용. */
+const MOTIFS = {
+  dove:    `<path d="M3.5 9.5C8 7 11.5 8.5 13.5 11.8c1.3 2.1 3.4 3.2 6.5 2.8-1.6 2.6-4.6 3.7-7.3 2.6"/><path d="M13.5 11.8L11 18"/><path d="M6.2 8.2L4.3 6"/>`,
+  lamp:    `<path d="M9.5 4.5h5"/><path d="M12 4.5V6.5"/><path d="M8.2 6.5h7.6l1 11.5H7.2z"/><path d="M12 9.2c1.4 1.4 1.4 3 0 4.3-1.4-1-1.4-2.9 0-4.3z"/>`,
+  flame:   `<path d="M12 3.5c2 3 4 4.6 4 8.1a4 4 0 0 1-8 0c0-1.6.6-2.9 1.7-4C10.2 8.2 11.2 6.2 12 3.5z"/><path d="M12 11.2c1 1 1.1 2.1.3 3.1a1.7 1.7 0 0 1-2.5-.9c0-.8.5-1.5 1.2-2z"/>`,
+  home:    `<path d="M4 11.2L12 5l8 6.2"/><path d="M6 10.2v8h12v-8"/><path d="M12 17.4l-1.8-1.8c-.8-.8-.2-2.1.9-2.1.5 0 .9.4.9.4s.4-.4.9-.4c1.1 0 1.7 1.3.9 2.1z"/>`,
+  hands:   `<path d="M12 5.2C10.4 7.3 9.4 10.2 9.4 13.7c0 2 .9 3.4 2.6 4.3"/><path d="M12 5.2c1.6 2.1 2.6 5 2.6 8.5 0 2-.9 3.4-2.6 4.3"/><path d="M8.8 18h6.4"/>`,
+  book:    `<path d="M12 6.4C9.8 5 6.8 5 4 6.2v11.6c2.8-1.2 5.8-1.2 8 .2"/><path d="M12 6.4C14.2 5 17.2 5 20 6.2v11.6c-2.8-1.2-5.8-1.2-8 .2"/><path d="M12 6.4v11.6"/>`,
+  trinity: `<circle cx="12" cy="8" r="3.3"/><circle cx="8.6" cy="14" r="3.3"/><circle cx="15.4" cy="14" r="3.3"/>`,
+  dust:    `<path d="M4.5 17.5c2.2-3.6 4.8-5.4 7.5-5.4s5.3 1.8 7.5 5.4"/><circle cx="9" cy="9" r=".7" fill="currentColor" stroke="none"/><circle cx="12.6" cy="6.8" r=".7" fill="currentColor" stroke="none"/><circle cx="15.8" cy="9.4" r=".7" fill="currentColor" stroke="none"/><circle cx="11.4" cy="10.6" r=".7" fill="currentColor" stroke="none"/>`,
+  cross:   `<path d="M12 4v16"/><path d="M7 9.2h10"/>`,
+  anchor:  `<circle cx="12" cy="5.4" r="1.9"/><path d="M12 7.3V18.5"/><path d="M8.8 10.2h6.4"/><path d="M5 13.8c0 3.2 3.1 5.2 7 5.2s7-2 7-5.2"/><path d="M5 13.8l-1.4 1.2M5 13.8l1.9.6"/><path d="M19 13.8l1.4 1.2M19 13.8l-1.9.6"/>`,
+  fire:    `<path d="M12 5c1.5 2.1 2.3 3.6 2.3 5.5a2.3 2.3 0 0 1-4.6 0C9.7 8.6 10.5 7 12 5z"/><path d="M7.6 9.4c.9 1.2 1.3 2.1 1.3 3.2a1.6 1.6 0 0 1-3.2 0c0-1.1.9-2.2 1.9-3.2z"/><path d="M16.4 9.4c-.9 1.2-1.3 2.1-1.3 3.2a1.6 1.6 0 0 0 3.2 0c0-1.1-.9-2.2-1.9-3.2z"/>`,
+  pillar:  `<path d="M6 6.5h12"/><path d="M7.2 6.5l1-2h7.6l1 2"/><path d="M6 18.5h12"/><path d="M8.8 6.5v12"/><path d="M12 6.5v12"/><path d="M15.2 6.5v12"/>`,
+  star:    `<path d="M12 4l2.05 4.95 5.35.43-4.07 3.5 1.24 5.22L12 15.9l-4.57 2.7 1.24-5.22-4.07-3.5 5.35-.43z"/>`,
+};
+function motifSVG(key, cls) {
+  const inner = key && MOTIFS[key];
+  if (!inner) return '';
+  return `<svg class="${cls || ''}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${inner}</svg>`;
+}
+
+/* ── 초기화 ── */
+function init() {
+  if (!BOOK_CHAPTERS || !BOOK_CHAPTERS.length) return;
+
+  restorePrefs();
+
+  // 책 메타(표지) 주입 — books.config.json 기반
+  if (typeof BOOK_META === 'object' && BOOK_META) {
+    const set = (id, html) => { const el = document.getElementById(id); if (el && html != null) el.innerHTML = html; };
+    // 시리즈 키커(권 표기는 분리 표기) + 권 + 모티프
+    let seriesText = BOOK_META.series || '';
+    if (BOOK_META.volume) seriesText = seriesText.replace(/\s*·\s*제?\s*\d+\s*권.*$/, '').trim();
+    set('coverSeries', seriesText);
+    const volEl = document.getElementById('coverVol');
+    if (volEl) {
+      if (BOOK_META.volume) { volEl.textContent = BOOK_META.volume; volEl.style.display = ''; }
+      else volEl.style.display = 'none';
+    }
+    const motifEl = document.getElementById('coverMotif');
+    if (motifEl) motifEl.innerHTML = motifSVG(BOOK_META.coverMotif, 'c-motif-svg');
+    // 키비주얼 — 큰 모티프 워터마크(같은 책 모티프, 금박톤 저불투명도)
+    const wmEl = document.getElementById('coverWm');
+    if (wmEl) wmEl.innerHTML = motifSVG(BOOK_META.coverMotif, 'c-wm-svg');
+    // 시리즈 엠블럼 — 발행처 모노그램 + 워드마크(시리즈 일관 아이덴티티)
+    if (typeof PUBLISHER === 'object' && PUBLISHER && PUBLISHER.name) {
+      const mono = document.getElementById('coverMono');
+      const wmk  = document.getElementById('coverWordmark');
+      if (mono) mono.textContent = (PUBLISHER.name.trim()[0] || 'M').toUpperCase();
+      if (wmk)  wmk.textContent  = PUBLISHER.name;
+    }
+    set('coverTitle',  BOOK_META.title);
+    set('coverSub',    BOOK_META.subtitle);
+    set('coverAuthor', BOOK_META.author);
+    set('coverChurch', BOOK_META.church);
+    if (BOOK_META.title) document.title = 'MESLAP — ' + BOOK_META.title.replace(/<br>/g, ' ');
+    // 표지 그라디언트 (책별 색)
+    if (BOOK_META.coverFrom && BOOK_META.coverTo) {
+      const cover = document.getElementById('cover');
+      if (cover) cover.style.background =
+        `linear-gradient(170deg, ${BOOK_META.coverFrom} 0%, ${BOOK_META.coverTo} 100%)`;
+    }
+    // 목차 헤더
+    const th = document.querySelector('.toc-hd-s');
+    if (th && BOOK_META.series) th.textContent = BOOK_META.series.replace(/ · .*/, '');
+  }
+
+  // 전체 글 flat 배열
+  BOOK_CHAPTERS.forEach(ch => ch.articles.forEach(a => {
+    flatList.push({ ...a, catName: ch.catName, cat: ch.cat });
+  }));
+
+  // 표지 메타
+  const total = flatList.length;
+  const cats  = BOOK_CHAPTERS.length;
+  document.getElementById('coverMeta').innerHTML =
+    `<span>전 ${cats}장</span><span class="dot"></span><span>설교 ${total}편</span>`;
+
+  renderTOC();
+  renderArt(0);
+
+  // 랜딩·서재 렌더 + 초기 화면 라우팅
+  renderLanding();
+  renderShelf();
+  renderAbout();
+  renderCatalog();
+  renderLegal();
+  routeStart();
+}
+
+/* ── 인증(프로토타입: 로컬 저장. 추후 Supabase Auth로 대체) ── */
+const AUTH_KEY = 'meslap_user';
+let authMode = 'signup';
+function getUser() {
+  try { return JSON.parse(localStorage.getItem(AUTH_KEY) || 'null'); } catch { return null; }
+}
+function routeStart() {
+  const u = getUser();
+  if (u) { greet(u); go('library'); }
+  else { go('landing'); }
+}
+function enterAsGuest() { go('library'); }     // 둘러보기(비로그인)
+function toggleAuthMode() {
+  authMode = authMode === 'signup' ? 'login' : 'signup';
+  const signup = authMode === 'signup';
+  document.getElementById('authTitle').textContent  = signup ? '회원가입' : '로그인';
+  document.getElementById('authLead').textContent   = signup ? '가입하면 무료책을 바로 읽을 수 있어요.' : '다시 오신 걸 환영합니다.';
+  document.getElementById('authSubmit').textContent = signup ? '가입하고 시작하기' : '로그인';
+  document.getElementById('authToggle').textContent = signup ? '이미 계정이 있어요 · 로그인' : '계정이 없어요 · 회원가입';
+  document.getElementById('fldName').style.display  = signup ? 'block' : 'none';
+}
+function submitAuth() {
+  const name  = document.getElementById('inName').value.trim();
+  const email = document.getElementById('inEmail').value.trim();
+  const pw    = document.getElementById('inPw').value.trim();
+  if (!email || !pw || (authMode === 'signup' && !name)) {
+    alert('필요한 정보를 모두 입력해 주세요.');
+    return;
+  }
+  const user = { name: name || email.split('@')[0], email, tier: 'free' };
+  localStorage.setItem(AUTH_KEY, JSON.stringify(user));
+  greet(user);
+  go('library');
+}
+function signOut() {
+  localStorage.removeItem(AUTH_KEY);
+  go('landing');
+}
+function greet(u) {
+  const el = document.getElementById('libHi');
+  if (el) el.textContent = `${u.name}님, 안녕하세요`;
+}
+/* ── 소셜 로그인 (Supabase OAuth 연동 전: 안내 메시지) ──
+   Supabase 키 연동 후:
+     supabase.auth.signInWithOAuth({ provider: 'kakao' | 'google' })
+     네이버는 Supabase custom OAuth provider(kakao처럼 설정) 또는 별도 구성 */
+function socialLogin(provider) {
+  const names = { kakao:'카카오', naver:'네이버', google:'Google' };
+  alert(`${names[provider]} 로그인은 Supabase 연동 후 활성화됩니다.\n지금은 이메일로 가입해 주세요.`);
+}
+
+/* ── 리플 효과: 모든 .btn-p .btn-t .social-btn .tb-btn .ctrl-btn ── */
+function addRipple(el) {
+  el.addEventListener('click', function(e) {
+    const r = document.createElement('span');
+    r.className = 'ripple-ink';
+    const rc = el.getBoundingClientRect();
+    const sz = Math.max(rc.width, rc.height);
+    r.style.cssText = `width:${sz}px;height:${sz}px;left:${e.clientX - rc.left - sz/2}px;top:${e.clientY - rc.top - sz/2}px`;
+    el.appendChild(r);
+    r.addEventListener('animationend', () => r.remove(), { once: true });
+  });
+}
+function initRipples() {
+  document.querySelectorAll('.btn-p,.btn-t,.social-btn,.tb-btn,.ctrl-btn').forEach(addRipple);
+}
+
+/* ── 서재 카드 stagger reveal ── */
+function revealShelf() {
+  const cards = document.querySelectorAll('#shelf .bk, #shelf .pass-card');
+  cards.forEach((c, i) => {
+    c.classList.remove('revealed');
+    c.style.opacity = '0';
+    setTimeout(() => {
+      c.style.opacity = '';
+      c.classList.add('revealed');
+      c.style.animationDelay = (i * 0.07) + 's';
+    }, 20);
+  });
+}
+
+/* ── 랜딩 렌더 ── */
+function renderLanding() {
+  if (typeof PUBLISHER === 'object' && PUBLISHER) {
+    if (PUBLISHER.korName) document.getElementById('lpKicker').textContent = PUBLISHER.korName;
+    if (PUBLISHER.name)    document.getElementById('lpBrand').textContent = PUBLISHER.name;
+    if (PUBLISHER.tagline) document.getElementById('lpTagline').textContent = PUBLISHER.tagline;
+    const wrap = (lbl, arr) => !arr || !arr.length ? '' :
+      `<div class="lp-sec"><div class="lp-sec-lbl">${lbl}</div>${arr.map(p => `<p>${p}</p>`).join('')}</div>`;
+    document.getElementById('lpBody').innerHTML =
+      wrap('출간 배경', PUBLISHER.background) + wrap('이 책의 목적', PUBLISHER.purpose);
+  }
+  if (typeof BOOK_META === 'object' && BOOK_META) {
+    if (BOOK_META.author) document.getElementById('lpAuthor').textContent = BOOK_META.author;
+    if (BOOK_META.church) document.getElementById('lpChurch').textContent = BOOK_META.church;
+  }
+}
+
+/* ── 서재 렌더 ── */
+function renderShelf() {
+  const shelf = document.getElementById('shelf');
+  const catalog = (typeof BOOK_CATALOG !== 'undefined' && BOOK_CATALOG.length)
+    ? BOOK_CATALOG
+    : [{ ...BOOK_META, current: true }];
+
+  // 전권 패스 배너
+  let html = '';
+  if (typeof PASS === 'object' && PASS && PASS.price) {
+    html += `<div class="pass-card" onclick="alert('전권 패스는 결제 연동 후 제공됩니다.')">
+      <div class="pass-info">
+        <div class="pass-title">${PASS.title}</div>
+        <div class="pass-desc">${PASS.desc}</div>
+      </div>
+      <div class="pass-price">₩${PASS.price.toLocaleString()}</div>
+    </div>`;
+  }
+
+  html += catalog.map(b => {
+    const grad = `linear-gradient(150deg, ${b.coverFrom || '#1A5C3A'}, ${b.coverTo || '#2D8A55'})`;
+    const plain = (b.title || '').replace(/<br>/g, ' ');
+    const tag = b.free
+      ? `<span class="bk-tag free">무료</span>`
+      : `<span class="bk-tag paid">₩${(b.price || 0).toLocaleString()} · 잠금</span>`;
+    const openable = b.current;
+    const onclick = openable ? `onclick="openBook()"` : '';
+    return `<div class="bk ${openable ? '' : 'locked'}" ${onclick}>
+      <div class="bk-cover" style="background:${grad}">${motifSVG(b.coverMotif,'bk-cover-wm')}${motifSVG(b.coverMotif,'chip-motif')}<span>${plain}</span></div>
+      <div class="bk-info">
+        <div class="bk-series">${(b.series || '').replace(/ · .*/, '')}</div>
+        <div class="bk-title">${plain}</div>
+        <div class="bk-sub">${b.subtitle || ''}</div>
+        ${tag}
+      </div>
+    </div>`;
+  }).join('');
+  shelf.innerHTML = html;
+  // 카드 stagger reveal 애니메이션
+  requestAnimationFrame(revealShelf);
+}
+function openBook() { go('cover'); }
+
+/* ── 소개 렌더 ── */
+function renderAbout() {
+  if (typeof ABOUT !== 'object' || !ABOUT) return;
+  const setName = (id, v) => { const el = document.getElementById(id); if (el && v) el.textContent = v; };
+  const setBody = (id, lines) => { const el = document.getElementById(id); if (el) el.innerHTML = (lines || []).map(l => `<p>${l}</p>`).join(''); };
+  if (ABOUT.author) { setName('aboutAuthorName', ABOUT.author.name); setBody('aboutAuthorBody', ABOUT.author.lines); }
+  if (ABOUT.church) { setName('aboutChurchName', ABOUT.church.name); setBody('aboutChurchBody', ABOUT.church.lines); }
+}
+
+/* ── 도서 안내 렌더 ── */
+function renderCatalog() {
+  const cat = (typeof BOOK_CATALOG !== 'undefined' && BOOK_CATALOG.length) ? BOOK_CATALOG : [];
+  if (!cat.length) return;
+  const total = cat.length;
+  const free = cat.filter(b => b.free).length;
+  const pub = (typeof PUBLISHER === 'object' && PUBLISHER) ? PUBLISHER.name : 'MeslapBooks';
+  document.getElementById('cgDesc').innerHTML =
+    `${pub}는 박상혁 목사의 말씀 묵상을 주제별로 엮은 <b>전 ${total}권</b>을 담고 있습니다. ` +
+    `무료책 ${free}권으로 시작해, 복된 삶·복된 교회·복된 가정 시리즈와 조직신학 7권으로 이어집니다.`;
+
+  // 시리즈(트랙)별 묶기
+  const trackOf = s => (s || '기타').split(' · ')[0];
+  const order = [];
+  const groups = {};
+  cat.forEach(b => { const t = trackOf(b.series); if (!groups[t]) { groups[t] = []; order.push(t); } groups[t].push(b); });
+
+  let html = '';
+  order.forEach(t => {
+    html += `<div class="cg-track">${t}</div>`;
+    groups[t].forEach(b => {
+      const grad = `linear-gradient(150deg, ${b.coverFrom || '#1A5C3A'}, ${b.coverTo || '#2D8A55'})`;
+      const price = b.free ? '무료' : `₩${(b.price || 0).toLocaleString()}`;
+      html += `<div class="cg-bk">
+        <div class="cg-chip" style="background:${grad}">${motifSVG(b.coverMotif,'cg-chip-wm')}${motifSVG(b.coverMotif,'cg-motif')}</div>
+        <div class="cg-info">
+          <div class="cg-t">${(b.title || '').replace(/<br>/g, ' ')}</div>
+          <div class="cg-s">${b.subtitle || ''}</div>
+        </div>
+        <div class="cg-meta">${price}<span class="cnt">${b.count != null ? b.count + '편' : ''}</span></div>
+      </div>`;
+    });
+  });
+  document.getElementById('catalogList').innerHTML = html;
+}
+
+/* ── 약관·정책 렌더 ── */
+function renderLegal() {
+  if (typeof LEGAL !== 'object' || !LEGAL) return;
+  const intro = document.getElementById('lgIntro');
+  if (intro) intro.textContent = LEGAL.intro || '';
+  // 성경 저작권 고지 배너
+  const bibleTxt = document.getElementById('lgBibleTxt');
+  const bibleBox = document.getElementById('lgBible');
+  if (bibleTxt && LEGAL.bibleNotice) bibleTxt.textContent = LEGAL.bibleNotice;
+  else if (bibleBox) bibleBox.style.display = 'none';
+  const note = document.getElementById('lgNote');
+  if (note) note.textContent = LEGAL.footnote || '';
+  const list = document.getElementById('legalList');
+  if (!list) return;
+  const secs = LEGAL.sections || [];
+  list.innerHTML = secs.map((s, i) => `
+    <div class="lg-sec" id="leg-${i}">
+      <div class="lg-sec-head" onclick="togLeg(${i})">
+        <span class="lg-sec-title">${s.title || ''}</span>
+        <svg class="lg-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="lg-wrap"><div class="lg-inner"><div class="lg-body">
+        ${(s.body || []).map(p => `<p>${p}</p>`).join('')}
+      </div></div></div>
+    </div>`).join('');
+  // 첫 섹션 펼쳐 보이기
+  if (secs.length) togLeg(0, true);
+}
+function togLeg(idx, forceOpen) {
+  const el = document.getElementById('leg-' + idx);
+  if (!el) return;
+  if (forceOpen) { el.classList.add('open'); return; }
+  el.classList.toggle('open');
+}
+/* 약관·정책 진입/복귀 — 진입한 화면으로 되돌아감 */
+let legalReturn = 'about';
+function openLegal(from) { legalReturn = from || 'about'; go('legal'); }
+function goBackFromLegal() { go(legalReturn || 'about'); }
+
+/* ── 뷰 전환 ── */
+function go(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (id === 'contents') renderTOC();
+}
+function startReading() { openArt(0); }
+function openArt(idx) {
+  curIdx = idx;
+  renderArt(idx);
+  go('reader');
+  if (pageMode) {
+    pageIdx = 0;
+    // 레이아웃이 확정된 뒤(폰트 로드 포함) 페이지 적용
+    relayoutPages(() => {
+      if (pendingLastPage) { pageIdx = Math.max(0, pageCount - 1); pendingLastPage = false; applyPageTransform(); }
+    });
+  } else {
+    document.getElementById('rScroll').scrollTop = 0;
+    updProg();
+  }
+}
+function prevArt() { if (curIdx > 0) openArt(curIdx - 1); }
+function nextArt() { if (curIdx < flatList.length - 1) openArt(curIdx + 1); }
+
+/* ── 페이지 넘김 모드 ── */
+function setReadMode(m) {
+  pageMode = (m === 'page');
+  try { localStorage.setItem('meslap_readmode', m); } catch (e) {}
+  rScroll.classList.toggle('paged', pageMode);
+  document.getElementById('pageInd').style.display = pageMode ? 'block' : 'none';
+  document.querySelectorAll('.rm-opt').forEach(o => o.classList.toggle('sel', o.dataset.m === m));
+  const c = document.getElementById('rContent');
+  if (!pageMode) {
+    c.style.transform = ''; c.style.height = '';
+    c.style.columnWidth = ''; c.style.columnGap = '';
+    c.style.paddingLeft = ''; c.style.paddingRight = '';
+    rScroll.scrollTop = 0; updProg();
+  } else {
+    pageIdx = 0;
+    relayoutPages();
+  }
+}
+/* 견고한 페이지 재측정: 더블 rAF + document.fonts.ready 후 재측정.
+   0폭/0높이면 가드 후 재시도. 레이아웃 확정 콜백(done)에서 후처리. */
+function relayoutPages(done) {
+  if (!pageMode) return;
+  const measure = (cb) => {
+    let tries = 0;
+    const run = () => {
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        // 0폭/0높이(아직 레이아웃 미확정)면 가드 후 재시도
+        if ((rScroll.clientWidth === 0 || rScroll.clientHeight === 0) && tries++ < 12) {
+          setTimeout(run, 32);
+          return;
+        }
+        layoutPages();
+        if (typeof cb === 'function') cb();
+      }));
+    };
+    run();
+  };
+  // 1차(즉시) 측정 → 웹폰트 로드 완료 후 재측정으로 다단 레이아웃 확정
+  measure(() => {
+    if (document.fonts && document.fonts.ready && typeof document.fonts.ready.then === 'function') {
+      document.fonts.ready.then(() => measure(done));
+    } else if (typeof done === 'function') {
+      done();
+    }
+  });
+}
+function layoutPages() {
+  if (!pageMode) return;
+  const V = rScroll.clientWidth;
+  const c = document.getElementById('rContent');
+  c.style.height      = rScroll.clientHeight + 'px';
+  c.style.columnWidth = (V - PAGE_M * 2) + 'px';
+  c.style.columnGap   = (PAGE_M * 2) + 'px';
+  c.style.paddingLeft = PAGE_M + 'px';
+  c.style.paddingRight = PAGE_M + 'px';
+  // 0폭 가드 — 측정 불가 시 기존값 유지
+  if (V <= 0) return;
+  // Math.ceil 로 마지막 페이지 누락 방지
+  pageCount = Math.max(1, Math.ceil(c.scrollWidth / V));
+  if (pageIdx >= pageCount) pageIdx = pageCount - 1;
+  if (pageIdx < 0) pageIdx = 0;
+  applyPageTransform();
+}
+function applyPageTransform() {
+  const V = rScroll.clientWidth;
+  document.getElementById('rContent').style.transform = `translateX(${-pageIdx * V}px)`;
+  updProg();
+}
+function goPage(i) {
+  // 경계 방어: 페이지 모드인데 pageCount가 1로 오계산된 상태면 1회 재측정 후 판단
+  if (pageMode && pageCount <= 1) layoutPages();
+  if (i < 0) { if (curIdx > 0) { pendingLastPage = true; openArt(curIdx - 1); } return; }
+  if (i >= pageCount) { if (curIdx < flatList.length - 1) openArt(curIdx + 1); return; }
+  pageIdx = i; applyPageTransform();
+}
+// 하단 이전/다음 — 페이지 모드는 페이지 넘김, 스크롤 모드는 글 이동
+function pageNext() { if (pageMode) goPage(pageIdx + 1); else nextArt(); }
+function pagePrev() { if (pageMode) goPage(pageIdx - 1); else prevArt(); }
+
+/* ── 목차 렌더 ── */
+function renderTOC() {
+  let html = '';
+  BOOK_CHAPTERS.forEach((ch, ci) => {
+    html += `
+      <div class="toc-cat" id="cat-${ci}">
+        <div class="toc-cat-head" onclick="togCat(${ci})">
+          <div class="toc-cat-left">
+            <span class="toc-cat-num">${ch.cat}</span>
+            <span class="toc-cat-name">${ch.catName}</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="toc-cat-cnt">${ch.articles.length}편</span>
+            <svg class="toc-cat-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+        </div>
+        <div class="toc-items-wrap"><div class="toc-items-inner">`;
+    ch.articles.forEach((a, ai) => {
+      const gIdx = flatList.findIndex(f => f.id === a.id);
+      const isCurr = gIdx === curIdx;
+      html += `<div class="toc-art ${isCurr ? 'curr' : ''}" onclick="openArt(${gIdx})">
+        <span class="toc-art-title">${a.title.replace(/<br>/g,' ')}</span>
+      </div>`;
+    });
+    html += `</div></div></div>`;
+  });
+  document.getElementById('tocList').innerHTML = html;
+
+  // 현재 읽는 대분류 열기
+  const curArt = flatList[curIdx];
+  if (curArt) {
+    const ci = BOOK_CHAPTERS.findIndex(ch => ch.catName === curArt.catName);
+    if (ci >= 0) togCat(ci, true);
+  }
+}
+
+function togCat(idx, forceOpen) {
+  const el = document.getElementById('cat-' + idx);
+  if (!el) return;
+  if (forceOpen) { el.classList.add('open'); return; }
+  el.classList.toggle('open');
+}
+
+/* ── 본문 렌더 ── */
+function renderArt(idx) {
+  const a = flatList[idx];
+  if (!a) return;
+
+  document.getElementById('rTopLabel').textContent = a.cat + '. ' + a.catName;
+
+  let html = `
+    <div class="r-lbl">${a.label}</div>
+    <h1 class="r-title">${a.title}</h1>
+    ${a.sub ? `<p class="r-sub">${a.sub}</p>` : ''}
+    <div class="r-div"></div>`;
+
+  (a.blocks || []).forEach(b => {
+    if      (b.t === 'h2') html += `<h2 class="r-h2">${b.c}</h2>`;
+    else if (b.t === 'h3') html += `<h3 class="r-h3">${b.c}</h3>`;
+    else if (b.t === 'heading') { const lv = b.lvl === 2 ? 2 : 3; html += `<h${lv} class="r-h${lv}">${b.c}</h${lv}>`; }
+    else if (b.t === 'lead') html += `<p class="r-lead">${b.c}</p>`;
+    else if (b.t === 'p')    html += `<p class="r-p">${b.c}</p>`;
+    else if (b.t === 'pq')   html += `<div class="r-pq"><p>${b.c}</p></div>`;
+    else if (b.t === 'scripture') html += `
+      <div class="r-sc">
+        <div class="r-sc-ref">${b.ref}</div>
+        <div class="r-sc-txt">${b.c}</div>
+      </div>`;
+  });
+
+  const prev = flatList[idx - 1];
+  const next = flatList[idx + 1];
+  const bibleNotice = (typeof LEGAL === 'object' && LEGAL && LEGAL.bibleNotice)
+    ? LEGAL.bibleNotice
+    : '인용 성경 본문의 저작권은 각 번역본 저작권자에게 있습니다. 개역개정 © 대한성서공회 등.';
+  html += `<div class="r-copyright">${bibleNotice}</div>`;
+  html += `
+    <div class="art-nav">
+      <button class="art-nav-btn prev" onclick="prevArt()" ${!prev ? 'disabled' : ''}>
+        <div class="art-nav-dir">← 이전 글</div>
+        <div class="art-nav-title">${prev ? prev.title.replace(/<br>/g,' ').substring(0,28) : '—'}</div>
+      </button>
+      <button class="art-nav-btn next" onclick="nextArt()" ${!next ? 'disabled' : ''}>
+        <div class="art-nav-dir">다음 글 →</div>
+        <div class="art-nav-title">${next ? next.title.replace(/<br>/g,' ').substring(0,28) : '—'}</div>
+      </button>
+    </div>`;
+
+  document.getElementById('rContent').innerHTML = html;
+}
+
+/* ── 진행률 ── */
+const rScroll = document.getElementById('rScroll');
+rScroll.addEventListener('scroll', () => { if (!pageMode) updProg(); }, { passive: true });
+function updProg() {
+  const fill = document.getElementById('progFill');
+  const ind  = document.getElementById('pageInd');
+  if (pageMode) {
+    const pct = pageCount > 1 ? pageIdx / (pageCount - 1) * 100 : 100;
+    fill.style.width = pct + '%';
+    ind.textContent = (pageIdx + 1) + ' / ' + pageCount;
+  } else {
+    const max = rScroll.scrollHeight - rScroll.clientHeight;
+    fill.style.width = (max > 0 ? rScroll.scrollTop / max * 100 : 0) + '%';
+  }
+}
+window.addEventListener('resize', () => { if (pageMode) layoutPages(); });
+
+/* ── 설정 ── */
+function openPanel()  { document.getElementById('panel').classList.add('show'); document.getElementById('backdrop').classList.add('show'); }
+function closePanel() { document.getElementById('panel').classList.remove('show'); document.getElementById('backdrop').classList.remove('show'); }
+function setTheme(t) {
+  appEl.classList.remove('sepia','night');
+  if (t !== 'white') appEl.classList.add(t);
+  document.querySelectorAll('.th-opt').forEach(o => o.classList.toggle('sel', o.dataset.t === t));
+}
+function chgFont(d) {
+  fontLv = Math.max(0, Math.min(4, fontLv + d));
+  document.documentElement.style.setProperty('--reader-fs', fsSizes[fontLv] + 'px');
+  document.getElementById('fsVal').textContent = fsNames[fontLv];
+  try { localStorage.setItem('meslap_fs', String(fontLv)); } catch (e) {}
+  if (pageMode) relayoutPages();
+}
+/* 글꼴 선택 — --reader-font 만 교체 */
+function setFont(key) {
+  const f = FONTS.find(x => x.key === key) || FONTS[0];
+  fontKey = f.key;
+  document.documentElement.style.setProperty('--reader-font', f.stack);
+  try { localStorage.setItem('meslap_font', f.key); } catch (e) {}
+  document.querySelectorAll('.font-opt').forEach(o => o.classList.toggle('sel', o.dataset.f === f.key));
+  if (pageMode) relayoutPages();
+}
+/* 줄간격 조절 — --reader-lh 만 교체 */
+function setLh(lv) {
+  lhLv = Math.max(0, Math.min(LHS.length - 1, lv));
+  document.documentElement.style.setProperty('--reader-lh', LHS[lhLv]);
+  try { localStorage.setItem('meslap_lh', String(lhLv)); } catch (e) {}
+  const v = document.getElementById('lhVal');
+  if (v) v.textContent = LHN[lhLv];
+  document.querySelectorAll('.lh-opt').forEach(o => o.classList.toggle('sel', Number(o.dataset.l) === lhLv));
+  if (pageMode) relayoutPages();
+}
+/* 저장된 글꼴·줄간격·글자크기 복원 (보기 방식은 하단에서 복원) */
+function restorePrefs() {
+  try {
+    const fs = parseInt(localStorage.getItem('meslap_fs'), 10);
+    if (!isNaN(fs)) fontLv = Math.max(0, Math.min(4, fs));
+  } catch (e) {}
+  document.documentElement.style.setProperty('--reader-fs', fsSizes[fontLv] + 'px');
+  const fsv = document.getElementById('fsVal');
+  if (fsv) fsv.textContent = fsNames[fontLv];
+
+  let fk = 'noto';
+  try { fk = localStorage.getItem('meslap_font') || 'noto'; } catch (e) {}
+  setFont(fk);
+
+  let lv = 1;
+  try { const s = parseInt(localStorage.getItem('meslap_lh'), 10); if (!isNaN(s)) lv = s; } catch (e) {}
+  setLh(lv);
+}
+
+/* ── 탭(메뉴 토글 / 페이지 모드는 좌우 탭으로 넘김) ── */
+document.getElementById('rContent').addEventListener('click', e => {
+  if (e.target.closest('button')) return;
+  if (pageMode) {
+    const rect = rScroll.getBoundingClientRect();
+    const rel = (e.clientX - rect.left) / rect.width;
+    if (rel > 0.66) { goPage(pageIdx + 1); return; }
+    if (rel < 0.34) { goPage(pageIdx - 1); return; }
+  }
+  document.getElementById('rTop').classList.toggle('hidden');
+  document.getElementById('rCtrl').classList.toggle('hidden');
+});
+
+/* ── 스와이프 ── */
+let tx = 0, ty = 0;
+rScroll.addEventListener('touchstart', e => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: true });
+rScroll.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - tx;
+  const dy = e.changedTouches[0].clientY - ty;
+  if (pageMode) {
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+      if (dx < 0) goPage(pageIdx + 1); else goPage(pageIdx - 1);
+    }
+    return;
+  }
+  if (Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 2) {
+    if (dx < 0) nextArt(); else prevArt();
+  }
+}, { passive: true });
+
+// 저장된 읽기 방식 복원 (기본값: 페이지 넘김 — 밀리의 서재 방식)
+try {
+  const savedMode = localStorage.getItem('meslap_readmode');
+  setReadMode(savedMode === 'scroll' ? 'scroll' : 'page');
+} catch (e) { setReadMode('page'); }
+
+init();
+</script>
+</body>
+</html>
