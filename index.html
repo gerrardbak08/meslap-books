@@ -431,22 +431,46 @@ svg{display:block}
 .tts-close-btn{width:28px;height:28px;display:flex;align-items:center;justify-content:center;border:none;background:none;color:var(--ink3);cursor:pointer;border-radius:50%;flex-shrink:0;font-size:16px;margin-left:auto;transition:background .12s}
 .tts-close-btn:active{background:var(--bg2)}
 .tts-label{font-size:11px;color:var(--ink3);flex-shrink:0;white-space:nowrap;letter-spacing:.03em}
-/* 낭독 중 문단 하이라이트 */
-.tts-hl{background:rgba(154,123,79,.15);border-radius:3px;transition:background .2s}
+/* 낭독 중 문단 강조 — 왼쪽 골드 세로선 + 연한 배경 */
+.tts-hl{background:rgba(154,123,79,.12);border-radius:3px;transition:background .2s}
+.tts-active{background:rgba(154,123,79,.08);border-left:2.5px solid var(--gold);padding-left:8px;transition:.2s}
 
 /* ── 텍스트 선택 팝업 ── */
-.sel-popup{position:fixed;z-index:200;background:var(--ink);color:var(--bg);border-radius:10px;padding:5px 4px;display:flex;gap:2px;box-shadow:0 4px 18px rgba(0,0,0,.28);pointer-events:auto;transform:translateX(-50%)}
+.sel-popup{position:fixed;z-index:200;background:var(--ink);color:var(--bg);border-radius:12px;padding:5px 4px;display:flex;flex-direction:column;gap:0;box-shadow:0 4px 18px rgba(0,0,0,.28);pointer-events:auto;transform:translateX(-50%);min-width:160px}
 .sel-popup.hidden{display:none}
+.sel-popup .sp-row{display:flex;gap:2px;padding:0 2px}
+.sel-popup .sp-chips{display:flex;gap:6px;padding:6px 10px 4px;border-top:1px solid rgba(255,255,255,.12)}
+.sel-popup .sp-share{display:flex;align-items:center;justify-content:space-between;padding:4px 10px 6px;border-top:1px solid rgba(255,255,255,.12)}
 .sel-popup button{background:none;border:none;color:var(--bg);font-family:var(--sans);font-size:13px;font-weight:600;padding:7px 12px;border-radius:7px;cursor:pointer;white-space:nowrap;transition:background .1s}
 .sel-popup button:active{background:rgba(255,255,255,.15)}
+/* 하이라이트 색상 칩 */
+.hl-chip{width:26px;height:26px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:transform .12s,border-color .12s;flex-shrink:0}
+.hl-chip:active{transform:scale(.88)}
+.hl-chip.yellow{background:rgba(235,207,150,.65);border-color:rgba(235,207,150,.9)}
+.hl-chip.green{background:rgba(26,92,58,.35);border-color:rgba(26,92,58,.6)}
+.hl-chip.sel{border-color:var(--bg);box-shadow:0 0 0 2px var(--gold)}
+/* 공유 토글 */
+.sp-share-lbl{font-size:11.5px;font-weight:600;color:rgba(255,255,255,.75)}
+.sw-mini{display:flex;align-items:center;cursor:pointer;gap:5px}
+.sw-mini .trk{width:30px;height:16px;border-radius:8px;background:rgba(255,255,255,.2);position:relative;transition:background .2s;flex-shrink:0}
+.sw-mini .trk.on{background:var(--gold)}
+.sw-mini .kn{position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:#fff;transition:transform .22s cubic-bezier(.2,1.4,.4,1)}
+.sw-mini .trk.on .kn{transform:translateX(14px)}
+.sw-mini-lbl{font-size:10px;color:rgba(255,255,255,.55)}
 /* 삭제 팝업 */
 .mark-popup{position:fixed;z-index:200;background:var(--ink);color:var(--bg);border-radius:10px;padding:5px 4px;display:flex;gap:2px;box-shadow:0 4px 18px rgba(0,0,0,.28)}
 .mark-popup.hidden{display:none}
 .mark-popup button{background:none;border:none;color:var(--bg);font-family:var(--sans);font-size:13px;font-weight:600;padding:7px 12px;border-radius:7px;cursor:pointer;transition:background .1s}
 .mark-popup button:active{background:rgba(255,255,255,.15)}
-/* 하이라이트 마크 */
-.r-mark{background:rgba(235,207,150,.35);border-radius:2px;cursor:pointer;transition:background .15s}
+/* 하이라이트 마크 — 색상별 */
+.r-mark{border-radius:2px;cursor:pointer;transition:background .15s}
+.r-mark.highlight-yellow{background:rgba(235,207,150,.35)}
+.r-mark.highlight-green{background:rgba(26,92,58,.18)}
+.r-mark:not(.highlight-yellow):not(.highlight-green){background:rgba(235,207,150,.35)}
 .r-mark:hover,.r-mark.selected{background:rgba(154,123,79,.5)}
+/* 토큰 클래스 직접 사용 시도 */
+.highlight-yellow{background:rgba(235,207,150,.35);border-radius:2px}
+.highlight-green{background:rgba(26,92,58,.18);border-radius:2px}
 
 /* ── 메모 바텀시트 ── */
 .note-sheet{position:absolute;left:0;right:0;bottom:0;background:var(--bg);border-radius:22px 22px 0 0;padding:20px 22px 0;transform:translateY(100%);transition:transform .35s var(--ease);z-index:190;box-shadow:0 -8px 32px rgba(0,0,0,.15);max-height:80%;display:flex;flex-direction:column}
@@ -709,7 +733,10 @@ svg{display:block}
         <div class="r-topbar" id="rTop">
           <button class="tb-btn" onclick="go('contents')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg></button>
           <span style="font-size:12px;color:var(--ink3);font-weight:500" id="rTopLabel"></span>
-          <button class="tb-btn" onclick="go('contents')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+          <div style="display:flex;align-items:center;gap:0">
+            <button class="tb-btn" onclick="go('notes')" title="내 기록"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+            <button class="tb-btn" onclick="go('contents')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+          </div>
         </div>
         <div class="r-prog-track"><div class="r-prog-fill" id="progFill"></div></div>
         <!-- TTS 컨트롤 바 -->
@@ -751,9 +778,23 @@ svg{display:block}
       <div class="backdrop" id="backdrop" onclick="closePanel()"></div>
       <!-- 텍스트 선택 팝업 -->
       <div class="sel-popup hidden" id="selPopup">
-        <button onclick="doHighlight()">🖊 하이라이트</button>
-        <button onclick="openNoteSheet()">📋 기록하기</button>
-        <button onclick="closeSelPopup()">취소</button>
+        <div class="sp-row">
+          <button onclick="doHighlight()">🖊 하이라이트</button>
+          <button onclick="openNoteSheet()">📋 기록하기</button>
+          <button onclick="closeSelPopup()">취소</button>
+        </div>
+        <div class="sp-chips">
+          <div class="hl-chip yellow sel" id="hlChipYellow" onclick="selHlColor('yellow')" title="노란 하이라이트"></div>
+          <div class="hl-chip green" id="hlChipGreen" onclick="selHlColor('green')" title="초록 하이라이트"></div>
+          <span style="font-size:10px;color:rgba(255,255,255,.5);margin-left:4px;line-height:26px">색상</span>
+        </div>
+        <div class="sp-share">
+          <span class="sp-share-lbl">공개 공유</span>
+          <div class="sw-mini" onclick="toggleShareMark()">
+            <div class="trk" id="shareMiniTrk"><div class="kn"></div></div>
+            <span class="sw-mini-lbl" id="shareMiniLbl">나만 보임</span>
+          </div>
+        </div>
       </div>
       <!-- 마크 삭제 팝업 -->
       <div class="mark-popup hidden" id="markPopup">
@@ -4492,17 +4533,20 @@ function ttsSpeakNext() {
   utt.rate = ttsRate;
 
   utt.onstart = () => {
-    ttsParas.forEach(x => x.classList.remove('tts-hl'));
+    ttsParas.forEach(x => { x.classList.remove('tts-hl'); x.classList.remove('tts-active'); });
     para.classList.add('tts-hl');
+    para.classList.add('tts-active');
     para.scrollIntoView({ behavior: 'smooth', block: 'center' });
   };
   utt.onend = () => {
     para.classList.remove('tts-hl');
+    para.classList.remove('tts-active');
     ttsIdx++;
     if (ttsActive) ttsSpeakNext();
   };
   utt.onerror = () => {
     para.classList.remove('tts-hl');
+    para.classList.remove('tts-active');
     ttsIdx++;
     if (ttsActive) ttsSpeakNext();
   };
@@ -4530,7 +4574,7 @@ function ttsStop() {
   window.speechSynthesis.cancel();
   ttsActive = false;
   ttsPaused = false;
-  ttsParas.forEach(x => x.classList.remove('tts-hl'));
+  ttsParas.forEach(x => { x.classList.remove('tts-hl'); x.classList.remove('tts-active'); });
   ttsParas = [];
   ttsUpdateUI();
 }
@@ -4583,8 +4627,26 @@ function ttsUpdateUI() {
    기능 2: 텍스트 하이라이트
 ═══════════════════════════════════════════════════ */
 const MARK_STORE = 'meslap_marks';
-let _selRange   = null;   // 현재 선택 Range
-let _markTarget = null;   // 탭한 mark 요소
+let _selRange    = null;   // 현재 선택 Range
+let _markTarget  = null;   // 탭한 mark 요소
+let _hlColor     = 'yellow';  // 현재 선택된 하이라이트 색상
+let _sharePublic = false;  // 공유 토글 상태
+
+/* 색상 칩 선택 */
+function selHlColor(color) {
+  _hlColor = color;
+  document.getElementById('hlChipYellow').classList.toggle('sel', color === 'yellow');
+  document.getElementById('hlChipGreen').classList.toggle('sel', color === 'green');
+}
+
+/* 공유 토글 */
+function toggleShareMark() {
+  _sharePublic = !_sharePublic;
+  const trk = document.getElementById('shareMiniTrk');
+  const lbl = document.getElementById('shareMiniLbl');
+  if (trk) trk.classList.toggle('on', _sharePublic);
+  if (lbl) lbl.textContent = _sharePublic ? '공개됨' : '나만 보임';
+}
 
 function marksKey(artId) { return MARK_STORE + '_' + artId; }
 
@@ -4611,9 +4673,10 @@ function getParaIndex(node) {
 function doHighlight() {
   const sel = window.getSelection();
   if (!sel || sel.isCollapsed || !_selRange) { closeSelPopup(); return; }
+  const colorClass = 'highlight-' + (_hlColor || 'yellow');
   try {
     const mark = document.createElement('mark');
-    mark.className = 'r-mark';
+    mark.className = 'r-mark ' + colorClass;
     _selRange.surroundContents(mark);
     mark.addEventListener('click', onMarkClick);
   } catch (e) {
@@ -4621,7 +4684,7 @@ function doHighlight() {
     try {
       const frag = _selRange.extractContents();
       const mark = document.createElement('mark');
-      mark.className = 'r-mark';
+      mark.className = 'r-mark ' + colorClass;
       mark.appendChild(frag);
       _selRange.insertNode(mark);
       mark.addEventListener('click', onMarkClick);
@@ -4717,9 +4780,16 @@ function persistMarks() {
   if (!c) return;
   const marks = [];
   c.querySelectorAll('.r-mark').forEach(m => {
+    // 색상 클래스 추출
+    const color = m.classList.contains('highlight-green') ? 'green' : 'yellow';
     marks.push({
-      paraIdx: getParaIndex(m),
-      text: m.textContent
+      id:        m.dataset.markId || (Date.now().toString(36) + Math.random().toString(36).slice(2,5)),
+      artId:     artId,
+      text:      m.textContent,
+      color:     color,
+      paraIdx:   getParaIndex(m),
+      is_public: _sharePublic,
+      createdAt: m.dataset.createdAt || new Date().toISOString()
     });
   });
   saveMarks(artId, marks);
@@ -4735,6 +4805,7 @@ function restoreMarks(artId) {
   marks.forEach(m => {
     const para = paras[m.paraIdx];
     if (!para || !m.text) return;
+    const colorClass = 'highlight-' + (m.color || 'yellow');
     // 텍스트 노드에서 해당 텍스트 찾아 mark 삽입
     const walker = document.createTreeWalker(para, NodeFilter.SHOW_TEXT);
     let node;
@@ -4746,7 +4817,9 @@ function restoreMarks(artId) {
         range.setStart(node, idx);
         range.setEnd(node, idx + m.text.length);
         const mark = document.createElement('mark');
-        mark.className = 'r-mark';
+        mark.className = 'r-mark ' + colorClass;
+        mark.dataset.markId   = m.id || '';
+        mark.dataset.createdAt = m.createdAt || '';
         range.surroundContents(mark);
         mark.addEventListener('click', onMarkClick);
         break;
@@ -4850,8 +4923,8 @@ function openArtFromNote(artId) {
   else go('reader');
 }
 
-/* ── init() 전 셋업 ── */
-
+/* ── init() 초기화 ── */
+function init() {
   if (!BOOK_CHAPTERS || !BOOK_CHAPTERS.length) return;
 
   restorePrefs();
@@ -5149,6 +5222,7 @@ function go(id) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   if (id === 'contents') renderTOC();
+  if (id === 'notes') renderNotes();
 }
 function startReading() { openArt(0); }
 function openArt(idx) {

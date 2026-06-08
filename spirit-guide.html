@@ -9,8 +9,8 @@
 <meta property="og:site_name"   content="MeslapBooks">
 <meta property="og:title"       content="MeslapBooks — 말씀이 삶이 되는 자리">
 <meta property="og:description" content="박상혁 목사의 말씀 묵상을 주제별로 엮은 모바일 전자책. 성령론·기도·조직신학 등 13권을 손 안에서.">
-<meta property="og:url"         content="https://meslap-books.netlify.app">
-<meta property="og:image"       content="https://meslap-books.netlify.app/og-image.png">
+<meta property="og:url"         content="https://gerrardbak08.github.io/meslap-books">
+<meta property="og:image"       content="https://gerrardbak08.github.io/meslap-books/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale"      content="ko_KR">
@@ -18,7 +18,7 @@
 <meta name="twitter:card"        content="summary_large_image">
 <meta name="twitter:title"       content="MeslapBooks — 말씀이 삶이 되는 자리">
 <meta name="twitter:description" content="박상혁 목사의 말씀 묵상을 주제별로 엮은 모바일 전자책. 무료책으로 시작하세요.">
-<meta name="twitter:image"       content="https://meslap-books.netlify.app/og-image.png">
+<meta name="twitter:image"       content="https://gerrardbak08.github.io/meslap-books/og-image.png">
 <!-- 카카오톡 공유 -->
 <meta name="description"         content="박상혁 목사의 말씀 묵상을 주제별로 엮은 모바일 전자책. 성령론·기도·조직신학 등 13권을 손 안에서.">
 <!-- ── PWA(설치형 웹) ── -->
@@ -419,6 +419,86 @@ svg{display:block}
 /* 리더 본문 말미 — 성경 저작권 고지(상시·절제) */
 .r-copyright{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);font-size:10.5px;line-height:1.6;color:var(--ink3);text-align:center;word-break:keep-all}
 
+/* ── TTS 낭독 ── */
+.tts-bar{display:flex;align-items:center;gap:8px;padding:7px 14px 8px;border-top:1px solid var(--line);background:var(--bg);flex-shrink:0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tts-bar::-webkit-scrollbar{display:none}
+.tts-bar.hidden{display:none}
+.tts-play-btn{width:34px;height:34px;display:flex;align-items:center;justify-content:center;border:none;background:var(--gold);color:var(--bg);border-radius:50%;cursor:pointer;flex-shrink:0;transition:transform .15s,background .15s}
+.tts-play-btn:active{transform:scale(.9)}
+.tts-speed-row{display:flex;gap:5px;flex-shrink:0}
+.tts-speed-btn{padding:5px 11px;border:1px solid var(--line);border-radius:20px;background:var(--bg2);color:var(--ink2);font-size:11.5px;font-weight:700;cursor:pointer;transition:border-color .12s,color .12s;white-space:nowrap}
+.tts-speed-btn.sel{border-color:var(--gold);color:var(--gold)}
+.tts-close-btn{width:28px;height:28px;display:flex;align-items:center;justify-content:center;border:none;background:none;color:var(--ink3);cursor:pointer;border-radius:50%;flex-shrink:0;font-size:16px;margin-left:auto;transition:background .12s}
+.tts-close-btn:active{background:var(--bg2)}
+.tts-label{font-size:11px;color:var(--ink3);flex-shrink:0;white-space:nowrap;letter-spacing:.03em}
+/* 낭독 중 문단 강조 — 왼쪽 골드 세로선 + 연한 배경 */
+.tts-hl{background:rgba(154,123,79,.12);border-radius:3px;transition:background .2s}
+.tts-active{background:rgba(154,123,79,.08);border-left:2.5px solid var(--gold);padding-left:8px;transition:.2s}
+
+/* ── 텍스트 선택 팝업 ── */
+.sel-popup{position:fixed;z-index:200;background:var(--ink);color:var(--bg);border-radius:12px;padding:5px 4px;display:flex;flex-direction:column;gap:0;box-shadow:0 4px 18px rgba(0,0,0,.28);pointer-events:auto;transform:translateX(-50%);min-width:160px}
+.sel-popup.hidden{display:none}
+.sel-popup .sp-row{display:flex;gap:2px;padding:0 2px}
+.sel-popup .sp-chips{display:flex;gap:6px;padding:6px 10px 4px;border-top:1px solid rgba(255,255,255,.12)}
+.sel-popup .sp-share{display:flex;align-items:center;justify-content:space-between;padding:4px 10px 6px;border-top:1px solid rgba(255,255,255,.12)}
+.sel-popup button{background:none;border:none;color:var(--bg);font-family:var(--sans);font-size:13px;font-weight:600;padding:7px 12px;border-radius:7px;cursor:pointer;white-space:nowrap;transition:background .1s}
+.sel-popup button:active{background:rgba(255,255,255,.15)}
+/* 하이라이트 색상 칩 */
+.hl-chip{width:26px;height:26px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:transform .12s,border-color .12s;flex-shrink:0}
+.hl-chip:active{transform:scale(.88)}
+.hl-chip.yellow{background:rgba(235,207,150,.65);border-color:rgba(235,207,150,.9)}
+.hl-chip.green{background:rgba(26,92,58,.35);border-color:rgba(26,92,58,.6)}
+.hl-chip.sel{border-color:var(--bg);box-shadow:0 0 0 2px var(--gold)}
+/* 공유 토글 */
+.sp-share-lbl{font-size:11.5px;font-weight:600;color:rgba(255,255,255,.75)}
+.sw-mini{display:flex;align-items:center;cursor:pointer;gap:5px}
+.sw-mini .trk{width:30px;height:16px;border-radius:8px;background:rgba(255,255,255,.2);position:relative;transition:background .2s;flex-shrink:0}
+.sw-mini .trk.on{background:var(--gold)}
+.sw-mini .kn{position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:#fff;transition:transform .22s cubic-bezier(.2,1.4,.4,1)}
+.sw-mini .trk.on .kn{transform:translateX(14px)}
+.sw-mini-lbl{font-size:10px;color:rgba(255,255,255,.55)}
+/* 삭제 팝업 */
+.mark-popup{position:fixed;z-index:200;background:var(--ink);color:var(--bg);border-radius:10px;padding:5px 4px;display:flex;gap:2px;box-shadow:0 4px 18px rgba(0,0,0,.28)}
+.mark-popup.hidden{display:none}
+.mark-popup button{background:none;border:none;color:var(--bg);font-family:var(--sans);font-size:13px;font-weight:600;padding:7px 12px;border-radius:7px;cursor:pointer;transition:background .1s}
+.mark-popup button:active{background:rgba(255,255,255,.15)}
+/* 하이라이트 마크 — 색상별 */
+.r-mark{border-radius:2px;cursor:pointer;transition:background .15s}
+.r-mark.highlight-yellow{background:rgba(235,207,150,.35)}
+.r-mark.highlight-green{background:rgba(26,92,58,.18)}
+.r-mark:not(.highlight-yellow):not(.highlight-green){background:rgba(235,207,150,.35)}
+.r-mark:hover,.r-mark.selected{background:rgba(154,123,79,.5)}
+/* 토큰 클래스 직접 사용 시도 */
+.highlight-yellow{background:rgba(235,207,150,.35);border-radius:2px}
+.highlight-green{background:rgba(26,92,58,.18);border-radius:2px}
+
+/* ── 메모 바텀시트 ── */
+.note-sheet{position:absolute;left:0;right:0;bottom:0;background:var(--bg);border-radius:22px 22px 0 0;padding:20px 22px 0;transform:translateY(100%);transition:transform .35s var(--ease);z-index:190;box-shadow:0 -8px 32px rgba(0,0,0,.15);max-height:80%;display:flex;flex-direction:column}
+.note-sheet.show{transform:translateY(0)}
+.note-sheet-handle{width:36px;height:4px;background:var(--line);border-radius:2px;margin:0 auto 16px;flex-shrink:0}
+.note-quote{font-family:var(--reader-font);font-size:13px;font-style:italic;color:var(--ink2);line-height:1.75;padding:12px 14px;background:var(--bg2);border-radius:10px;margin-bottom:14px;border-left:3px solid var(--gold);flex-shrink:0;max-height:100px;overflow-y:auto;-webkit-overflow-scrolling:touch;word-break:keep-all}
+.note-textarea{flex:1;width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.65;resize:none;outline:none;transition:border-color .15s;min-height:100px}
+.note-textarea:focus{border-color:var(--gold)}
+.note-sheet-btns{display:flex;gap:10px;padding:14px 0 calc(env(safe-area-inset-bottom) + 16px);flex-shrink:0}
+.note-save-btn{flex:1;padding:14px;background:var(--ink);color:var(--bg);border:none;border-radius:12px;font-family:var(--sans);font-size:15px;font-weight:600;cursor:pointer;transition:transform .12s}
+.note-save-btn:active{transform:scale(.97)}
+.note-cancel-btn{padding:14px 22px;background:none;border:1px solid var(--line);border-radius:12px;font-family:var(--sans);font-size:15px;font-weight:600;color:var(--ink2);cursor:pointer;transition:background .12s}
+.note-cancel-btn:active{background:var(--bg2)}
+
+/* ── 내 기록 뷰 ── */
+.notes-empty{padding:60px 36px;text-align:center;font-size:14px;color:var(--ink3);line-height:1.7}
+.notes-group-lbl{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);padding:18px 22px 8px}
+.note-item{display:flex;flex-direction:column;gap:6px;padding:14px 22px;border-top:1px solid var(--line);cursor:pointer;transition:background .12s}
+.note-item:active{background:var(--bg2)}
+.note-item-quote{font-family:var(--reader-font);font-size:13px;font-style:italic;color:var(--ink);line-height:1.65;word-break:keep-all}
+.note-item-quote::before{content:'" '}.note-item-quote::after{content:' "'}
+.note-item-memo{font-size:13px;color:var(--ink2);line-height:1.5;word-break:keep-all}
+.note-item-meta{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.note-item-book{font-size:11px;font-weight:600;color:var(--gold)}
+.note-item-date{font-size:11px;color:var(--ink3)}
+.note-del-btn{background:none;border:none;color:var(--ink3);cursor:pointer;font-size:18px;padding:2px 6px;line-height:1;flex-shrink:0;border-radius:6px;transition:background .12s}
+.note-del-btn:active{background:var(--bg2)}
+
 /* ── 모바일/PWA 전체화면(full-bleed) — 목업 프레임 없이 진짜 설치앱처럼 ── */
 @media (display-mode: standalone), (max-width:480px){
   html,body{height:100dvh}
@@ -531,6 +611,7 @@ svg{display:block}
           <button class="tb-btn" onclick="go('about')" title="소개"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg></button>
           <span class="tb-title">내 서재</span>
           <div style="flex:1"></div>
+          <button class="tb-btn" onclick="go('notes')" title="내 기록"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M11 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
           <button class="tb-btn" onclick="go('catalog')" title="도서 안내"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M8 7h8M8 11h8"/></svg></button>
           <button class="tb-btn" onclick="signOut()" title="로그아웃"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></button>
         </div>
@@ -652,21 +733,84 @@ svg{display:block}
         <div class="r-topbar" id="rTop">
           <button class="tb-btn" onclick="go('contents')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg></button>
           <span style="font-size:12px;color:var(--ink3);font-weight:500" id="rTopLabel"></span>
-          <button class="tb-btn" onclick="go('contents')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+          <div style="display:flex;align-items:center;gap:0">
+            <button class="tb-btn" onclick="go('notes')" title="내 기록"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+            <button class="tb-btn" onclick="go('contents')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+          </div>
         </div>
         <div class="r-prog-track"><div class="r-prog-fill" id="progFill"></div></div>
+        <!-- TTS 컨트롤 바 -->
+        <div class="tts-bar hidden" id="ttsBar">
+          <span class="tts-label">낭독</span>
+          <button class="tts-play-btn" id="ttsPlayBtn" onclick="ttsToggle()" title="재생/일시정지">
+            <svg id="ttsPlayIcon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <div class="tts-speed-row" id="ttsSpeedRow">
+            <button class="tts-speed-btn" data-s="0.8" onclick="ttsSetSpeed(0.8)">0.8×</button>
+            <button class="tts-speed-btn sel" data-s="1" onclick="ttsSetSpeed(1)">1×</button>
+            <button class="tts-speed-btn" data-s="1.2" onclick="ttsSetSpeed(1.2)">1.2×</button>
+            <button class="tts-speed-btn" data-s="1.5" onclick="ttsSetSpeed(1.5)">1.5×</button>
+          </div>
+          <button class="tts-close-btn" onclick="ttsClose()" title="닫기">×</button>
+        </div>
         <div class="r-scroll" id="rScroll"><div class="r-body" id="rContent"></div></div>
         <div class="r-pageind" id="pageInd"></div>
         <div class="r-ctrl" id="rCtrl">
           <button class="ctrl-btn" onclick="pagePrev()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg><span>이전</span></button>
           <button class="ctrl-btn" onclick="openPanel()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg><span>설정</span></button>
+          <button class="ctrl-btn" id="ttsCtrlBtn" onclick="ttsOpen()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg><span>낭독</span></button>
           <button class="ctrl-btn" onclick="go('contents')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span>목차</span></button>
           <button class="ctrl-btn" onclick="pageNext()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18l6-6-6-6"/></svg><span>다음</span></button>
         </div>
       </div>
 
+      <!-- 내 기록 뷰 -->
+      <div class="view" id="notes">
+        <div class="topbar">
+          <button class="tb-btn" onclick="go('library')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <span class="tb-title">내 기록</span>
+          <div style="width:38px"></div>
+        </div>
+        <div class="scroll" id="notesList"></div>
+      </div>
+
       <!-- 설정 패널 -->
       <div class="backdrop" id="backdrop" onclick="closePanel()"></div>
+      <!-- 텍스트 선택 팝업 -->
+      <div class="sel-popup hidden" id="selPopup">
+        <div class="sp-row">
+          <button onclick="doHighlight()">🖊 하이라이트</button>
+          <button onclick="openNoteSheet()">📋 기록하기</button>
+          <button onclick="closeSelPopup()">취소</button>
+        </div>
+        <div class="sp-chips">
+          <div class="hl-chip yellow sel" id="hlChipYellow" onclick="selHlColor('yellow')" title="노란 하이라이트"></div>
+          <div class="hl-chip green" id="hlChipGreen" onclick="selHlColor('green')" title="초록 하이라이트"></div>
+          <span style="font-size:10px;color:rgba(255,255,255,.5);margin-left:4px;line-height:26px">색상</span>
+        </div>
+        <div class="sp-share">
+          <span class="sp-share-lbl">공개 공유</span>
+          <div class="sw-mini" onclick="toggleShareMark()">
+            <div class="trk" id="shareMiniTrk"><div class="kn"></div></div>
+            <span class="sw-mini-lbl" id="shareMiniLbl">나만 보임</span>
+          </div>
+        </div>
+      </div>
+      <!-- 마크 삭제 팝업 -->
+      <div class="mark-popup hidden" id="markPopup">
+        <button onclick="doDeleteMark()">🗑 하이라이트 삭제</button>
+        <button onclick="closeMarkPopup()">취소</button>
+      </div>
+      <!-- 메모 바텀시트 (리더 뷰 내 레이어) -->
+      <div class="note-sheet" id="noteSheet">
+        <div class="note-sheet-handle"></div>
+        <div class="note-quote" id="noteSheetQuote"></div>
+        <textarea class="note-textarea" id="noteSheetText" placeholder="이 말씀에 대한 묵상·메모를 적어 주세요"></textarea>
+        <div class="note-sheet-btns">
+          <button class="note-cancel-btn" onclick="closeNoteSheet()">취소</button>
+          <button class="note-save-btn" onclick="saveNote()">저장</button>
+        </div>
+      </div>
       <div class="panel" id="panel">
         <div class="panel-handle"></div>
         <div class="p-sec">
@@ -4337,7 +4481,449 @@ function motifSVG(key, cls) {
   return `<svg class="${cls || ''}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${inner}</svg>`;
 }
 
-/* ── 초기화 ── */
+/* ═══════════════════════════════════════════════════
+   기능 1: TTS 음성 낭독
+═══════════════════════════════════════════════════ */
+let ttsActive = false;    // 현재 재생 중 여부
+let ttsPaused = false;    // 일시정지 여부
+let ttsRate   = 1;        // 재생 속도
+let ttsParas  = [];       // 현재 글 낭독 대상 요소 배열
+let ttsIdx    = 0;        // 현재 낭독 중인 문단 인덱스
+
+function ttsGetParas() {
+  const c = document.getElementById('rContent');
+  if (!c) return [];
+  // 문단 순서대로 수집: r-p, r-lead, r-h2, r-h3, .r-pq p, .r-sc
+  return Array.from(c.querySelectorAll('.r-p, .r-lead, .r-h2, .r-h3, .r-pq p, .r-sc'));
+}
+
+function ttsParaText(el) {
+  if (el.classList.contains('r-sc')) {
+    const ref = el.querySelector('.r-sc-ref');
+    const txt = el.querySelector('.r-sc-txt');
+    const refT = ref ? ref.textContent.trim() : '';
+    const txtT = txt ? txt.textContent.trim() : '';
+    return refT && txtT ? `${refT} — ${txtT}` : (refT || txtT);
+  }
+  return el.textContent.trim();
+}
+
+function ttsSpeakFrom(startIdx) {
+  window.speechSynthesis.cancel();
+  ttsParas = ttsGetParas();
+  if (!ttsParas.length) return;
+  ttsIdx = Math.max(0, Math.min(startIdx, ttsParas.length - 1));
+  ttsActive = true;
+  ttsPaused = false;
+  ttsSpeakNext();
+  ttsUpdateUI();
+}
+
+function ttsSpeakNext() {
+  if (!ttsActive || ttsIdx >= ttsParas.length) {
+    ttsStop();
+    return;
+  }
+  const para = ttsParas[ttsIdx];
+  const text = ttsParaText(para);
+  if (!text) { ttsIdx++; ttsSpeakNext(); return; }
+
+  const utt = new SpeechSynthesisUtterance(text);
+  utt.lang = 'ko-KR';
+  utt.rate = ttsRate;
+
+  utt.onstart = () => {
+    ttsParas.forEach(x => { x.classList.remove('tts-hl'); x.classList.remove('tts-active'); });
+    para.classList.add('tts-hl');
+    para.classList.add('tts-active');
+    para.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  };
+  utt.onend = () => {
+    para.classList.remove('tts-hl');
+    para.classList.remove('tts-active');
+    ttsIdx++;
+    if (ttsActive) ttsSpeakNext();
+  };
+  utt.onerror = () => {
+    para.classList.remove('tts-hl');
+    para.classList.remove('tts-active');
+    ttsIdx++;
+    if (ttsActive) ttsSpeakNext();
+  };
+
+  window.speechSynthesis.speak(utt);
+}
+
+function ttsToggle() {
+  if (!ttsActive) {
+    // 아직 시작 안 했으면 처음부터 재생
+    ttsSpeakFrom(0);
+    return;
+  }
+  if (ttsPaused) {
+    window.speechSynthesis.resume();
+    ttsPaused = false;
+  } else {
+    window.speechSynthesis.pause();
+    ttsPaused = true;
+  }
+  ttsUpdateUI();
+}
+
+function ttsStop() {
+  window.speechSynthesis.cancel();
+  ttsActive = false;
+  ttsPaused = false;
+  ttsParas.forEach(x => { x.classList.remove('tts-hl'); x.classList.remove('tts-active'); });
+  ttsParas = [];
+  ttsUpdateUI();
+}
+
+function ttsClose() {
+  ttsStop();
+  document.getElementById('ttsBar').classList.add('hidden');
+}
+
+function ttsOpen() {
+  document.getElementById('ttsBar').classList.remove('hidden');
+  ttsUpdateUI();
+}
+
+function ttsSetSpeed(s) {
+  ttsRate = s;
+  document.querySelectorAll('.tts-speed-btn').forEach(b =>
+    b.classList.toggle('sel', parseFloat(b.dataset.s) === s));
+  // 재생 중이면 재시작(현재 문단부터)
+  if (ttsActive && !ttsPaused) {
+    window.speechSynthesis.cancel();
+    ttsSpeakFrom(ttsIdx);
+  }
+}
+
+function ttsUpdateUI() {
+  const playBtn  = document.getElementById('ttsPlayBtn');
+  const playIcon = document.getElementById('ttsPlayIcon');
+  const ctrlBtn  = document.getElementById('ttsCtrlBtn');
+  if (!playBtn || !playIcon) return;
+
+  if (ttsActive && !ttsPaused) {
+    // 재생 중: ■ 정지 아이콘
+    playIcon.innerHTML = `<rect x="4" y="4" width="16" height="16" rx="2"/>`;
+    playBtn.style.background = 'var(--gold)';
+    if (ctrlBtn) ctrlBtn.style.color = 'var(--gold)';
+  } else if (ttsActive && ttsPaused) {
+    // 일시정지: ▶ 재생 아이콘
+    playIcon.innerHTML = `<path d="M8 5v14l11-7z"/>`;
+    if (ctrlBtn) ctrlBtn.style.color = 'var(--gold)';
+  } else {
+    // 정지 상태
+    playIcon.innerHTML = `<path d="M8 5v14l11-7z"/>`;
+    playBtn.style.background = 'var(--gold)';
+    if (ctrlBtn) ctrlBtn.style.color = '';
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   기능 2: 텍스트 하이라이트
+═══════════════════════════════════════════════════ */
+const MARK_STORE = 'meslap_marks';
+let _selRange    = null;   // 현재 선택 Range
+let _markTarget  = null;   // 탭한 mark 요소
+let _hlColor     = 'yellow';  // 현재 선택된 하이라이트 색상
+let _sharePublic = false;  // 공유 토글 상태
+
+/* 색상 칩 선택 */
+function selHlColor(color) {
+  _hlColor = color;
+  document.getElementById('hlChipYellow').classList.toggle('sel', color === 'yellow');
+  document.getElementById('hlChipGreen').classList.toggle('sel', color === 'green');
+}
+
+/* 공유 토글 */
+function toggleShareMark() {
+  _sharePublic = !_sharePublic;
+  const trk = document.getElementById('shareMiniTrk');
+  const lbl = document.getElementById('shareMiniLbl');
+  if (trk) trk.classList.toggle('on', _sharePublic);
+  if (lbl) lbl.textContent = _sharePublic ? '공개됨' : '나만 보임';
+}
+
+function marksKey(artId) { return MARK_STORE + '_' + artId; }
+
+function saveMarks(artId, marks) {
+  try { localStorage.setItem(marksKey(artId), JSON.stringify(marks)); } catch (e) {}
+}
+
+function loadMarks(artId) {
+  try { return JSON.parse(localStorage.getItem(marksKey(artId)) || '[]'); } catch { return []; }
+}
+
+/* 문단 인덱스 계산 (rContent 내 블록 자식 기준) */
+function getParaIndex(node) {
+  const c = document.getElementById('rContent');
+  if (!c) return -1;
+  // node의 최상위 rContent 자식 찾기
+  let el = node;
+  while (el && el.parentElement !== c) el = el.parentElement;
+  if (!el) return -1;
+  return Array.from(c.children).indexOf(el);
+}
+
+/* 하이라이트 적용 */
+function doHighlight() {
+  const sel = window.getSelection();
+  if (!sel || sel.isCollapsed || !_selRange) { closeSelPopup(); return; }
+  const colorClass = 'highlight-' + (_hlColor || 'yellow');
+  try {
+    const mark = document.createElement('mark');
+    mark.className = 'r-mark ' + colorClass;
+    _selRange.surroundContents(mark);
+    mark.addEventListener('click', onMarkClick);
+  } catch (e) {
+    // surroundContents 실패(다중 블록 걸침) → extractContents 방식
+    try {
+      const frag = _selRange.extractContents();
+      const mark = document.createElement('mark');
+      mark.className = 'r-mark ' + colorClass;
+      mark.appendChild(frag);
+      _selRange.insertNode(mark);
+      mark.addEventListener('click', onMarkClick);
+    } catch (e2) {}
+  }
+  sel.removeAllRanges();
+  persistMarks();
+  closeSelPopup();
+}
+
+/* 이미 마크된 요소 탭 → 삭제 팝업 */
+function onMarkClick(e) {
+  e.stopPropagation();
+  _markTarget = e.currentTarget;
+  _markTarget.classList.add('selected');
+  const rect = _markTarget.getBoundingClientRect();
+  const popup = document.getElementById('markPopup');
+  popup.classList.remove('hidden');
+  popup.style.top  = (rect.top - 52 + window.scrollY) + 'px';
+  popup.style.left = (rect.left + rect.width / 2) + 'px';
+}
+
+function doDeleteMark() {
+  if (!_markTarget) { closeMarkPopup(); return; }
+  const parent = _markTarget.parentNode;
+  while (_markTarget.firstChild) parent.insertBefore(_markTarget.firstChild, _markTarget);
+  parent.removeChild(_markTarget);
+  parent.normalize();
+  _markTarget = null;
+  persistMarks();
+  closeMarkPopup();
+}
+
+function closeMarkPopup() {
+  const p = document.getElementById('markPopup');
+  p.classList.add('hidden');
+  if (_markTarget) { _markTarget.classList.remove('selected'); _markTarget = null; }
+}
+
+/* 선택 변화 감지 */
+function initSelectionDetection() {
+  const rContentEl = document.getElementById('rContent');
+
+  const showPopup = () => {
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || !sel.rangeCount) { closeSelPopup(); return; }
+    const range = sel.getRangeAt(0);
+    // rContent 범위 내 선택인지 확인
+    if (!rContentEl.contains(range.commonAncestorContainer)) { closeSelPopup(); return; }
+    const text = sel.toString().trim();
+    if (!text || text.length < 2) { closeSelPopup(); return; }
+    _selRange = range.cloneRange();
+    const rect = range.getBoundingClientRect();
+    if (!rect.width && !rect.height) { closeSelPopup(); return; }
+    const popup = document.getElementById('selPopup');
+    popup.classList.remove('hidden');
+    // 선택 영역 위에 배치
+    const screenEl = document.querySelector('.screen') || document.body;
+    const screenRect = screenEl.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2 - screenRect.left;
+    const cy = rect.top - screenRect.top - 52;
+    popup.style.left = Math.max(60, Math.min(cx, screenRect.width - 60)) + 'px';
+    popup.style.top  = Math.max(10, cy) + 'px';
+  };
+
+  document.addEventListener('mouseup', e => {
+    if (e.target.closest('#selPopup') || e.target.closest('#markPopup')) return;
+    setTimeout(showPopup, 10);
+  });
+  document.addEventListener('touchend', e => {
+    if (e.target.closest('#selPopup') || e.target.closest('#markPopup')) return;
+    setTimeout(showPopup, 150);
+  });
+  // 다른 곳 탭 시 팝업 닫기
+  document.addEventListener('mousedown', e => {
+    if (!e.target.closest('#selPopup') && !e.target.closest('#markPopup')) {
+      closeSelPopup();
+      closeMarkPopup();
+    }
+  });
+}
+
+function closeSelPopup() {
+  document.getElementById('selPopup').classList.add('hidden');
+  _selRange = null;
+}
+
+/* 현재 rContent의 mark 직렬화 저장 */
+function persistMarks() {
+  const artId = (flatList[curIdx] || {}).id;
+  if (!artId) return;
+  const c = document.getElementById('rContent');
+  if (!c) return;
+  const marks = [];
+  c.querySelectorAll('.r-mark').forEach(m => {
+    // 색상 클래스 추출
+    const color = m.classList.contains('highlight-green') ? 'green' : 'yellow';
+    marks.push({
+      id:        m.dataset.markId || (Date.now().toString(36) + Math.random().toString(36).slice(2,5)),
+      artId:     artId,
+      text:      m.textContent,
+      color:     color,
+      paraIdx:   getParaIndex(m),
+      is_public: _sharePublic,
+      createdAt: m.dataset.createdAt || new Date().toISOString()
+    });
+  });
+  saveMarks(artId, marks);
+}
+
+/* 저장된 하이라이트 복원 */
+function restoreMarks(artId) {
+  const marks = loadMarks(artId);
+  if (!marks.length) return;
+  const c = document.getElementById('rContent');
+  if (!c) return;
+  const paras = Array.from(c.children);
+  marks.forEach(m => {
+    const para = paras[m.paraIdx];
+    if (!para || !m.text) return;
+    const colorClass = 'highlight-' + (m.color || 'yellow');
+    // 텍스트 노드에서 해당 텍스트 찾아 mark 삽입
+    const walker = document.createTreeWalker(para, NodeFilter.SHOW_TEXT);
+    let node;
+    while ((node = walker.nextNode())) {
+      const idx = node.nodeValue.indexOf(m.text);
+      if (idx === -1) continue;
+      try {
+        const range = document.createRange();
+        range.setStart(node, idx);
+        range.setEnd(node, idx + m.text.length);
+        const mark = document.createElement('mark');
+        mark.className = 'r-mark ' + colorClass;
+        mark.dataset.markId   = m.id || '';
+        mark.dataset.createdAt = m.createdAt || '';
+        range.surroundContents(mark);
+        mark.addEventListener('click', onMarkClick);
+        break;
+      } catch (e) {}
+    }
+  });
+}
+
+/* ═══════════════════════════════════════════════════
+   기능 3: 기록하기(메모/노트)
+═══════════════════════════════════════════════════ */
+const NOTES_KEY = 'meslap_notes';
+
+function getNotes() {
+  try { return JSON.parse(localStorage.getItem(NOTES_KEY) || '[]'); } catch { return []; }
+}
+function setNotes(arr) {
+  try { localStorage.setItem(NOTES_KEY, JSON.stringify(arr)); } catch (e) {}
+}
+
+let _noteQuote = '';
+
+function openNoteSheet() {
+  const sel = window.getSelection();
+  _noteQuote = sel ? sel.toString().trim() : '';
+  closeSelPopup();
+  document.getElementById('noteSheetQuote').textContent = _noteQuote || '(선택한 텍스트 없음)';
+  document.getElementById('noteSheetText').value = '';
+  document.getElementById('noteSheet').classList.add('show');
+  setTimeout(() => document.getElementById('noteSheetText').focus(), 350);
+}
+
+function closeNoteSheet() {
+  document.getElementById('noteSheet').classList.remove('show');
+  _noteQuote = '';
+}
+
+function saveNote() {
+  const memo = document.getElementById('noteSheetText').value.trim();
+  if (!memo && !_noteQuote) { closeNoteSheet(); return; }
+  const art = flatList[curIdx] || {};
+  const note = {
+    id:       Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+    artId:    art.id || String(curIdx),
+    artTitle: (art.title || '').replace(/<br>/g, ' '),
+    bookTitle:(typeof BOOK_META === 'object' && BOOK_META ? (BOOK_META.title || '').replace(/<br>/g, ' ') : ''),
+    quote:    _noteQuote,
+    memo:     memo,
+    date:     new Date().toLocaleDateString('ko-KR', { year:'numeric', month:'2-digit', day:'2-digit' })
+  };
+  const notes = getNotes();
+  notes.unshift(note);
+  setNotes(notes);
+  closeNoteSheet();
+  // 하이라이트도 같이 적용
+  if (_noteQuote) doHighlight();
+}
+
+function deleteNote(id) {
+  if (!confirm('이 기록을 삭제할까요?')) return;
+  setNotes(getNotes().filter(n => n.id !== id));
+  renderNotes();
+}
+
+function renderNotes() {
+  const list = document.getElementById('notesList');
+  if (!list) return;
+  const notes = getNotes();
+  if (!notes.length) {
+    list.innerHTML = `<div class="notes-empty">아직 기록한 내용이 없어요.<br>본문을 선택해 기록을 남겨 보세요 📖</div>`;
+    return;
+  }
+  // 날짜 그룹별 묶기
+  const groups = {};
+  const order  = [];
+  notes.forEach(n => {
+    const k = n.date || '날짜 없음';
+    if (!groups[k]) { groups[k] = []; order.push(k); }
+    groups[k].push(n);
+  });
+  let html = '';
+  order.forEach(k => {
+    html += `<div class="notes-group-lbl">${k}</div>`;
+    groups[k].forEach(n => {
+      html += `<div class="note-item" onclick="openArtFromNote('${n.artId}')">
+        <div class="note-item-meta">
+          <span class="note-item-book">${n.bookTitle ? n.bookTitle + ' · ' : ''}${n.artTitle || ''}</span>
+          <button class="note-del-btn" onclick="event.stopPropagation();deleteNote('${n.id}')">×</button>
+        </div>
+        ${n.quote ? `<div class="note-item-quote">${n.quote}</div>` : ''}
+        ${n.memo  ? `<div class="note-item-memo">${n.memo}</div>` : ''}
+      </div>`;
+    });
+  });
+  list.innerHTML = html;
+}
+
+function openArtFromNote(artId) {
+  const idx = flatList.findIndex(f => f.id === artId || String(flatList.indexOf(f)) === artId);
+  if (idx >= 0) { openArt(idx); go('reader'); }
+  else go('reader');
+}
+
+/* ── init() 초기화 ── */
 function init() {
   if (!BOOK_CHAPTERS || !BOOK_CHAPTERS.length) return;
 
@@ -4636,10 +5222,13 @@ function go(id) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   if (id === 'contents') renderTOC();
+  if (id === 'notes') renderNotes();
 }
 function startReading() { openArt(0); }
 function openArt(idx) {
   curIdx = idx;
+  // TTS 재생 중이면 글 바뀔 때 중지
+  ttsStop();
   renderArt(idx);
   go('reader');
   if (pageMode) {
@@ -4647,10 +5236,16 @@ function openArt(idx) {
     // 레이아웃이 확정된 뒤(폰트 로드 포함) 페이지 적용
     relayoutPages(() => {
       if (pendingLastPage) { pageIdx = Math.max(0, pageCount - 1); pendingLastPage = false; applyPageTransform(); }
+      // 하이라이트 복원
+      const artId = (flatList[idx] || {}).id;
+      if (artId) restoreMarks(artId);
     });
   } else {
     document.getElementById('rScroll').scrollTop = 0;
     updProg();
+    // 하이라이트 복원
+    const artId = (flatList[idx] || {}).id;
+    if (artId) requestAnimationFrame(() => restoreMarks(artId));
   }
 }
 function prevArt() { if (curIdx > 0) openArt(curIdx - 1); }
