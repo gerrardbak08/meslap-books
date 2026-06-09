@@ -269,9 +269,10 @@ svg{display:block}
 @keyframes pulsering{0%{transform:scale(1);opacity:.6}100%{transform:scale(2.5);opacity:0}}
 @keyframes shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
 
-/* 뷰 전환: 활성 뷰 진입 시 fade+blur */
-.view.active{animation:fadeBlur .32s cubic-bezier(.2,.7,.3,1) both}
-/* 뷰가 이미 active였다가 다시 active 되는 경우엔 과하지 않도록 짧게 */
+/* 뷰 전환: 활성 뷰 진입 시 fade 전환 (filter:blur 제거 — 일부 환경에서 pointer-events 차단 문제) */
+.view.active{animation:fadeIn .28s ease both}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+/* 비활성 뷰는 애니메이션 없음 */
 .view{animation:none}
 
 /* 버튼 리플 */
@@ -5711,6 +5712,33 @@ window.addEventListener('resize', () => { if (pageMode) layoutPages(); });
 /* ── 설정 ── */
 function openPanel()  { document.getElementById('panel').classList.add('show'); document.getElementById('backdrop').classList.add('show'); }
 function closePanel() { document.getElementById('panel').classList.remove('show'); document.getElementById('backdrop').classList.remove('show'); }
+
+/* 안전장치: 블랙화면 또는 아무것도 안 눌릴 때 — 모든 오버레이 강제 닫기 */
+function emergencyClose() {
+  document.getElementById('backdrop').classList.remove('show');
+  document.getElementById('panel').classList.remove('show');
+  const ns = document.getElementById('noteSheet');
+  if (ns) ns.classList.remove('show');
+  const sp = document.getElementById('selPopup');
+  if (sp) sp.classList.add('hidden');
+  const mp = document.getElementById('markPopup');
+  if (mp) mp.classList.add('hidden');
+}
+// 화면 가장자리 5곳(좌상·우상·좌하·우하·중앙하단) 연속 탭 시 긴급 초기화
+(function() {
+  let tapCount = 0, tapTimer;
+  document.getElementById('app').addEventListener('pointerdown', e => {
+    const x = e.clientX / window.innerWidth;
+    const y = e.clientY / window.innerHeight;
+    // 오른쪽 상단 모서리 (x>0.85, y<0.15)
+    if (x > 0.85 && y < 0.15) {
+      tapCount++;
+      clearTimeout(tapTimer);
+      tapTimer = setTimeout(() => { tapCount = 0; }, 2000);
+      if (tapCount >= 3) { tapCount = 0; emergencyClose(); }
+    }
+  });
+})();
 function setTheme(t) {
   appEl.classList.remove('sepia','night');
   if (t !== 'white') appEl.classList.add(t);
