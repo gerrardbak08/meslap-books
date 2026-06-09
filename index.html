@@ -269,11 +269,10 @@ svg{display:block}
 @keyframes pulsering{0%{transform:scale(1);opacity:.6}100%{transform:scale(2.5);opacity:0}}
 @keyframes shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
 
-/* 뷰 전환: 활성 뷰 진입 시 fade 전환 (filter:blur 제거 — 일부 환경에서 pointer-events 차단 문제) */
-.view.active{animation:fadeIn .28s ease both}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-/* 비활성 뷰는 애니메이션 없음 */
-.view{animation:none}
+/* 뷰 전환: 활성 뷰만 보이고 나머지는 완전히 숨김 */
+/* animation 충돌 제거 — 단순 opacity transition만 사용 */
+.view{opacity:0;pointer-events:none;transform:translateX(100%)}
+.view.active{transform:translateX(0);opacity:1;pointer-events:auto;animation:none}
 
 /* 버튼 리플 */
 .btn-p,.btn-t,.social-btn,.tb-btn,.ctrl-btn{position:relative;overflow:hidden}
@@ -5159,8 +5158,17 @@ function goBackFromLegal() { go(legalReturn || 'about'); }
 
 /* ── 뷰 전환 ── */
 function go(id) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.view').forEach(v => {
+    v.classList.remove('active');
+    // transition 값을 초기화해서 다음 active 적용이 즉시 반영되도록
+    v.style.transition = 'none';
+  });
+  const next = document.getElementById(id);
+  if (!next) return;
+  // 강제 reflow — 이전 스타일 플러시
+  void next.offsetHeight;
+  next.style.transition = '';
+  next.classList.add('active');
   if (id === 'contents') renderTOC();
   if (id === 'notes') renderNotes();
 }
