@@ -4887,8 +4887,11 @@ function initSelectionDetection() {
     if (e.target.closest('#selPopup') || e.target.closest('#markPopup')) return;
     setTimeout(showPopup, 150);
   });
-  // 다른 곳 탭 시 팝업 닫기
-  document.addEventListener('mousedown', e => {
+  // 팝업 내부 mousedown은 선택 해제 방지 (하이라이트 적용 전 _selRange 초기화 방지)
+  document.getElementById('selPopup').addEventListener('mousedown', e => e.preventDefault());
+  document.getElementById('selPopup').addEventListener('touchstart', e => e.preventDefault(), { passive: false });
+  // 다른 곳 탭 시 팝업 닫기 (팝업·마크팝업 제외)
+  document.addEventListener('pointerdown', e => {
     if (!e.target.closest('#selPopup') && !e.target.closest('#markPopup')) {
       closeSelPopup();
       closeMarkPopup();
