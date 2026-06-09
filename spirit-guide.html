@@ -450,6 +450,7 @@ svg{display:block}
 .hl-chip:active{transform:scale(.88)}
 .hl-chip.yellow{background:rgba(235,207,150,.65);border-color:rgba(235,207,150,.9)}
 .hl-chip.green{background:rgba(26,92,58,.35);border-color:rgba(26,92,58,.6)}
+.hl-chip.underline{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.4);color:rgba(255,255,255,.85);display:flex;align-items:center;justify-content:center}
 .hl-chip.sel{border-color:var(--bg);box-shadow:0 0 0 2px var(--gold)}
 /* 공유 토글 */
 .sp-share-lbl{font-size:11.5px;font-weight:600;color:rgba(255,255,255,.75)}
@@ -468,7 +469,8 @@ svg{display:block}
 .r-mark{border-radius:2px;cursor:pointer;transition:background .15s}
 .r-mark.highlight-yellow{background:rgba(235,207,150,.35)}
 .r-mark.highlight-green{background:rgba(26,92,58,.18)}
-.r-mark:not(.highlight-yellow):not(.highlight-green){background:rgba(235,207,150,.35)}
+.r-mark.highlight-underline{background:none;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--gold);text-decoration-thickness:2px}
+.r-mark:not(.highlight-yellow):not(.highlight-green):not(.highlight-underline){background:rgba(235,207,150,.35)}
 .r-mark:hover,.r-mark.selected{background:rgba(154,123,79,.5)}
 /* 토큰 클래스 직접 사용 시도 */
 .highlight-yellow{background:rgba(235,207,150,.35);border-radius:2px}
@@ -789,7 +791,10 @@ svg{display:block}
         <div class="sp-chips">
           <div class="hl-chip yellow sel" id="hlChipYellow" onclick="selHlColor('yellow')" title="노란 하이라이트"></div>
           <div class="hl-chip green" id="hlChipGreen" onclick="selHlColor('green')" title="초록 하이라이트"></div>
-          <span style="font-size:10px;color:rgba(255,255,255,.5);margin-left:4px;line-height:26px">색상</span>
+          <div class="hl-chip underline" id="hlChipUnderline" onclick="selHlColor('underline')" title="밑줄">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="position:relative;top:4px"><path d="M6 4v6a6 6 0 0 0 12 0V4"/><line x1="4" y1="20" x2="20" y2="20"/></svg>
+          </div>
+          <span style="font-size:10px;color:rgba(255,255,255,.5);margin-left:4px;line-height:26px">스타일</span>
         </div>
         <div class="sp-share">
           <span class="sp-share-lbl">공개 공유</span>
@@ -4669,9 +4674,15 @@ function ttsClose() {
   document.getElementById('ttsBar').classList.add('hidden');
 }
 
-// ── ttsOpen: MP3 존재 확인 후 우선 재생, 없으면 Web Speech ──
+// ── ttsOpen: 토글 — 바가 열려 있으면 닫고, 닫혀 있으면 열어 MP3/Web Speech 재생 ──
 function ttsOpen() {
-  document.getElementById('ttsBar').classList.remove('hidden');
+  const bar = document.getElementById('ttsBar');
+  // 이미 열려 있으면 → 닫기 + 재생 중지
+  if (!bar.classList.contains('hidden')) {
+    ttsClose();
+    return;
+  }
+  bar.classList.remove('hidden');
   const audioUrl = ttsGetAudioUrl();
   if (audioUrl) {
     ttsCheckAudioExists(audioUrl).then(exists => {
@@ -4753,6 +4764,8 @@ function selHlColor(color) {
   _hlColor = color;
   document.getElementById('hlChipYellow').classList.toggle('sel', color === 'yellow');
   document.getElementById('hlChipGreen').classList.toggle('sel', color === 'green');
+  const u = document.getElementById('hlChipUnderline');
+  if (u) u.classList.toggle('sel', color === 'underline');
 }
 
 /* 공유 토글 */
@@ -4921,8 +4934,7 @@ function restoreMarks(artId) {
   marks.forEach(m => {
     const para = paras[m.paraIdx];
     if (!para || !m.text) return;
-    const colorClass = 'highlight-' + (m.color || 'yellow');
-    // 텍스트 노드에서 해당 텍스트 찾아 mark 삽입
+    const colorClass = 'highlight-' + (m.color || 'yellow');    // 텍스트 노드에서 해당 텍스트 찾아 mark 삽입
     const walker = document.createTreeWalker(para, NodeFilter.SHOW_TEXT);
     let node;
     while ((node = walker.nextNode())) {
@@ -5106,6 +5118,9 @@ function init() {
   renderCatalog();
   renderLegal();
   routeStart();
+  // 하이라이트 선택 감지 + 버튼 리플 초기화
+  initSelectionDetection();
+  initRipples();
 }
 
 /* ── 인증(프로토타입: 로컬 저장. 추후 Supabase Auth로 대체) ── */
