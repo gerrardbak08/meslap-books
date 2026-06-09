@@ -483,47 +483,27 @@ svg{display:block}
 /* 서재 관리자 버튼 */
 #adminLibBtn{display:none}
 
-/* ── TTS 낭독 ── */
-.tts-bar{display:flex;align-items:center;gap:8px;padding:7px 14px 8px;border-top:1px solid var(--line);background:var(--bg);flex-shrink:0;overflow-x:auto;-webkit-overflow-scrolling:touch}
-.tts-bar::-webkit-scrollbar{display:none}
-.tts-bar.hidden{display:none}
-.tts-play-btn{width:34px;height:34px;display:flex;align-items:center;justify-content:center;border:none;background:var(--gold);color:var(--bg);border-radius:50%;cursor:pointer;flex-shrink:0;transition:transform .15s,background .15s}
-.tts-play-btn:active{transform:scale(.9)}
-.tts-speed-row{display:flex;gap:5px;flex-shrink:0}
-.tts-speed-btn{padding:5px 11px;border:1px solid var(--line);border-radius:20px;background:var(--bg2);color:var(--ink2);font-size:11.5px;font-weight:700;cursor:pointer;transition:border-color .12s,color .12s;white-space:nowrap}
-.tts-speed-btn.sel{border-color:var(--gold);color:var(--gold)}
-.tts-close-btn{width:28px;height:28px;display:flex;align-items:center;justify-content:center;border:none;background:none;color:var(--ink3);cursor:pointer;border-radius:50%;flex-shrink:0;font-size:16px;margin-left:auto;transition:background .12s}
-.tts-close-btn:active{background:var(--bg2)}
-.tts-label{font-size:11px;color:var(--ink3);flex-shrink:0;white-space:nowrap;letter-spacing:.03em}
-.tts-upgrade-hint{font-size:10px;color:var(--ink3);flex-shrink:0;white-space:nowrap;letter-spacing:.01em;opacity:.65}
-.tts-upgrade-hint.hidden{display:none}
-/* 낭독 중 문단 강조 — 왼쪽 골드 세로선 + 연한 배경 */
-.tts-hl{background:rgba(154,123,79,.12);border-radius:3px;transition:background .2s}
-.tts-active{background:rgba(154,123,79,.08);border-left:2.5px solid var(--gold);padding-left:8px;transition:.2s}
-
 /* ── 텍스트 선택 팝업 ── */
-.sel-popup{position:fixed;z-index:9999;background:var(--ink);color:var(--bg);border-radius:12px;padding:5px 4px;display:flex;flex-direction:column;gap:0;box-shadow:0 4px 18px rgba(0,0,0,.28);pointer-events:auto;min-width:180px}
+/* 팝업: 수평 한 줄, 반투명 다크, 모서리 둥글게 */
+.sel-popup{position:fixed;z-index:9999;background:rgba(30,26,22,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:40px;padding:6px 8px;display:flex;align-items:center;box-shadow:0 4px 20px rgba(0,0,0,.35);pointer-events:auto;transform:translateX(-50%)}
 .sel-popup.hidden{display:none}
-.sel-popup .sp-row{display:flex;gap:2px;padding:0 2px}
-.sel-popup .sp-chips{display:flex;gap:6px;padding:6px 10px 4px;border-top:1px solid rgba(255,255,255,.12)}
-.sel-popup .sp-share{display:flex;align-items:center;justify-content:space-between;padding:4px 10px 6px;border-top:1px solid rgba(255,255,255,.12)}
-.sel-popup button{background:none;border:none;color:var(--bg);font-family:var(--sans);font-size:13px;font-weight:600;padding:7px 12px;border-radius:7px;cursor:pointer;white-space:nowrap;transition:background .1s}
-.sel-popup button:active{background:rgba(255,255,255,.15)}
-/* 하이라이트 색상 칩 */
-.hl-chip{width:26px;height:26px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:transform .12s,border-color .12s;flex-shrink:0}
+.sp-main{display:flex;align-items:center;gap:4px}
+/* 색상 칩: 원형, 크고 탭하기 쉽게 */
+.hl-chip{width:28px;height:28px;border-radius:50%;cursor:pointer;border:2.5px solid transparent;transition:transform .12s,border-color .12s;flex-shrink:0;display:flex;align-items:center;justify-content:center}
 .hl-chip:active{transform:scale(.88)}
-.hl-chip.yellow{background:rgba(235,207,150,.65);border-color:rgba(235,207,150,.9)}
-.hl-chip.green{background:rgba(26,92,58,.35);border-color:rgba(26,92,58,.6)}
-.hl-chip.underline{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.4);color:rgba(255,255,255,.85);display:flex;align-items:center;justify-content:center}
-.hl-chip.sel{border-color:var(--bg);box-shadow:0 0 0 2px var(--gold)}
-/* 공유 토글 */
-.sp-share-lbl{font-size:11.5px;font-weight:600;color:rgba(255,255,255,.75)}
-.sw-mini{display:flex;align-items:center;cursor:pointer;gap:5px}
-.sw-mini .trk{width:30px;height:16px;border-radius:8px;background:rgba(255,255,255,.2);position:relative;transition:background .2s;flex-shrink:0}
-.sw-mini .trk.on{background:var(--gold)}
-.sw-mini .kn{position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:#fff;transition:transform .22s cubic-bezier(.2,1.4,.4,1)}
-.sw-mini .trk.on .kn{transform:translateX(14px)}
-.sw-mini-lbl{font-size:10px;color:rgba(255,255,255,.55)}
+.hl-chip.yellow{background:#FFE066}
+.hl-chip.pink{background:#FF8FA3}
+.hl-chip.blue{background:#74B9FF}
+.hl-chip.underline{background:rgba(255,255,255,.18);color:rgba(255,255,255,.9)}
+.sp-divider{width:1px;height:20px;background:rgba(255,255,255,.15);margin:0 2px;flex-shrink:0}
+.sp-btn{background:none;border:none;color:rgba(255,255,255,.75);cursor:pointer;padding:5px 7px;border-radius:20px;display:flex;align-items:center;justify-content:center;transition:background .1s;flex-shrink:0}
+.sp-btn:active{background:rgba(255,255,255,.15)}
+.sp-close{font-size:13px;font-weight:600}
+/* 하이라이트 마크 — 색상별 */
+.r-mark.highlight-yellow{background:rgba(255,224,102,.5)}
+.r-mark.highlight-pink{background:rgba(255,143,163,.4)}
+.r-mark.highlight-blue{background:rgba(116,185,255,.4)}
+.r-mark.highlight-underline{background:none;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--gold);text-decoration-thickness:2px}
 /* 삭제 팝업 */
 .mark-popup{position:fixed;z-index:9999;background:var(--ink);color:var(--bg);border-radius:10px;padding:5px 4px;display:flex;gap:2px;box-shadow:0 4px 18px rgba(0,0,0,.28)}
 .mark-popup.hidden{display:none}
@@ -531,14 +511,7 @@ svg{display:block}
 .mark-popup button:active{background:rgba(255,255,255,.15)}
 /* 하이라이트 마크 — 색상별 */
 .r-mark{border-radius:2px;cursor:pointer;transition:background .15s}
-.r-mark.highlight-yellow{background:rgba(235,207,150,.35)}
-.r-mark.highlight-green{background:rgba(26,92,58,.18)}
-.r-mark.highlight-underline{background:none;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--gold);text-decoration-thickness:2px}
-.r-mark:not(.highlight-yellow):not(.highlight-green):not(.highlight-underline){background:rgba(235,207,150,.35)}
-.r-mark:hover,.r-mark.selected{background:rgba(154,123,79,.5)}
-/* 토큰 클래스 직접 사용 시도 */
-.highlight-yellow{background:rgba(235,207,150,.35);border-radius:2px}
-.highlight-green{background:rgba(26,92,58,.18);border-radius:2px}
+.r-mark:hover,.r-mark.selected{filter:brightness(.88)}
 
 /* ── 메모 바텀시트 ── */
 .note-sheet{position:absolute;left:0;right:0;bottom:0;background:var(--bg);border-radius:22px 22px 0 0;padding:20px 22px 0;transform:translateY(100%);transition:transform .35s var(--ease);z-index:190;box-shadow:0 -8px 32px rgba(0,0,0,.15);max-height:80%;display:flex;flex-direction:column}
@@ -807,27 +780,11 @@ svg{display:block}
           </div>
         </div>
         <div class="r-prog-track"><div class="r-prog-fill" id="progFill"></div></div>
-        <!-- TTS 컨트롤 바 -->
-        <div class="tts-bar hidden" id="ttsBar">
-          <span class="tts-label" id="ttsLabel">🔊 낭독</span>
-          <button class="tts-play-btn" id="ttsPlayBtn" onclick="ttsToggle()" title="재생/일시정지">
-            <svg id="ttsPlayIcon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          </button>
-          <div class="tts-speed-row" id="ttsSpeedRow">
-            <button class="tts-speed-btn" data-s="0.8" onclick="ttsSetSpeed(0.8)">0.8×</button>
-            <button class="tts-speed-btn sel" data-s="1" onclick="ttsSetSpeed(1)">1×</button>
-            <button class="tts-speed-btn" data-s="1.2" onclick="ttsSetSpeed(1.2)">1.2×</button>
-            <button class="tts-speed-btn" data-s="1.5" onclick="ttsSetSpeed(1.5)">1.5×</button>
-          </div>
-          <span class="tts-upgrade-hint hidden" id="ttsUpgradeHint">ⓘ AI 음성으로 업그레이드 예정</span>
-          <button class="tts-close-btn" onclick="ttsClose()" title="닫기">×</button>
-        </div>
         <div class="r-scroll" id="rScroll"><div class="r-body" id="rContent"></div></div>
         <div class="r-pageind" id="pageInd"></div>
         <div class="r-ctrl" id="rCtrl">
           <button class="ctrl-btn" onclick="pagePrev()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg><span>이전</span></button>
           <button class="ctrl-btn" onclick="openPanel()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg><span>설정</span></button>
-          <button class="ctrl-btn" id="ttsCtrlBtn" onclick="ttsOpen()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg><span>낭독</span></button>
           <button class="ctrl-btn" onclick="go('contents')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span>목차</span></button>
           <button class="ctrl-btn" onclick="pageNext()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18l6-6-6-6"/></svg><span>다음</span></button>
         </div>
@@ -847,25 +804,22 @@ svg{display:block}
       <div class="backdrop" id="backdrop" onclick="closePanel()"></div>
       <!-- 텍스트 선택 팝업 -->
       <div class="sel-popup hidden" id="selPopup">
-        <div class="sp-row">
-          <button onpointerdown="event.preventDefault()" onclick="doHighlight()">🖊 하이라이트</button>
-          <button onpointerdown="event.preventDefault()" onclick="openNoteSheet()">📋 기록하기</button>
-          <button onpointerdown="event.preventDefault()" onclick="closeSelPopup()">취소</button>
-        </div>
-        <div class="sp-chips">
-          <div class="hl-chip yellow sel" id="hlChipYellow" onpointerdown="event.preventDefault()" onclick="selHlColor('yellow')" title="노란 하이라이트"></div>
-          <div class="hl-chip green" id="hlChipGreen" onpointerdown="event.preventDefault()" onclick="selHlColor('green')" title="초록 하이라이트"></div>
-          <div class="hl-chip underline" id="hlChipUnderline" onpointerdown="event.preventDefault()" onclick="selHlColor('underline')" title="밑줄">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="position:relative;top:4px"><path d="M6 4v6a6 6 0 0 0 12 0V4"/><line x1="4" y1="20" x2="20" y2="20"/></svg>
+        <div class="sp-main">
+          <!-- 색상/스타일 칩 (탭하면 즉시 하이라이트 적용 + 팝업 닫힘) -->
+          <div class="hl-chip yellow" id="hlChipYellow" onpointerdown="event.preventDefault()" onclick="applyHighlight('yellow')" title="노란 형광펜"></div>
+          <div class="hl-chip pink"   id="hlChipPink"   onpointerdown="event.preventDefault()" onclick="applyHighlight('pink')"   title="분홍 형광펜"></div>
+          <div class="hl-chip blue"   id="hlChipBlue"   onpointerdown="event.preventDefault()" onclick="applyHighlight('blue')"   title="파랑 형광펜"></div>
+          <div class="hl-chip underline" id="hlChipUnderline" onpointerdown="event.preventDefault()" onclick="applyHighlight('underline')" title="밑줄">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 4v6a6 6 0 0 0 12 0V4"/><line x1="4" y1="20" x2="20" y2="20"/></svg>
           </div>
-          <span style="font-size:10px;color:rgba(255,255,255,.5);margin-left:4px;line-height:26px">스타일</span>
-        </div>
-        <div class="sp-share">
-          <span class="sp-share-lbl">공개 공유</span>
-          <div class="sw-mini" onpointerdown="event.preventDefault()" onclick="toggleShareMark()">
-            <div class="trk" id="shareMiniTrk"><div class="kn"></div></div>
-            <span class="sw-mini-lbl" id="shareMiniLbl">나만 보임</span>
-          </div>
+          <!-- 구분선 -->
+          <div class="sp-divider"></div>
+          <!-- 메모 버튼 -->
+          <button class="sp-btn" onpointerdown="event.preventDefault()" onclick="openNoteSheet()" title="메모">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>
+          </button>
+          <!-- 닫기 -->
+          <button class="sp-btn sp-close" onpointerdown="event.preventDefault()" onclick="closeSelPopup()" title="닫기">✕</button>
         </div>
       </div>
       <!-- 마크 삭제 팝업 -->
@@ -4555,291 +4509,12 @@ function motifSVG(key, cls) {
 }
 
 /* ═══════════════════════════════════════════════════
-   기능 1: TTS 음성 낭독
-   우선순위: 1) Supertone MP3  2) Web Speech API
-═══════════════════════════════════════════════════ */
-let ttsActive = false;    // 현재 재생 중 여부
-let ttsPaused = false;    // 일시정지 여부
-let ttsRate   = 1;        // 재생 속도
-let ttsParas  = [];       // 현재 글 낭독 대상 요소 배열
-let ttsIdx    = 0;        // 현재 낭독 중인 문단 인덱스
-let ttsMode   = 'web';    // 현재 재생 모드: 'mp3' | 'web'
-let _ttsAudio = null;     // MP3 재생용 <audio> 엘리먼트
-
-// ── 현재 글의 MP3 오디오 URL 계산 ──
-function ttsGetAudioUrl() {
-  const art = flatList[curIdx];
-  if (!art) return null;
-  let slug = null;
-  if (typeof BOOK_META === 'object' && BOOK_META && BOOK_META.slug) {
-    slug = BOOK_META.slug;
-  } else if (typeof BOOK_CATALOG !== 'undefined' && Array.isArray(BOOK_CATALOG)) {
-    const cur = BOOK_CATALOG.find(b => b.current);
-    if (cur) slug = cur.slug;
-  }
-  if (!slug) return null;
-  const logNo = art.log_no || art.id;
-  if (!logNo) return null;
-  return `audio/${slug}/${logNo}.mp3`;
-}
-
-// ── MP3 존재 여부 비동기 확인 (HEAD 요청) ──
-function ttsCheckAudioExists(url) {
-  return fetch(url, { method: 'HEAD' })
-    .then(r => r.ok)
-    .catch(() => false);
-}
-
-// ── MP3 모드: <audio> 엘리먼트로 재생 ──
-function ttsPlayMp3(url) {
-  if (_ttsAudio) { _ttsAudio.pause(); _ttsAudio = null; }
-  const audio = new Audio(url);
-  audio.playbackRate = ttsRate;
-  _ttsAudio = audio;
-  ttsMode   = 'mp3';
-  ttsActive = true;
-  ttsPaused = false;
-
-  audio.ontimeupdate = () => {
-    const pct = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
-    const fill = document.getElementById('progFill');
-    if (fill) fill.style.width = pct + '%';
-  };
-  audio.onended = () => {
-    ttsMode   = 'web';
-    ttsActive = false;
-    ttsPaused = false;
-    _ttsAudio = null;
-    ttsUpdateUI();
-  };
-  audio.onerror = () => {
-    _ttsAudio = null;
-    ttsMode   = 'web';
-    ttsSpeakFrom(0);
-  };
-  audio.play().catch(() => {
-    _ttsAudio = null;
-    ttsMode   = 'web';
-    ttsSpeakFrom(0);
-  });
-  ttsUpdateUI();
-}
-
-function ttsGetParas() {
-  const c = document.getElementById('rContent');
-  if (!c) return [];
-  // 문단 순서대로 수집: r-p, r-lead, r-h2, r-h3, .r-pq p, .r-sc
-  return Array.from(c.querySelectorAll('.r-p, .r-lead, .r-h2, .r-h3, .r-pq p, .r-sc'));
-}
-
-function ttsParaText(el) {
-  if (el.classList.contains('r-sc')) {
-    const ref = el.querySelector('.r-sc-ref');
-    const txt = el.querySelector('.r-sc-txt');
-    const refT = ref ? ref.textContent.trim() : '';
-    const txtT = txt ? txt.textContent.trim() : '';
-    return refT && txtT ? `${refT} — ${txtT}` : (refT || txtT);
-  }
-  return el.textContent.trim();
-}
-
-function ttsSpeakFrom(startIdx) {
-  window.speechSynthesis.cancel();
-  ttsParas = ttsGetParas();
-  if (!ttsParas.length) return;
-  ttsIdx = Math.max(0, Math.min(startIdx, ttsParas.length - 1));
-  ttsActive = true;
-  ttsPaused = false;
-  ttsMode   = 'web';
-  ttsSpeakNext();
-  ttsUpdateUI();
-}
-
-function ttsSpeakNext() {
-  if (!ttsActive || ttsIdx >= ttsParas.length) {
-    ttsStop();
-    return;
-  }
-  const para = ttsParas[ttsIdx];
-  const text = ttsParaText(para);
-  if (!text) { ttsIdx++; ttsSpeakNext(); return; }
-
-  const utt = new SpeechSynthesisUtterance(text);
-  utt.lang = 'ko-KR';
-  utt.rate = ttsRate;
-
-  utt.onstart = () => {
-    ttsParas.forEach(x => { x.classList.remove('tts-hl'); x.classList.remove('tts-active'); });
-    para.classList.add('tts-hl');
-    para.classList.add('tts-active');
-    para.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  };
-  utt.onend = () => {
-    para.classList.remove('tts-hl');
-    para.classList.remove('tts-active');
-    ttsIdx++;
-    if (ttsActive) ttsSpeakNext();
-  };
-  utt.onerror = () => {
-    para.classList.remove('tts-hl');
-    para.classList.remove('tts-active');
-    ttsIdx++;
-    if (ttsActive) ttsSpeakNext();
-  };
-
-  window.speechSynthesis.speak(utt);
-}
-
-function ttsToggle() {
-  if (!ttsActive) {
-    // 아직 시작 안 했으면 처음부터 재생
-    if (ttsMode === 'mp3' && _ttsAudio) {
-      _ttsAudio.play().catch(() => {});
-      ttsActive = true; ttsPaused = false;
-      ttsUpdateUI();
-    } else {
-      ttsSpeakFrom(0);
-    }
-    return;
-  }
-  if (ttsMode === 'mp3' && _ttsAudio) {
-    if (ttsPaused) {
-      _ttsAudio.play().catch(() => {});
-      ttsPaused = false;
-    } else {
-      _ttsAudio.pause();
-      ttsPaused = true;
-    }
-  } else {
-    if (ttsPaused) {
-      window.speechSynthesis.resume();
-      ttsPaused = false;
-    } else {
-      window.speechSynthesis.pause();
-      ttsPaused = true;
-    }
-  }
-  ttsUpdateUI();
-}
-
-function ttsStop() {
-  if (_ttsAudio) { _ttsAudio.pause(); _ttsAudio = null; }
-  window.speechSynthesis.cancel();
-  ttsActive = false;
-  ttsPaused = false;
-  ttsMode   = 'web';
-  ttsParas.forEach(x => { x.classList.remove('tts-hl'); x.classList.remove('tts-active'); });
-  ttsParas = [];
-  ttsUpdateUI();
-}
-
-function ttsClose() {
-  ttsStop();
-  document.getElementById('ttsBar').classList.add('hidden');
-}
-
-// ── ttsOpen: 토글 — 바가 열려 있으면 닫고, 닫혀 있으면 열어 MP3/Web Speech 재생 ──
-function ttsOpen() {
-  const bar = document.getElementById('ttsBar');
-  // 이미 열려 있으면 → 닫기 + 재생 중지
-  if (!bar.classList.contains('hidden')) {
-    ttsClose();
-    return;
-  }
-  bar.classList.remove('hidden');
-  const audioUrl = ttsGetAudioUrl();
-  if (audioUrl) {
-    ttsCheckAudioExists(audioUrl).then(exists => {
-      if (exists) {
-        ttsPlayMp3(audioUrl);
-      } else {
-        ttsMode = 'web';
-        ttsUpdateUI();
-      }
-    });
-  } else {
-    ttsMode = 'web';
-    ttsUpdateUI();
-  }
-}
-
-function ttsSetSpeed(s) {
-  ttsRate = s;
-  document.querySelectorAll('.tts-speed-btn').forEach(b =>
-    b.classList.toggle('sel', parseFloat(b.dataset.s) === s));
-  if (ttsMode === 'mp3' && _ttsAudio) {
-    _ttsAudio.playbackRate = s;
-  } else if (ttsActive && !ttsPaused) {
-    // Web Speech: 재시작(현재 문단부터)
-    window.speechSynthesis.cancel();
-    ttsSpeakFrom(ttsIdx);
-  }
-}
-
-function ttsUpdateUI() {
-  const playBtn     = document.getElementById('ttsPlayBtn');
-  const playIcon    = document.getElementById('ttsPlayIcon');
-  const ctrlBtn     = document.getElementById('ttsCtrlBtn');
-  const label       = document.getElementById('ttsLabel');
-  const speedRow    = document.getElementById('ttsSpeedRow');
-  const upgradeHint = document.getElementById('ttsUpgradeHint');
-  if (!playBtn || !playIcon) return;
-
-  // 재생 방식 레이블
-  if (label) {
-    label.textContent = (ttsMode === 'mp3' && ttsActive) ? '🔊 낭독 (AI 음성)' : '🔊 낭독 (TTS)';
-  }
-
-  // 업그레이드 힌트: Web Speech 사용 중일 때만 노출
-  if (upgradeHint) {
-    upgradeHint.classList.toggle('hidden', ttsMode === 'mp3' && ttsActive);
-  }
-
-  // 속도 조절: MP3 재생 중에는 숨김(playbackRate만 적용)
-  if (speedRow) {
-    speedRow.style.display = (ttsMode === 'mp3' && ttsActive) ? 'none' : '';
-  }
-
-  if (ttsActive && !ttsPaused) {
-    playIcon.innerHTML = `<rect x="4" y="4" width="16" height="16" rx="2"/>`;
-    playBtn.style.background = 'var(--gold)';
-    if (ctrlBtn) ctrlBtn.style.color = 'var(--gold)';
-  } else if (ttsActive && ttsPaused) {
-    playIcon.innerHTML = `<path d="M8 5v14l11-7z"/>`;
-    if (ctrlBtn) ctrlBtn.style.color = 'var(--gold)';
-  } else {
-    playIcon.innerHTML = `<path d="M8 5v14l11-7z"/>`;
-    playBtn.style.background = 'var(--gold)';
-    if (ctrlBtn) ctrlBtn.style.color = '';
-  }
-}
-
-/* ═══════════════════════════════════════════════════
-   기능 2: 텍스트 하이라이트
+   기능 1: 텍스트 하이라이트
 ═══════════════════════════════════════════════════ */
 const MARK_STORE = 'meslap_marks';
 let _selRange    = null;   // 현재 선택 Range
 let _markTarget  = null;   // 탭한 mark 요소
-let _hlColor     = 'yellow';  // 현재 선택된 하이라이트 색상
-let _sharePublic = false;  // 공유 토글 상태
-
-/* 색상 칩 선택 */
-function selHlColor(color) {
-  _hlColor = color;
-  document.getElementById('hlChipYellow').classList.toggle('sel', color === 'yellow');
-  document.getElementById('hlChipGreen').classList.toggle('sel', color === 'green');
-  const u = document.getElementById('hlChipUnderline');
-  if (u) u.classList.toggle('sel', color === 'underline');
-}
-
-/* 공유 토글 */
-function toggleShareMark() {
-  _sharePublic = !_sharePublic;
-  const trk = document.getElementById('shareMiniTrk');
-  const lbl = document.getElementById('shareMiniLbl');
-  if (trk) trk.classList.toggle('on', _sharePublic);
-  if (lbl) lbl.textContent = _sharePublic ? '공개됨' : '나만 보임';
-}
+let _sharePublic = false;  // 공유 토글 상태 (persistMarks에서 사용)
 
 function marksKey(artId) { return MARK_STORE + '_' + artId; }
 
@@ -4862,30 +4537,25 @@ function getParaIndex(node) {
   return Array.from(c.children).indexOf(el);
 }
 
-/* 하이라이트 적용 */
-function doHighlight() {
-  // _selRange가 없으면(버튼 탭 시 selection 해제된 경우) 현재 sel에서 재복구
+/* 하이라이트 즉시 적용 (Kindle/리디 표준: 색상 탭 → 즉시 적용) */
+function applyHighlight(color) {
+  // _selRange가 없으면 현재 selection에서 복구
   if (!_selRange) {
     const sel = window.getSelection();
     if (sel && !sel.isCollapsed && sel.rangeCount) {
-      const rContentEl = document.getElementById('rContent');
       const r = sel.getRangeAt(0);
-      if (rContentEl && rContentEl.contains(r.commonAncestorContainer)) {
-        _selRange = r.cloneRange();
-      }
+      const rc = document.getElementById('rContent');
+      if (rc && rc.contains(r.commonAncestorContainer)) _selRange = r.cloneRange();
     }
     if (!_selRange) { closeSelPopup(); return; }
   }
-  const sel = window.getSelection();
-  const colorClass = 'highlight-' + (_hlColor || 'yellow');
+  const colorClass = 'highlight-' + color;
   try {
     const mark = document.createElement('mark');
     mark.className = 'r-mark ' + colorClass;
     _selRange.surroundContents(mark);
     mark.addEventListener('click', onMarkClick);
-  } catch (e) {
-    console.warn('[doHighlight] surroundContents 실패:', e);
-    // surroundContents 실패(다중 블록 걸침) → extractContents 방식
+  } catch(e) {
     try {
       const frag = _selRange.extractContents();
       const mark = document.createElement('mark');
@@ -4893,11 +4563,12 @@ function doHighlight() {
       mark.appendChild(frag);
       _selRange.insertNode(mark);
       mark.addEventListener('click', onMarkClick);
-    } catch (e2) { console.warn('[doHighlight] extractContents fallback 실패:', e2); }
+    } catch(e2) {}
   }
+  const sel = window.getSelection();
   if (sel) sel.removeAllRanges();
   persistMarks();
-  closeSelPopup();
+  closeSelPopup();    // 즉시 팝업 닫힘
 }
 
 /* 이미 마크된 요소 탭 → 삭제 팝업 */
@@ -5024,7 +4695,7 @@ function showSelPopup(range) {
   const screenRect = screenEl.getBoundingClientRect();
   const cx = rect.left + rect.width / 2 - screenRect.left;
   // 팝업을 선택 영역 위에, 공간 부족 시 아래
-  let cy = rect.top - screenRect.top - 120;
+  let cy = rect.top - screenRect.top - 55;
   if (cy < 10) cy = rect.bottom - screenRect.top + 8;
   popup.style.left = Math.max(80, Math.min(cx, screenRect.width - 80)) + 'px';
   popup.style.top  = Math.max(10, cy) + 'px';
@@ -5045,7 +4716,10 @@ function persistMarks() {
   const marks = [];
   c.querySelectorAll('.r-mark').forEach(m => {
     // 색상 클래스 추출
-    const color = m.classList.contains('highlight-green') ? 'green' : 'yellow';
+    const color = m.classList.contains('highlight-pink') ? 'pink'
+      : m.classList.contains('highlight-blue') ? 'blue'
+      : m.classList.contains('highlight-underline') ? 'underline'
+      : 'yellow';
     marks.push({
       id:        m.dataset.markId || (Date.now().toString(36) + Math.random().toString(36).slice(2,5)),
       artId:     artId,
@@ -5137,8 +4811,8 @@ function saveNote() {
   notes.unshift(note);
   setNotes(notes);
   closeNoteSheet();
-  // 하이라이트도 같이 적용
-  if (_noteQuote) doHighlight();
+  // 하이라이트도 같이 적용 (기본 노란색)
+  if (_noteQuote) applyHighlight('yellow');
 }
 
 function deleteNote(id) {
@@ -5493,8 +5167,6 @@ function go(id) {
 function startReading() { openArt(0); }
 function openArt(idx) {
   curIdx = idx;
-  // TTS 재생 중이면 글 바뀔 때 중지
-  ttsStop();
   renderArt(idx);
   go('reader');
   if (pageMode) {
