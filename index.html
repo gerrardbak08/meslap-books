@@ -431,6 +431,8 @@ svg{display:block}
 .tts-close-btn{width:28px;height:28px;display:flex;align-items:center;justify-content:center;border:none;background:none;color:var(--ink3);cursor:pointer;border-radius:50%;flex-shrink:0;font-size:16px;margin-left:auto;transition:background .12s}
 .tts-close-btn:active{background:var(--bg2)}
 .tts-label{font-size:11px;color:var(--ink3);flex-shrink:0;white-space:nowrap;letter-spacing:.03em}
+.tts-upgrade-hint{font-size:10px;color:var(--ink3);flex-shrink:0;white-space:nowrap;letter-spacing:.01em;opacity:.65}
+.tts-upgrade-hint.hidden{display:none}
 /* 낭독 중 문단 강조 — 왼쪽 골드 세로선 + 연한 배경 */
 .tts-hl{background:rgba(154,123,79,.12);border-radius:3px;transition:background .2s}
 .tts-active{background:rgba(154,123,79,.08);border-left:2.5px solid var(--gold);padding-left:8px;transition:.2s}
@@ -741,7 +743,7 @@ svg{display:block}
         <div class="r-prog-track"><div class="r-prog-fill" id="progFill"></div></div>
         <!-- TTS 컨트롤 바 -->
         <div class="tts-bar hidden" id="ttsBar">
-          <span class="tts-label">낭독</span>
+          <span class="tts-label" id="ttsLabel">🔊 낭독</span>
           <button class="tts-play-btn" id="ttsPlayBtn" onclick="ttsToggle()" title="재생/일시정지">
             <svg id="ttsPlayIcon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
           </button>
@@ -751,6 +753,7 @@ svg{display:block}
             <button class="tts-speed-btn" data-s="1.2" onclick="ttsSetSpeed(1.2)">1.2×</button>
             <button class="tts-speed-btn" data-s="1.5" onclick="ttsSetSpeed(1.5)">1.5×</button>
           </div>
+          <span class="tts-upgrade-hint hidden" id="ttsUpgradeHint">ⓘ AI 음성으로 업그레이드 예정</span>
           <button class="tts-close-btn" onclick="ttsClose()" title="닫기">×</button>
         </div>
         <div class="r-scroll" id="rScroll"><div class="r-body" id="rContent"></div></div>
@@ -871,6 +874,7 @@ svg{display:block}
 
 <script>
 const BOOK_META = {
+  "slug": "spirit-guide",
   "series": "복된 삶 시리즈 · 제1권",
   "title": "성령의 인도하심을<br>따라가는 복된 삶의 지침",
   "subtitle": "로마서 8장, 성령을 따라 사는 열 걸음",
@@ -1155,6 +1159,7 @@ const BOOK_CHAPTERS = [
     "articles": [
       {
         "id": "224053624040",
+        "log_no": "224053624040",
         "label": "I-1 · 지침",
         "title": "지침 1 | 성령의 해방 — 정죄함 없는 생명의 성령의 법",
         "sub": "",
@@ -1397,6 +1402,7 @@ const BOOK_CHAPTERS = [
       },
       {
         "id": "224061558640",
+        "log_no": "224061558640",
         "label": "I-2 · 지침",
         "title": "지침 2 | 생명과 평안으로 이끄시는 성령님 — 육신의 생각 vs 영의 생각",
         "sub": "",
@@ -1623,6 +1629,7 @@ const BOOK_CHAPTERS = [
       },
       {
         "id": "224069486853",
+        "log_no": "224069486853",
         "label": "I-3 · 지침",
         "title": "지침 3 | 성령의 내주로 그리스도인 됨을 확신하라 — 흔들리지 않는 정체성의 표징과 부활의 소망",
         "sub": "",
@@ -1889,6 +1896,7 @@ const BOOK_CHAPTERS = [
       },
       {
         "id": "224084716293",
+        "log_no": "224084716293",
         "label": "I-4 · 지침",
         "title": "지침 4 | 성령의 능력을 힘입어 육신의 행실을 죽이라",
         "sub": "",
@@ -2187,6 +2195,7 @@ const BOOK_CHAPTERS = [
       },
       {
         "id": "224092681741",
+        "log_no": "224092681741",
         "label": "I-5 · 지침",
         "title": "지침 5 | 양자의 영으로 아바 아버지를 부르짖으라",
         "sub": "",
@@ -2457,6 +2466,7 @@ const BOOK_CHAPTERS = [
       },
       {
         "id": "224100714033",
+        "log_no": "224100714033",
         "label": "I-6 · 지침",
         "title": "지침 6 | 고난 속에서도 상속자의 영광된 소망을 붙들라",
         "sub": "",
@@ -2811,6 +2821,7 @@ const BOOK_CHAPTERS = [
       },
       {
         "id": "224108915471",
+        "log_no": "224108915471",
         "label": "I-7 · 지침",
         "title": "지침 7 | 성령의 중보로 연약함을 담대히 이겨내라",
         "sub": "",
@@ -3449,6 +3460,7 @@ const BOOK_CHAPTERS = [
       },
       {
         "id": "224125045632",
+        "log_no": "224125045632",
         "label": "I-8 · 지침",
         "title": "지침 8 | 하나님의 주권과 선하신 계획을 확신하라",
         "sub": "",
@@ -3787,6 +3799,7 @@ const BOOK_CHAPTERS = [
       },
       {
         "id": "224133468965",
+        "log_no": "224133468965",
         "label": "I-9 · 지침",
         "title": "지침 9 | 그리스도 안에서 끊을 수 없는 하나님의 사랑을 확신하라",
         "sub": "",
@@ -4053,6 +4066,7 @@ const BOOK_CHAPTERS = [
       },
       {
         "id": "224141916535",
+        "log_no": "224141916535",
         "label": "I-10 · 지침",
         "title": "지침 10 | 성령의 인도하심을 따라 그리스도의 형상을 닮아가라",
         "sub": "",
@@ -4473,12 +4487,74 @@ function motifSVG(key, cls) {
 
 /* ═══════════════════════════════════════════════════
    기능 1: TTS 음성 낭독
+   우선순위: 1) Supertone MP3  2) Web Speech API
 ═══════════════════════════════════════════════════ */
 let ttsActive = false;    // 현재 재생 중 여부
 let ttsPaused = false;    // 일시정지 여부
 let ttsRate   = 1;        // 재생 속도
 let ttsParas  = [];       // 현재 글 낭독 대상 요소 배열
 let ttsIdx    = 0;        // 현재 낭독 중인 문단 인덱스
+let ttsMode   = 'web';    // 현재 재생 모드: 'mp3' | 'web'
+let _ttsAudio = null;     // MP3 재생용 <audio> 엘리먼트
+
+// ── 현재 글의 MP3 오디오 URL 계산 ──
+function ttsGetAudioUrl() {
+  const art = flatList[curIdx];
+  if (!art) return null;
+  let slug = null;
+  if (typeof BOOK_META === 'object' && BOOK_META && BOOK_META.slug) {
+    slug = BOOK_META.slug;
+  } else if (typeof BOOK_CATALOG !== 'undefined' && Array.isArray(BOOK_CATALOG)) {
+    const cur = BOOK_CATALOG.find(b => b.current);
+    if (cur) slug = cur.slug;
+  }
+  if (!slug) return null;
+  const logNo = art.log_no || art.id;
+  if (!logNo) return null;
+  return `audio/${slug}/${logNo}.mp3`;
+}
+
+// ── MP3 존재 여부 비동기 확인 (HEAD 요청) ──
+function ttsCheckAudioExists(url) {
+  return fetch(url, { method: 'HEAD' })
+    .then(r => r.ok)
+    .catch(() => false);
+}
+
+// ── MP3 모드: <audio> 엘리먼트로 재생 ──
+function ttsPlayMp3(url) {
+  if (_ttsAudio) { _ttsAudio.pause(); _ttsAudio = null; }
+  const audio = new Audio(url);
+  audio.playbackRate = ttsRate;
+  _ttsAudio = audio;
+  ttsMode   = 'mp3';
+  ttsActive = true;
+  ttsPaused = false;
+
+  audio.ontimeupdate = () => {
+    const pct = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+    const fill = document.getElementById('progFill');
+    if (fill) fill.style.width = pct + '%';
+  };
+  audio.onended = () => {
+    ttsMode   = 'web';
+    ttsActive = false;
+    ttsPaused = false;
+    _ttsAudio = null;
+    ttsUpdateUI();
+  };
+  audio.onerror = () => {
+    _ttsAudio = null;
+    ttsMode   = 'web';
+    ttsSpeakFrom(0);
+  };
+  audio.play().catch(() => {
+    _ttsAudio = null;
+    ttsMode   = 'web';
+    ttsSpeakFrom(0);
+  });
+  ttsUpdateUI();
+}
 
 function ttsGetParas() {
   const c = document.getElementById('rContent');
@@ -4505,6 +4581,7 @@ function ttsSpeakFrom(startIdx) {
   ttsIdx = Math.max(0, Math.min(startIdx, ttsParas.length - 1));
   ttsActive = true;
   ttsPaused = false;
+  ttsMode   = 'web';
   ttsSpeakNext();
   ttsUpdateUI();
 }
@@ -4547,23 +4624,41 @@ function ttsSpeakNext() {
 function ttsToggle() {
   if (!ttsActive) {
     // 아직 시작 안 했으면 처음부터 재생
-    ttsSpeakFrom(0);
+    if (ttsMode === 'mp3' && _ttsAudio) {
+      _ttsAudio.play().catch(() => {});
+      ttsActive = true; ttsPaused = false;
+      ttsUpdateUI();
+    } else {
+      ttsSpeakFrom(0);
+    }
     return;
   }
-  if (ttsPaused) {
-    window.speechSynthesis.resume();
-    ttsPaused = false;
+  if (ttsMode === 'mp3' && _ttsAudio) {
+    if (ttsPaused) {
+      _ttsAudio.play().catch(() => {});
+      ttsPaused = false;
+    } else {
+      _ttsAudio.pause();
+      ttsPaused = true;
+    }
   } else {
-    window.speechSynthesis.pause();
-    ttsPaused = true;
+    if (ttsPaused) {
+      window.speechSynthesis.resume();
+      ttsPaused = false;
+    } else {
+      window.speechSynthesis.pause();
+      ttsPaused = true;
+    }
   }
   ttsUpdateUI();
 }
 
 function ttsStop() {
+  if (_ttsAudio) { _ttsAudio.pause(); _ttsAudio = null; }
   window.speechSynthesis.cancel();
   ttsActive = false;
   ttsPaused = false;
+  ttsMode   = 'web';
   ttsParas.forEach(x => { x.classList.remove('tts-hl'); x.classList.remove('tts-active'); });
   ttsParas = [];
   ttsUpdateUI();
@@ -4574,39 +4669,70 @@ function ttsClose() {
   document.getElementById('ttsBar').classList.add('hidden');
 }
 
+// ── ttsOpen: MP3 존재 확인 후 우선 재생, 없으면 Web Speech ──
 function ttsOpen() {
   document.getElementById('ttsBar').classList.remove('hidden');
-  ttsUpdateUI();
+  const audioUrl = ttsGetAudioUrl();
+  if (audioUrl) {
+    ttsCheckAudioExists(audioUrl).then(exists => {
+      if (exists) {
+        ttsPlayMp3(audioUrl);
+      } else {
+        ttsMode = 'web';
+        ttsUpdateUI();
+      }
+    });
+  } else {
+    ttsMode = 'web';
+    ttsUpdateUI();
+  }
 }
 
 function ttsSetSpeed(s) {
   ttsRate = s;
   document.querySelectorAll('.tts-speed-btn').forEach(b =>
     b.classList.toggle('sel', parseFloat(b.dataset.s) === s));
-  // 재생 중이면 재시작(현재 문단부터)
-  if (ttsActive && !ttsPaused) {
+  if (ttsMode === 'mp3' && _ttsAudio) {
+    _ttsAudio.playbackRate = s;
+  } else if (ttsActive && !ttsPaused) {
+    // Web Speech: 재시작(현재 문단부터)
     window.speechSynthesis.cancel();
     ttsSpeakFrom(ttsIdx);
   }
 }
 
 function ttsUpdateUI() {
-  const playBtn  = document.getElementById('ttsPlayBtn');
-  const playIcon = document.getElementById('ttsPlayIcon');
-  const ctrlBtn  = document.getElementById('ttsCtrlBtn');
+  const playBtn     = document.getElementById('ttsPlayBtn');
+  const playIcon    = document.getElementById('ttsPlayIcon');
+  const ctrlBtn     = document.getElementById('ttsCtrlBtn');
+  const label       = document.getElementById('ttsLabel');
+  const speedRow    = document.getElementById('ttsSpeedRow');
+  const upgradeHint = document.getElementById('ttsUpgradeHint');
   if (!playBtn || !playIcon) return;
 
+  // 재생 방식 레이블
+  if (label) {
+    label.textContent = (ttsMode === 'mp3' && ttsActive) ? '🔊 낭독 (AI 음성)' : '🔊 낭독 (TTS)';
+  }
+
+  // 업그레이드 힌트: Web Speech 사용 중일 때만 노출
+  if (upgradeHint) {
+    upgradeHint.classList.toggle('hidden', ttsMode === 'mp3' && ttsActive);
+  }
+
+  // 속도 조절: MP3 재생 중에는 숨김(playbackRate만 적용)
+  if (speedRow) {
+    speedRow.style.display = (ttsMode === 'mp3' && ttsActive) ? 'none' : '';
+  }
+
   if (ttsActive && !ttsPaused) {
-    // 재생 중: ■ 정지 아이콘
     playIcon.innerHTML = `<rect x="4" y="4" width="16" height="16" rx="2"/>`;
     playBtn.style.background = 'var(--gold)';
     if (ctrlBtn) ctrlBtn.style.color = 'var(--gold)';
   } else if (ttsActive && ttsPaused) {
-    // 일시정지: ▶ 재생 아이콘
     playIcon.innerHTML = `<path d="M8 5v14l11-7z"/>`;
     if (ctrlBtn) ctrlBtn.style.color = 'var(--gold)';
   } else {
-    // 정지 상태
     playIcon.innerHTML = `<path d="M8 5v14l11-7z"/>`;
     playBtn.style.background = 'var(--gold)';
     if (ctrlBtn) ctrlBtn.style.color = '';
