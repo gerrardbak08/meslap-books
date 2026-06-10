@@ -179,10 +179,9 @@ body{font-family:var(--sans);-webkit-font-smoothing:antialiased;background:radia
 .r-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .r-scroll::-webkit-scrollbar{display:none}
 .r-body{padding:28px 22px 60px;max-width:100%;
-  /* iOS 네이티브 콜아웃(복사/번역/찾아보기) 메뉴 제거 — 커스텀 팝업 사용 */
+  /* iOS: 네이티브 텍스트 선택 완전 차단 → 커스텀 하이라이트로 대체 */
+  -webkit-user-select:none;user-select:none;
   -webkit-touch-callout:none;
-  /* 텍스트 선택 자체는 허용 (하이라이트를 위해 필수) */
-  -webkit-user-select:text;user-select:text;
 }
 .r-lbl{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-align:center;margin-bottom:14px}
 .r-title{font-family:var(--reader-font);font-size:24px;font-weight:700;line-height:1.5;color:var(--ink);text-align:center;word-break:keep-all;margin-bottom:10px}
@@ -4638,89 +4637,154 @@ function closeMarkPopup() {
   if (_markTarget) { _markTarget.classList.remove('selected'); _markTarget = null; }
 }
 
-/* 선택 변화 감지 */
+/* 선택 변화 감지 — iOS: 터치 드래그로 직접 Range 생성, 데스크탑: selectionchange */
 function initSelectionDetection() {
   const rContentEl = document.getElementById('rContent');
-  let selTimer = null;
-  let _popupInteracting = false; // 팝업 조작 중 플래그
+  const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent) ||
+                (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  let _popupInteracting = false;
 
-  // ── selectionchange: PC/iOS/Android 모두 텍스트 선택 변화 시 발생 ──
-  document.addEventListener('selectionchange', () => {
-    clearTimeout(selTimer);
-    selTimer = setTimeout(() => {
-      const sel = window.getSelection();
-      if (!sel || sel.isCollapsed || !sel.rangeCount) {
-        // 팝업 조작 중이 아닐 때만 닫기
-        if (!_popupInteracting) {
-          setTimeout(() => {
-            if (!_popupInteracting) closeSelPopup();
-          }, 150);
-        }
-        return;
-      }
-      const range = sel.getRangeAt(0);
-      if (!rContentEl || !rContentEl.contains(range.commonAncestorContainer)) {
-        closeSelPopup(); return;
-      }
-      const text = sel.toString().trim();
-      if (!text || text.length < 2) { closeSelPopup(); return; }
-      _selRange = range.cloneRange();
-      showSelPopup(range);
-    }, 100); // iOS 빠른 반응 — 네이티브 메뉴보다 먼저 팝업 표시
-  });
-
-  // ── 팝업 버튼: pointerdown에서 preventDefault → 팝업 탭 시 selection 해제 방지 ──
+  /* ── 팝업 상호작용 플래그 (선택 해제 방지) ── */
   const popup = document.getElementById('selPopup');
-  popup.addEventListener('pointerdown', e => {
-    e.preventDefault();
-    _popupInteracting = true;
-  });
-  popup.addEventListener('pointerup', () => {
-    setTimeout(() => { _popupInteracting = false; }, 300);
-  });
-  // 구형 브라우저 대응: mousedown/touchstart도 preventDefault
+  popup.addEventListener('pointerdown', e => { e.preventDefault(); _popupInteracting = true; });
+  popup.addEventListener('pointerup', () => { setTimeout(() => { _popupInteracting = false; }, 300); });
   popup.addEventListener('mousedown', e => e.preventDefault());
   popup.addEventListener('touchstart', e => e.preventDefault(), { passive: false });
 
-  // 팝업 외부 포인터 → 닫기 (버튼 클릭 처리 후)
+  /* 팝업 외부 탭 → 닫기 */
   document.addEventListener('pointerdown', e => {
     if (!e.target.closest('#selPopup') && !e.target.closest('#markPopup')) {
-      setTimeout(() => {
-        if (!_popupInteracting) { closeSelPopup(); closeMarkPopup(); }
-      }, 80);
+      setTimeout(() => { if (!_popupInteracting) { closeSelPopup(); closeMarkPopup(); } }, 80);
     }
   });
 
-  // ── 롱프레스 지원: touchstart 500ms 후 선택 텍스트 확인 → 팝업 표시 ──
-  let _lpTimer = null;
-  let _lpStartX = 0, _lpStartY = 0;
-  rContentEl.addEventListener('touchstart', e => {
-    if (e.touches.length !== 1) return;
-    _lpStartX = e.touches[0].clientX;
-    _lpStartY = e.touches[0].clientY;
-    clearTimeout(_lpTimer);
-    _lpTimer = setTimeout(() => {
-      const sel = window.getSelection();
-      if (!sel || sel.isCollapsed || !sel.rangeCount) return;
-      const range = sel.getRangeAt(0);
-      if (!rContentEl.contains(range.commonAncestorContainer)) return;
-      const text = sel.toString().trim();
-      if (!text || text.length < 2) return;
-      _selRange = range.cloneRange();
-      showSelPopup(range);
-    }, 500);
-  }, { passive: true });
+  if (isIOS) {
+    /* ════════════════════════════════════════════════
+       iOS 전용: caretRangeFromPoint 방식
+       롱프레스 → 단어 선택 → 드래그로 범위 확장 → touchend에서 팝업
+       user-select:none 상태에서도 Range를 수동으로 만들어 적용
+    ════════════════════════════════════════════════ */
+    let _lpTimer = null;
+    let _startPt = null;       // 롱프레스 시작점
+    let _isSelecting = false;  // 선택 중 플래그
+    let _highlightEl = null;   // 임시 시각화 엘리먼트
 
-  rContentEl.addEventListener('touchmove', e => {
-    if (Math.abs(e.touches[0].clientX - _lpStartX) > 10 ||
-        Math.abs(e.touches[0].clientY - _lpStartY) > 10) {
-      clearTimeout(_lpTimer);
+    /* 좌표에서 텍스트 노드와 오프셋 반환 */
+    function caretAt(x, y) {
+      if (document.caretRangeFromPoint) {
+        return document.caretRangeFromPoint(x, y);
+      }
+      if (document.caretPositionFromPoint) {
+        const pos = document.caretPositionFromPoint(x, y);
+        if (!pos) return null;
+        const r = document.createRange();
+        r.setStart(pos.offsetNode, pos.offset);
+        r.collapse(true);
+        return r;
+      }
+      return null;
     }
-  }, { passive: true });
 
-  rContentEl.addEventListener('touchend', () => {
-    clearTimeout(_lpTimer);
-  }, { passive: true });
+    /* 좌표 기준으로 단어 Range 반환 */
+    function wordRangeAt(x, y) {
+      const r = caretAt(x, y);
+      if (!r || !rContentEl.contains(r.startContainer)) return null;
+      const node = r.startContainer;
+      if (node.nodeType !== Node.TEXT_NODE) return null;
+      const text = node.textContent;
+      let start = r.startOffset, end = r.startOffset;
+      // 단어 경계 확장
+      while (start > 0 && /\S/.test(text[start - 1])) start--;
+      while (end < text.length && /\S/.test(text[end])) end++;
+      if (start === end) return null;
+      const wr = document.createRange();
+      wr.setStart(node, start);
+      wr.setEnd(node, end);
+      return wr;
+    }
+
+    /* 선택 영역 시각 하이라이트 (임시 mark 없이 Selection API 활용) */
+    function applyVisualSelection(range) {
+      const sel = window.getSelection();
+      if (!sel) return;
+      sel.removeAllRanges();
+      // user-select:none 에서도 Selection은 set 가능
+      try { sel.addRange(range); } catch(e) {}
+    }
+
+    rContentEl.addEventListener('touchstart', e => {
+      if (e.touches.length !== 1) return;
+      const t = e.touches[0];
+      _startPt = { x: t.clientX, y: t.clientY };
+      _isSelecting = false;
+      clearTimeout(_lpTimer);
+
+      _lpTimer = setTimeout(() => {
+        /* 롱프레스 500ms → 단어 선택 시작 */
+        const wr = wordRangeAt(_startPt.x, _startPt.y);
+        if (!wr) return;
+        _selRange = wr.cloneRange();
+        _isSelecting = true;
+        applyVisualSelection(_selRange);
+        /* 진동 피드백 (지원 기기) */
+        if (navigator.vibrate) navigator.vibrate(30);
+      }, 500);
+    }, { passive: true });
+
+    rContentEl.addEventListener('touchmove', e => {
+      if (e.touches.length !== 1) return;
+      const t = e.touches[0];
+      /* 10px 이상 움직이면 롱프레스 취소 */
+      if (_startPt && (Math.abs(t.clientX - _startPt.x) > 10 || Math.abs(t.clientY - _startPt.y) > 10)) {
+        clearTimeout(_lpTimer);
+      }
+      if (!_isSelecting || !_selRange) return;
+      /* 드래그 중: 끝점 계산해서 Range 확장 */
+      const endCaret = caretAt(t.clientX, t.clientY);
+      if (!endCaret || !rContentEl.contains(endCaret.startContainer)) return;
+      try {
+        const newRange = _selRange.cloneRange();
+        if (endCaret.compareBoundaryPoints(Range.START_TO_START, _selRange) > 0) {
+          newRange.setEnd(endCaret.startContainer, endCaret.startOffset);
+        } else {
+          newRange.setStart(endCaret.startContainer, endCaret.startOffset);
+        }
+        _selRange = newRange;
+        applyVisualSelection(_selRange);
+      } catch(e) {}
+    }, { passive: true });
+
+    rContentEl.addEventListener('touchend', e => {
+      clearTimeout(_lpTimer);
+      if (!_isSelecting || !_selRange) { _isSelecting = false; return; }
+      const text = _selRange.toString().trim();
+      if (!text || text.length < 1) { _isSelecting = false; closeSelPopup(); return; }
+      _isSelecting = false;
+      showSelPopup(_selRange);
+    }, { passive: true });
+
+  } else {
+    /* ════════════════════════════════════════════════
+       데스크탑 / Android: 기존 selectionchange 방식
+    ════════════════════════════════════════════════ */
+    let selTimer = null;
+    document.addEventListener('selectionchange', () => {
+      clearTimeout(selTimer);
+      selTimer = setTimeout(() => {
+        const sel = window.getSelection();
+        if (!sel || sel.isCollapsed || !sel.rangeCount) {
+          if (!_popupInteracting) setTimeout(() => { if (!_popupInteracting) closeSelPopup(); }, 150);
+          return;
+        }
+        const range = sel.getRangeAt(0);
+        if (!rContentEl || !rContentEl.contains(range.commonAncestorContainer)) { closeSelPopup(); return; }
+        const text = sel.toString().trim();
+        if (!text || text.length < 2) { closeSelPopup(); return; }
+        _selRange = range.cloneRange();
+        showSelPopup(range);
+      }, 120);
+    });
+  }
 }
 
 /* 팝업 위치 계산 + 표시 */
@@ -4732,10 +4796,9 @@ function showSelPopup(range) {
   const screenEl = document.querySelector('.screen') || document.documentElement;
   const screenRect = screenEl.getBoundingClientRect();
   const cx = rect.left + rect.width / 2 - screenRect.left;
-  // 팝업을 선택 영역 위에, 공간 부족 시 아래
-  let cy = rect.top - screenRect.top - 55;
-  if (cy < 10) cy = rect.bottom - screenRect.top + 8;
-  popup.style.left = Math.max(80, Math.min(cx, screenRect.width - 80)) + 'px';
+  let cy = rect.top - screenRect.top - 58;
+  if (cy < 10) cy = rect.bottom - screenRect.top + 10;
+  popup.style.left = Math.max(90, Math.min(cx, screenRect.width - 90)) + 'px';
   popup.style.top  = Math.max(10, cy) + 'px';
   popup.style.transform = 'translateX(-50%)';
 }
@@ -4743,6 +4806,9 @@ function showSelPopup(range) {
 function closeSelPopup() {
   document.getElementById('selPopup').classList.add('hidden');
   _selRange = null;
+  /* 선택 해제 */
+  const sel = window.getSelection();
+  if (sel) sel.removeAllRanges();
 }
 
 /* 현재 rContent의 mark 직렬화 저장 */
