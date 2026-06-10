@@ -610,19 +610,45 @@ svg{display:block}
 .note-cancel-btn{padding:14px 22px;background:none;border:1px solid var(--line);border-radius:12px;font-family:var(--sans);font-size:15px;font-weight:600;color:var(--ink2);cursor:pointer;transition:background .12s}
 .note-cancel-btn:active{background:var(--bg2)}
 
-/* ── 내 기록 뷰 ── */
-.notes-empty{padding:60px 36px;text-align:center;font-size:14px;color:var(--ink3);line-height:1.7}
-.notes-group-lbl{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);padding:18px 22px 8px}
-.note-item{display:flex;flex-direction:column;gap:6px;padding:14px 22px;border-top:1px solid var(--line);cursor:pointer;transition:background .12s}
-.note-item:active{background:var(--bg2)}
-.note-item-quote{font-family:var(--reader-font);font-size:13px;font-style:italic;color:var(--ink);line-height:1.65;word-break:keep-all}
-.note-item-quote::before{content:'" '}.note-item-quote::after{content:' "'}
-.note-item-memo{font-size:13px;color:var(--ink2);line-height:1.5;word-break:keep-all}
-.note-item-meta{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.note-item-book{font-size:11px;font-weight:600;color:var(--gold)}
-.note-item-date{font-size:11px;color:var(--ink3)}
-.note-del-btn{background:none;border:none;color:var(--ink3);cursor:pointer;font-size:18px;padding:2px 6px;line-height:1;flex-shrink:0;border-radius:6px;transition:background .12s}
-.note-del-btn:active{background:var(--bg2)}
+/* ── 내 기록 통합 뷰 ── */
+.rec-tabs{display:flex;gap:6px;padding:14px 16px 10px;border-bottom:1px solid var(--line);flex-shrink:0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.rec-tabs::-webkit-scrollbar{display:none}
+.rec-tab{flex-shrink:0;padding:7px 14px;border-radius:20px;border:1.5px solid var(--line);background:var(--bg);font-family:var(--sans);font-size:12.5px;font-weight:600;color:var(--ink3);cursor:pointer;transition:background .12s,border-color .12s,color .12s}
+.rec-tab.sel{background:var(--gold-bg);border-color:var(--gold);color:var(--gold)}
+.rec-filter{display:flex;gap:6px;padding:8px 16px 12px;border-bottom:1px solid var(--line);flex-shrink:0}
+.rec-chip{width:22px;height:22px;border-radius:50%;cursor:pointer;border:2.5px solid transparent;transition:border-color .12s,transform .12s;flex-shrink:0}
+.rec-chip:active{transform:scale(.88)}
+.rec-chip.yellow{background:#FFE066}.rec-chip.pink{background:#FF8FA3}
+.rec-chip.blue{background:#74B9FF}
+.rec-chip.underline{background:var(--bg2);border-color:var(--line);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--ink3)}
+.rec-chip.sel{border-color:var(--ink)!important}
+.rec-chip.all{background:var(--ink);width:auto;border-radius:20px;padding:0 10px;font-size:11px;font-weight:700;color:var(--bg);border:none;height:22px}
+.rec-chip.all.sel{background:var(--gold)}
+/* 기록 항목 공통 */
+.rec-item{display:flex;gap:10px;padding:13px 18px;border-top:1px solid var(--line);cursor:pointer;transition:background .12s;align-items:flex-start}
+.rec-item:active{background:var(--bg2)}
+.rec-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.rec-dot.yellow{background:#FFE066}.rec-dot.pink{background:#FF8FA3}
+.rec-dot.blue{background:#74B9FF}.rec-dot.underline{background:var(--gold)}
+.rec-dot.bookmark{background:var(--gold)}
+.rec-dot.memo{background:var(--ink3)}
+.rec-body{flex:1;min-width:0}
+.rec-quote{font-family:var(--serif);font-size:13.5px;color:var(--ink);line-height:1.7;word-break:keep-all;margin-bottom:4px}
+.rec-quote.hl-yellow{background:rgba(255,224,102,.45);border-radius:3px;padding:0 2px}
+.rec-quote.hl-pink{background:rgba(255,143,163,.35);border-radius:3px;padding:0 2px}
+.rec-quote.hl-blue{background:rgba(116,185,255,.35);border-radius:3px;padding:0 2px}
+.rec-quote.hl-underline{text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--gold);text-decoration-thickness:2px}
+.rec-memo{font-size:12.5px;color:var(--ink2);line-height:1.5;margin-top:3px;word-break:keep-all}
+.rec-meta{display:flex;align-items:center;justify-content:space-between;margin-top:5px}
+.rec-book{font-size:11px;font-weight:600;color:var(--gold)}
+.rec-date{font-size:10.5px;color:var(--ink3)}
+.rec-del{background:none;border:none;color:var(--ink3);cursor:pointer;padding:4px 6px;font-size:16px;line-height:1;flex-shrink:0;border-radius:6px;transition:background .12s}
+.rec-del:active{background:var(--bg2)}
+.rec-section-lbl{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);padding:16px 18px 6px}
+.rec-empty{padding:56px 36px;text-align:center;font-size:14px;color:var(--ink3);line-height:1.8}
+.rec-empty .ic{font-size:32px;display:block;margin-bottom:10px;opacity:.5}
+/* 읽기 예상 시간 */
+.r-read-time{font-size:11px;color:var(--ink3);text-align:center;padding:6px 0 2px;flex-shrink:0;letter-spacing:.04em}
 
 /* ── 모바일/PWA 전체화면(full-bleed) — 목업 프레임 없이 진짜 설치앱처럼 ── */
 @media (display-mode: standalone), (max-width:480px){
@@ -738,6 +764,7 @@ svg{display:block}
           <div style="flex:1"></div>
           <button class="tb-btn" onclick="go('notes')" title="내 기록"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M11 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
           <button class="tb-btn" onclick="go('catalog')" title="도서 안내"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M8 7h8M8 11h8"/></svg></button>
+          <button class="tb-btn" id="adminLibBtn" onclick="openAdminLogin()" title="관리자" style="display:none"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
           <button class="tb-btn" onclick="signOut()" title="로그아웃"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></button>
         </div>
         <div class="scroll">
@@ -873,6 +900,7 @@ svg{display:block}
           </div>
         </div>
         <div class="r-prog-track"><div class="r-prog-fill" id="progFill"></div></div>
+        <div class="r-read-time" id="readTime"></div>
         <div class="r-scroll" id="rScroll"><div class="r-body" id="rContent"></div></div>
         <div class="r-pageind" id="pageInd"></div>
         <div class="r-ctrl" id="rCtrl">
@@ -883,17 +911,32 @@ svg{display:block}
         </div>
       </div>
 
-      <!-- 내 기록 뷰 -->
+      <!-- 내 기록 통합 뷰 (하이라이트 + 책갈피 + 메모) -->
       <div class="view" id="notes">
         <div class="topbar">
           <button class="tb-btn" onclick="goBack()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg></button>
           <span class="tb-title">내 기록</span>
           <div style="width:38px"></div>
         </div>
-        <div class="scroll" id="notesList"></div>
+        <!-- 탭: 전체 / 하이라이트 / 책갈피 / 메모 -->
+        <div class="rec-tabs">
+          <button class="rec-tab sel" data-tab="all" onclick="switchRecTab('all')">전체</button>
+          <button class="rec-tab" data-tab="highlight" onclick="switchRecTab('highlight')">형광펜</button>
+          <button class="rec-tab" data-tab="bookmark" onclick="switchRecTab('bookmark')">책갈피</button>
+          <button class="rec-tab" data-tab="memo" onclick="switchRecTab('memo')">메모</button>
+        </div>
+        <!-- 색상 필터 (하이라이트 탭일 때만 표시) -->
+        <div class="rec-filter" id="recFilter" style="display:none">
+          <button class="rec-chip all sel" data-color="all" onclick="switchRecColor('all')">전체</button>
+          <button class="rec-chip yellow" data-color="yellow" onclick="switchRecColor('yellow')"></button>
+          <button class="rec-chip pink"   data-color="pink"   onclick="switchRecColor('pink')"></button>
+          <button class="rec-chip blue"   data-color="blue"   onclick="switchRecColor('blue')"></button>
+          <button class="rec-chip underline" data-color="underline" onclick="switchRecColor('underline')">U</button>
+        </div>
+        <div class="scroll" id="recList"></div>
       </div>
 
-      <!-- 책갈피 목록 뷰 -->
+      <!-- 책갈피 목록 뷰 — 내 기록으로 통합됨 (하위 호환용 리다이렉트) -->
       <div class="view" id="bookmarks">
         <div class="topbar">
           <button class="tb-btn" onclick="goBack()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg></button>
@@ -905,6 +948,102 @@ svg{display:block}
 
       <!-- 토스트 알림 -->
       <div class="toast" id="toast"></div>
+
+      <!-- ══ 관리자 페이지 ══ -->
+      <div class="view" id="admin">
+        <div class="topbar" style="padding-top:56px">
+          <button class="tb-btn" onclick="go('library')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <span class="tb-title">관리자</span>
+          <button class="tb-btn" onclick="adminLogout()" title="로그아웃">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+          </button>
+        </div>
+        <!-- 탭 -->
+        <div class="admin-tabs">
+          <button class="admin-tab sel" data-p="dash"    onclick="adminTab('dash')">대시보드</button>
+          <button class="admin-tab"    data-p="readers"  onclick="adminTab('readers')">독자</button>
+          <button class="admin-tab"    data-p="books"    onclick="adminTab('books')">콘텐츠</button>
+          <button class="admin-tab"    data-p="codes"    onclick="adminTab('codes')">코드</button>
+        </div>
+        <!-- 대시보드 패널 -->
+        <div class="admin-panel sel" id="ap-dash">
+          <div class="admin-sec">
+            <div class="admin-sec-lbl">독서 현황 요약</div>
+            <div class="admin-stat-row" id="adStatRow">
+              <div class="admin-stat"><div class="admin-stat-val" id="adStatUsers">—</div><div class="admin-stat-key">가입 독자</div></div>
+              <div class="admin-stat"><div class="admin-stat-val" id="adStatHL">—</div><div class="admin-stat-key">하이라이트</div></div>
+              <div class="admin-stat"><div class="admin-stat-val" id="adStatBmk">—</div><div class="admin-stat-key">책갈피</div></div>
+            </div>
+          </div>
+          <div class="admin-sec">
+            <div class="admin-sec-lbl">책별 읽기 비율</div>
+            <div class="admin-bar-wrap" id="adBarWrap"></div>
+          </div>
+          <div class="admin-sec">
+            <div class="admin-sec-lbl">기기별 접속</div>
+            <div class="admin-bar-wrap" id="adDeviceWrap"></div>
+          </div>
+          <div class="admin-sec">
+            <div class="admin-notice">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+              <p>Supabase 연동 전: 현재 기기 localStorage 기반 통계만 표시됩니다. 연동 후 전체 독자 데이터를 확인할 수 있습니다.</p>
+            </div>
+          </div>
+        </div>
+        <!-- 독자 현황 패널 -->
+        <div class="admin-panel" id="ap-readers">
+          <div class="admin-sec">
+            <div class="admin-sec-lbl">로컬 독자 데이터</div>
+            <div id="adReaderList"></div>
+          </div>
+          <div class="admin-sec">
+            <div class="admin-notice">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+              <p>Supabase 연동 후: 전체 독자 목록 · 구매 내역 · 읽기 진행률 · 마지막 접속 시간 조회 가능.</p>
+            </div>
+          </div>
+        </div>
+        <!-- 콘텐츠 관리 패널 -->
+        <div class="admin-panel" id="ap-books">
+          <div class="admin-sec">
+            <div class="admin-sec-lbl">발행 도서 관리</div>
+            <div id="adBookList"></div>
+          </div>
+          <div class="admin-sec">
+            <button class="admin-action-btn" onclick="adminRebuild()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10M23 14l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+              책 데이터 새로고침
+            </button>
+          </div>
+        </div>
+        <!-- 초대 코드 패널 -->
+        <div class="admin-panel" id="ap-codes">
+          <div class="admin-sec">
+            <div class="admin-sec-lbl">베타 초대 코드</div>
+            <button class="admin-code-gen-btn" onclick="adminGenCode()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 5v14M5 12h14"/></svg>
+              새 초대 코드 발급
+            </button>
+            <div class="admin-code-list" id="adCodeList"></div>
+          </div>
+          <div class="admin-sec">
+            <div class="admin-notice">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+              <p>초대 코드는 베타 기간 중 선택적 접근 제어에 사용됩니다. Supabase 연동 후 코드별 사용 현황을 추적합니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 관리자 로그인 모달 -->
+      <div class="backdrop" id="adminBackdrop" style="z-index:200" onclick="closeAdminLogin()"></div>
+      <div class="panel" id="adminLoginPanel" style="z-index:201">
+        <div class="panel-handle"></div>
+        <div style="font-size:16px;font-weight:700;color:var(--ink);margin-bottom:16px;text-align:center">관리자 로그인</div>
+        <label class="fld"><span>비밀번호</span><input id="adminPwInput" type="password" placeholder="관리자 비밀번호" autocomplete="current-password"></label>
+        <button class="btn-p" onclick="submitAdminLogin()">확인</button>
+        <p style="font-size:11px;color:var(--ink3);text-align:center;margin-top:12px">기본 비밀번호: meslap2024</p>
+      </div>
 
       <!-- 설정 패널 -->
       <div class="backdrop" id="backdrop" onclick="closePanel()"></div>
@@ -4668,6 +4807,7 @@ function applyHighlight(color) {
       const mark = document.createElement('mark');
       mark.className = 'r-mark ' + colorClass;
       mark.textContent = marked;
+      mark.dataset.markId = Date.now().toString(36) + Math.random().toString(36).slice(2,5);
       mark.addEventListener('click', onMarkClick);
       const parent = node.parentNode;
       if (before) parent.insertBefore(document.createTextNode(before), node);
@@ -4679,6 +4819,7 @@ function applyHighlight(color) {
       try {
         const mark = document.createElement('mark');
         mark.className = 'r-mark ' + colorClass;
+        mark.dataset.markId = Date.now().toString(36) + Math.random().toString(36).slice(2,5);
         range.surroundContents(mark);
         mark.addEventListener('click', onMarkClick);
       } catch(e) {
@@ -4686,6 +4827,7 @@ function applyHighlight(color) {
         const frag = range.extractContents();
         const mark = document.createElement('mark');
         mark.className = 'r-mark ' + colorClass;
+        mark.dataset.markId = Date.now().toString(36) + Math.random().toString(36).slice(2,5);
         mark.appendChild(frag);
         range.insertNode(mark);
         mark.addEventListener('click', onMarkClick);
@@ -5015,40 +5157,145 @@ function saveNote() {
 function deleteNote(id) {
   if (!confirm('이 기록을 삭제할까요?')) return;
   setNotes(getNotes().filter(n => n.id !== id));
-  renderNotes();
+  renderRecords();
 }
 
-function renderNotes() {
-  const list = document.getElementById('notesList');
+function renderNotes() { renderRecords(); } // 하위 호환
+
+/* ══════════════════════════════════════════════
+   내 기록 통합 뷰 — 하이라이트 + 책갈피 + 메모
+══════════════════════════════════════════════ */
+let _recTab   = 'all';   // 현재 탭
+let _recColor = 'all';   // 현재 색상 필터
+
+function switchRecTab(tab) {
+  _recTab = tab;
+  // 탭 버튼 업데이트
+  document.querySelectorAll('.rec-tab').forEach(b => b.classList.toggle('sel', b.dataset.tab === tab));
+  // 색상 필터: 하이라이트 탭일 때만 표시
+  const filter = document.getElementById('recFilter');
+  if (filter) filter.style.display = (tab === 'highlight') ? 'flex' : 'none';
+  renderRecords();
+}
+
+function switchRecColor(color) {
+  _recColor = color;
+  document.querySelectorAll('.rec-chip').forEach(b => b.classList.toggle('sel', b.dataset.color === color));
+  renderRecords();
+}
+
+function renderRecords() {
+  const list = document.getElementById('recList');
   if (!list) return;
-  const notes = getNotes();
-  if (!notes.length) {
-    list.innerHTML = `<div class="notes-empty">아직 기록한 내용이 없어요.<br>본문을 선택해 기록을 남겨 보세요 📖</div>`;
+
+  // 모든 하이라이트 수집 (전체 artId 순회)
+  const allMarks = [];
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (!key || !key.startsWith(MARK_STORE + '_')) continue;
+      const marks = JSON.parse(localStorage.getItem(key) || '[]');
+      marks.forEach(m => allMarks.push({ ...m, _type: 'highlight' }));
+    }
+  } catch(e) {}
+
+  const allBookmarks = getBookmarks().map(b => ({ ...b, _type: 'bookmark' }));
+  const allNotes     = getNotes().map(n => ({ ...n, _type: 'memo' }));
+
+  // 탭 필터
+  let items = [];
+  if (_recTab === 'all')       items = [...allMarks, ...allBookmarks, ...allNotes];
+  else if (_recTab === 'highlight') items = allMarks;
+  else if (_recTab === 'bookmark')  items = allBookmarks;
+  else if (_recTab === 'memo')      items = allNotes;
+
+  // 색상 필터 (하이라이트 탭)
+  if (_recTab === 'highlight' && _recColor !== 'all') {
+    items = items.filter(m => m.color === _recColor);
+  }
+
+  // 날짜 내림차순 정렬
+  items.sort((a, b) => {
+    const da = a.createdAt || a.date || '';
+    const db = b.createdAt || b.date || '';
+    return db.localeCompare(da);
+  });
+
+  if (!items.length) {
+    const labels = { all:'아직 기록이 없어요', highlight:'하이라이트가 없어요', bookmark:'책갈피가 없어요', memo:'메모가 없어요' };
+    const icons  = { all:'📖', highlight:'🖊️', bookmark:'🔖', memo:'📝' };
+    list.innerHTML = `<div class="rec-empty"><span class="ic">${icons[_recTab]||'📖'}</span>${labels[_recTab]||'기록이 없어요'}<br><span style="font-size:12px;color:var(--ink3);margin-top:6px;display:block">본문을 길게 눌러 하이라이트하거나<br>상단 🔖 버튼으로 책갈피를 저장하세요</span></div>`;
     return;
   }
-  // 날짜 그룹별 묶기
-  const groups = {};
-  const order  = [];
-  notes.forEach(n => {
-    const k = n.date || '날짜 없음';
-    if (!groups[k]) { groups[k] = []; order.push(k); }
-    groups[k].push(n);
-  });
+
   let html = '';
-  order.forEach(k => {
-    html += `<div class="notes-group-lbl">${k}</div>`;
-    groups[k].forEach(n => {
-      html += `<div class="note-item" onclick="openArtFromNote('${n.artId}')">
-        <div class="note-item-meta">
-          <span class="note-item-book">${n.bookTitle ? n.bookTitle + ' · ' : ''}${n.artTitle || ''}</span>
-          <button class="note-del-btn" onclick="event.stopPropagation();deleteNote('${n.id}')">×</button>
+  items.forEach(item => {
+    if (item._type === 'highlight') {
+      const color = item.color || 'yellow';
+      const dotCls = color === 'underline' ? 'underline' : color;
+      const quoteCls = `hl-${color}`;
+      const artTitle = item.artId ? (flatList.find(f => f.id === item.artId) || {}).title || '' : '';
+      html += `<div class="rec-item" onclick="jumpToMark('${item.artId}')">
+        <div class="rec-dot ${dotCls}"></div>
+        <div class="rec-body">
+          <div class="rec-quote ${quoteCls}">${item.text || ''}</div>
+          <div class="rec-meta">
+            <span class="rec-book">${(artTitle||'').replace(/<br>/g,' ')}</span>
+            <span class="rec-date">${(item.createdAt||'').slice(0,10)}</span>
+          </div>
         </div>
-        ${n.quote ? `<div class="note-item-quote">${n.quote}</div>` : ''}
-        ${n.memo  ? `<div class="note-item-memo">${n.memo}</div>` : ''}
+        <button class="rec-del" onclick="event.stopPropagation();deleteMarkById('${item.artId}','${item.id}')">×</button>
       </div>`;
-    });
+    } else if (item._type === 'bookmark') {
+      html += `<div class="rec-item" onclick="jumpToBookmark('${item.artId}',${item.artIdx??0},${item.pageIdx??0})">
+        <div class="rec-dot bookmark"></div>
+        <div class="rec-body">
+          <div class="rec-quote">${item.artTitle || '(제목 없음)'}</div>
+          <div class="rec-meta">
+            <span class="rec-book">${item.bookTitle||''}</span>
+            <span class="rec-date">${item.date||''}</span>
+          </div>
+        </div>
+        <button class="rec-del" onclick="event.stopPropagation();deleteBookmark('${item.id}')">×</button>
+      </div>`;
+    } else if (item._type === 'memo') {
+      html += `<div class="rec-item" onclick="openArtFromNote('${item.artId}')">
+        <div class="rec-dot memo"></div>
+        <div class="rec-body">
+          ${item.quote ? `<div class="rec-quote">"${item.quote}"</div>` : ''}
+          ${item.memo  ? `<div class="rec-memo">${item.memo}</div>` : ''}
+          <div class="rec-meta">
+            <span class="rec-book">${item.bookTitle ? item.bookTitle+' · ':''  }${item.artTitle||''}</span>
+            <span class="rec-date">${item.date||''}</span>
+          </div>
+        </div>
+        <button class="rec-del" onclick="event.stopPropagation();deleteNote('${item.id}')">×</button>
+      </div>`;
+    }
   });
   list.innerHTML = html;
+}
+
+/* 하이라이트 위치로 이동 */
+function jumpToMark(artId) {
+  const idx = flatList.findIndex(f => f.id === artId);
+  if (idx >= 0) { openArt(idx); go('reader'); }
+}
+
+/* 하이라이트 ID로 삭제 */
+function deleteMarkById(artId, markId) {
+  if (!confirm('이 하이라이트를 삭제할까요?')) return;
+  const marks = loadMarks(artId).filter(m => m.id !== markId);
+  saveMarks(artId, marks);
+  // DOM에서도 제거
+  const el = document.querySelector(`[data-mark-id="${markId}"]`);
+  if (el) {
+    const parent = el.parentNode;
+    while (el.firstChild) parent.insertBefore(el.firstChild, el);
+    parent.removeChild(el);
+  }
+  renderRecords();
+  showToast('하이라이트가 삭제됐습니다');
 }
 
 function openArtFromNote(artId) {
@@ -5170,6 +5417,220 @@ function signOut() {
 function greet(u) {
   const el = document.getElementById('libHi');
   if (el) el.textContent = `${u.name}님, 안녕하세요`;
+  /* 관리자 버튼 노출 (이메일이 admin이면 표시) */
+  const adminBtn = document.getElementById('adminLibBtn');
+  if (adminBtn) adminBtn.style.display = (u.email === 'admin' || u.name === '관리자' || localStorage.getItem('meslap_admin') === '1') ? 'flex' : 'none';
+}
+
+/* ══════════════════════════════════════════════════════
+   관리자 (Track B)
+   비밀번호: meslap2024 (로컬 검증 — Supabase 연동 후 서버 인증으로 교체)
+══════════════════════════════════════════════════════ */
+const ADMIN_PW = 'meslap2024';
+const ADMIN_CODES_KEY = 'meslap_admin_codes';
+
+function openAdminLogin() {
+  const already = localStorage.getItem('meslap_admin') === '1';
+  if (already) { go('admin'); renderAdmin(); return; }
+  document.getElementById('adminBackdrop').classList.add('show');
+  document.getElementById('adminLoginPanel').classList.add('show');
+  setTimeout(() => document.getElementById('adminPwInput').focus(), 350);
+}
+function closeAdminLogin() {
+  document.getElementById('adminBackdrop').classList.remove('show');
+  document.getElementById('adminLoginPanel').classList.remove('show');
+}
+function submitAdminLogin() {
+  const pw = document.getElementById('adminPwInput').value;
+  if (pw === ADMIN_PW) {
+    localStorage.setItem('meslap_admin', '1');
+    closeAdminLogin();
+    go('admin');
+    renderAdmin();
+    showToast('관리자 모드 활성화');
+  } else {
+    document.getElementById('adminPwInput').value = '';
+    document.getElementById('adminPwInput').style.borderColor = '#c2342f';
+    showToast('비밀번호가 틀렸습니다');
+    setTimeout(() => { document.getElementById('adminPwInput').style.borderColor = ''; }, 1000);
+  }
+}
+function adminLogout() {
+  localStorage.removeItem('meslap_admin');
+  const btn = document.getElementById('adminLibBtn');
+  if (btn) btn.style.display = 'none';
+  go('library');
+  showToast('관리자 모드 해제');
+}
+/* 탭 전환 */
+function adminTab(p) {
+  document.querySelectorAll('.admin-tab').forEach(b => b.classList.toggle('sel', b.dataset.p === p));
+  document.querySelectorAll('.admin-panel').forEach(panel => panel.classList.remove('sel'));
+  const target = document.getElementById('ap-' + p);
+  if (target) target.classList.add('sel');
+  if (p === 'dash')    renderAdminDash();
+  if (p === 'readers') renderAdminReaders();
+  if (p === 'books')   renderAdminBooks();
+  if (p === 'codes')   renderAdminCodes();
+}
+function renderAdmin() { adminTab('dash'); }
+
+/* ── 대시보드 ── */
+function renderAdminDash() {
+  /* 하이라이트 전체 수집 */
+  let hlCount = 0;
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith(MARK_STORE + '_')) {
+        hlCount += (JSON.parse(localStorage.getItem(key) || '[]')).length;
+      }
+    }
+  } catch(e) {}
+  const bmkCount  = getBookmarks().length;
+  const memoCount = getNotes().length;
+
+  const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  set('adStatUsers', '1');          // 로컬: 현재 기기 1명
+  set('adStatHL', hlCount);
+  set('adStatBmk', bmkCount);
+
+  /* 책별 읽기 진행률 바 */
+  const barWrap = document.getElementById('adBarWrap');
+  if (barWrap && typeof BOOK_CATALOG !== 'undefined') {
+    const total = BOOK_CATALOG.length;
+    barWrap.innerHTML = BOOK_CATALOG.slice(0, 8).map(b => {
+      /* 해당 책의 하이라이트 수로 읽기 활동 추정 */
+      let cnt = 0;
+      try {
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key && key.startsWith(MARK_STORE + '_')) {
+            const marks = JSON.parse(localStorage.getItem(key) || '[]');
+            const bookSlug = b.slug || '';
+            cnt += marks.filter(m => m.bookSlug === bookSlug || (m.artId && bookSlug)).length;
+          }
+        }
+      } catch(e) {}
+      const pct = Math.min(100, cnt * 20); // 활동 있으면 비율 표시
+      const name = (b.title || '').replace(/<br>/g, ' ').substring(0, 14);
+      return `<div class="admin-bar-row">
+        <span class="admin-bar-label">${name}</span>
+        <div class="admin-bar-track"><div class="admin-bar-fill" style="width:${pct}%"></div></div>
+        <span class="admin-bar-pct">${cnt}건</span>
+      </div>`;
+    }).join('');
+  }
+
+  /* 기기 정보 */
+  const devWrap = document.getElementById('adDeviceWrap');
+  if (devWrap) {
+    const ua = navigator.userAgent;
+    const isIOS = /iPhone|iPad/.test(ua);
+    const isAndroid = /Android/.test(ua);
+    const isPWA = window.matchMedia('(display-mode: standalone)').matches;
+    const device = isIOS ? 'iPhone/iPad' : isAndroid ? 'Android' : 'Desktop';
+    const mode = isPWA ? 'PWA(설치됨)' : '브라우저';
+    devWrap.innerHTML = `
+      <div class="admin-bar-row">
+        <span class="admin-bar-label">기기</span>
+        <div style="flex:1;font-size:12.5px;color:var(--ink);font-weight:600">${device}</div>
+      </div>
+      <div class="admin-bar-row">
+        <span class="admin-bar-label">접속방식</span>
+        <div style="flex:1;font-size:12.5px;color:var(--ink);font-weight:600">${mode}</div>
+      </div>
+      <div class="admin-bar-row">
+        <span class="admin-bar-label">총 기록</span>
+        <div style="flex:1;font-size:12.5px;color:var(--ink);font-weight:600">하이라이트 ${hlCount}건 · 책갈피 ${bmkCount}건 · 메모 ${memoCount}건</div>
+      </div>`;
+  }
+}
+
+/* ── 독자 현황 ── */
+function renderAdminReaders() {
+  const list = document.getElementById('adReaderList');
+  if (!list) return;
+  const user = (() => { try { return JSON.parse(localStorage.getItem(AUTH_KEY) || 'null'); } catch { return null; } })();
+  const notes = getNotes();
+  const bmks  = getBookmarks();
+  let hlCount = 0;
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith(MARK_STORE + '_')) hlCount += JSON.parse(localStorage.getItem(key)||'[]').length;
+    }
+  } catch(e) {}
+
+  if (!user) {
+    list.innerHTML = '<div class="admin-empty">로그인한 독자가 없습니다.</div>';
+    return;
+  }
+  list.innerHTML = `
+    <div class="admin-buyer-card">
+      <div class="admin-buyer-email">${user.name || ''} <span style="font-size:11px;color:var(--ink3)">${user.email || ''}</span></div>
+      <div class="admin-buyer-meta">
+        <span class="admin-buyer-book">하이라이트 ${hlCount}건</span>
+        <span class="admin-buyer-book">책갈피 ${bmks.length}건</span>
+        <span class="admin-buyer-book">메모 ${notes.length}건</span>
+        <span class="admin-buyer-date">현재 기기</span>
+      </div>
+    </div>
+    <div class="admin-empty" style="padding:14px 0">Supabase 연동 후 전체 독자 목록이 여기에 표시됩니다.</div>`;
+}
+
+/* ── 콘텐츠 관리 ── */
+function renderAdminBooks() {
+  const list = document.getElementById('adBookList');
+  if (!list || typeof BOOK_CATALOG === 'undefined') return;
+  list.innerHTML = BOOK_CATALOG.map((b, i) => {
+    const pub = b.published !== false;
+    return `<div class="admin-book-row">
+      <div class="admin-book-title">${(b.title||'').replace(/<br>/g,' ')}<div class="admin-book-meta">${b.series||''} · ${b.free ? '무료' : '₩'+(b.price||0).toLocaleString()}</div></div>
+      <button class="admin-toggle ${pub ? 'on' : ''}" onclick="adminToggleBook(${i},this)" title="${pub ? '발행 중' : '비공개'}"></button>
+    </div>`;
+  }).join('');
+}
+function adminToggleBook(idx, btn) {
+  btn.classList.toggle('on');
+  const isOn = btn.classList.contains('on');
+  showToast(isOn ? '발행으로 변경됐습니다' : '비공개로 변경됐습니다');
+  // Supabase 연동 후 DB 업데이트 필요
+}
+function adminRebuild() {
+  showToast('📚 책 데이터 새로고침 완료');
+}
+
+/* ── 초대 코드 ── */
+function getAdminCodes() {
+  try { return JSON.parse(localStorage.getItem(ADMIN_CODES_KEY) || '[]'); } catch { return []; }
+}
+function setAdminCodes(arr) {
+  try { localStorage.setItem(ADMIN_CODES_KEY, JSON.stringify(arr)); } catch(e) {}
+}
+function adminGenCode() {
+  const code = 'MSLP-' + Math.random().toString(36).toUpperCase().slice(2, 6) + '-' + Math.random().toString(36).toUpperCase().slice(2, 6);
+  const codes = getAdminCodes();
+  codes.unshift({ code, date: new Date().toLocaleDateString('ko-KR'), used: false });
+  setAdminCodes(codes);
+  renderAdminCodes();
+  showToast('코드 발급: ' + code);
+}
+function renderAdminCodes() {
+  const list = document.getElementById('adCodeList');
+  if (!list) return;
+  const codes = getAdminCodes();
+  if (!codes.length) { list.innerHTML = '<div class="admin-empty">발급된 코드가 없습니다.</div>'; return; }
+  list.innerHTML = codes.map((c, i) => `
+    <div class="admin-code-item">
+      <div class="admin-code-val">${c.code}</div>
+      <div class="admin-code-date">${c.date}</div>
+      <button class="admin-code-copy" onclick="adminCopyCode('${c.code}')">복사</button>
+    </div>`).join('');
+}
+function adminCopyCode(code) {
+  if (navigator.clipboard) navigator.clipboard.writeText(code).then(() => showToast('코드 복사됨 ✓'));
+  else showToast(code);
 }
 /* ── 소셜 로그인 (Supabase OAuth 연동 전: 안내 메시지) ──
    Supabase 키 연동 후:
@@ -5365,8 +5826,9 @@ function go(id) {
   if (!next) return;
   next.classList.add('active');
   if (id === 'contents') renderTOC();
-  if (id === 'notes') renderNotes();
+  if (id === 'notes') { _recTab = 'all'; _recColor = 'all'; renderRecords(); }
   if (id === 'bookmarks') renderBookmarks();
+  if (id === 'admin') renderAdmin();
 }
 
 /* 뒤로가기 — 리더에서 온 경우 리더로, 서재 등에서 온 경우 서재로 */
@@ -5651,6 +6113,12 @@ function renderArt(idx) {
 
   document.getElementById('rTopLabel').textContent = a.cat + '. ' + a.catName;
 
+  /* 읽기 예상 시간 (Track C) — 한국어 평균 분당 350자 */
+  const rawText = (a.blocks || []).map(b => b.c || '').join('');
+  const mins = Math.max(1, Math.round(rawText.length / 350));
+  const rt = document.getElementById('readTime');
+  if (rt) rt.textContent = `약 ${mins}분 읽기 · ${rawText.length.toLocaleString()}자`;
+
   let html = `
     <div class="r-lbl">${a.label}</div>
     <h1 class="r-title">${a.title}</h1>
@@ -5690,6 +6158,12 @@ function renderArt(idx) {
     </div>`;
 
   document.getElementById('rContent').innerHTML = html;
+
+  // 읽기 예상 시간 (분당 250자 기준)
+  const allText = (a.blocks || []).map(b => b.c || '').join('');
+  const mins = Math.max(1, Math.ceil(allText.length / 250));
+  const rt = document.getElementById('readTime');
+  if (rt) rt.textContent = `읽기 약 ${mins}분`;
 }
 
 /* ── 진행률 ── */
