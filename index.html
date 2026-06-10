@@ -48,7 +48,7 @@
 .app.night{--bg:#161514;--bg2:#211F1C;--ink:#D8D2C8;--ink2:#A39C90;--ink3:#6E675C;--line:#322F2A;--gold:#C9A86A;--gold-bg:#2A2620}
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;margin:0;padding:0}
+html,body{height:100%;margin:0;padding:0;background:var(--bg)}
 body{font-family:var(--sans);-webkit-font-smoothing:antialiased;background:radial-gradient(circle at 50% 30%,#3A3A40,#1C1C20);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:28px 16px}
 .hint{text-align:center;color:#8A8A92;font-size:12.5px;line-height:1.7;max-width:360px}
 .hint b{color:#C8C8D0;font-weight:600}
@@ -78,8 +78,9 @@ body{font-family:var(--sans);-webkit-font-smoothing:antialiased;background:radia
 
 /* 앱 */
 .app{position:absolute;inset:0;background:var(--bg);transition:background .4s var(--ease)}
-.view{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);transition:transform .38s var(--ease),opacity .38s var(--ease);transform:translateX(100%);opacity:0;pointer-events:none}
-.view.active{transform:translateX(0);opacity:1;pointer-events:auto}
+/* 뷰: 기본 숨김 — display:none으로 블랙화면 원천 차단 */
+.view{display:none;position:absolute;inset:0;flex-direction:column;background:var(--bg);opacity:1;transform:none;pointer-events:none}
+.view.active{display:flex;pointer-events:auto}
 
 /* 표지 — 책 재킷(컬러 클로스 + 금박) 처리 */
 #cover{
@@ -269,10 +270,7 @@ svg{display:block}
 @keyframes pulsering{0%{transform:scale(1);opacity:.6}100%{transform:scale(2.5);opacity:0}}
 @keyframes shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
 
-/* 뷰 전환: 활성 뷰만 보이고 나머지는 완전히 숨김 */
-/* animation 충돌 제거 — 단순 opacity transition만 사용 */
-.view{opacity:0;pointer-events:none;transform:translateX(100%)}
-.view.active{transform:translateX(0);opacity:1;pointer-events:auto;animation:none}
+/* 뷰 전환 완료 (위 .view/.view.active 로 처리됨) */
 
 /* 버튼 리플 */
 .btn-p,.btn-t,.social-btn,.tb-btn,.ctrl-btn{position:relative;overflow:hidden}
@@ -5158,16 +5156,9 @@ function goBackFromLegal() { go(legalReturn || 'about'); }
 
 /* ── 뷰 전환 ── */
 function go(id) {
-  document.querySelectorAll('.view').forEach(v => {
-    v.classList.remove('active');
-    // transition 값을 초기화해서 다음 active 적용이 즉시 반영되도록
-    v.style.transition = 'none';
-  });
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   const next = document.getElementById(id);
   if (!next) return;
-  // 강제 reflow — 이전 스타일 플러시
-  void next.offsetHeight;
-  next.style.transition = '';
   next.classList.add('active');
   if (id === 'contents') renderTOC();
   if (id === 'notes') renderNotes();
