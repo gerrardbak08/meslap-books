@@ -5479,15 +5479,28 @@ function updateStreakBadge() {
 }
 
 function showTodayReview() {
-  // 오늘 읽은 글 목록을 서재 헤더 하단에 간단히 표시
-  // (확장 시: 오늘의 복습 뷰로 연결)
-  const today = new Date().toISOString().slice(0, 10);
-  const READ_KEY = 'meslap_read_' + today;
-  let readIds = [];
-  try { readIds = JSON.parse(localStorage.getItem(READ_KEY) || '[]'); } catch(e) {}
-  if (!readIds.length) return;
-  const art = flatList.find(f => f.id === readIds[0]);
-  if (art) showToast(`오늘 읽은 말씀: ${(art.title || '').replace(/<br>/g, ' ')}`);
+  /* 오늘의 복습 — 저장된 하이라이트 중 랜덤 1개 */
+  const today = new Date().toLocaleDateString('ko-KR');
+  const lastKey = 'meslap_last_review';
+  if (localStorage.getItem(lastKey) === today) return; // 오늘 이미 표시
+
+  const allMarks = [];
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith(MARK_STORE + '_')) {
+        const marks = JSON.parse(localStorage.getItem(key) || '[]');
+        marks.forEach(m => { if (m.text && m.text.trim().length > 8) allMarks.push(m); });
+      }
+    }
+  } catch(e) {}
+
+  if (!allMarks.length) return;
+
+  localStorage.setItem(lastKey, today);
+  const m = allMarks[Math.floor(Math.random() * allMarks.length)];
+  const preview = m.text.length > 35 ? m.text.slice(0, 35) + '\u2026' : m.text;
+  setTimeout(() => showToast(`\uD83D\uDC9B 오늘의 복습: "${preview}"`), 1200);
 }
 
 /* ══════════════════════════════════════════════
