@@ -4821,52 +4821,104 @@ function getParaIndex(node) {
  * → 텍스트 노드 직접 조작 방식 */
 function applyHighlight(color) {
   if (!_selRange) { closeSelPopup(); return; }
-  const range = _selRange;
+  const range = _selRange.cloneRange(); // 팝업 닫기 전에 복사
   const text = range.toString().trim();
   if (!text) { closeSelPopup(); return; }
 
   const colorClass = 'highlight-' + color;
 
+  // 팝업 먼저 닫기 (선택 해제 전에)
+  document.getElementById('selPopup').classList.add('hidden');
+  _selRange = null;
+
   try {
     if (range.startContainer === range.endContainer &&
         range.startContainer.nodeType === Node.TEXT_NODE) {
-      /* 단일 텍스트 노드 내 선택 */
+      /* ── 단일 텍스트 노드 ── */
       const node = range.startContainer;
       const before = node.textContent.slice(0, range.startOffset);
       const marked = node.textContent.slice(range.startOffset, range.endOffset);
       const after  = node.textContent.slice(range.endOffset);
-      if (!marked.trim()) { closeSelPopup(); return; }
+      if (!marked.trim()) return;
+
       const mark = document.createElement('mark');
       mark.className = 'r-mark ' + colorClass;
+      mark.dataset.markId = Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+      mark.dataset.createdAt = new Date().toISOString();
       mark.textContent = marked;
       mark.addEventListener('click', onMarkClick);
+
       const parent = node.parentNode;
       if (before) parent.insertBefore(document.createTextNode(before), node);
       parent.insertBefore(mark, node);
       if (after) parent.insertBefore(document.createTextNode(after), node);
       parent.removeChild(node);
+
     } else {
-      /* 여러 노드에 걸친 선택 */
+      /* ── 여러 노드에 걸친 선택 ──
+         user-select:none 환경에서 surroundContents는 자주 실패.
+         extractContents → mark 감싸기 방식으로 통일 */
       try {
+        // 먼저 surroundContents 시도
         const mark = document.createElement('mark');
         mark.className = 'r-mark ' + colorClass;
+        mark.dataset.markId = Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+        mark.dataset.createdAt = new Date().toISOString();
         range.surroundContents(mark);
         mark.addEventListener('click', onMarkClick);
-      } catch(e) {
-        const frag = range.extractContents();
-        const mark = document.createElement('mark');
-        mark.className = 'r-mark ' + colorClass;
-        mark.appendChild(frag);
-        range.insertNode(mark);
-        mark.addEventListener('click', onMarkClick);
+      } catch (_) {
+        try {
+          // 실패하면 extractContents로 폴백
+          const frag = range.extractContents();
+          const mark = document.createElement('mark');
+          mark.className = 'r-mark ' + colorClass;
+          mark.dataset.markId = Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+          mark.dataset.createdAt = new Date().toISOString();
+          // fragment 내 텍스트만 추출해서 단순 mark로 저장
+          mark.textContent = frag.textContent || text;
+          range.insertNode(mark);
+          mark.addEventListener('click', onMarkClick);
+        } catch (e2) {
+          // 최후 수단: 선택된 텍스트를 찾아 첫 번째 단락에만 적용
+          const c = document.getElementById('rContent');
+          if (!c) return;
+          const walker = document.createTreeWalker(c, NodeFilter.SHOW_TEXT);
+          let node;
+          while ((node = walker.nextNode())) {
+            if (node.textContent.includes(text.slice(0, 20))) {
+              const idx = node.textContent.indexOf(text.slice(0, 20));
+              if (idx >= 0) {
+                const r2 = document.createRange();
+                r2.setStart(node, idx);
+                r2.setEnd(node, Math.min(idx + text.length, node.textContent.length));
+                const mark = document.createElement('mark');
+                mark.className = 'r-mark ' + colorClass;
+                mark.dataset.markId = Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+                mark.dataset.createdAt = new Date().toISOString();
+                const before = node.textContent.slice(0, idx);
+                const marked = node.textContent.slice(idx, idx + text.length);
+                const after  = node.textContent.slice(idx + text.length);
+                mark.textContent = marked;
+                mark.addEventListener('click', onMarkClick);
+                const parent = node.parentNode;
+                if (before) parent.insertBefore(document.createTextNode(before), node);
+                parent.insertBefore(mark, node);
+                if (after) parent.insertBefore(document.createTextNode(after), node);
+                parent.removeChild(node);
+                break;
+              }
+            }
+          }
+        }
       }
     }
+
     const sel = window.getSelection();
     if (sel) sel.removeAllRanges();
     persistMarks();
-    closeSelPopup();
+    showToast('✨ 하이라이트가 저장됐습니다');
   } catch(e) {
-    closeSelPopup();
+    console.warn('applyHighlight error', e);
   }
 }
 /* 이미 마크된 요소 탭 → 삭제 팝업 */
@@ -4877,8 +4929,12 @@ function onMarkClick(e) {
   const rect = _markTarget.getBoundingClientRect();
   const popup = document.getElementById('markPopup');
   popup.classList.remove('hidden');
-  popup.style.top  = (rect.top - 52 + window.scrollY) + 'px';
-  popup.style.left = (rect.left + rect.width / 2) + 'px';
+  // fixed 포지션: getBoundingClientRect 좌표를 그대로 사용
+  const px = rect.left + rect.width / 2;
+  const py = rect.top - 48;
+  popup.style.top  = Math.max(8, py) + 'px';
+  popup.style.left = Math.max(80, Math.min(px, window.innerWidth - 80)) + 'px';
+  popup.style.transform = 'translateX(-50%)';
 }
 
 function doDeleteMark() {
@@ -4898,131 +4954,183 @@ function closeMarkPopup() {
   if (_markTarget) { _markTarget.classList.remove('selected'); _markTarget = null; }
 }
 
-/* 선택 변화 감지 — iOS: 터치 드래그로 직접 Range 생성, 데스크탑: selectionchange */
+/* ═══════════════════════════════════════════════════════════
+   선택 감지 & 팝업 — v3 (iOS/Android 공통 안정화)
+   ──────────────────────────────────────────────────────────
+   iOS:     long-press(500ms) → 단어 선택 → 드래그로 범위 확장
+            user-select:none 환경에서 caretRangeFromPoint 사용
+   Android: selectionchange 이벤트 (네이티브 핸들 사용)
+   Desktop: selectionchange
+   ═══════════════════════════════════════════════════════════ */
 function initSelectionDetection() {
   const rContentEl = document.getElementById('rContent');
+  const popup = document.getElementById('selPopup');
+
   const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent) ||
                 (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-  let _popupInteracting = false;
 
-  const popup = document.getElementById('selPopup');
-  popup.addEventListener('pointerdown', e => { e.preventDefault(); _popupInteracting = true; });
-  popup.addEventListener('pointerup', () => { setTimeout(() => { _popupInteracting = false; }, 300); });
-  popup.addEventListener('mousedown', e => e.preventDefault());
-  popup.addEventListener('touchstart', e => e.preventDefault(), { passive: false });
+  /* ── 팝업 버튼 탭 시 선택 날아가는 것 방지 ── */
+  popup.addEventListener('pointerdown',  e => e.preventDefault(), { passive: false });
+  popup.addEventListener('mousedown',    e => e.preventDefault());
+  popup.addEventListener('touchstart',   e => e.preventDefault(), { passive: false });
 
+  /* ── 팝업 바깥 탭 → 닫기 (충분한 딜레이로 버튼 탭과 충돌 방지) ── */
   document.addEventListener('pointerdown', e => {
     if (!e.target.closest('#selPopup') && !e.target.closest('#markPopup')) {
-      setTimeout(() => { if (!_popupInteracting) { closeSelPopup(); closeMarkPopup(); } }, 80);
+      setTimeout(() => {
+        // 팝업이 아직 표시 중일 때만 닫기
+        if (!document.getElementById('selPopup').classList.contains('hidden')) {
+          closeSelPopup();
+        }
+        closeMarkPopup();
+      }, 200);
     }
   });
 
+  /* ─────────────────────────────────────────────────────────
+     caretRangeFromPoint 헬퍼 (iOS / 크로스브라우저)
+  ───────────────────────────────────────────────────────── */
+  function caretAt(x, y) {
+    if (document.caretRangeFromPoint) {
+      return document.caretRangeFromPoint(x, y);
+    }
+    if (document.caretPositionFromPoint) {
+      const pos = document.caretPositionFromPoint(x, y);
+      if (!pos) return null;
+      const r = document.createRange();
+      r.setStart(pos.offsetNode, pos.offset);
+      r.collapse(true);
+      return r;
+    }
+    return null;
+  }
+
+  /* 터치 좌표의 단어 Range 반환 */
+  function wordRangeAt(x, y) {
+    const r = caretAt(x, y);
+    if (!r) return null;
+    const node = r.startContainer;
+    if (node.nodeType !== Node.TEXT_NODE) return null;
+    if (!rContentEl.contains(node)) return null;
+    const txt = node.textContent;
+    let s = r.startOffset, e = r.startOffset;
+    while (s > 0 && /\S/.test(txt[s - 1])) s--;
+    while (e < txt.length && /\S/.test(txt[e])) e++;
+    if (s === e) return null;
+    const wr = document.createRange();
+    wr.setStart(node, s);
+    wr.setEnd(node, e);
+    return wr;
+  }
+
+  function applyVisualSelection(range) {
+    const sel = window.getSelection();
+    if (!sel) return;
+    sel.removeAllRanges();
+    try { sel.addRange(range); } catch (_) {}
+  }
+
   if (isIOS) {
-    /* iOS 전용: caretRangeFromPoint 방식 */
-    let _lpTimer = null;
-    let _startPt = null;
-    let _isSelecting = false;
-
-    function caretAt(x, y) {
-      if (document.caretRangeFromPoint) return document.caretRangeFromPoint(x, y);
-      if (document.caretPositionFromPoint) {
-        const pos = document.caretPositionFromPoint(x, y);
-        if (!pos) return null;
-        const r = document.createRange();
-        r.setStart(pos.offsetNode, pos.offset);
-        r.collapse(true);
-        return r;
-      }
-      return null;
-    }
-
-    function wordRangeAt(x, y) {
-      const r = caretAt(x, y);
-      if (!r || !rContentEl.contains(r.startContainer)) return null;
-      const node = r.startContainer;
-      if (node.nodeType !== Node.TEXT_NODE) return null;
-      const text = node.textContent;
-      let start = r.startOffset, end = r.startOffset;
-      while (start > 0 && /\S/.test(text[start - 1])) start--;
-      while (end < text.length && /\S/.test(text[end])) end++;
-      if (start === end) return null;
-      const wr = document.createRange();
-      wr.setStart(node, start);
-      wr.setEnd(node, end);
-      return wr;
-    }
-
-    function applyVisualSelection(range) {
-      const sel = window.getSelection();
-      if (!sel) return;
-      sel.removeAllRanges();
-      try { sel.addRange(range); } catch(e) {}
-    }
+    /* ══ iOS: long-press → caretRangeFromPoint 직접 조작 ══ */
+    let lpTimer  = null;
+    let anchorPt = null;      // long-press 시작 좌표 (고정 앵커)
+    let anchorRange = null;   // 앵커 단어 Range (드래그 기준점)
+    let active   = false;
 
     rContentEl.addEventListener('touchstart', e => {
       if (e.touches.length !== 1) return;
       const t = e.touches[0];
-      _startPt = { x: t.clientX, y: t.clientY };
-      _isSelecting = false;
-      clearTimeout(_lpTimer);
-      _lpTimer = setTimeout(() => {
-        const wr = wordRangeAt(_startPt.x, _startPt.y);
+      anchorPt = { x: t.clientX, y: t.clientY };
+      active = false;
+      clearTimeout(lpTimer);
+
+      lpTimer = setTimeout(() => {
+        const wr = wordRangeAt(anchorPt.x, anchorPt.y);
         if (!wr) return;
-        _selRange = wr.cloneRange();
-        _isSelecting = true;
+        anchorRange = wr.cloneRange();
+        _selRange   = wr.cloneRange();
+        active = true;
         applyVisualSelection(_selRange);
         if (navigator.vibrate) navigator.vibrate(30);
-      }, 500);
+      }, 480);
     }, { passive: true });
 
     rContentEl.addEventListener('touchmove', e => {
       if (e.touches.length !== 1) return;
       const t = e.touches[0];
-      if (_startPt && (Math.abs(t.clientX - _startPt.x) > 10 || Math.abs(t.clientY - _startPt.y) > 10)) {
-        clearTimeout(_lpTimer);
+
+      // 롱프레스 트리거 전에 움직이면 취소
+      if (!active) {
+        if (anchorPt &&
+            (Math.abs(t.clientX - anchorPt.x) > 8 ||
+             Math.abs(t.clientY - anchorPt.y) > 8)) {
+          clearTimeout(lpTimer);
+        }
+        return;
       }
-      if (!_isSelecting || !_selRange) return;
-      const endCaret = caretAt(t.clientX, t.clientY);
-      if (!endCaret || !rContentEl.contains(endCaret.startContainer)) return;
+
+      // 드래그 중: 앵커를 유지하고 현재 손가락 위치로 끝점 확장
+      const cur = caretAt(t.clientX, t.clientY);
+      if (!cur || !rContentEl.contains(cur.startContainer)) return;
+
       try {
-        const newRange = _selRange.cloneRange();
-        if (endCaret.compareBoundaryPoints(Range.START_TO_START, _selRange) > 0) {
-          newRange.setEnd(endCaret.startContainer, endCaret.startOffset);
+        const sel = window.getSelection();
+        if (!sel) return;
+
+        // 앵커 기준으로 방향 결정
+        const cmp = cur.compareBoundaryPoints(Range.START_TO_START, anchorRange);
+        const newRange = document.createRange();
+        if (cmp >= 0) {
+          // 오른쪽/아래 방향: 앵커 시작 → 현재 끝
+          newRange.setStart(anchorRange.startContainer, anchorRange.startOffset);
+          newRange.setEnd(cur.startContainer, cur.startOffset);
         } else {
-          newRange.setStart(endCaret.startContainer, endCaret.startOffset);
+          // 왼쪽/위 방향: 현재 → 앵커 끝
+          newRange.setStart(cur.startContainer, cur.startOffset);
+          newRange.setEnd(anchorRange.endContainer, anchorRange.endOffset);
         }
         _selRange = newRange;
         applyVisualSelection(_selRange);
-      } catch(e) {}
+      } catch (_) {}
     }, { passive: true });
 
-    rContentEl.addEventListener('touchend', e => {
-      clearTimeout(_lpTimer);
-      if (!_isSelecting || !_selRange) { _isSelecting = false; return; }
+    rContentEl.addEventListener('touchend', () => {
+      clearTimeout(lpTimer);
+      if (!active || !_selRange) { active = false; return; }
       const text = _selRange.toString().trim();
-      if (!text || text.length < 1) { _isSelecting = false; closeSelPopup(); return; }
-      _isSelecting = false;
+      active = false;
+      if (!text) { closeSelPopup(); return; }
       showSelPopup(_selRange);
     }, { passive: true });
 
+    rContentEl.addEventListener('touchcancel', () => {
+      clearTimeout(lpTimer);
+      active = false;
+    }, { passive: true });
+
   } else {
-    /* 데스크탑 / Android */
+    /* ══ Android / Desktop: selectionchange ══ */
     let selTimer = null;
     document.addEventListener('selectionchange', () => {
       clearTimeout(selTimer);
       selTimer = setTimeout(() => {
         const sel = window.getSelection();
         if (!sel || sel.isCollapsed || !sel.rangeCount) {
-          if (!_popupInteracting) setTimeout(() => { if (!_popupInteracting) closeSelPopup(); }, 150);
+          setTimeout(() => {
+            if (!document.activeElement?.closest('#selPopup')) closeSelPopup();
+          }, 150);
           return;
         }
         const range = sel.getRangeAt(0);
-        if (!rContentEl || !rContentEl.contains(range.commonAncestorContainer)) { closeSelPopup(); return; }
+        if (!rContentEl?.contains(range.commonAncestorContainer)) {
+          closeSelPopup();
+          return;
+        }
         const text = sel.toString().trim();
         if (!text || text.length < 2) { closeSelPopup(); return; }
         _selRange = range.cloneRange();
         showSelPopup(range);
-      }, 120);
+      }, 100);
     });
   }
 }
