@@ -561,6 +561,66 @@ svg{display:block}
 .streak-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:var(--gold-bg);border:1px solid var(--gold);border-radius:20px;font-size:11.5px;font-weight:700;color:var(--gold);margin-top:6px}
 .streak-badge .fire{font-size:13px}
 
+/* ── 말씀 카드 공유 ── */
+.card-sheet{position:absolute;left:0;right:0;bottom:0;background:var(--bg);border-radius:22px 22px 0 0;padding:20px 22px 0;transform:translateY(100%);transition:transform .35s var(--ease);z-index:200;box-shadow:0 -8px 32px rgba(0,0,0,.15);max-height:85%;display:flex;flex-direction:column}
+.card-sheet.show{transform:translateY(0)}
+.card-sheet-handle{width:36px;height:4px;background:var(--line);border-radius:2px;margin:0 auto 16px;flex-shrink:0}
+.card-sheet-title{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:14px;flex-shrink:0}
+.card-preview-wrap{flex:1;overflow-y:auto;display:flex;flex-direction:column;align-items:center;gap:12px;padding-bottom:4px}
+#cardCanvas{max-width:100%;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.15)}
+.card-themes{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;padding:4px 0}
+.card-theme-btn{padding:7px 14px;border-radius:20px;border:2px solid var(--line);background:var(--bg2);font-size:12.5px;font-weight:600;color:var(--ink);cursor:pointer;transition:border-color .12s}
+.card-theme-btn.sel{border-color:var(--gold);color:var(--gold)}
+.card-sheet-btns{display:flex;gap:10px;padding:14px 0 calc(env(safe-area-inset-bottom)+16px);flex-shrink:0}
+.card-dl-btn{flex:1;padding:14px;background:var(--ink);color:var(--bg);border:none;border-radius:12px;font-family:var(--sans);font-size:15px;font-weight:600;cursor:pointer;transition:transform .12s}
+.card-dl-btn:active{transform:scale(.97)}
+.card-share-btn{padding:14px 20px;background:none;border:1.5px solid var(--line);border-radius:12px;font-family:var(--sans);font-size:14px;font-weight:600;color:var(--ink2);cursor:pointer}
+
+/* ── 내 기록 통합 뷰 탭 ── */
+.rec-tabs{display:flex;gap:6px;padding:12px 16px 10px;border-bottom:1px solid var(--line);flex-shrink:0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.rec-tabs::-webkit-scrollbar{display:none}
+.rec-tab{flex-shrink:0;padding:7px 14px;border-radius:20px;border:1.5px solid var(--line);background:var(--bg);font-family:var(--sans);font-size:12.5px;font-weight:600;color:var(--ink3);cursor:pointer;transition:background .12s,border-color .12s,color .12s}
+.rec-tab.sel{background:var(--gold-bg);border-color:var(--gold);color:var(--gold)}
+.rec-filter{display:flex;gap:6px;padding:8px 16px 10px;border-bottom:1px solid var(--line);flex-shrink:0}
+.rec-chip{width:22px;height:22px;border-radius:50%;cursor:pointer;border:2.5px solid transparent;transition:border-color .12s,transform .12s;flex-shrink:0}
+.rec-chip:active{transform:scale(.88)}
+.rec-chip.yellow{background:#FFE066}.rec-chip.pink{background:#FF8FA3}
+.rec-chip.blue{background:#74B9FF}
+.rec-chip.underline{background:var(--bg2);border-color:var(--line);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--ink3)}
+.rec-chip.sel{border-color:var(--ink)!important}
+.rec-chip-all{background:var(--ink);border-radius:20px;padding:0 10px;font-size:11px;font-weight:700;color:var(--bg);border:none;height:22px;cursor:pointer;flex-shrink:0}
+.rec-chip-all.sel{background:var(--gold)}
+.rec-item{display:flex;gap:10px;padding:13px 18px;border-top:1px solid var(--line);cursor:pointer;transition:background .12s;align-items:flex-start}
+.rec-item:active{background:var(--bg2)}
+.rec-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.rec-dot.yellow{background:#FFE066}.rec-dot.pink{background:#FF8FA3}
+.rec-dot.blue{background:#74B9FF}.rec-dot.underline{background:var(--gold)}
+.rec-dot.bookmark{background:var(--gold)}.rec-dot.memo{background:var(--ink3)}
+.rec-body{flex:1;min-width:0}
+.rec-quote{font-family:var(--serif);font-size:13.5px;color:var(--ink);line-height:1.7;word-break:keep-all;margin-bottom:4px}
+.rec-memo{font-size:12.5px;color:var(--ink2);line-height:1.5;margin-top:3px;word-break:keep-all}
+.rec-meta{display:flex;align-items:center;justify-content:space-between;margin-top:5px}
+.rec-book{font-size:11px;font-weight:600;color:var(--gold)}
+.rec-date{font-size:10.5px;color:var(--ink3)}
+.rec-del{background:none;border:none;color:var(--ink3);cursor:pointer;padding:4px 6px;font-size:16px;line-height:1;flex-shrink:0;border-radius:6px;transition:background .12s}
+.rec-del:active{background:var(--bg2)}
+.rec-empty{padding:56px 36px;text-align:center;font-size:14px;color:var(--ink3);line-height:1.8}
+.rec-empty .ic{font-size:32px;display:block;margin-bottom:10px;opacity:.5}
+
+/* ── 최근 묵상 섹션 ── */
+.recent-sec{padding:20px 20px 8px;border-top:1px solid var(--line)}
+.recent-sec-lbl{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.recent-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);cursor:pointer;transition:opacity .12s}
+.recent-item:active{opacity:.7}
+.recent-item:last-child{border-bottom:none}
+.recent-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:6px}
+.recent-body{flex:1;min-width:0}
+.recent-title{font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.4;word-break:keep-all;margin-bottom:3px}
+.recent-date{font-size:11px;color:var(--ink3)}
+.recent-more{display:block;text-align:center;padding:10px;font-size:12.5px;font-weight:600;color:var(--gold);cursor:pointer;margin-bottom:8px}
+.recent-loading{text-align:center;padding:20px;font-size:13px;color:var(--ink3)}
+.recent-error{text-align:center;padding:16px;font-size:12.5px;color:var(--ink3);line-height:1.6}
+
 /* ── 모바일/PWA 전체화면(full-bleed) — 목업 프레임 없이 진짜 설치앱처럼 ── */
 @media (display-mode: standalone), (max-width:480px){
   html,body{height:100dvh}
@@ -581,6 +641,43 @@ svg{display:block}
   #cover .c-emblem{padding-top:calc(env(safe-area-inset-top) + 52px)}
   .lp-hero{padding-top:calc(env(safe-area-inset-top) + 72px)}
 }
+
+/* ── 독서 챌린지·배지 ── */
+.challenge-btn{display:flex;align-items:center;gap:10px;width:calc(100% - 40px);margin:0 20px 16px;padding:14px 16px;background:linear-gradient(135deg,var(--ink),#2e2a24);border:none;border-radius:14px;cursor:pointer;transition:transform .15s;text-align:left}
+.challenge-btn:active{transform:scale(.97)}
+.challenge-btn-icon{font-size:20px;flex-shrink:0}
+.challenge-btn-body{flex:1;min-width:0}
+.challenge-btn-title{font-family:var(--serif);font-size:14px;font-weight:700;color:#FBF8F2;margin-bottom:2px}
+.challenge-btn-sub{font-size:11.5px;color:rgba(251,248,242,.6);line-height:1.4}
+.challenge-btn-streak{font-size:18px;flex-shrink:0}
+
+/* 챌린지 뷰 */
+.challenge-view-sec{padding:18px 20px;border-bottom:1px solid var(--line)}
+.challenge-view-lbl{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+/* streak */
+.cv-streak-row{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.cv-streak-num{font-family:var(--serif);font-size:52px;font-weight:700;color:var(--gold);line-height:1;flex-shrink:0}
+.cv-streak-info{flex:1}
+.cv-streak-label{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:3px}
+.cv-streak-sub{font-size:12px;color:var(--ink3)}
+.cv-streak-days{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}
+.cv-day{width:34px;height:34px;border-radius:8px;background:var(--bg2);border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:var(--ink3);flex-direction:column;gap:0}
+.cv-day.done{background:var(--gold-bg);border-color:var(--gold);color:var(--gold)}
+.cv-day.today{background:var(--gold);border-color:var(--gold);color:#fff}
+/* 배지 */
+.cv-badge-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.cv-badge{display:flex;flex-direction:column;align-items:center;gap:5px;padding:12px 6px;border-radius:12px;background:var(--bg2);border:1.5px solid var(--line);transition:border-color .15s}
+.cv-badge.earned{background:var(--gold-bg);border-color:var(--gold)}
+.cv-badge-icon{font-size:26px;line-height:1}
+.cv-badge-name{font-size:10px;font-weight:600;color:var(--ink3);text-align:center;word-break:keep-all;line-height:1.3}
+.cv-badge.earned .cv-badge-name{color:var(--gold)}
+/* 챌린지 카드 */
+.cv-challenge{background:linear-gradient(135deg,var(--ink),#2e2a24);border-radius:12px;padding:16px;margin-bottom:10px;cursor:default}
+.cv-challenge-title{font-family:var(--serif);font-size:14px;font-weight:700;color:#FBF8F2;margin-bottom:4px}
+.cv-challenge-desc{font-size:12px;color:rgba(251,248,242,.65);line-height:1.5;margin-bottom:12px}
+.cv-challenge-bar{height:6px;background:rgba(255,255,255,.2);border-radius:3px;overflow:hidden;margin-bottom:5px}
+.cv-challenge-fill{height:100%;background:var(--gold);border-radius:3px;transition:width .6s var(--ease)}
+.cv-challenge-pct{font-size:11px;color:rgba(251,248,242,.6);display:flex;justify-content:space-between}
 </style>
 </head>
 <body>
@@ -680,6 +777,20 @@ svg{display:block}
         <div class="scroll">
           <div class="lib-hd"><span id="libHi">안녕하세요</span><span class="lib-hd-sub">오늘도 말씀 앞에 머무는 시간 되시길</span><span class="streak-badge" id="streakBadge" style="display:none">🔥 0일 연속</span></div>
           <div class="shelf" id="shelf"></div>
+          <!-- 독서 챌린지 버튼 -->
+          <button class="challenge-btn" onclick="go('challenge')">
+            <span class="challenge-btn-icon">🏆</span>
+            <div class="challenge-btn-body">
+              <div class="challenge-btn-title">독서 챌린지</div>
+              <div class="challenge-btn-sub">streak · 배지 · 진행 현황</div>
+            </div>
+            <span class="challenge-btn-streak" id="challengeBtnStreak"></span>
+          </button>
+          <div id="recentSection" class="recent-sec" style="display:none">
+            <div class="recent-sec-lbl">최근 묵상</div>
+            <div id="recentList"><div class="recent-loading">불러오는 중…</div></div>
+            <a class="recent-more" href="https://blog.naver.com/meslap3" target="_blank" rel="noopener">블로그에서 더 보기 →</a>
+          </div>
         </div>
       </div>
 
@@ -817,14 +928,27 @@ svg{display:block}
         </div>
       </div>
 
-      <!-- 내 기록 뷰 -->
+      <!-- 내 기록 통합 뷰 -->
       <div class="view" id="notes">
         <div class="topbar">
           <button class="tb-btn" onclick="goBack()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg></button>
           <span class="tb-title">내 기록</span>
           <div style="width:38px"></div>
         </div>
-        <div class="scroll" id="notesList"></div>
+        <div class="rec-tabs">
+          <button class="rec-tab sel" data-tab="all"       onclick="switchRecTab('all')">전체</button>
+          <button class="rec-tab"    data-tab="highlight"  onclick="switchRecTab('highlight')">형광펜</button>
+          <button class="rec-tab"    data-tab="bookmark"   onclick="switchRecTab('bookmark')">책갈피</button>
+          <button class="rec-tab"    data-tab="memo"       onclick="switchRecTab('memo')">메모</button>
+        </div>
+        <div class="rec-filter" id="recFilter" style="display:none">
+          <button class="rec-chip-all sel" data-color="all" onclick="switchRecColor('all')">전체</button>
+          <button class="rec-chip yellow" data-color="yellow" onclick="switchRecColor('yellow')"></button>
+          <button class="rec-chip pink"   data-color="pink"   onclick="switchRecColor('pink')"></button>
+          <button class="rec-chip blue"   data-color="blue"   onclick="switchRecColor('blue')"></button>
+          <button class="rec-chip underline" data-color="underline" onclick="switchRecColor('underline')">U</button>
+        </div>
+        <div class="scroll" id="recList"></div>
       </div>
 
       <!-- 책갈피 목록 뷰 -->
@@ -835,6 +959,16 @@ svg{display:block}
           <div style="width:38px"></div>
         </div>
         <div class="scroll" id="bookmarksList"></div>
+      </div>
+
+      <!-- 독서 챌린지 뷰 -->
+      <div class="view" id="challenge">
+        <div class="topbar">
+          <button class="tb-btn" onclick="go('library')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <span class="tb-title">독서 챌린지</span>
+          <div style="width:38px"></div>
+        </div>
+        <div class="scroll" id="challengeContent"></div>
       </div>
 
       <!-- 토스트 알림 -->
@@ -858,6 +992,10 @@ svg{display:block}
           <button class="sp-btn" onpointerdown="event.preventDefault()" onclick="openNoteSheet()" title="메모">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>
           </button>
+          <!-- 카드 공유 -->
+          <button class="sp-btn" onpointerdown="event.preventDefault()" onclick="openCardSheet(_selRange ? _selRange.toString().trim() || (_selRange.startContainer.textContent.slice(_selRange.startOffset,_selRange.endOffset).trim()) : '')" title="카드 공유">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          </button>
           <!-- 닫기 -->
           <button class="sp-btn sp-close" onpointerdown="event.preventDefault()" onclick="closeSelPopup()" title="닫기">✕</button>
         </div>
@@ -867,6 +1005,25 @@ svg{display:block}
         <button onclick="doDeleteMark()">🗑 하이라이트 삭제</button>
         <button onclick="closeMarkPopup()">취소</button>
       </div>
+      <!-- 말씀 카드 공유 시트 -->
+      <div class="card-sheet" id="cardSheet">
+        <div class="card-sheet-handle"></div>
+        <div class="card-sheet-title">말씀 카드 만들기</div>
+        <div class="card-preview-wrap">
+          <canvas id="cardCanvas" width="800" height="500"></canvas>
+          <div class="card-themes">
+            <button class="card-theme-btn sel" data-ct="paper" onclick="setCardTheme('paper')">페이퍼</button>
+            <button class="card-theme-btn" data-ct="forest" onclick="setCardTheme('forest')">숲</button>
+            <button class="card-theme-btn" data-ct="night" onclick="setCardTheme('night')">야간</button>
+            <button class="card-theme-btn" data-ct="gold" onclick="setCardTheme('gold')">골드</button>
+          </div>
+        </div>
+        <div class="card-sheet-btns">
+          <button class="card-dl-btn" onclick="shareCardText()" style="background:var(--gold)">📤 공유하기</button>
+          <button class="card-dl-btn" onclick="downloadCard()" style="flex:0 0 auto;padding:14px 16px">📥</button>
+        </div>
+      </div>
+
       <!-- 메모 바텀시트 (리더 뷰 내 레이어) -->
       <div class="note-sheet" id="noteSheet">
         <div class="note-sheet-handle"></div>
@@ -4659,8 +4816,6 @@ function closeMarkPopup() {
   if (_markTarget) { _markTarget.classList.remove('selected'); _markTarget = null; }
 }
 
-/* 선택 변화 감지 */
-function initSelectionDetection() {
 /* 선택 변화 감지 — iOS: 터치 드래그로 직접 Range 생성, 데스크탑: selectionchange */
 function initSelectionDetection() {
   const rContentEl = document.getElementById('rContent');
@@ -4927,43 +5082,262 @@ function deleteNote(id) {
   renderNotes();
 }
 
-function renderNotes() {
-  const list = document.getElementById('notesList');
+function renderNotes() { renderRecords(); } // 하위 호환
+
+/* ── 내 기록 통합 탭 ── */
+let _recTab = 'all';
+let _recColor = 'all';
+
+function switchRecTab(tab) {
+  _recTab = tab;
+  document.querySelectorAll('.rec-tab').forEach(b => b.classList.toggle('sel', b.dataset.tab === tab));
+  const cf = document.getElementById('recFilter');
+  if (cf) cf.style.display = (tab === 'highlight') ? 'flex' : 'none';
+  renderRecords();
+}
+
+function switchRecColor(color) {
+  _recColor = color;
+  document.querySelectorAll('[data-color]').forEach(b => b.classList.toggle('sel', b.dataset.color === color));
+  renderRecords();
+}
+
+function renderRecords() {
+  const list = document.getElementById('recList');
   if (!list) return;
-  const notes = getNotes();
-  if (!notes.length) {
-    list.innerHTML = `<div class="notes-empty">아직 기록한 내용이 없어요.<br>본문을 선택해 기록을 남겨 보세요 📖</div>`;
+
+  /* 하이라이트 수집 */
+  const allMarks = [];
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith(MARK_STORE + '_')) {
+        JSON.parse(localStorage.getItem(key) || '[]').forEach(m => allMarks.push({ ...m, _type:'highlight' }));
+      }
+    }
+  } catch(e) {}
+
+  const allBookmarks = getBookmarks().map(b => ({ ...b, _type:'bookmark' }));
+  const allNotes = getNotes().map(n => ({ ...n, _type:'memo' }));
+
+  let items = [];
+  if (_recTab === 'all') items = [...allMarks, ...allBookmarks, ...allNotes];
+  else if (_recTab === 'highlight') items = allMarks;
+  else if (_recTab === 'bookmark')  items = allBookmarks;
+  else if (_recTab === 'memo')      items = allNotes;
+
+  if (_recTab === 'highlight' && _recColor !== 'all') {
+    items = items.filter(m => m.color === _recColor);
+  }
+
+  items.sort((a, b) => {
+    const da = a.createdAt || a.date || '';
+    const db = b.createdAt || b.date || '';
+    return db.localeCompare(da);
+  });
+
+  if (!items.length) {
+    const msgs = { all:'아직 기록이 없어요', highlight:'형광펜이 없어요', bookmark:'책갈피가 없어요', memo:'메모가 없어요' };
+    const ics  = { all:'📖', highlight:'🖊️', bookmark:'🔖', memo:'📝' };
+    list.innerHTML = `<div class="rec-empty"><span class="ic">${ics[_recTab]||'📖'}</span>${msgs[_recTab]||'기록이 없어요'}</div>`;
     return;
   }
-  // 날짜 그룹별 묶기
-  const groups = {};
-  const order  = [];
-  notes.forEach(n => {
-    const k = n.date || '날짜 없음';
-    if (!groups[k]) { groups[k] = []; order.push(k); }
-    groups[k].push(n);
-  });
-  let html = '';
-  order.forEach(k => {
-    html += `<div class="notes-group-lbl">${k}</div>`;
-    groups[k].forEach(n => {
-      html += `<div class="note-item" onclick="openArtFromNote('${n.artId}')">
-        <div class="note-item-meta">
-          <span class="note-item-book">${n.bookTitle ? n.bookTitle + ' · ' : ''}${n.artTitle || ''}</span>
-          <button class="note-del-btn" onclick="event.stopPropagation();deleteNote('${n.id}')">×</button>
+
+  list.innerHTML = items.map(item => {
+    if (item._type === 'highlight') {
+      const color = item.color || 'yellow';
+      const artTitle = (flatList.find(f => f.id === item.artId) || {}).title || '';
+      return `<div class="rec-item" onclick="jumpToHighlight('${item.artId}')">
+        <div class="rec-dot ${color}"></div>
+        <div class="rec-body">
+          <div class="rec-quote">${item.text || ''}</div>
+          <div class="rec-meta">
+            <span class="rec-book-lbl">${artTitle.replace(/<br>/g,' ')}</span>
+            <div class="rec-actions">
+              <button class="rec-del" onclick="event.stopPropagation();copyQuote('${(item.text||'').replace(/'/g,"\\'")}')" title="복사">📋</button>
+              <button class="rec-del" onclick="event.stopPropagation();deleteHighlightById('${item.artId}','${item.id}')" title="삭제">×</button>
+            </div>
+          </div>
         </div>
-        ${n.quote ? `<div class="note-item-quote">${n.quote}</div>` : ''}
-        ${n.memo  ? `<div class="note-item-memo">${n.memo}</div>` : ''}
       </div>`;
-    });
-  });
-  list.innerHTML = html;
+    } else if (item._type === 'bookmark') {
+      return `<div class="rec-item" onclick="jumpToBookmark('${item.artId}',${item.artIdx??0},${item.pageIdx??0})">
+        <div class="rec-dot bookmark"></div>
+        <div class="rec-body">
+          <div class="rec-quote">${item.artTitle || '(제목 없음)'}</div>
+          <div class="rec-meta">
+            <span class="rec-book-lbl">${item.bookTitle||''}</span>
+            <div class="rec-actions">
+              <button class="rec-del" onclick="event.stopPropagation();deleteBookmark('${item.id}')" title="삭제">×</button>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    } else {
+      return `<div class="rec-item" onclick="openArtFromNote('${item.artId}')">
+        <div class="rec-dot memo"></div>
+        <div class="rec-body">
+          ${item.quote ? `<div class="rec-quote">"${item.quote}"</div>` : ''}
+          ${item.memo  ? `<div class="rec-memo-txt">${item.memo}</div>` : ''}
+          <div class="rec-meta">
+            <span class="rec-book-lbl">${item.bookTitle ? item.bookTitle+' · ':'' }${item.artTitle||''}</span>
+            <div class="rec-actions">
+              <button class="rec-del" onclick="event.stopPropagation();copyQuote('${(item.quote||item.memo||'').replace(/'/g,"\\'")}')" title="복사">📋</button>
+              <button class="rec-del" onclick="event.stopPropagation();deleteNote('${item.id}')" title="삭제">×</button>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    }
+  }).join('');
+}
+
+function jumpToHighlight(artId) {
+  const idx = flatList.findIndex(f => f.id === artId);
+  if (idx >= 0) { openArt(idx); go('reader'); }
+}
+
+function deleteHighlightById(artId, markId) {
+  if (!confirm('이 하이라이트를 삭제할까요?')) return;
+  const marks = loadMarks(artId).filter(m => m.id !== markId);
+  saveMarks(artId, marks);
+  /* DOM에서도 제거 */
+  const el = document.querySelector(`[data-mark-id="${markId}"]`);
+  if (el) { const p = el.parentNode; while (el.firstChild) p.insertBefore(el.firstChild, el); p.removeChild(el); p.normalize(); }
+  renderRecords();
+  showToast('하이라이트가 삭제됐습니다');
 }
 
 function openArtFromNote(artId) {
   const idx = flatList.findIndex(f => f.id === artId || String(flatList.indexOf(f)) === artId);
   if (idx >= 0) { openArt(idx); go('reader'); }
   else go('reader');
+}
+
+function copyQuote(text) {
+  if (!text) return;
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(() => showToast('구절이 복사됐습니다 ✓'));
+  else showToast(text.slice(0, 20) + '…');
+}
+
+/* ══════════════════════════════════════════════
+   말씀 카드 공유 (Canvas API)
+══════════════════════════════════════════════ */
+let _cardText = '';
+let _cardTheme = 'paper';
+const CARD_THEMES = {
+  paper: { bg:'#FBF8F2', text:'#1A1714', sub:'#9A9089', gold:'#9A7B4F', line:'#E5DECF' },
+  forest:{ bg:'#1A3A2A', text:'#E8F5EC', sub:'#8ABFA0', gold:'#7FC99A', line:'#2D5A3D' },
+  night: { bg:'#161514', text:'#D8D2C8', sub:'#6E675C', gold:'#C9A86A', line:'#322F2A' },
+  gold:  { bg:'#2A1F0A', text:'#F5E8C0', sub:'#C8A87A', gold:'#EBCF96', line:'#4A3A1A' },
+};
+
+function openCardSheet(text) {
+  _cardText = text || '';
+  if (!_cardText) return;
+  document.getElementById('cardSheet').classList.add('show');
+  drawCard();
+}
+
+function closeCardSheet() {
+  document.getElementById('cardSheet').classList.remove('show');
+}
+
+function setCardTheme(theme) {
+  _cardTheme = theme;
+  document.querySelectorAll('.card-theme-btn').forEach(b => b.classList.toggle('sel', b.dataset.ct === theme));
+  drawCard();
+}
+
+function drawCard() {
+  const canvas = document.getElementById('cardCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = 800, H = 500;
+  canvas.width = W; canvas.height = H;
+  const t = CARD_THEMES[_cardTheme] || CARD_THEMES.paper;
+
+  /* 배경 */
+  ctx.fillStyle = t.bg;
+  ctx.fillRect(0, 0, W, H);
+
+  /* 테두리 */
+  ctx.strokeStyle = t.gold;
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(22, 22, W-44, H-44);
+  ctx.strokeStyle = t.line;
+  ctx.lineWidth = 0.8;
+  ctx.strokeRect(30, 30, W-60, H-60);
+
+  /* 상단 장식선 */
+  ctx.fillStyle = t.gold;
+  ctx.fillRect(W/2-30, 56, 60, 1.5);
+
+  /* 본문 텍스트 (줄바꿈 처리) */
+  ctx.fillStyle = t.text;
+  ctx.textAlign = 'center';
+  const maxW = W - 160;
+  const words = _cardText.split('');
+  let line = '', lines = [];
+  const FONT_SIZE = _cardText.length > 60 ? 26 : _cardText.length > 40 ? 30 : 34;
+  ctx.font = `${FONT_SIZE}px "Noto Serif KR", serif`;
+  for (let i = 0; i < words.length; i++) {
+    const test = line + words[i];
+    if (ctx.measureText(test).width > maxW && line) { lines.push(line); line = words[i]; }
+    else line = test;
+  }
+  if (line) lines.push(line);
+  const lineH = FONT_SIZE * 1.7;
+  const totalH = lines.length * lineH;
+  const startY = H / 2 - totalH / 2 + FONT_SIZE / 2;
+  lines.forEach((l, i) => ctx.fillText(l, W/2, startY + i * lineH));
+
+  /* 하단 장식 */
+  ctx.fillStyle = t.gold;
+  ctx.fillRect(W/2-30, H-58, 60, 1.5);
+
+  /* 출처 */
+  ctx.fillStyle = t.sub;
+  ctx.font = '16px "Pretendard Variable", sans-serif';
+  ctx.textAlign = 'right';
+  ctx.fillText('MeslapBooks', W - 48, H - 40);
+}
+
+function downloadCard() {
+  const canvas = document.getElementById('cardCanvas');
+  if (!canvas) return;
+  /* 이미지 저장 */
+  const link = document.createElement('a');
+  link.download = 'meslap-card.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+  /* Web Share API: 파일 공유 */
+  if (navigator.share && navigator.canShare) {
+    canvas.toBlob(async blob => {
+      if (!blob) return;
+      const file = new File([blob], 'meslap-card.png', { type:'image/png' });
+      try {
+        if (navigator.canShare({ files:[file] })) {
+          await navigator.share({ files:[file], title:'말씀 카드', text: _cardText + '\n\n— MeslapBooks' });
+          return;
+        }
+      } catch(e) { if (e.name !== 'AbortError') console.warn(e); }
+    });
+  }
+  showToast('📥 카드가 저장됐습니다');
+}
+
+function shareCardText() {
+  if (!_cardText) return;
+  const msg = _cardText + '\n\n말씀이 삶이 되는 자리, MeslapBooks\nhttps://gerrardbak08.github.io/meslap-books';
+  if (navigator.share) {
+    navigator.share({ title:'말씀 카드', text: msg }).catch(e => {
+      if (e.name !== 'AbortError') copyQuote(msg);
+    });
+  } else {
+    copyQuote(msg);
+    showToast('📋 말씀이 복사됐습니다');
+  }
 }
 
 /* ── init() 초기화 ── */
@@ -5116,6 +5490,110 @@ function showTodayReview() {
   if (art) showToast(`오늘 읽은 말씀: ${(art.title || '').replace(/<br>/g, ' ')}`);
 }
 
+/* ══════════════════════════════════════════════
+   독서 챌린지·배지
+══════════════════════════════════════════════ */
+const BADGES_DEF = [
+  { id:'first_read',  icon:'📖', name:'첫 독서',      cond: d => d.totalDays >= 1 },
+  { id:'streak_3',    icon:'🔥', name:'3일 연속',      cond: d => d.streak >= 3 },
+  { id:'streak_7',    icon:'⚡', name:'7일 연속',      cond: d => d.streak >= 7 },
+  { id:'streak_30',   icon:'🏆', name:'30일 연속',     cond: d => d.streak >= 30 },
+  { id:'hl_10',       icon:'🖊️', name:'하이라이트10', cond: d => d.hlCount >= 10 },
+  { id:'hl_50',       icon:'💛', name:'하이라이트50', cond: d => d.hlCount >= 50 },
+  { id:'memo_5',      icon:'📝', name:'메모 5개',       cond: d => d.memoCount >= 5 },
+  { id:'bmk_10',      icon:'🔖', name:'책갈피 10',      cond: d => d.bmkCount >= 10 },
+];
+
+function getChallengeStats() {
+  let s = { streak:0, best:0, totalDays:0, lastDate:'' };
+  try { s = JSON.parse(localStorage.getItem(STREAK_KEY) || '{}'); } catch(e) {}
+  let hlCount = 0;
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith(MARK_STORE + '_')) hlCount += JSON.parse(localStorage.getItem(key)||'[]').length;
+    }
+  } catch(e) {}
+  return {
+    streak:    s.streak    || 0,
+    best:      s.best      || s.streak || 0,
+    totalDays: s.totalDays || 0,
+    hlCount,
+    memoCount: getNotes().length,
+    bmkCount:  getBookmarks().length,
+  };
+}
+
+function renderChallenge() {
+  const el = document.getElementById('challengeContent');
+  if (!el) return;
+  const d = getChallengeStats();
+
+  /* streak 배지 버튼도 업데이트 */
+  const sb = document.getElementById('challengeBtnStreak');
+  if (sb) sb.textContent = d.streak >= 1 ? `🔥${d.streak}` : '';
+
+  /* 최근 7일 표시 */
+  const last7 = [];
+  for (let i = 6; i >= 0; i--) {
+    const dt = new Date(Date.now() - i * 86400000);
+    last7.push({
+      label: `${dt.getMonth()+1}/${dt.getDate()}`,
+      done:  i >= 7 - Math.min(d.streak, 7),
+      today: i === 0,
+    });
+  }
+
+  /* 배지 */
+  const badgeHTML = BADGES_DEF.map(b => {
+    const earned = b.cond(d);
+    return `<div class="cv-badge ${earned ? 'earned' : ''}">
+      <div class="cv-badge-icon">${b.icon}</div>
+      <div class="cv-badge-name">${b.name}</div>
+    </div>`;
+  }).join('');
+
+  /* 챌린지 */
+  const challenges = [
+    { title:'로마서 8장 완독', desc:'10편 지침 모두 읽기',         total:10, done:Math.min(d.totalDays, 10) },
+    { title:'30일 말씀 묵상',  desc:'30일 연속 독서 달성',          total:30, done:d.streak },
+    { title:'하이라이터 마스터', desc:'형광펜 50개 달성',           total:50, done:d.hlCount },
+    { title:'메모의 습관',     desc:'묵상 메모 20개 남기기',         total:20, done:d.memoCount },
+  ];
+  const challengeHTML = challenges.map(c => {
+    const pct = Math.min(100, Math.round(c.done / c.total * 100));
+    return `<div class="cv-challenge">
+      <div class="cv-challenge-title">${c.title}</div>
+      <div class="cv-challenge-desc">${c.desc}</div>
+      <div class="cv-challenge-bar"><div class="cv-challenge-fill" style="width:${pct}%"></div></div>
+      <div class="cv-challenge-pct"><span>${c.done}/${c.total}</span><span>${pct}%</span></div>
+    </div>`;
+  }).join('');
+
+  el.innerHTML = `
+    <div class="challenge-view-sec">
+      <div class="challenge-view-lbl">연속 독서 Streak</div>
+      <div class="cv-streak-row">
+        <div class="cv-streak-num">${d.streak}</div>
+        <div class="cv-streak-info">
+          <div class="cv-streak-label">일 연속 🔥</div>
+          <div class="cv-streak-sub">최고 ${d.best}일 · 총 ${d.totalDays}일</div>
+        </div>
+      </div>
+      <div class="cv-streak-days">${last7.map(x =>
+        `<div class="cv-day ${x.today?'today':x.done?'done':''}">${x.label}</div>`
+      ).join('')}</div>
+    </div>
+    <div class="challenge-view-sec">
+      <div class="challenge-view-lbl">획득한 배지</div>
+      <div class="cv-badge-grid">${badgeHTML}</div>
+    </div>
+    <div class="challenge-view-sec">
+      <div class="challenge-view-lbl">진행 중인 챌린지</div>
+      ${challengeHTML}
+    </div>`;
+}
+
 function signOut() {
   localStorage.removeItem(AUTH_KEY);
   go('landing');
@@ -5124,6 +5602,9 @@ function greet(u) {
   const el = document.getElementById('libHi');
   if (el) el.textContent = `${u.name}님, 안녕하세요`;
   updateStreakBadge();
+  const sb = document.getElementById('challengeBtnStreak');
+  const streakData = (()=>{try{return JSON.parse(localStorage.getItem(STREAK_KEY)||'{}')}catch{return{}}})();
+  if (sb) sb.textContent = (streakData.streak||0) >= 1 ? `🔥${streakData.streak}` : '';
 }
 /* ── 소셜 로그인 (Supabase OAuth 연동 전: 안내 메시지) ──
    Supabase 키 연동 후:
@@ -5221,8 +5702,63 @@ function renderShelf() {
   shelf.innerHTML = html;
   // 카드 stagger reveal 애니메이션
   requestAnimationFrame(revealShelf);
+  loadRecentPosts(false);
 }
 function openBook() { go('cover'); }
+
+/* ── 최근 묵상 RSS ── */
+let _recentPage = 0;
+const RECENT_PROXY = 'https://api.allorigins.win/get?url=';
+const RSS_URL = encodeURIComponent('https://rss.blog.naver.com/meslap3.xml');
+
+async function loadRecentPosts(append) {
+  const section = document.getElementById('recentSection');
+  const list    = document.getElementById('recentList');
+  if (!list) return;
+  if (!append) { list.innerHTML = '<div class="recent-loading">불러오는 중…</div>'; _recentPage = 0; }
+  try {
+    const res = await fetch(RECENT_PROXY + RSS_URL, { signal: AbortSignal.timeout(8000) });
+    const data = await res.json();
+    const xml = new DOMParser().parseFromString(data.contents, 'text/xml');
+    const items = Array.from(xml.querySelectorAll('item'));
+    const start = _recentPage * 5;
+    const slice = items.slice(start, start + 5);
+    if (!slice.length) {
+      if (!append) list.innerHTML = '<div class="recent-loading">최근 글이 없어요</div>';
+      return;
+    }
+    const html = slice.map(it => {
+      const title = it.querySelector('title')?.textContent?.trim() || '';
+      const link  = it.querySelector('link')?.textContent?.trim() || it.querySelector('link')?.nextSibling?.textContent?.trim() || '#';
+      const date  = it.querySelector('pubDate')?.textContent?.trim() || '';
+      const d = date ? new Date(date).toLocaleDateString('ko-KR', { month:'2-digit', day:'2-digit' }) : '';
+      return `<div class="recent-item" onclick="openExternal('${link}')">
+        <div class="recent-dot"></div>
+        <div class="recent-body">
+          <div class="recent-title">${title}</div>
+          ${d ? `<div class="recent-date">${d}</div>` : ''}
+        </div>
+      </div>`;
+    }).join('');
+    if (append) {
+      list.insertAdjacentHTML('beforeend', html);
+    } else {
+      list.innerHTML = html;
+    }
+    if (section) section.style.display = 'block';
+    _recentPage++;
+  } catch(e) {
+    /* 네트워크 오류·오프라인 시 조용히 숨김 */
+    if (section) section.style.display = 'none';
+  }
+}
+
+function loadMoreRecent() { loadRecentPosts(true); }
+
+function openExternal(url) {
+  if (!url) return;
+  window.open(url, '_blank', 'noopener');
+}
 
 /* ── 소개 렌더 ── */
 function renderAbout() {
@@ -5319,8 +5855,9 @@ function go(id) {
   if (!next) return;
   next.classList.add('active');
   if (id === 'contents') renderTOC();
-  if (id === 'notes') renderNotes();
+  if (id === 'notes') { _recTab='all'; _recColor='all'; renderRecords(); }
   if (id === 'bookmarks') renderBookmarks();
+  if (id === 'challenge') renderChallenge();
 }
 
 function goBack() { go(_prevView === 'reader' ? 'reader' : 'library'); }

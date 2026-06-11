@@ -32,6 +32,19 @@
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- 서비스워커 등록 (없으면 조용히 무시) -->
 <script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}</script>
+<!-- ── Supabase SDK (CDN) ── -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<!-- ── Supabase 설정 — 여기에 실제 키를 입력하세요 ──
+  1. https://supabase.com 에서 프로젝트 생성
+  2. Project Settings > API 에서 URL 과 anon public key 복사
+  3. 카카오 OAuth: Authentication > Providers > Kakao 활성화
+  4. Google OAuth: Authentication > Providers > Google 활성화
+  아직 연동 전이면 SUPABASE_URL = '' 로 두면 로컬스토리지 모드로 동작합니다.
+-->
+<script>
+window.SUPABASE_URL  = '';   // 예: 'https://xxxx.supabase.co'
+window.SUPABASE_ANON = '';   // 예: 'eyJhbGciOiJ...'
+</script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&family=Gowun+Batang:wght@400;700&family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
@@ -429,6 +442,14 @@ svg{display:block}
 /* 리더 본문 말미 — 성경 저작권 고지(상시·절제) */
 .r-copyright{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);font-size:10.5px;line-height:1.6;color:var(--ink3);text-align:center;word-break:keep-all}
 
+/* ── Popular Highlights ── */
+.popular-hl-sec{margin:28px 0 8px;padding:16px;background:var(--bg2);border-radius:14px;border:1px solid var(--line)}
+.popular-hl-lbl{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.popular-hl-item{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line)}
+.popular-hl-item:last-child{border-bottom:none}
+.popular-hl-text{font-family:var(--reader-font);font-size:13px;font-style:italic;color:var(--ink);line-height:1.6;flex:1;word-break:keep-all}
+.popular-hl-cnt{font-size:11px;font-weight:700;color:var(--gold);flex-shrink:0;white-space:nowrap}
+
 /* ── 책갈피 ── */
 #bmkBtn.saved svg{color:var(--gold)}
 #bmkBtn.saved svg path{fill:var(--gold);stroke:var(--gold)}
@@ -759,7 +780,7 @@ svg{display:block}
             <label class="fld"><span>비밀번호</span><input id="inPw" type="password" placeholder="비밀번호" autocomplete="current-password"></label>
             <button class="btn-p" id="authSubmit" onclick="submitAuth()">가입하고 시작하기</button>
             <button class="btn-t" id="authToggle" onclick="toggleAuthMode()">이미 계정이 있어요 · 로그인</button>
-            <p class="auth-note">※ 소셜 로그인은 Supabase 연동 후 활성화됩니다. 지금은 이메일로 가입해 주세요.</p>
+            <p class="auth-note">※ 카카오/구글 로그인은 Supabase 설정 후 즉시 활성화됩니다. 지금은 이메일로 가입해 주세요.</p>
           </div>
         </div>
       </div>
@@ -1082,6 +1103,12 @@ svg{display:block}
           <button class="legal-link" onclick="closePanel();openLegal('reader')">
             <span>약관·정책</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        </div>
+        <div class="p-sec" id="syncBtnSec">
+          <button class="legal-link" onclick="closePanel();manualSync()" title="기기 간 동기화">
+            <span>☁️ 클라우드 동기화</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
           </button>
         </div>
       </div>
@@ -4992,6 +5019,15 @@ function persistMarks() {
     });
   });
   saveMarks(artId, marks);
+  // Popular Highlights 추적 (최신 하이라이트 텍스트)
+  if (marks.length && SB_ENABLED()) {
+    const latest = marks[marks.length - 1];
+    const slug = (BOOK_META && BOOK_META.slug) || 'unknown';
+    trackPopularHighlight(slug, artId, latest.text).catch(() => {});
+  }
+  // 클라우드 동기화 (디바운스: 3초 후)
+  clearTimeout(persistMarks._syncTimer);
+  persistMarks._syncTimer = setTimeout(() => syncToCloud().catch(() => {}), 3000);
 }
 
 /* 저장된 하이라이트 복원 */
@@ -5406,17 +5442,72 @@ function init() {
   renderAbout();
   renderCatalog();
   renderLegal();
-  routeStart();
+  // Supabase 세션 복원 (비동기) → routeStart는 세션 확인 후 실행
+  restoreSession().then(() => {
+    routeStart();
+  }).catch(() => {
+    routeStart();
+  });
   // 하이라이트 선택 감지 + 버튼 리플 초기화
   initSelectionDetection();
   initRipples();
 }
 
-/* ── 인증(프로토타입: 로컬 저장. 추후 Supabase Auth로 대체) ── */
+/* ══════════════════════════════════════════════
+   인증 — Supabase OAuth + 이메일 (로컬 fallback)
+══════════════════════════════════════════════ */
 const AUTH_KEY = 'meslap_user';
 let authMode = 'signup';
+
+/* Supabase 클라이언트 (설정 시 활성화) */
+let _sb = null;
+function getSB() {
+  if (_sb) return _sb;
+  if (window.SUPABASE_URL && window.SUPABASE_ANON && window.supabase) {
+    _sb = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON);
+  }
+  return _sb;
+}
+const SB_ENABLED = () => !!(window.SUPABASE_URL && window.SUPABASE_ANON);
+
+function sbUserToLocal(sbUser) {
+  const meta = sbUser.user_metadata || {};
+  return {
+    id:    sbUser.id,
+    name:  meta.full_name || meta.name || sbUser.email?.split('@')[0] || '독자',
+    email: sbUser.email || '',
+    tier:  'free',
+  };
+}
+
 function getUser() {
   try { return JSON.parse(localStorage.getItem(AUTH_KEY) || 'null'); } catch { return null; }
+}
+
+/* ── 앱 시작 시 Supabase 세션 복원 ── */
+async function restoreSession() {
+  const sb = getSB();
+  if (!sb) return;
+  try {
+    const { data: { session } } = await sb.auth.getSession();
+    if (session?.user) {
+      const u = sbUserToLocal(session.user);
+      localStorage.setItem(AUTH_KEY, JSON.stringify(u));
+      syncFromCloud(u.id).catch(() => {});
+    }
+    sb.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'SIGNED_IN' && session?.user) {
+        const u = sbUserToLocal(session.user);
+        localStorage.setItem(AUTH_KEY, JSON.stringify(u));
+        greet(u);
+        go('library');
+        syncFromCloud(u.id).catch(() => {});
+      } else if (event === 'SIGNED_OUT') {
+        localStorage.removeItem(AUTH_KEY);
+        go('landing');
+      }
+    });
+  } catch(e) { console.warn('Supabase session restore failed', e); }
 }
 function routeStart() {
   const u = getUser();
@@ -5441,10 +5532,37 @@ function submitAuth() {
     alert('필요한 정보를 모두 입력해 주세요.');
     return;
   }
-  const user = { name: name || email.split('@')[0], email, tier: 'free' };
-  localStorage.setItem(AUTH_KEY, JSON.stringify(user));
-  greet(user);
-  go('library');
+
+  if (SB_ENABLED()) {
+    /* ── Supabase 이메일 인증 ── */
+    const btn = document.getElementById('authSubmit');
+    btn.disabled = true;
+    btn.textContent = '처리 중…';
+    const sb = getSB();
+    const action = authMode === 'signup'
+      ? sb.auth.signUp({ email, password: pw, options: { data: { full_name: name } } })
+      : sb.auth.signInWithPassword({ email, password: pw });
+    action.then(({ data, error }) => {
+      btn.disabled = false;
+      btn.textContent = authMode === 'signup' ? '가입하고 시작하기' : '로그인';
+      if (error) { alert('오류: ' + error.message); return; }
+      if (authMode === 'signup' && !data.session) {
+        alert('📧 이메일을 확인해 주세요. 인증 링크를 클릭하면 로그인됩니다.');
+        return;
+      }
+      // onAuthStateChange에서 처리됨
+    }).catch(e => {
+      btn.disabled = false;
+      btn.textContent = authMode === 'signup' ? '가입하고 시작하기' : '로그인';
+      alert('네트워크 오류. 다시 시도해 주세요.');
+    });
+  } else {
+    /* ── 로컬 fallback (Supabase 미설정) ── */
+    const user = { id: 'local_' + Date.now(), name: name || email.split('@')[0], email, tier: 'free' };
+    localStorage.setItem(AUTH_KEY, JSON.stringify(user));
+    greet(user);
+    go('library');
+  }
 }
 /* ── 독서 Streak ── */
 const STREAK_KEY = 'meslap_streak';
@@ -5608,6 +5726,10 @@ function renderChallenge() {
 }
 
 function signOut() {
+  const sb = getSB();
+  if (sb) {
+    sb.auth.signOut().catch(() => {});
+  }
   localStorage.removeItem(AUTH_KEY);
   go('landing');
 }
@@ -5619,16 +5741,281 @@ function greet(u) {
   const streakData = (()=>{try{return JSON.parse(localStorage.getItem(STREAK_KEY)||'{}')}catch{return{}}})();
   if (sb) sb.textContent = (streakData.streak||0) >= 1 ? `🔥${streakData.streak}` : '';
 }
-/* ── 소셜 로그인 (Supabase OAuth 연동 전: 안내 메시지) ──
-   Supabase 키 연동 후:
-     supabase.auth.signInWithOAuth({ provider: 'kakao' | 'google' })
-     네이버는 Supabase custom OAuth provider(kakao처럼 설정) 또는 별도 구성 */
+/* ── 소셜 로그인 (Supabase OAuth) ── */
 function socialLogin(provider) {
-  const names = { kakao:'카카오', naver:'네이버', google:'Google' };
-  alert(`${names[provider]} 로그인은 Supabase 연동 후 활성화됩니다.\n지금은 이메일로 가입해 주세요.`);
+  const sb = getSB();
+  if (!sb) {
+    const names = { kakao:'카카오', naver:'네이버', google:'Google' };
+    alert(`${names[provider]} 로그인은 Supabase 연동 후 활성화됩니다.\n지금은 이메일로 가입해 주세요.`);
+    return;
+  }
+  // 카카오: Supabase Dashboard > Authentication > Providers > Kakao 활성화 필요
+  // 구글:   Authentication > Providers > Google 활성화 필요
+  // 네이버: 현재 Supabase 기본 제공 없음 → 이메일로 안내
+  if (provider === 'naver') {
+    alert('네이버 로그인은 준비 중입니다. 카카오 또는 이메일로 로그인해 주세요.');
+    return;
+  }
+  const redirectTo = window.location.href.replace(/#.*$/, '');
+  sb.auth.signInWithOAuth({
+    provider: provider === 'kakao' ? 'kakao' : 'google',
+    options: { redirectTo }
+  }).catch(e => alert('로그인 오류: ' + e.message));
 }
 
-/* ── 리플 효과: 모든 .btn-p .btn-t .social-btn .tb-btn .ctrl-btn ── */
+/* ══════════════════════════════════════════════
+   기기 간 동기화 — Supabase DB
+   테이블 DDL (Supabase SQL Editor에서 실행):
+   ───────────────────────────────────────────
+   create table if not exists user_highlights (
+     id text primary key,
+     user_id uuid references auth.users(id) on delete cascade,
+     book_slug text,
+     art_id text,
+     text text,
+     color text,
+     range_data jsonb,
+     created_at timestamptz default now()
+   );
+   create table if not exists user_bookmarks (
+     id text primary key,
+     user_id uuid references auth.users(id) on delete cascade,
+     book_slug text,
+     art_id text,
+     art_idx integer,
+     art_title text,
+     book_title text,
+     page_idx integer,
+     date text,
+     created_at timestamptz default now()
+   );
+   create table if not exists user_notes (
+     id text primary key,
+     user_id uuid references auth.users(id) on delete cascade,
+     book_slug text,
+     art_id text,
+     text text,
+     memo text,
+     color text,
+     date text,
+     created_at timestamptz default now()
+   );
+   create table if not exists popular_highlights (
+     book_slug text,
+     art_id text,
+     text_hash text,
+     text text,
+     count integer default 1,
+     primary key (book_slug, art_id, text_hash)
+   );
+   -- RLS
+   alter table user_highlights   enable row level security;
+   alter table user_bookmarks    enable row level security;
+   alter table user_notes        enable row level security;
+   alter table popular_highlights enable row level security;
+
+   create policy "own_highlights" on user_highlights for all using (auth.uid() = user_id);
+   create policy "own_bookmarks"  on user_bookmarks  for all using (auth.uid() = user_id);
+   create policy "own_notes"      on user_notes      for all using (auth.uid() = user_id);
+   create policy "read_popular"   on popular_highlights for select using (true);
+   ───────────────────────────────────────────
+══════════════════════════════════════════════ */
+
+/* 클라우드로 업로드 (upsert) */
+async function syncToCloud() {
+  const sb = getSB();
+  const u = getUser();
+  if (!sb || !u || !u.id || u.id.startsWith('local_')) return;
+
+  try {
+    // 하이라이트 업로드
+    const allMarks = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith(MARK_STORE + '_')) {
+        const artId = key.replace(MARK_STORE + '_', '');
+        const marks = JSON.parse(localStorage.getItem(key) || '[]');
+        marks.forEach(m => allMarks.push({
+          id:         m.id || (artId + '_' + m.start),
+          user_id:    u.id,
+          book_slug:  (BOOK_META && BOOK_META.slug) || 'unknown',
+          art_id:     artId,
+          text:       m.text || '',
+          color:      m.color || 'yellow',
+          range_data: m,
+        }));
+      }
+    }
+    if (allMarks.length) {
+      await sb.from('user_highlights').upsert(allMarks, { onConflict: 'id' });
+    }
+
+    // 책갈피 업로드
+    const bookmarks = getBookmarks().map(b => ({
+      id:         b.id,
+      user_id:    u.id,
+      book_slug:  b.bookSlug || '',
+      art_id:     b.artId   || '',
+      art_idx:    b.artIdx  || 0,
+      art_title:  b.artTitle || '',
+      book_title: b.bookTitle || '',
+      page_idx:   b.pageIdx || 0,
+      date:       b.date || '',
+    }));
+    if (bookmarks.length) {
+      await sb.from('user_bookmarks').upsert(bookmarks, { onConflict: 'id' });
+    }
+
+    // 메모 업로드
+    const notes = getNotes().map(n => ({
+      id:        n.id,
+      user_id:   u.id,
+      book_slug: n.bookSlug || '',
+      art_id:    n.artId   || '',
+      text:      n.text    || '',
+      memo:      n.memo    || '',
+      color:     n.color   || '',
+      date:      n.date    || '',
+    }));
+    if (notes.length) {
+      await sb.from('user_notes').upsert(notes, { onConflict: 'id' });
+    }
+
+    showToast('☁️ 클라우드에 동기화됐습니다');
+  } catch(e) {
+    console.warn('syncToCloud error', e);
+  }
+}
+
+/* 클라우드에서 다운로드 (병합) */
+async function syncFromCloud(userId) {
+  const sb = getSB();
+  if (!sb || !userId || userId.startsWith('local_')) return;
+
+  try {
+    // 하이라이트 다운로드
+    const { data: hlData } = await sb
+      .from('user_highlights')
+      .select('*')
+      .eq('user_id', userId);
+    if (hlData && hlData.length) {
+      const grouped = {};
+      hlData.forEach(h => {
+        const key = MARK_STORE + '_' + h.art_id;
+        if (!grouped[key]) grouped[key] = [];
+        grouped[key].push(h.range_data || {
+          id: h.id, text: h.text, color: h.color
+        });
+      });
+      Object.entries(grouped).forEach(([key, marks]) => {
+        try {
+          // 로컬과 병합 (id 기준 중복 제거)
+          const local = JSON.parse(localStorage.getItem(key) || '[]');
+          const merged = [...local];
+          marks.forEach(m => {
+            if (!merged.some(lm => lm.id === m.id)) merged.push(m);
+          });
+          localStorage.setItem(key, JSON.stringify(merged));
+        } catch(e) {}
+      });
+    }
+
+    // 책갈피 다운로드
+    const { data: bmkData } = await sb
+      .from('user_bookmarks')
+      .select('*')
+      .eq('user_id', userId);
+    if (bmkData && bmkData.length) {
+      const local = getBookmarks();
+      bmkData.forEach(b => {
+        if (!local.some(lb => lb.id === b.id)) {
+          local.unshift({
+            id: b.id, artId: b.art_id, artIdx: b.art_idx,
+            artTitle: b.art_title, bookSlug: b.book_slug,
+            bookTitle: b.book_title, pageIdx: b.page_idx, date: b.date,
+          });
+        }
+      });
+      setBookmarks(local);
+    }
+
+    // 메모 다운로드
+    const { data: noteData } = await sb
+      .from('user_notes')
+      .select('*')
+      .eq('user_id', userId);
+    if (noteData && noteData.length) {
+      const local = getNotes();
+      noteData.forEach(n => {
+        if (!local.some(ln => ln.id === n.id)) {
+          local.unshift({
+            id: n.id, artId: n.art_id, bookSlug: n.book_slug,
+            text: n.text, memo: n.memo, color: n.color, date: n.date,
+          });
+        }
+      });
+      setNotes(local);
+    }
+  } catch(e) {
+    console.warn('syncFromCloud error', e);
+  }
+}
+
+/* ── Popular Highlights — "N명이 이 구절을 하이라이트했습니다" ── */
+async function trackPopularHighlight(bookSlug, artId, text) {
+  const sb = getSB();
+  if (!sb || !text || text.length < 8) return;
+  // 텍스트 해시 (간단한 djb2)
+  let hash = 5381;
+  for (let i = 0; i < Math.min(text.length, 100); i++) {
+    hash = ((hash << 5) + hash) + text.charCodeAt(i);
+    hash &= 0x7fffffff;
+  }
+  const textHash = hash.toString(36);
+  try {
+    const { data: existing } = await sb
+      .from('popular_highlights')
+      .select('count')
+      .eq('book_slug', bookSlug)
+      .eq('art_id', artId)
+      .eq('text_hash', textHash)
+      .single();
+    if (existing) {
+      await sb.from('popular_highlights').update({ count: existing.count + 1 })
+        .eq('book_slug', bookSlug).eq('art_id', artId).eq('text_hash', textHash);
+    } else {
+      await sb.from('popular_highlights').insert({
+        book_slug: bookSlug, art_id: artId, text_hash: textHash,
+        text: text.slice(0, 200), count: 1
+      });
+    }
+  } catch(e) {}
+}
+
+async function loadPopularHighlights(bookSlug, artId) {
+  const sb = getSB();
+  if (!sb) return [];
+  try {
+    const { data } = await sb
+      .from('popular_highlights')
+      .select('text, count')
+      .eq('book_slug', bookSlug)
+      .eq('art_id', artId)
+      .gte('count', 2)
+      .order('count', { ascending: false })
+      .limit(5);
+    return data || [];
+  } catch(e) { return []; }
+}
+
+/* 수동 동기화 버튼 (설정 패널에서 호출) */
+function manualSync() {
+  const u = getUser();
+  if (!u) { showToast('로그인 후 동기화할 수 있습니다'); return; }
+  if (!SB_ENABLED()) { showToast('Supabase 연동 후 사용 가능합니다'); return; }
+  showToast('☁️ 동기화 중…');
+  syncToCloud().then(() => syncFromCloud(u.id));
+}
 function addRipple(el) {
   el.addEventListener('click', function(e) {
     const r = document.createElement('span');
@@ -5932,6 +6319,9 @@ function toggleBookmark() {
     setBookmarks(bookmarks);
     syncBmkBtn();
     showToast('📖 책갈피가 저장됐습니다');
+    // 클라우드 동기화 (3초 후)
+    clearTimeout(toggleBookmark._syncTimer);
+    toggleBookmark._syncTimer = setTimeout(() => syncToCloud().catch(() => {}), 3000);
   }
 }
 function renderBookmarks() {
@@ -6167,9 +6557,30 @@ function renderArt(idx) {
     </div>`;
 
   document.getElementById('rContent').innerHTML = html;
-}
 
-/* ── 진행률 ── */
+  // Popular Highlights 비동기 로드 (Supabase 활성화 시)
+  if (SB_ENABLED() && a.id) {
+    const slug = (BOOK_META && BOOK_META.slug) || 'unknown';
+    loadPopularHighlights(slug, a.id).then(popular => {
+      if (!popular.length) return;
+      const c = document.getElementById('rContent');
+      if (!c) return;
+      const sec = document.createElement('div');
+      sec.className = 'popular-hl-sec';
+      sec.innerHTML = `
+        <div class="popular-hl-lbl">🔥 많이 읽힌 구절</div>
+        ${popular.map(p => `
+          <div class="popular-hl-item">
+            <span class="popular-hl-text">${p.text}</span>
+            <span class="popular-hl-cnt">${p.count}명</span>
+          </div>`).join('')}`;
+      // 저작권 표시 앞에 삽입
+      const copyright = c.querySelector('.r-copyright');
+      if (copyright) c.insertBefore(sec, copyright);
+      else c.appendChild(sec);
+    }).catch(() => {});
+  }
+}
 const rScroll = document.getElementById('rScroll');
 rScroll.addEventListener('scroll', () => { if (!pageMode) updProg(); }, { passive: true });
 function updProg() {
