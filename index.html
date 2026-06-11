@@ -561,6 +561,66 @@ svg{display:block}
 .streak-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:var(--gold-bg);border:1px solid var(--gold);border-radius:20px;font-size:11.5px;font-weight:700;color:var(--gold);margin-top:6px}
 .streak-badge .fire{font-size:13px}
 
+/* ── 말씀 카드 공유 ── */
+.card-sheet{position:absolute;left:0;right:0;bottom:0;background:var(--bg);border-radius:22px 22px 0 0;padding:20px 22px 0;transform:translateY(100%);transition:transform .35s var(--ease);z-index:200;box-shadow:0 -8px 32px rgba(0,0,0,.15);max-height:85%;display:flex;flex-direction:column}
+.card-sheet.show{transform:translateY(0)}
+.card-sheet-handle{width:36px;height:4px;background:var(--line);border-radius:2px;margin:0 auto 16px;flex-shrink:0}
+.card-sheet-title{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:14px;flex-shrink:0}
+.card-preview-wrap{flex:1;overflow-y:auto;display:flex;flex-direction:column;align-items:center;gap:12px;padding-bottom:4px}
+#cardCanvas{max-width:100%;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.15)}
+.card-themes{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;padding:4px 0}
+.card-theme-btn{padding:7px 14px;border-radius:20px;border:2px solid var(--line);background:var(--bg2);font-size:12.5px;font-weight:600;color:var(--ink);cursor:pointer;transition:border-color .12s}
+.card-theme-btn.sel{border-color:var(--gold);color:var(--gold)}
+.card-sheet-btns{display:flex;gap:10px;padding:14px 0 calc(env(safe-area-inset-bottom)+16px);flex-shrink:0}
+.card-dl-btn{flex:1;padding:14px;background:var(--ink);color:var(--bg);border:none;border-radius:12px;font-family:var(--sans);font-size:15px;font-weight:600;cursor:pointer;transition:transform .12s}
+.card-dl-btn:active{transform:scale(.97)}
+.card-share-btn{padding:14px 20px;background:none;border:1.5px solid var(--line);border-radius:12px;font-family:var(--sans);font-size:14px;font-weight:600;color:var(--ink2);cursor:pointer}
+
+/* ── 내 기록 통합 뷰 탭 ── */
+.rec-tabs{display:flex;gap:6px;padding:12px 16px 10px;border-bottom:1px solid var(--line);flex-shrink:0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.rec-tabs::-webkit-scrollbar{display:none}
+.rec-tab{flex-shrink:0;padding:7px 14px;border-radius:20px;border:1.5px solid var(--line);background:var(--bg);font-family:var(--sans);font-size:12.5px;font-weight:600;color:var(--ink3);cursor:pointer;transition:background .12s,border-color .12s,color .12s}
+.rec-tab.sel{background:var(--gold-bg);border-color:var(--gold);color:var(--gold)}
+.rec-filter{display:flex;gap:6px;padding:8px 16px 10px;border-bottom:1px solid var(--line);flex-shrink:0}
+.rec-chip{width:22px;height:22px;border-radius:50%;cursor:pointer;border:2.5px solid transparent;transition:border-color .12s,transform .12s;flex-shrink:0}
+.rec-chip:active{transform:scale(.88)}
+.rec-chip.yellow{background:#FFE066}.rec-chip.pink{background:#FF8FA3}
+.rec-chip.blue{background:#74B9FF}
+.rec-chip.underline{background:var(--bg2);border-color:var(--line);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--ink3)}
+.rec-chip.sel{border-color:var(--ink)!important}
+.rec-chip-all{background:var(--ink);border-radius:20px;padding:0 10px;font-size:11px;font-weight:700;color:var(--bg);border:none;height:22px;cursor:pointer;flex-shrink:0}
+.rec-chip-all.sel{background:var(--gold)}
+.rec-item{display:flex;gap:10px;padding:13px 18px;border-top:1px solid var(--line);cursor:pointer;transition:background .12s;align-items:flex-start}
+.rec-item:active{background:var(--bg2)}
+.rec-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.rec-dot.yellow{background:#FFE066}.rec-dot.pink{background:#FF8FA3}
+.rec-dot.blue{background:#74B9FF}.rec-dot.underline{background:var(--gold)}
+.rec-dot.bookmark{background:var(--gold)}.rec-dot.memo{background:var(--ink3)}
+.rec-body{flex:1;min-width:0}
+.rec-quote{font-family:var(--serif);font-size:13.5px;color:var(--ink);line-height:1.7;word-break:keep-all;margin-bottom:4px}
+.rec-memo{font-size:12.5px;color:var(--ink2);line-height:1.5;margin-top:3px;word-break:keep-all}
+.rec-meta{display:flex;align-items:center;justify-content:space-between;margin-top:5px}
+.rec-book{font-size:11px;font-weight:600;color:var(--gold)}
+.rec-date{font-size:10.5px;color:var(--ink3)}
+.rec-del{background:none;border:none;color:var(--ink3);cursor:pointer;padding:4px 6px;font-size:16px;line-height:1;flex-shrink:0;border-radius:6px;transition:background .12s}
+.rec-del:active{background:var(--bg2)}
+.rec-empty{padding:56px 36px;text-align:center;font-size:14px;color:var(--ink3);line-height:1.8}
+.rec-empty .ic{font-size:32px;display:block;margin-bottom:10px;opacity:.5}
+
+/* ── 최근 묵상 섹션 ── */
+.recent-sec{padding:20px 20px 8px;border-top:1px solid var(--line)}
+.recent-sec-lbl{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.recent-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);cursor:pointer;transition:opacity .12s}
+.recent-item:active{opacity:.7}
+.recent-item:last-child{border-bottom:none}
+.recent-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:6px}
+.recent-body{flex:1;min-width:0}
+.recent-title{font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.4;word-break:keep-all;margin-bottom:3px}
+.recent-date{font-size:11px;color:var(--ink3)}
+.recent-more{display:block;text-align:center;padding:10px;font-size:12.5px;font-weight:600;color:var(--gold);cursor:pointer;margin-bottom:8px}
+.recent-loading{text-align:center;padding:20px;font-size:13px;color:var(--ink3)}
+.recent-error{text-align:center;padding:16px;font-size:12.5px;color:var(--ink3);line-height:1.6}
+
 /* ── 모바일/PWA 전체화면(full-bleed) — 목업 프레임 없이 진짜 설치앱처럼 ── */
 @media (display-mode: standalone), (max-width:480px){
   html,body{height:100dvh}
@@ -581,20 +641,6 @@ svg{display:block}
   #cover .c-emblem{padding-top:calc(env(safe-area-inset-top) + 52px)}
   .lp-hero{padding-top:calc(env(safe-area-inset-top) + 72px)}
 }
-/* ── 말씀 카드 공유 ── */
-.card-sheet{position:absolute;left:0;right:0;bottom:0;background:var(--bg);border-radius:22px 22px 0 0;padding:20px 22px 0;transform:translateY(100%);transition:transform .35s var(--ease);z-index:200;box-shadow:0 -8px 32px rgba(0,0,0,.15);max-height:85%;display:flex;flex-direction:column}
-.card-sheet.show{transform:translateY(0)}
-.card-sheet-handle{width:36px;height:4px;background:var(--line);border-radius:2px;margin:0 auto 16px;flex-shrink:0}
-.card-sheet-title{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:14px;flex-shrink:0}
-.card-preview-wrap{flex:1;overflow-y:auto;display:flex;flex-direction:column;align-items:center;gap:12px;padding-bottom:4px}
-#cardCanvas{max-width:100%;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.15)}
-.card-themes{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;padding:4px 0}
-.card-theme-btn{padding:7px 14px;border-radius:20px;border:2px solid var(--line);background:var(--bg2);font-size:12.5px;font-weight:600;color:var(--ink);cursor:pointer;transition:border-color .12s}
-.card-theme-btn.sel{border-color:var(--gold);color:var(--gold)}
-.card-sheet-btns{display:flex;gap:10px;padding:14px 0 calc(env(safe-area-inset-bottom)+16px);flex-shrink:0}
-.card-dl-btn{flex:1;padding:14px;background:var(--ink);color:var(--bg);border:none;border-radius:12px;font-family:var(--sans);font-size:15px;font-weight:600;cursor:pointer;transition:transform .12s}
-.card-dl-btn:active{transform:scale(.97)}
-.card-share-btn{padding:14px 20px;background:none;border:1.5px solid var(--line);border-radius:12px;font-family:var(--sans);font-size:14px;font-weight:600;color:var(--ink2);cursor:pointer}
 </style>
 </head>
 <body>
@@ -694,6 +740,11 @@ svg{display:block}
         <div class="scroll">
           <div class="lib-hd"><span id="libHi">안녕하세요</span><span class="lib-hd-sub">오늘도 말씀 앞에 머무는 시간 되시길</span><span class="streak-badge" id="streakBadge" style="display:none">🔥 0일 연속</span></div>
           <div class="shelf" id="shelf"></div>
+          <div id="recentSection" class="recent-sec" style="display:none">
+            <div class="recent-sec-lbl">최근 묵상</div>
+            <div id="recentList"><div class="recent-loading">불러오는 중…</div></div>
+            <a class="recent-more" href="https://blog.naver.com/meslap3" target="_blank" rel="noopener">블로그에서 더 보기 →</a>
+          </div>
         </div>
       </div>
 
@@ -831,14 +882,27 @@ svg{display:block}
         </div>
       </div>
 
-      <!-- 내 기록 뷰 -->
+      <!-- 내 기록 통합 뷰 -->
       <div class="view" id="notes">
         <div class="topbar">
           <button class="tb-btn" onclick="goBack()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg></button>
           <span class="tb-title">내 기록</span>
           <div style="width:38px"></div>
         </div>
-        <div class="scroll" id="notesList"></div>
+        <div class="rec-tabs">
+          <button class="rec-tab sel" data-tab="all"       onclick="switchRecTab('all')">전체</button>
+          <button class="rec-tab"    data-tab="highlight"  onclick="switchRecTab('highlight')">형광펜</button>
+          <button class="rec-tab"    data-tab="bookmark"   onclick="switchRecTab('bookmark')">책갈피</button>
+          <button class="rec-tab"    data-tab="memo"       onclick="switchRecTab('memo')">메모</button>
+        </div>
+        <div class="rec-filter" id="recFilter" style="display:none">
+          <button class="rec-chip-all sel" data-color="all" onclick="switchRecColor('all')">전체</button>
+          <button class="rec-chip yellow" data-color="yellow" onclick="switchRecColor('yellow')"></button>
+          <button class="rec-chip pink"   data-color="pink"   onclick="switchRecColor('pink')"></button>
+          <button class="rec-chip blue"   data-color="blue"   onclick="switchRecColor('blue')"></button>
+          <button class="rec-chip underline" data-color="underline" onclick="switchRecColor('underline')">U</button>
+        </div>
+        <div class="scroll" id="recList"></div>
       </div>
 
       <!-- 책갈피 목록 뷰 -->
@@ -849,25 +913,6 @@ svg{display:block}
           <div style="width:38px"></div>
         </div>
         <div class="scroll" id="bookmarksList"></div>
-      </div>
-
-      <!-- 말씀 카드 공유 시트 -->
-      <div class="card-sheet" id="cardSheet">
-        <div class="card-sheet-handle"></div>
-        <div class="card-sheet-title">말씀 카드 만들기</div>
-        <div class="card-preview-wrap">
-          <canvas id="cardCanvas" width="800" height="500"></canvas>
-          <div class="card-themes">
-            <button class="card-theme-btn sel" data-ct="paper" onclick="setCardTheme('paper')">페이퍼</button>
-            <button class="card-theme-btn" data-ct="forest" onclick="setCardTheme('forest')">숲</button>
-            <button class="card-theme-btn" data-ct="night" onclick="setCardTheme('night')">야간</button>
-            <button class="card-theme-btn" data-ct="gold" onclick="setCardTheme('gold')">골드</button>
-          </div>
-        </div>
-        <div class="card-sheet-btns">
-          <button class="card-share-btn" onclick="closeCardSheet()">취소</button>
-          <button class="card-dl-btn" onclick="downloadCard()">📥 저장하기</button>
-        </div>
       </div>
 
       <!-- 토스트 알림 -->
@@ -904,6 +949,25 @@ svg{display:block}
         <button onclick="doDeleteMark()">🗑 하이라이트 삭제</button>
         <button onclick="closeMarkPopup()">취소</button>
       </div>
+      <!-- 말씀 카드 공유 시트 -->
+      <div class="card-sheet" id="cardSheet">
+        <div class="card-sheet-handle"></div>
+        <div class="card-sheet-title">말씀 카드 만들기</div>
+        <div class="card-preview-wrap">
+          <canvas id="cardCanvas" width="800" height="500"></canvas>
+          <div class="card-themes">
+            <button class="card-theme-btn sel" data-ct="paper" onclick="setCardTheme('paper')">페이퍼</button>
+            <button class="card-theme-btn" data-ct="forest" onclick="setCardTheme('forest')">숲</button>
+            <button class="card-theme-btn" data-ct="night" onclick="setCardTheme('night')">야간</button>
+            <button class="card-theme-btn" data-ct="gold" onclick="setCardTheme('gold')">골드</button>
+          </div>
+        </div>
+        <div class="card-sheet-btns">
+          <button class="card-share-btn" onclick="closeCardSheet()">취소</button>
+          <button class="card-dl-btn" onclick="downloadCard()">📥 저장하기</button>
+        </div>
+      </div>
+
       <!-- 메모 바텀시트 (리더 뷰 내 레이어) -->
       <div class="note-sheet" id="noteSheet">
         <div class="note-sheet-handle"></div>
@@ -4615,23 +4679,12 @@ function getParaIndex(node) {
 }
 
 /* 하이라이트 즉시 적용
- * user-select:none 환경에서 iOS Safari의 Range.toString() 빈 문자열 버그 우회
- * → startContainer 텍스트 노드에서 offset으로 직접 텍스트 추출 */
+ * user-select:none 상태에서 extractContents/surroundContents 실패 문제 해결
+ * → 텍스트 노드 직접 조작 방식 */
 function applyHighlight(color) {
   if (!_selRange) { closeSelPopup(); return; }
   const range = _selRange;
-
-  /* iOS: range.toString()이 빈 문자열 반환 → 텍스트 노드에서 직접 추출 */
-  function getRangeText(r) {
-    const t = r.toString().trim();
-    if (t) return t;
-    if (r.startContainer === r.endContainer && r.startContainer.nodeType === Node.TEXT_NODE) {
-      return r.startContainer.textContent.slice(r.startOffset, r.endOffset).trim();
-    }
-    return '';
-  }
-
-  const text = getRangeText(range);
+  const text = range.toString().trim();
   if (!text) { closeSelPopup(); return; }
 
   const colorClass = 'highlight-' + color;
@@ -4648,7 +4701,6 @@ function applyHighlight(color) {
       const mark = document.createElement('mark');
       mark.className = 'r-mark ' + colorClass;
       mark.textContent = marked;
-      mark.dataset.markId = Date.now().toString(36) + Math.random().toString(36).slice(2,5);
       mark.addEventListener('click', onMarkClick);
       const parent = node.parentNode;
       if (before) parent.insertBefore(document.createTextNode(before), node);
@@ -4660,14 +4712,12 @@ function applyHighlight(color) {
       try {
         const mark = document.createElement('mark');
         mark.className = 'r-mark ' + colorClass;
-        mark.dataset.markId = Date.now().toString(36) + Math.random().toString(36).slice(2,5);
         range.surroundContents(mark);
         mark.addEventListener('click', onMarkClick);
       } catch(e) {
         const frag = range.extractContents();
         const mark = document.createElement('mark');
         mark.className = 'r-mark ' + colorClass;
-        mark.dataset.markId = Date.now().toString(36) + Math.random().toString(36).slice(2,5);
         mark.appendChild(frag);
         range.insertNode(mark);
         mark.addEventListener('click', onMarkClick);
@@ -4710,7 +4760,7 @@ function closeMarkPopup() {
   if (_markTarget) { _markTarget.classList.remove('selected'); _markTarget = null; }
 }
 
-/* 선택 변화 감지 — iOS: 롱프레스+드래그, 데스크탑: selectionchange */
+/* 선택 변화 감지 — iOS: 터치 드래그로 직접 Range 생성, 데스크탑: selectionchange */
 function initSelectionDetection() {
   const rContentEl = document.getElementById('rContent');
   const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent) ||
@@ -4970,56 +5020,251 @@ function saveNote() {
   if (_noteQuote) applyHighlight('yellow');
 }
 
-function copyQuote(text) {
-  if (!text) return;
-  if (navigator.clipboard) navigator.clipboard.writeText(text).then(() => showToast('구절이 복사됐습니다 ✓'));
-  else showToast(text.slice(0, 20) + '…');
-}
-
 function deleteNote(id) {
   if (!confirm('이 기록을 삭제할까요?')) return;
   setNotes(getNotes().filter(n => n.id !== id));
   renderNotes();
 }
 
-function renderNotes() {
-  const list = document.getElementById('notesList');
+function renderNotes() { renderRecords(); } // 하위 호환
+
+/* ── 내 기록 통합 탭 ── */
+let _recTab = 'all';
+let _recColor = 'all';
+
+function switchRecTab(tab) {
+  _recTab = tab;
+  document.querySelectorAll('.rec-tab').forEach(b => b.classList.toggle('sel', b.dataset.tab === tab));
+  const cf = document.getElementById('recFilter');
+  if (cf) cf.style.display = (tab === 'highlight') ? 'flex' : 'none';
+  renderRecords();
+}
+
+function switchRecColor(color) {
+  _recColor = color;
+  document.querySelectorAll('[data-color]').forEach(b => b.classList.toggle('sel', b.dataset.color === color));
+  renderRecords();
+}
+
+function renderRecords() {
+  const list = document.getElementById('recList');
   if (!list) return;
-  const notes = getNotes();
-  if (!notes.length) {
-    list.innerHTML = `<div class="notes-empty">아직 기록한 내용이 없어요.<br>본문을 선택해 기록을 남겨 보세요 📖</div>`;
+
+  /* 하이라이트 수집 */
+  const allMarks = [];
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith(MARK_STORE + '_')) {
+        JSON.parse(localStorage.getItem(key) || '[]').forEach(m => allMarks.push({ ...m, _type:'highlight' }));
+      }
+    }
+  } catch(e) {}
+
+  const allBookmarks = getBookmarks().map(b => ({ ...b, _type:'bookmark' }));
+  const allNotes = getNotes().map(n => ({ ...n, _type:'memo' }));
+
+  let items = [];
+  if (_recTab === 'all') items = [...allMarks, ...allBookmarks, ...allNotes];
+  else if (_recTab === 'highlight') items = allMarks;
+  else if (_recTab === 'bookmark')  items = allBookmarks;
+  else if (_recTab === 'memo')      items = allNotes;
+
+  if (_recTab === 'highlight' && _recColor !== 'all') {
+    items = items.filter(m => m.color === _recColor);
+  }
+
+  items.sort((a, b) => {
+    const da = a.createdAt || a.date || '';
+    const db = b.createdAt || b.date || '';
+    return db.localeCompare(da);
+  });
+
+  if (!items.length) {
+    const msgs = { all:'아직 기록이 없어요', highlight:'형광펜이 없어요', bookmark:'책갈피가 없어요', memo:'메모가 없어요' };
+    const ics  = { all:'📖', highlight:'🖊️', bookmark:'🔖', memo:'📝' };
+    list.innerHTML = `<div class="rec-empty"><span class="ic">${ics[_recTab]||'📖'}</span>${msgs[_recTab]||'기록이 없어요'}</div>`;
     return;
   }
-  // 날짜 그룹별 묶기
-  const groups = {};
-  const order  = [];
-  notes.forEach(n => {
-    const k = n.date || '날짜 없음';
-    if (!groups[k]) { groups[k] = []; order.push(k); }
-    groups[k].push(n);
-  });
-  let html = '';
-  order.forEach(k => {
-    html += `<div class="notes-group-lbl">${k}</div>`;
-    groups[k].forEach(n => {
-      html += `<div class="note-item" data-quote="${(n.quote||'').replace(/"/g,'&quot;')}" onclick="openArtFromNote('${n.artId}')">
-        <div class="note-item-meta">
-          <span class="note-item-book">${n.bookTitle ? n.bookTitle + ' · ' : ''}${n.artTitle || ''}</span>
-          <button class="note-del-btn" onclick="event.stopPropagation();copyQuote(this.closest('.note-item').dataset.quote)" title="복사">📋</button>
-          <button class="note-del-btn" onclick="event.stopPropagation();deleteNote('${n.id}')">×</button>
+
+  list.innerHTML = items.map(item => {
+    if (item._type === 'highlight') {
+      const color = item.color || 'yellow';
+      const artTitle = (flatList.find(f => f.id === item.artId) || {}).title || '';
+      return `<div class="rec-item" onclick="jumpToHighlight('${item.artId}')">
+        <div class="rec-dot ${color}"></div>
+        <div class="rec-body">
+          <div class="rec-quote">${item.text || ''}</div>
+          <div class="rec-meta">
+            <span class="rec-book-lbl">${artTitle.replace(/<br>/g,' ')}</span>
+            <div class="rec-actions">
+              <button class="rec-del" onclick="event.stopPropagation();copyQuote('${(item.text||'').replace(/'/g,"\\'")}')" title="복사">📋</button>
+              <button class="rec-del" onclick="event.stopPropagation();deleteHighlightById('${item.artId}','${item.id}')" title="삭제">×</button>
+            </div>
+          </div>
         </div>
-        ${n.quote ? `<div class="note-item-quote">${n.quote}</div>` : ''}
-        ${n.memo  ? `<div class="note-item-memo">${n.memo}</div>` : ''}
       </div>`;
-    });
-  });
-  list.innerHTML = html;
+    } else if (item._type === 'bookmark') {
+      return `<div class="rec-item" onclick="jumpToBookmark('${item.artId}',${item.artIdx??0},${item.pageIdx??0})">
+        <div class="rec-dot bookmark"></div>
+        <div class="rec-body">
+          <div class="rec-quote">${item.artTitle || '(제목 없음)'}</div>
+          <div class="rec-meta">
+            <span class="rec-book-lbl">${item.bookTitle||''}</span>
+            <div class="rec-actions">
+              <button class="rec-del" onclick="event.stopPropagation();deleteBookmark('${item.id}')" title="삭제">×</button>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    } else {
+      return `<div class="rec-item" onclick="openArtFromNote('${item.artId}')">
+        <div class="rec-dot memo"></div>
+        <div class="rec-body">
+          ${item.quote ? `<div class="rec-quote">"${item.quote}"</div>` : ''}
+          ${item.memo  ? `<div class="rec-memo-txt">${item.memo}</div>` : ''}
+          <div class="rec-meta">
+            <span class="rec-book-lbl">${item.bookTitle ? item.bookTitle+' · ':'' }${item.artTitle||''}</span>
+            <div class="rec-actions">
+              <button class="rec-del" onclick="event.stopPropagation();copyQuote('${(item.quote||item.memo||'').replace(/'/g,"\\'")}')" title="복사">📋</button>
+              <button class="rec-del" onclick="event.stopPropagation();deleteNote('${item.id}')" title="삭제">×</button>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    }
+  }).join('');
+}
+
+function jumpToHighlight(artId) {
+  const idx = flatList.findIndex(f => f.id === artId);
+  if (idx >= 0) { openArt(idx); go('reader'); }
+}
+
+function deleteHighlightById(artId, markId) {
+  if (!confirm('이 하이라이트를 삭제할까요?')) return;
+  const marks = loadMarks(artId).filter(m => m.id !== markId);
+  saveMarks(artId, marks);
+  /* DOM에서도 제거 */
+  const el = document.querySelector(`[data-mark-id="${markId}"]`);
+  if (el) { const p = el.parentNode; while (el.firstChild) p.insertBefore(el.firstChild, el); p.removeChild(el); p.normalize(); }
+  renderRecords();
+  showToast('하이라이트가 삭제됐습니다');
 }
 
 function openArtFromNote(artId) {
   const idx = flatList.findIndex(f => f.id === artId || String(flatList.indexOf(f)) === artId);
   if (idx >= 0) { openArt(idx); go('reader'); }
   else go('reader');
+}
+
+function copyQuote(text) {
+  if (!text) return;
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(() => showToast('구절이 복사됐습니다 ✓'));
+  else showToast(text.slice(0, 20) + '…');
+}
+
+/* ══════════════════════════════════════════════
+   말씀 카드 공유 (Canvas API)
+══════════════════════════════════════════════ */
+let _cardText = '';
+let _cardTheme = 'paper';
+const CARD_THEMES = {
+  paper: { bg:'#FBF8F2', text:'#1A1714', sub:'#9A9089', gold:'#9A7B4F', line:'#E5DECF' },
+  forest:{ bg:'#1A3A2A', text:'#E8F5EC', sub:'#8ABFA0', gold:'#7FC99A', line:'#2D5A3D' },
+  night: { bg:'#161514', text:'#D8D2C8', sub:'#6E675C', gold:'#C9A86A', line:'#322F2A' },
+  gold:  { bg:'#2A1F0A', text:'#F5E8C0', sub:'#C8A87A', gold:'#EBCF96', line:'#4A3A1A' },
+};
+
+function openCardSheet(text) {
+  _cardText = text || '';
+  if (!_cardText) return;
+  document.getElementById('cardSheet').classList.add('show');
+  drawCard();
+}
+
+function closeCardSheet() {
+  document.getElementById('cardSheet').classList.remove('show');
+}
+
+function setCardTheme(theme) {
+  _cardTheme = theme;
+  document.querySelectorAll('.card-theme-btn').forEach(b => b.classList.toggle('sel', b.dataset.ct === theme));
+  drawCard();
+}
+
+function drawCard() {
+  const canvas = document.getElementById('cardCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = 800, H = 500;
+  canvas.width = W; canvas.height = H;
+  const t = CARD_THEMES[_cardTheme] || CARD_THEMES.paper;
+
+  /* 배경 */
+  ctx.fillStyle = t.bg;
+  ctx.fillRect(0, 0, W, H);
+
+  /* 테두리 */
+  ctx.strokeStyle = t.gold;
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(22, 22, W-44, H-44);
+  ctx.strokeStyle = t.line;
+  ctx.lineWidth = 0.8;
+  ctx.strokeRect(30, 30, W-60, H-60);
+
+  /* 상단 장식선 */
+  ctx.fillStyle = t.gold;
+  ctx.fillRect(W/2-30, 56, 60, 1.5);
+
+  /* 본문 텍스트 (줄바꿈 처리) */
+  ctx.fillStyle = t.text;
+  ctx.textAlign = 'center';
+  const maxW = W - 160;
+  const words = _cardText.split('');
+  let line = '', lines = [];
+  const FONT_SIZE = _cardText.length > 60 ? 26 : _cardText.length > 40 ? 30 : 34;
+  ctx.font = `${FONT_SIZE}px "Noto Serif KR", serif`;
+  for (let i = 0; i < words.length; i++) {
+    const test = line + words[i];
+    if (ctx.measureText(test).width > maxW && line) { lines.push(line); line = words[i]; }
+    else line = test;
+  }
+  if (line) lines.push(line);
+  const lineH = FONT_SIZE * 1.7;
+  const totalH = lines.length * lineH;
+  const startY = H / 2 - totalH / 2 + FONT_SIZE / 2;
+  lines.forEach((l, i) => ctx.fillText(l, W/2, startY + i * lineH));
+
+  /* 하단 장식 */
+  ctx.fillStyle = t.gold;
+  ctx.fillRect(W/2-30, H-58, 60, 1.5);
+
+  /* 출처 */
+  ctx.fillStyle = t.sub;
+  ctx.font = '16px "Pretendard Variable", sans-serif';
+  ctx.textAlign = 'right';
+  ctx.fillText('MeslapBooks', W - 48, H - 40);
+}
+
+function downloadCard() {
+  const canvas = document.getElementById('cardCanvas');
+  if (!canvas) return;
+  const link = document.createElement('a');
+  link.download = 'meslap-card.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+  /* Web Share API 지원 시 공유 */
+  if (navigator.share && navigator.canShare) {
+    canvas.toBlob(blob => {
+      if (!blob) return;
+      const file = new File([blob], 'meslap-card.png', { type: 'image/png' });
+      if (navigator.canShare({ files: [file] })) {
+        navigator.share({ files: [file], title: '말씀 카드', text: _cardText }).catch(() => {});
+      }
+    });
+  }
+  showToast('📥 카드가 저장됐습니다');
 }
 
 /* ── init() 초기화 ── */
@@ -5172,109 +5417,6 @@ function showTodayReview() {
   if (art) showToast(`오늘 읽은 말씀: ${(art.title || '').replace(/<br>/g, ' ')}`);
 }
 
-/* ══════════════════════════════════════════════
-   말씀 카드 공유 (Canvas API)
-══════════════════════════════════════════════ */
-let _cardText = '';
-let _cardTheme = 'paper';
-const CARD_THEMES = {
-  paper: { bg:'#FBF8F2', text:'#1A1714', sub:'#9A9089', gold:'#9A7B4F', line:'#E5DECF' },
-  forest:{ bg:'#1A3A2A', text:'#E8F5EC', sub:'#8ABFA0', gold:'#7FC99A', line:'#2D5A3D' },
-  night: { bg:'#161514', text:'#D8D2C8', sub:'#6E675C', gold:'#C9A86A', line:'#322F2A' },
-  gold:  { bg:'#2A1F0A', text:'#F5E8C0', sub:'#C8A87A', gold:'#EBCF96', line:'#4A3A1A' },
-};
-
-function openCardSheet(text) {
-  _cardText = text || '';
-  if (!_cardText) return;
-  document.getElementById('cardSheet').classList.add('show');
-  drawCard();
-}
-
-function closeCardSheet() {
-  document.getElementById('cardSheet').classList.remove('show');
-}
-
-function setCardTheme(theme) {
-  _cardTheme = theme;
-  document.querySelectorAll('.card-theme-btn').forEach(b => b.classList.toggle('sel', b.dataset.ct === theme));
-  drawCard();
-}
-
-function drawCard() {
-  const canvas = document.getElementById('cardCanvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  const W = 800, H = 500;
-  canvas.width = W; canvas.height = H;
-  const t = CARD_THEMES[_cardTheme] || CARD_THEMES.paper;
-
-  /* 배경 */
-  ctx.fillStyle = t.bg;
-  ctx.fillRect(0, 0, W, H);
-
-  /* 테두리 */
-  ctx.strokeStyle = t.gold;
-  ctx.lineWidth = 1.5;
-  ctx.strokeRect(22, 22, W-44, H-44);
-  ctx.strokeStyle = t.line;
-  ctx.lineWidth = 0.8;
-  ctx.strokeRect(30, 30, W-60, H-60);
-
-  /* 상단 장식선 */
-  ctx.fillStyle = t.gold;
-  ctx.fillRect(W/2-30, 56, 60, 1.5);
-
-  /* 본문 텍스트 (줄바꿈 처리) */
-  ctx.fillStyle = t.text;
-  ctx.textAlign = 'center';
-  const maxW = W - 160;
-  const words = _cardText.split('');
-  let line = '', lines = [];
-  const FONT_SIZE = _cardText.length > 60 ? 26 : _cardText.length > 40 ? 30 : 34;
-  ctx.font = `${FONT_SIZE}px "Noto Serif KR", serif`;
-  for (let i = 0; i < words.length; i++) {
-    const test = line + words[i];
-    if (ctx.measureText(test).width > maxW && line) { lines.push(line); line = words[i]; }
-    else line = test;
-  }
-  if (line) lines.push(line);
-  const lineH = FONT_SIZE * 1.7;
-  const totalH = lines.length * lineH;
-  const startY = H / 2 - totalH / 2 + FONT_SIZE / 2;
-  lines.forEach((l, i) => ctx.fillText(l, W/2, startY + i * lineH));
-
-  /* 하단 장식 */
-  ctx.fillStyle = t.gold;
-  ctx.fillRect(W/2-30, H-58, 60, 1.5);
-
-  /* 출처 */
-  ctx.fillStyle = t.sub;
-  ctx.font = '16px "Pretendard Variable", sans-serif';
-  ctx.textAlign = 'right';
-  ctx.fillText('MeslapBooks', W - 48, H - 40);
-}
-
-function downloadCard() {
-  const canvas = document.getElementById('cardCanvas');
-  if (!canvas) return;
-  const link = document.createElement('a');
-  link.download = 'meslap-card.png';
-  link.href = canvas.toDataURL('image/png');
-  link.click();
-  /* Web Share API 지원 시 공유 */
-  if (navigator.share && navigator.canShare) {
-    canvas.toBlob(blob => {
-      if (!blob) return;
-      const file = new File([blob], 'meslap-card.png', { type: 'image/png' });
-      if (navigator.canShare({ files: [file] })) {
-        navigator.share({ files: [file], title: '말씀 카드', text: _cardText }).catch(() => {});
-      }
-    });
-  }
-  showToast('📥 카드가 저장됐습니다');
-}
-
 function signOut() {
   localStorage.removeItem(AUTH_KEY);
   go('landing');
@@ -5380,8 +5522,63 @@ function renderShelf() {
   shelf.innerHTML = html;
   // 카드 stagger reveal 애니메이션
   requestAnimationFrame(revealShelf);
+  loadRecentPosts(false);
 }
 function openBook() { go('cover'); }
+
+/* ── 최근 묵상 RSS ── */
+let _recentPage = 0;
+const RECENT_PROXY = 'https://api.allorigins.win/get?url=';
+const RSS_URL = encodeURIComponent('https://rss.blog.naver.com/meslap3.xml');
+
+async function loadRecentPosts(append) {
+  const section = document.getElementById('recentSection');
+  const list    = document.getElementById('recentList');
+  if (!list) return;
+  if (!append) { list.innerHTML = '<div class="recent-loading">불러오는 중…</div>'; _recentPage = 0; }
+  try {
+    const res = await fetch(RECENT_PROXY + RSS_URL, { signal: AbortSignal.timeout(8000) });
+    const data = await res.json();
+    const xml = new DOMParser().parseFromString(data.contents, 'text/xml');
+    const items = Array.from(xml.querySelectorAll('item'));
+    const start = _recentPage * 5;
+    const slice = items.slice(start, start + 5);
+    if (!slice.length) {
+      if (!append) list.innerHTML = '<div class="recent-loading">최근 글이 없어요</div>';
+      return;
+    }
+    const html = slice.map(it => {
+      const title = it.querySelector('title')?.textContent?.trim() || '';
+      const link  = it.querySelector('link')?.textContent?.trim() || it.querySelector('link')?.nextSibling?.textContent?.trim() || '#';
+      const date  = it.querySelector('pubDate')?.textContent?.trim() || '';
+      const d = date ? new Date(date).toLocaleDateString('ko-KR', { month:'2-digit', day:'2-digit' }) : '';
+      return `<div class="recent-item" onclick="openExternal('${link}')">
+        <div class="recent-dot"></div>
+        <div class="recent-body">
+          <div class="recent-title">${title}</div>
+          ${d ? `<div class="recent-date">${d}</div>` : ''}
+        </div>
+      </div>`;
+    }).join('');
+    if (append) {
+      list.insertAdjacentHTML('beforeend', html);
+    } else {
+      list.innerHTML = html;
+    }
+    if (section) section.style.display = 'block';
+    _recentPage++;
+  } catch(e) {
+    /* 네트워크 오류·오프라인 시 조용히 숨김 */
+    if (section) section.style.display = 'none';
+  }
+}
+
+function loadMoreRecent() { loadRecentPosts(true); }
+
+function openExternal(url) {
+  if (!url) return;
+  window.open(url, '_blank', 'noopener');
+}
 
 /* ── 소개 렌더 ── */
 function renderAbout() {
@@ -5478,7 +5675,7 @@ function go(id) {
   if (!next) return;
   next.classList.add('active');
   if (id === 'contents') renderTOC();
-  if (id === 'notes') renderNotes();
+  if (id === 'notes') { _recTab='all'; _recColor='all'; renderRecords(); }
   if (id === 'bookmarks') renderBookmarks();
 }
 
