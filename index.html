@@ -160,6 +160,10 @@ body{font-family:var(--sans);-webkit-font-smoothing:antialiased;background:radia
 .toc-cat-num{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--gold);font-weight:600}
 .toc-cat-name{font-size:15px;font-weight:700;color:var(--ink)}
 .toc-cat-cnt{font-size:11px;font-weight:600;color:var(--gold);background:var(--gold-bg);padding:2px 9px;border-radius:20px}
+.toc-cat-chev{color:var(--ink3);transition:transform .25s var(--ease)}
+.toc-cat.open .toc-cat-chev{transform:rotate(180deg)}
+.toc-items-wrap{display:grid;grid-template-rows:0fr;transition:grid-template-rows .28s var(--ease)}
+.toc-cat.open .toc-items-wrap{grid-template-rows:1fr}
 .toc-items-inner{overflow:hidden;min-height:0}
 .toc-art{padding:11px 22px 11px 46px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:background .12s;border-top:1px solid var(--line)}
 .toc-art:active{background:var(--bg2)}
@@ -168,24 +172,23 @@ body{font-family:var(--sans);-webkit-font-smoothing:antialiased;background:radia
 .toc-art-date{font-size:10px;color:var(--ink3);flex-shrink:0}
 
 /* 리더 */
+.r-topbar{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;flex-shrink:0;background:var(--bg);transition:opacity .25s,transform .25s var(--ease);padding-top:56px}
 .r-topbar.hidden{opacity:0;transform:translateY(-100%);pointer-events:none}
 .r-prog-track{height:3px;background:var(--line);flex-shrink:0}
+.r-prog-fill{height:100%;background:var(--gold);width:0%;transition:width .15s linear;box-shadow:0 0 6px rgba(154,123,79,.4)}
 .r-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .r-scroll::-webkit-scrollbar{display:none}
 .r-body{padding:28px 22px 60px;max-width:100%;
-  /* 스크롤 영역 자체는 선택 차단 */
+  /* iOS: 네이티브 텍스트 선택 완전 차단 → 커스텀 하이라이트로 대체 */
   -webkit-user-select:none;user-select:none;
   -webkit-touch-callout:none;
-}
-/* 실제 읽는 텍스트 단락만 선택 허용 — iOS caretRangeFromPoint가 텍스트 노드를 제대로 인식 */
-.r-p,.r-h2,.r-h3,.r-lead,.r-sc-txt,.r-pq p{
-  -webkit-user-select:text;user-select:text;
 }
 .r-lbl{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-align:center;margin-bottom:14px}
 .r-title{font-family:var(--reader-font);font-size:24px;font-weight:700;line-height:1.5;color:var(--ink);text-align:center;word-break:keep-all;margin-bottom:10px}
 .r-sub{font-family:var(--reader-font);font-size:14px;font-style:italic;font-weight:300;color:var(--ink2);text-align:center;margin-bottom:22px}
 .r-div{width:28px;height:1px;background:var(--gold);margin:0 auto 28px}
 .r-p{font-family:var(--reader-font);font-size:var(--reader-fs);line-height:var(--reader-lh);color:var(--ink);margin-bottom:1.4em;word-break:keep-all;letter-spacing:-0.01em}
+/* 본문 소제목 위계: r-title > r-h2 > r-h3 > r-lead > r-p (모두 명조 --reader-font) */
 .r-h2{font-family:var(--reader-font);font-size:calc(var(--reader-fs) + 4px);font-weight:700;line-height:1.5;color:var(--ink);margin:40px 0 16px;word-break:keep-all;letter-spacing:-.01em}
 .r-h2::before{content:'';display:block;width:26px;height:2px;background:var(--gold);border-radius:1px;margin-bottom:13px}
 .r-h2:first-child{margin-top:6px}
@@ -195,15 +198,27 @@ body{font-family:var(--sans);-webkit-font-smoothing:antialiased;background:radia
 .r-pq{margin:32px 0;text-align:center;padding:0 4px}
 .r-pq::before{content:'';display:block;width:20px;height:1px;background:var(--gold);margin:0 auto 16px}
 .r-pq p{font-family:var(--reader-font);font-style:italic;font-size:calc(var(--reader-fs) + 2px);color:var(--ink);line-height:1.7}
-.r-sc{border-left:3px solid var(--gold);background:var(--bg2);border-radius:0 10px 10px 0;padding:14px 16px 14px 18px;margin:24px 0;text-align:left;}
+.r-sc{
+  border-left:3px solid var(--gold);
+  background:var(--bg2);
+  border-radius:0 10px 10px 0;
+  padding:14px 16px 14px 18px;
+  margin:24px 0;
+  text-align:left;
+}
 .r-sc-ref{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:7px}
 .r-sc-txt{font-family:var(--reader-font);font-size:calc(var(--reader-fs) - 1px);font-style:italic;line-height:1.85;color:var(--ink2)}
 /* 글 끝 네비 */
 .art-nav{display:flex;gap:8px;margin-top:40px;padding-top:24px;border-top:1px solid var(--line)}
+.art-nav-btn{flex:1;padding:14px;border:1px solid var(--line);border-radius:12px;background:none;cursor:pointer;text-align:left;transition:background .12s}
+.art-nav-btn:active{background:var(--bg2)}
+.art-nav-btn:disabled{opacity:.3;pointer-events:none}
 .art-nav-dir{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);margin-bottom:3px}
 .art-nav-title{font-size:12px;font-weight:600;color:var(--ink);line-height:1.4;word-break:keep-all}
 .art-nav-btn.next{text-align:right}
 /* 하단 컨트롤 */
+.r-ctrl{display:flex;align-items:center;justify-content:space-around;padding:12px 20px calc(env(safe-area-inset-bottom) + 12px);border-top:1px solid var(--line);background:var(--bg);flex-shrink:0;transition:opacity .25s,transform .25s var(--ease);gap:0}
+.r-ctrl.hidden{opacity:0;transform:translateY(100%);pointer-events:none}
 .ctrl-btn{display:flex;flex-direction:column;align-items:center;gap:3px;border:none;background:none;color:var(--ink2);cursor:pointer;padding:4px 10px;border-radius:10px;transition:background .12s;min-width:52px}
 .ctrl-btn:active{background:var(--bg2)}
 .ctrl-btn span{font-size:10px;font-weight:500}
@@ -211,6 +226,9 @@ body{font-family:var(--sans);-webkit-font-smoothing:antialiased;background:radia
 /* 설정 패널 */
 .backdrop{position:absolute;inset:0;background:rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .3s;z-index:80}
 .backdrop.show{opacity:1;pointer-events:auto}
+.panel{position:absolute;left:0;right:0;bottom:0;background:var(--bg);border-radius:22px 22px 0 0;padding:20px 22px 36px;transform:translateY(100%);transition:transform .35s var(--ease);z-index:81;box-shadow:0 -8px 32px rgba(0,0,0,.15);max-height:82%;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.panel::-webkit-scrollbar{display:none}
+.panel.show{transform:translateY(0)}
 .panel-handle{width:36px;height:4px;background:var(--line);border-radius:2px;margin:0 auto 20px}
 .p-sec{margin-bottom:20px}.p-sec:last-child{margin-bottom:0}
 .p-lbl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px}
@@ -248,71 +266,45 @@ body{font-family:var(--sans);-webkit-font-smoothing:antialiased;background:radia
 .r-pageind{flex-shrink:0;text-align:center;font-size:11px;color:var(--ink3);padding:7px 0 3px;letter-spacing:.06em;display:none;background:var(--bg)}
 svg{display:block}
 
-/* ── UI 모션 · 앱 전역 효과 (ui-motion-cheatsheet 기반) ── */
-/* ── 키프레임 ── */
-@keyframes slideUp   {from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-@keyframes slideInX  {from{opacity:0;transform:translateX(-22px)}to{opacity:1;transform:none}}
-@keyframes slideInXR {from{opacity:0;transform:translateX(22px)}to{opacity:1;transform:none}}
-@keyframes popIn     {from{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}
-@keyframes popInSoft {from{opacity:0;transform:scale(.82)}to{opacity:1;transform:scale(1)}}
-@keyframes blurIn    {from{opacity:0;filter:blur(10px)}to{opacity:1;filter:blur(0)}}
-@keyframes clipIn    {from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
-@keyframes fadeIn    {from{opacity:0}to{opacity:1}}
-@keyframes ripple    {to{transform:scale(5);opacity:0}}
-@keyframes pulsering {0%{transform:scale(1);opacity:.6}100%{transform:scale(2.5);opacity:0}}
-@keyframes shimmer   {0%{background-position:100% 0}100%{background-position:-100% 0}}
-@keyframes popb      {0%{transform:scale(1)}40%{transform:scale(1.45) rotate(-6deg)}100%{transform:scale(1)}}
-@keyframes shk       {10%,90%{transform:translateX(-1px)}20%,80%{transform:translateX(2px)}30%,50%,70%{transform:translateX(-4px)}40%,60%{transform:translateX(4px)}}
-@keyframes wv        {0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-@keyframes gradmove  {to{background-position:300% 0}}
-@keyframes lv        {to{opacity:0;transform:scale(.4) rotate(45deg)}}
+/* ── UI 모션 · 앱 전역 효과 ── */
+/* 키프레임 */
+@keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes fadeBlur{from{opacity:0;filter:blur(8px)}to{opacity:1;filter:blur(0)}}
+@keyframes ripple{to{transform:scale(5);opacity:0}}
+@keyframes pulsering{0%{transform:scale(1);opacity:.6}100%{transform:scale(2.5);opacity:0}}
+@keyframes shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
 
-/* ── 뷰 전환 애니메이션 ── */
-/* 기본 뷰 숨김 */
-.view{display:none;position:absolute;inset:0;flex-direction:column;background:var(--bg);opacity:1;transform:none;pointer-events:none}
-.view.active{display:flex;pointer-events:auto}
-/* 각 뷰 진입 애니메이션 (active 직후 한 번만 실행) */
-#landing.active  {animation:fadeIn .32s ease both}
-#auth.active     {animation:slideInX .32s cubic-bezier(.2,.7,.3,1) both}
-#library.active  {animation:fadeIn .25s ease both}
-#cover.active    {animation:blurIn .42s ease both}
-#contents.active {animation:slideInX .3s cubic-bezier(.2,.7,.3,1) both}
-#reader.active   {animation:fadeIn .22s ease both}
-#notes.active    {animation:slideInXR .3s cubic-bezier(.2,.7,.3,1) both}
-#bookmarks.active{animation:slideInXR .3s cubic-bezier(.2,.7,.3,1) both}
-#about.active    {animation:slideInX .3s cubic-bezier(.2,.7,.3,1) both}
-#catalog.active  {animation:slideInX .3s cubic-bezier(.2,.7,.3,1) both}
-#legal.active    {animation:slideInX .3s cubic-bezier(.2,.7,.3,1) both}
-#admin.active    {animation:fadeIn .28s ease both}
+/* 뷰 전환 완료 (위 .view/.view.active 로 처리됨) */
 
-/* ── 버튼 리플 ── */
+/* 버튼 리플 */
 .btn-p,.btn-t,.social-btn,.tb-btn,.ctrl-btn{position:relative;overflow:hidden}
 .ripple-ink{position:absolute;border-radius:50%;background:rgba(255,255,255,.45);
   transform:scale(0);animation:ripple .55s ease-out;pointer-events:none}
 .app.night .ripple-ink{background:rgba(255,255,255,.25)}
 
-/* ── 서재 책 카드: stagger slideUp + lift hover ── */
+/* 서재 책 카드: stagger slideUp + lift hover */
 .bk{transition:transform .18s ease, box-shadow .18s ease, border-color .15s}
 .bk:hover:not(.locked){transform:translateY(-3px);box-shadow:0 8px 22px rgba(0,0,0,.1)}
 .app.night .bk:hover:not(.locked){box-shadow:0 8px 22px rgba(0,0,0,.35)}
+/* stagger: JS에서 animation-delay 주입 */
 .bk.revealed{animation:slideUp .45s cubic-bezier(.2,.7,.3,1) both}
 
-/* ── 목차 글 제목: hover 밑줄 흐름 (cheatsheet underline 패턴) ── */
+/* 목차 글 제목: hover 밑줄 흐름 */
 .toc-art-title{position:relative;display:inline}
 .toc-art-title::after{content:'';position:absolute;left:0;bottom:-2px;height:1.5px;
   width:100%;background:var(--gold);transform:scaleX(0);transform-origin:left;
   transition:transform .24s ease}
 .toc-art:hover .toc-art-title::after{transform:scaleX(1)}
 
-/* ── 무료 뱃지 펄스 (cheatsheet badge 패턴) ── */
+/* 무료 뱃지 펄스 */
 .bk-tag.free{position:relative}
 .bk-tag.free::before{content:'';position:absolute;inset:0;border-radius:20px;
   background:inherit;animation:pulsering 2s ease-out infinite}
 
-/* ── 스위치 스프링 탄성 (cheatsheet toggle 패턴) ── */
+/* 스위치(설정)에 스프링 탄성 */
 .sw .kn{transition:transform .28s cubic-bezier(.2,1.4,.4,1)}
 
-/* ── 스켈레톤 로딩 ── */
+/* 스켈레톤 로딩(서재 초기) */
 .skel-card{display:flex;gap:14px;padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--bg)}
 .sk{border-radius:8px;background:linear-gradient(90deg,var(--bg2) 25%,var(--line) 37%,var(--bg2) 63%);
     background-size:400% 100%;animation:shimmer 1.4s ease infinite}
@@ -320,67 +312,6 @@ svg{display:block}
 .sk.line{height:13px;width:80%}
 .sk.line-sm{height:11px;width:55%}
 .skel-info{flex:1;display:flex;flex-direction:column;gap:9px;padding-top:4px}
-
-/* ── 하이라이트 팝업 진입: popIn spring ── */
-.sel-popup:not(.hidden){animation:popInSoft .22s cubic-bezier(.2,.8,.2,1.15) both}
-
-/* ── 책갈피 저장 팝 (cheatsheet like/popb 패턴) ── */
-#bmkBtn.pop svg{animation:popb .38s ease both}
-
-/* ── 표지 모티프 SVG: 느린 fadeIn ── */
-.c-motif svg{animation:fadeIn .6s ease .1s both}
-.c-watermark svg{animation:fadeIn 1s ease .3s both}
-
-/* ── 진행바 shimmer → fill (cheatsheet sparkline 느낌) ── */
-.r-prog-fill{height:100%;background:var(--gold);width:0%;transition:width .15s linear;
-  box-shadow:0 0 6px rgba(154,123,79,.4)}
-
-/* ── 패널/시트 진입 (cheatsheet sheet 패턴) ── */
-.panel{position:absolute;left:0;right:0;bottom:0;background:var(--bg);border-radius:22px 22px 0 0;
-  padding:20px 22px 36px;transform:translateY(100%);
-  transition:transform .35s cubic-bezier(.2,.7,.3,1);
-  z-index:81;box-shadow:0 -8px 32px rgba(0,0,0,.15);max-height:82%;overflow-y:auto;-webkit-overflow-scrolling:touch}
-.panel::-webkit-scrollbar{display:none}
-.panel.show{transform:translateY(0)}
-
-/* ── 목차 아코디언 (cheatsheet accordion 패턴) ── */
-.toc-cat-chev{color:var(--ink3);transition:transform .25s cubic-bezier(.2,.7,.3,1)}
-.toc-cat.open .toc-cat-chev{transform:rotate(180deg)}
-.toc-items-wrap{display:grid;grid-template-rows:0fr;transition:grid-template-rows .28s cubic-bezier(.2,.7,.3,1)}
-.toc-cat.open .toc-items-wrap{grid-template-rows:1fr}
-
-/* ── 표지 재킷 프레임 코너: 빛나는 pulse dot ── */
-#cover .c-frame i{position:absolute;width:3px;height:3px;border-radius:50%;background:var(--jk-gold);opacity:.7}
-
-/* ── 랜딩 hero 텍스트: 단어별 stagger slideUp ── */
-.lp-brand{animation:slideUp .55s cubic-bezier(.2,.7,.3,1) .1s both}
-.lp-rule {animation:clipIn .5s cubic-bezier(.2,.7,.3,1) .3s both}
-.lp-tagline{animation:slideUp .5s cubic-bezier(.2,.7,.3,1) .4s both}
-
-/* ── 서재 헤더 인사말 ── */
-#libHi{animation:slideUp .4s cubic-bezier(.2,.7,.3,1) both}
-
-/* ── 리더 상단/하단바 숨김 트랜지션 ── */
-.r-topbar{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;flex-shrink:0;background:var(--bg);
-  transition:opacity .25s,transform .25s cubic-bezier(.2,.7,.3,1);padding-top:56px}
-.r-topbar.hidden{opacity:0;transform:translateY(-100%);pointer-events:none}
-.r-ctrl{display:flex;align-items:center;justify-content:space-around;
-  padding:12px 20px calc(env(safe-area-inset-bottom) + 12px);
-  border-top:1px solid var(--line);background:var(--bg);flex-shrink:0;
-  transition:opacity .25s,transform .25s cubic-bezier(.2,.7,.3,1);gap:0}
-.r-ctrl.hidden{opacity:0;transform:translateY(100%);pointer-events:none}
-
-/* ── 글 끝 nav 버튼 lift (cheatsheet lift 패턴) ── */
-.art-nav-btn{flex:1;padding:14px;border:1px solid var(--line);border-radius:12px;background:none;cursor:pointer;
-  text-align:left;transition:background .12s,transform .18s ease,box-shadow .18s ease}
-.art-nav-btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.08)}
-.art-nav-btn:active{background:var(--bg2);transform:none;box-shadow:none}
-.art-nav-btn:disabled{opacity:.3;pointer-events:none}
-
-/* ── 소셜 버튼: 탭 scale (cheatsheet btn.acc 패턴) ── */
-.social-btn{transition:transform .14s cubic-bezier(.2,.8,.2,1.2),background .12s,border-color .12s}
-.social-btn:hover{transform:scale(1.03)}
-.social-btn:active{transform:scale(.96)}
 
 /* ── 랜딩 ── */
 #landing{background:radial-gradient(125% 80% at 50% 0%, var(--bg2) 0%, var(--bg) 56%)}
@@ -499,13 +430,10 @@ svg{display:block}
 .r-copyright{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);font-size:10.5px;line-height:1.6;color:var(--ink3);text-align:center;word-break:keep-all}
 
 /* ── 책갈피 ── */
-/* 상단바 책갈피 버튼 — 저장됐을 때 금색으로 */
 #bmkBtn.saved svg{color:var(--gold)}
 #bmkBtn.saved svg path{fill:var(--gold);stroke:var(--gold)}
-/* 토스트 알림 */
 .toast{position:fixed;bottom:calc(env(safe-area-inset-bottom) + 80px);left:50%;transform:translateX(-50%) translateY(12px);background:var(--ink);color:var(--bg);font-size:13px;font-weight:600;padding:10px 20px;border-radius:22px;white-space:nowrap;opacity:0;transition:opacity .22s,transform .22s;pointer-events:none;z-index:9000}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-/* 책갈피 목록 뷰 */
 .bmk-empty{padding:60px 36px;text-align:center;font-size:14px;color:var(--ink3);line-height:1.7}
 .bmk-item{display:flex;align-items:center;gap:12px;padding:14px 22px;border-top:1px solid var(--line);cursor:pointer;transition:background .12s}
 .bmk-item:active{background:var(--bg2)}
@@ -615,45 +543,23 @@ svg{display:block}
 .note-cancel-btn{padding:14px 22px;background:none;border:1px solid var(--line);border-radius:12px;font-family:var(--sans);font-size:15px;font-weight:600;color:var(--ink2);cursor:pointer;transition:background .12s}
 .note-cancel-btn:active{background:var(--bg2)}
 
-/* ── 내 기록 통합 뷰 ── */
-.rec-tabs{display:flex;gap:6px;padding:14px 16px 10px;border-bottom:1px solid var(--line);flex-shrink:0;overflow-x:auto;-webkit-overflow-scrolling:touch}
-.rec-tabs::-webkit-scrollbar{display:none}
-.rec-tab{flex-shrink:0;padding:7px 14px;border-radius:20px;border:1.5px solid var(--line);background:var(--bg);font-family:var(--sans);font-size:12.5px;font-weight:600;color:var(--ink3);cursor:pointer;transition:background .12s,border-color .12s,color .12s}
-.rec-tab.sel{background:var(--gold-bg);border-color:var(--gold);color:var(--gold)}
-.rec-filter{display:flex;gap:6px;padding:8px 16px 12px;border-bottom:1px solid var(--line);flex-shrink:0}
-.rec-chip{width:22px;height:22px;border-radius:50%;cursor:pointer;border:2.5px solid transparent;transition:border-color .12s,transform .12s;flex-shrink:0}
-.rec-chip:active{transform:scale(.88)}
-.rec-chip.yellow{background:#FFE066}.rec-chip.pink{background:#FF8FA3}
-.rec-chip.blue{background:#74B9FF}
-.rec-chip.underline{background:var(--bg2);border-color:var(--line);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--ink3)}
-.rec-chip.sel{border-color:var(--ink)!important}
-.rec-chip.all{background:var(--ink);width:auto;border-radius:20px;padding:0 10px;font-size:11px;font-weight:700;color:var(--bg);border:none;height:22px}
-.rec-chip.all.sel{background:var(--gold)}
-/* 기록 항목 공통 */
-.rec-item{display:flex;gap:10px;padding:13px 18px;border-top:1px solid var(--line);cursor:pointer;transition:background .12s;align-items:flex-start}
-.rec-item:active{background:var(--bg2)}
-.rec-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:4px}
-.rec-dot.yellow{background:#FFE066}.rec-dot.pink{background:#FF8FA3}
-.rec-dot.blue{background:#74B9FF}.rec-dot.underline{background:var(--gold)}
-.rec-dot.bookmark{background:var(--gold)}
-.rec-dot.memo{background:var(--ink3)}
-.rec-body{flex:1;min-width:0}
-.rec-quote{font-family:var(--serif);font-size:13.5px;color:var(--ink);line-height:1.7;word-break:keep-all;margin-bottom:4px}
-.rec-quote.hl-yellow{background:rgba(255,224,102,.45);border-radius:3px;padding:0 2px}
-.rec-quote.hl-pink{background:rgba(255,143,163,.35);border-radius:3px;padding:0 2px}
-.rec-quote.hl-blue{background:rgba(116,185,255,.35);border-radius:3px;padding:0 2px}
-.rec-quote.hl-underline{text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--gold);text-decoration-thickness:2px}
-.rec-memo{font-size:12.5px;color:var(--ink2);line-height:1.5;margin-top:3px;word-break:keep-all}
-.rec-meta{display:flex;align-items:center;justify-content:space-between;margin-top:5px}
-.rec-book{font-size:11px;font-weight:600;color:var(--gold)}
-.rec-date{font-size:10.5px;color:var(--ink3)}
-.rec-del{background:none;border:none;color:var(--ink3);cursor:pointer;padding:4px 6px;font-size:16px;line-height:1;flex-shrink:0;border-radius:6px;transition:background .12s}
-.rec-del:active{background:var(--bg2)}
-.rec-section-lbl{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);padding:16px 18px 6px}
-.rec-empty{padding:56px 36px;text-align:center;font-size:14px;color:var(--ink3);line-height:1.8}
-.rec-empty .ic{font-size:32px;display:block;margin-bottom:10px;opacity:.5}
-/* 읽기 예상 시간 */
-.r-read-time{font-size:11px;color:var(--ink3);text-align:center;padding:6px 0 2px;flex-shrink:0;letter-spacing:.04em}
+/* ── 내 기록 뷰 ── */
+.notes-empty{padding:60px 36px;text-align:center;font-size:14px;color:var(--ink3);line-height:1.7}
+.notes-group-lbl{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);padding:18px 22px 8px}
+.note-item{display:flex;flex-direction:column;gap:6px;padding:14px 22px;border-top:1px solid var(--line);cursor:pointer;transition:background .12s}
+.note-item:active{background:var(--bg2)}
+.note-item-quote{font-family:var(--reader-font);font-size:13px;font-style:italic;color:var(--ink);line-height:1.65;word-break:keep-all}
+.note-item-quote::before{content:'" '}.note-item-quote::after{content:' "'}
+.note-item-memo{font-size:13px;color:var(--ink2);line-height:1.5;word-break:keep-all}
+.note-item-meta{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.note-item-book{font-size:11px;font-weight:600;color:var(--gold)}
+.note-item-date{font-size:11px;color:var(--ink3)}
+.note-del-btn{background:none;border:none;color:var(--ink3);cursor:pointer;font-size:18px;padding:2px 6px;line-height:1;flex-shrink:0;border-radius:6px;transition:background .12s}
+.note-del-btn:active{background:var(--bg2)}
+
+/* ── 서재 streak 배지 ── */
+.streak-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:var(--gold-bg);border:1px solid var(--gold);border-radius:20px;font-size:11.5px;font-weight:700;color:var(--gold);margin-top:6px}
+.streak-badge .fire{font-size:13px}
 
 /* ── 모바일/PWA 전체화면(full-bleed) — 목업 프레임 없이 진짜 설치앱처럼 ── */
 @media (display-mode: standalone), (max-width:480px){
@@ -772,7 +678,7 @@ svg{display:block}
           <button class="tb-btn" onclick="signOut()" title="로그아웃"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></button>
         </div>
         <div class="scroll">
-          <div class="lib-hd"><span id="libHi">안녕하세요</span><span class="lib-hd-sub">오늘도 말씀 앞에 머무는 시간 되시길</span></div>
+          <div class="lib-hd"><span id="libHi">안녕하세요</span><span class="lib-hd-sub">오늘도 말씀 앞에 머무는 시간 되시길</span><span class="streak-badge" id="streakBadge" style="display:none">🔥 0일 연속</span></div>
           <div class="shelf" id="shelf"></div>
         </div>
       </div>
@@ -887,13 +793,10 @@ svg{display:block}
       <!-- 리더 -->
       <div class="view" id="reader">
         <div class="r-topbar" id="rTop">
-          <!-- 상단 왼쪽: 서재로 돌아가기 -->
           <button class="tb-btn" onclick="go('library')" title="서재로">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
           </button>
-          <!-- 상단 가운데: 현재 글 레이블 -->
           <span style="font-size:12px;color:var(--ink3);font-weight:500;flex:1;text-align:center;padding:0 6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" id="rTopLabel"></span>
-          <!-- 상단 오른쪽: 책갈피 저장 + 내 기록 -->
           <div style="display:flex;align-items:center;gap:0">
             <button class="tb-btn" id="bmkBtn" onclick="toggleBookmark()" title="책갈피">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
@@ -904,7 +807,6 @@ svg{display:block}
           </div>
         </div>
         <div class="r-prog-track"><div class="r-prog-fill" id="progFill"></div></div>
-        <div class="r-read-time" id="readTime"></div>
         <div class="r-scroll" id="rScroll"><div class="r-body" id="rContent"></div></div>
         <div class="r-pageind" id="pageInd"></div>
         <div class="r-ctrl" id="rCtrl">
@@ -915,32 +817,17 @@ svg{display:block}
         </div>
       </div>
 
-      <!-- 내 기록 통합 뷰 (하이라이트 + 책갈피 + 메모) -->
+      <!-- 내 기록 뷰 -->
       <div class="view" id="notes">
         <div class="topbar">
           <button class="tb-btn" onclick="goBack()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg></button>
           <span class="tb-title">내 기록</span>
           <div style="width:38px"></div>
         </div>
-        <!-- 탭: 전체 / 하이라이트 / 책갈피 / 메모 -->
-        <div class="rec-tabs">
-          <button class="rec-tab sel" data-tab="all" onclick="switchRecTab('all')">전체</button>
-          <button class="rec-tab" data-tab="highlight" onclick="switchRecTab('highlight')">형광펜</button>
-          <button class="rec-tab" data-tab="bookmark" onclick="switchRecTab('bookmark')">책갈피</button>
-          <button class="rec-tab" data-tab="memo" onclick="switchRecTab('memo')">메모</button>
-        </div>
-        <!-- 색상 필터 (하이라이트 탭일 때만 표시) -->
-        <div class="rec-filter" id="recFilter" style="display:none">
-          <button class="rec-chip all sel" data-color="all" onclick="switchRecColor('all')">전체</button>
-          <button class="rec-chip yellow" data-color="yellow" onclick="switchRecColor('yellow')"></button>
-          <button class="rec-chip pink"   data-color="pink"   onclick="switchRecColor('pink')"></button>
-          <button class="rec-chip blue"   data-color="blue"   onclick="switchRecColor('blue')"></button>
-          <button class="rec-chip underline" data-color="underline" onclick="switchRecColor('underline')">U</button>
-        </div>
-        <div class="scroll" id="recList"></div>
+        <div class="scroll" id="notesList"></div>
       </div>
 
-      <!-- 책갈피 목록 뷰 — 내 기록으로 통합됨 (하위 호환용 리다이렉트) -->
+      <!-- 책갈피 목록 뷰 -->
       <div class="view" id="bookmarks">
         <div class="topbar">
           <button class="tb-btn" onclick="goBack()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg></button>
@@ -4691,8 +4578,8 @@ function getParaIndex(node) {
 }
 
 /* 하이라이트 즉시 적용
- * user-select:none 상태에서 surroundContents/extractContents가 실패하는 문제 해결
- * → Range의 startContainer/endContainer를 직접 조작해서 텍스트 노드에 mark 삽입 */
+ * user-select:none 상태에서 extractContents/surroundContents 실패 문제 해결
+ * → 텍스트 노드 직접 조작 방식 */
 function applyHighlight(color) {
   if (!_selRange) { closeSelPopup(); return; }
   const range = _selRange;
@@ -4700,13 +4587,11 @@ function applyHighlight(color) {
   if (!text) { closeSelPopup(); return; }
 
   const colorClass = 'highlight-' + color;
-  const rContent = document.getElementById('rContent');
-  if (!rContent) { closeSelPopup(); return; }
 
-  /* startContainer와 endContainer가 같은 텍스트 노드인 경우 (단순 케이스) */
   try {
     if (range.startContainer === range.endContainer &&
         range.startContainer.nodeType === Node.TEXT_NODE) {
+      /* 단일 텍스트 노드 내 선택 */
       const node = range.startContainer;
       const before = node.textContent.slice(0, range.startOffset);
       const marked = node.textContent.slice(range.startOffset, range.endOffset);
@@ -4715,7 +4600,6 @@ function applyHighlight(color) {
       const mark = document.createElement('mark');
       mark.className = 'r-mark ' + colorClass;
       mark.textContent = marked;
-      mark.dataset.markId = Date.now().toString(36) + Math.random().toString(36).slice(2,5);
       mark.addEventListener('click', onMarkClick);
       const parent = node.parentNode;
       if (before) parent.insertBefore(document.createTextNode(before), node);
@@ -4723,25 +4607,21 @@ function applyHighlight(color) {
       if (after) parent.insertBefore(document.createTextNode(after), node);
       parent.removeChild(node);
     } else {
-      /* 여러 노드에 걸쳐 있는 경우 — surroundContents 시도, 실패 시 extractContents */
+      /* 여러 노드에 걸친 선택 */
       try {
         const mark = document.createElement('mark');
         mark.className = 'r-mark ' + colorClass;
-        mark.dataset.markId = Date.now().toString(36) + Math.random().toString(36).slice(2,5);
         range.surroundContents(mark);
         mark.addEventListener('click', onMarkClick);
       } catch(e) {
-        /* surroundContents 실패 (range가 여러 블록에 걸침) → extractContents */
         const frag = range.extractContents();
         const mark = document.createElement('mark');
         mark.className = 'r-mark ' + colorClass;
-        mark.dataset.markId = Date.now().toString(36) + Math.random().toString(36).slice(2,5);
         mark.appendChild(frag);
         range.insertNode(mark);
         mark.addEventListener('click', onMarkClick);
       }
     }
-    /* 선택 해제 */
     const sel = window.getSelection();
     if (sel) sel.removeAllRanges();
     persistMarks();
@@ -4750,7 +4630,6 @@ function applyHighlight(color) {
     closeSelPopup();
   }
 }
-
 /* 이미 마크된 요소 탭 → 삭제 팝업 */
 function onMarkClick(e) {
   e.stopPropagation();
@@ -4780,63 +4659,133 @@ function closeMarkPopup() {
   if (_markTarget) { _markTarget.classList.remove('selected'); _markTarget = null; }
 }
 
-/* 선택 변화 감지 — iOS/Android/Desktop 통합 방식
- * user-select:text 복원 → selectionchange 정상 동작
- * touchstart preventDefault → 네이티브 콜아웃 메뉴만 차단 */
+/* 선택 변화 감지 — iOS: 롱프레스+드래그, 데스크탑: selectionchange */
 function initSelectionDetection() {
   const rContentEl = document.getElementById('rContent');
+  const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent) ||
+                (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   let _popupInteracting = false;
-  let selTimer = null;
 
-  /* 팝업 상호작용 플래그 */
   const popup = document.getElementById('selPopup');
   popup.addEventListener('pointerdown', e => { e.preventDefault(); _popupInteracting = true; });
   popup.addEventListener('pointerup', () => { setTimeout(() => { _popupInteracting = false; }, 300); });
   popup.addEventListener('mousedown', e => e.preventDefault());
   popup.addEventListener('touchstart', e => e.preventDefault(), { passive: false });
 
-  /* 팝업 외부 탭 → 닫기 */
   document.addEventListener('pointerdown', e => {
     if (!e.target.closest('#selPopup') && !e.target.closest('#markPopup')) {
       setTimeout(() => { if (!_popupInteracting) { closeSelPopup(); closeMarkPopup(); } }, 80);
     }
   });
 
-  /* ── 네이티브 iOS 콜아웃 메뉴 차단
-     텍스트 단락에서 touchstart를 비passive로 등록해 contextmenu preventDefault ── */
-  rContentEl.addEventListener('contextmenu', e => e.preventDefault());
+  if (isIOS) {
+    /* iOS 전용: caretRangeFromPoint 방식 */
+    let _lpTimer = null;
+    let _startPt = null;
+    let _isSelecting = false;
 
-  /* ── selectionchange: iOS/Android/Desktop 모두 동작 ── */
-  document.addEventListener('selectionchange', () => {
-    clearTimeout(selTimer);
-    selTimer = setTimeout(() => {
-      if (_popupInteracting) return;
-      const sel = window.getSelection();
-      if (!sel || sel.isCollapsed || !sel.rangeCount) {
-        setTimeout(() => { if (!_popupInteracting) closeSelPopup(); }, 150);
-        return;
+    function caretAt(x, y) {
+      if (document.caretRangeFromPoint) return document.caretRangeFromPoint(x, y);
+      if (document.caretPositionFromPoint) {
+        const pos = document.caretPositionFromPoint(x, y);
+        if (!pos) return null;
+        const r = document.createRange();
+        r.setStart(pos.offsetNode, pos.offset);
+        r.collapse(true);
+        return r;
       }
-      const range = sel.getRangeAt(0);
-      if (!rContentEl.contains(range.commonAncestorContainer)) { closeSelPopup(); return; }
-      const text = sel.toString().trim();
-      if (!text || text.length < 2) { closeSelPopup(); return; }
-      _selRange = range.cloneRange();
-      showSelPopup(range);
-    }, 180);
-  });
+      return null;
+    }
 
-  /* ── 롱프레스 진동 피드백 (iOS) ── */
-  let _lpTimer = null;
-  rContentEl.addEventListener('touchstart', e => {
-    if (e.touches.length !== 1) return;
-    clearTimeout(_lpTimer);
-    _lpTimer = setTimeout(() => {
-      if (navigator.vibrate) navigator.vibrate(30);
-    }, 480);
-  }, { passive: true });
+    function wordRangeAt(x, y) {
+      const r = caretAt(x, y);
+      if (!r || !rContentEl.contains(r.startContainer)) return null;
+      const node = r.startContainer;
+      if (node.nodeType !== Node.TEXT_NODE) return null;
+      const text = node.textContent;
+      let start = r.startOffset, end = r.startOffset;
+      while (start > 0 && /\S/.test(text[start - 1])) start--;
+      while (end < text.length && /\S/.test(text[end])) end++;
+      if (start === end) return null;
+      const wr = document.createRange();
+      wr.setStart(node, start);
+      wr.setEnd(node, end);
+      return wr;
+    }
 
-  rContentEl.addEventListener('touchend', () => { clearTimeout(_lpTimer); }, { passive: true });
-  rContentEl.addEventListener('touchmove', () => { clearTimeout(_lpTimer); }, { passive: true });
+    function applyVisualSelection(range) {
+      const sel = window.getSelection();
+      if (!sel) return;
+      sel.removeAllRanges();
+      try { sel.addRange(range); } catch(e) {}
+    }
+
+    rContentEl.addEventListener('touchstart', e => {
+      if (e.touches.length !== 1) return;
+      const t = e.touches[0];
+      _startPt = { x: t.clientX, y: t.clientY };
+      _isSelecting = false;
+      clearTimeout(_lpTimer);
+      _lpTimer = setTimeout(() => {
+        const wr = wordRangeAt(_startPt.x, _startPt.y);
+        if (!wr) return;
+        _selRange = wr.cloneRange();
+        _isSelecting = true;
+        applyVisualSelection(_selRange);
+        if (navigator.vibrate) navigator.vibrate(30);
+      }, 500);
+    }, { passive: true });
+
+    rContentEl.addEventListener('touchmove', e => {
+      if (e.touches.length !== 1) return;
+      const t = e.touches[0];
+      if (_startPt && (Math.abs(t.clientX - _startPt.x) > 10 || Math.abs(t.clientY - _startPt.y) > 10)) {
+        clearTimeout(_lpTimer);
+      }
+      if (!_isSelecting || !_selRange) return;
+      const endCaret = caretAt(t.clientX, t.clientY);
+      if (!endCaret || !rContentEl.contains(endCaret.startContainer)) return;
+      try {
+        const newRange = _selRange.cloneRange();
+        if (endCaret.compareBoundaryPoints(Range.START_TO_START, _selRange) > 0) {
+          newRange.setEnd(endCaret.startContainer, endCaret.startOffset);
+        } else {
+          newRange.setStart(endCaret.startContainer, endCaret.startOffset);
+        }
+        _selRange = newRange;
+        applyVisualSelection(_selRange);
+      } catch(e) {}
+    }, { passive: true });
+
+    rContentEl.addEventListener('touchend', e => {
+      clearTimeout(_lpTimer);
+      if (!_isSelecting || !_selRange) { _isSelecting = false; return; }
+      const text = _selRange.toString().trim();
+      if (!text || text.length < 1) { _isSelecting = false; closeSelPopup(); return; }
+      _isSelecting = false;
+      showSelPopup(_selRange);
+    }, { passive: true });
+
+  } else {
+    /* 데스크탑 / Android */
+    let selTimer = null;
+    document.addEventListener('selectionchange', () => {
+      clearTimeout(selTimer);
+      selTimer = setTimeout(() => {
+        const sel = window.getSelection();
+        if (!sel || sel.isCollapsed || !sel.rangeCount) {
+          if (!_popupInteracting) setTimeout(() => { if (!_popupInteracting) closeSelPopup(); }, 150);
+          return;
+        }
+        const range = sel.getRangeAt(0);
+        if (!rContentEl || !rContentEl.contains(range.commonAncestorContainer)) { closeSelPopup(); return; }
+        const text = sel.toString().trim();
+        if (!text || text.length < 2) { closeSelPopup(); return; }
+        _selRange = range.cloneRange();
+        showSelPopup(range);
+      }, 120);
+    });
+  }
 }
 
 /* 팝업 위치 계산 + 표시 */
@@ -4858,7 +4807,6 @@ function showSelPopup(range) {
 function closeSelPopup() {
   document.getElementById('selPopup').classList.add('hidden');
   _selRange = null;
-  /* 선택 해제 */
   const sel = window.getSelection();
   if (sel) sel.removeAllRanges();
 }
@@ -4974,145 +4922,40 @@ function saveNote() {
 function deleteNote(id) {
   if (!confirm('이 기록을 삭제할까요?')) return;
   setNotes(getNotes().filter(n => n.id !== id));
-  renderRecords();
+  renderNotes();
 }
 
-function renderNotes() { renderRecords(); } // 하위 호환
-
-/* ══════════════════════════════════════════════
-   내 기록 통합 뷰 — 하이라이트 + 책갈피 + 메모
-══════════════════════════════════════════════ */
-let _recTab   = 'all';   // 현재 탭
-let _recColor = 'all';   // 현재 색상 필터
-
-function switchRecTab(tab) {
-  _recTab = tab;
-  // 탭 버튼 업데이트
-  document.querySelectorAll('.rec-tab').forEach(b => b.classList.toggle('sel', b.dataset.tab === tab));
-  // 색상 필터: 하이라이트 탭일 때만 표시
-  const filter = document.getElementById('recFilter');
-  if (filter) filter.style.display = (tab === 'highlight') ? 'flex' : 'none';
-  renderRecords();
-}
-
-function switchRecColor(color) {
-  _recColor = color;
-  document.querySelectorAll('.rec-chip').forEach(b => b.classList.toggle('sel', b.dataset.color === color));
-  renderRecords();
-}
-
-function renderRecords() {
-  const list = document.getElementById('recList');
+function renderNotes() {
+  const list = document.getElementById('notesList');
   if (!list) return;
-
-  // 모든 하이라이트 수집 (전체 artId 순회)
-  const allMarks = [];
-  try {
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (!key || !key.startsWith(MARK_STORE + '_')) continue;
-      const marks = JSON.parse(localStorage.getItem(key) || '[]');
-      marks.forEach(m => allMarks.push({ ...m, _type: 'highlight' }));
-    }
-  } catch(e) {}
-
-  const allBookmarks = getBookmarks().map(b => ({ ...b, _type: 'bookmark' }));
-  const allNotes     = getNotes().map(n => ({ ...n, _type: 'memo' }));
-
-  // 탭 필터
-  let items = [];
-  if (_recTab === 'all')       items = [...allMarks, ...allBookmarks, ...allNotes];
-  else if (_recTab === 'highlight') items = allMarks;
-  else if (_recTab === 'bookmark')  items = allBookmarks;
-  else if (_recTab === 'memo')      items = allNotes;
-
-  // 색상 필터 (하이라이트 탭)
-  if (_recTab === 'highlight' && _recColor !== 'all') {
-    items = items.filter(m => m.color === _recColor);
-  }
-
-  // 날짜 내림차순 정렬
-  items.sort((a, b) => {
-    const da = a.createdAt || a.date || '';
-    const db = b.createdAt || b.date || '';
-    return db.localeCompare(da);
-  });
-
-  if (!items.length) {
-    const labels = { all:'아직 기록이 없어요', highlight:'하이라이트가 없어요', bookmark:'책갈피가 없어요', memo:'메모가 없어요' };
-    const icons  = { all:'📖', highlight:'🖊️', bookmark:'🔖', memo:'📝' };
-    list.innerHTML = `<div class="rec-empty"><span class="ic">${icons[_recTab]||'📖'}</span>${labels[_recTab]||'기록이 없어요'}<br><span style="font-size:12px;color:var(--ink3);margin-top:6px;display:block">본문을 길게 눌러 하이라이트하거나<br>상단 🔖 버튼으로 책갈피를 저장하세요</span></div>`;
+  const notes = getNotes();
+  if (!notes.length) {
+    list.innerHTML = `<div class="notes-empty">아직 기록한 내용이 없어요.<br>본문을 선택해 기록을 남겨 보세요 📖</div>`;
     return;
   }
-
+  // 날짜 그룹별 묶기
+  const groups = {};
+  const order  = [];
+  notes.forEach(n => {
+    const k = n.date || '날짜 없음';
+    if (!groups[k]) { groups[k] = []; order.push(k); }
+    groups[k].push(n);
+  });
   let html = '';
-  items.forEach(item => {
-    if (item._type === 'highlight') {
-      const color = item.color || 'yellow';
-      const dotCls = color === 'underline' ? 'underline' : color;
-      const quoteCls = `hl-${color}`;
-      const artTitle = item.artId ? (flatList.find(f => f.id === item.artId) || {}).title || '' : '';
-      html += `<div class="rec-item" onclick="jumpToMark('${item.artId}')">
-        <div class="rec-dot ${dotCls}"></div>
-        <div class="rec-body">
-          <div class="rec-quote ${quoteCls}">${item.text || ''}</div>
-          <div class="rec-meta">
-            <span class="rec-book">${(artTitle||'').replace(/<br>/g,' ')}</span>
-            <span class="rec-date">${(item.createdAt||'').slice(0,10)}</span>
-          </div>
+  order.forEach(k => {
+    html += `<div class="notes-group-lbl">${k}</div>`;
+    groups[k].forEach(n => {
+      html += `<div class="note-item" onclick="openArtFromNote('${n.artId}')">
+        <div class="note-item-meta">
+          <span class="note-item-book">${n.bookTitle ? n.bookTitle + ' · ' : ''}${n.artTitle || ''}</span>
+          <button class="note-del-btn" onclick="event.stopPropagation();deleteNote('${n.id}')">×</button>
         </div>
-        <button class="rec-del" onclick="event.stopPropagation();deleteMarkById('${item.artId}','${item.id}')">×</button>
+        ${n.quote ? `<div class="note-item-quote">${n.quote}</div>` : ''}
+        ${n.memo  ? `<div class="note-item-memo">${n.memo}</div>` : ''}
       </div>`;
-    } else if (item._type === 'bookmark') {
-      html += `<div class="rec-item" onclick="jumpToBookmark('${item.artId}',${item.artIdx??0},${item.pageIdx??0})">
-        <div class="rec-dot bookmark"></div>
-        <div class="rec-body">
-          <div class="rec-quote">${item.artTitle || '(제목 없음)'}</div>
-          <div class="rec-meta">
-            <span class="rec-book">${item.bookTitle||''}</span>
-            <span class="rec-date">${item.date||''}</span>
-          </div>
-        </div>
-        <button class="rec-del" onclick="event.stopPropagation();deleteBookmark('${item.id}')">×</button>
-      </div>`;
-    } else if (item._type === 'memo') {
-      html += `<div class="rec-item" onclick="openArtFromNote('${item.artId}')">
-        <div class="rec-dot memo"></div>
-        <div class="rec-body">
-          ${item.quote ? `<div class="rec-quote">"${item.quote}"</div>` : ''}
-          ${item.memo  ? `<div class="rec-memo">${item.memo}</div>` : ''}
-          <div class="rec-meta">
-            <span class="rec-book">${item.bookTitle ? item.bookTitle+' · ':''  }${item.artTitle||''}</span>
-            <span class="rec-date">${item.date||''}</span>
-          </div>
-        </div>
-        <button class="rec-del" onclick="event.stopPropagation();deleteNote('${item.id}')">×</button>
-      </div>`;
-    }
+    });
   });
   list.innerHTML = html;
-}
-
-/* 하이라이트 위치로 이동 */
-function jumpToMark(artId) {
-  const idx = flatList.findIndex(f => f.id === artId);
-  if (idx >= 0) { openArt(idx); go('reader'); }
-}
-
-/* 하이라이트 ID로 삭제 */
-function deleteMarkById(artId, markId) {
-  if (!confirm('이 하이라이트를 삭제할까요?')) return;
-  const marks = loadMarks(artId).filter(m => m.id !== markId);
-  saveMarks(artId, marks);
-  // DOM에서도 제거
-  const el = document.querySelector(`[data-mark-id="${markId}"]`);
-  if (el) {
-    const parent = el.parentNode;
-    while (el.firstChild) parent.insertBefore(el.firstChild, el);
-    parent.removeChild(el);
-  }
-  renderRecords();
-  showToast('하이라이트가 삭제됐습니다');
 }
 
 function openArtFromNote(artId) {
@@ -5227,63 +5070,68 @@ function submitAuth() {
   greet(user);
   go('library');
 }
-/* ══════════════════════════════════════════════
-   독서 Streak · 배지 · 오늘의 복습 (Track ③④)
-══════════════════════════════════════════════ */
+/* ── 독서 Streak ── */
 const STREAK_KEY = 'meslap_streak';
 
-/* 오늘 읽기 기록 — openArt 호출 시 자동으로 streak 업데이트 */
 function recordReadingDay() {
-  const today = new Date().toLocaleDateString('ko-KR');
-  let s = { streak:0, best:0, totalDays:0, lastDate:'' };
-  try { s = JSON.parse(localStorage.getItem(STREAK_KEY) || JSON.stringify(s)); } catch(e) {}
-  if (s.lastDate === today) return; // 오늘 이미 기록됨
-  const yesterday = new Date(Date.now() - 86400000).toLocaleDateString('ko-KR');
-  s.streak = (s.lastDate === yesterday) ? (s.streak || 0) + 1 : 1;
-  s.totalDays = (s.totalDays || 0) + 1;
+  let s = { streak: 0, lastDate: '' };
+  try { s = JSON.parse(localStorage.getItem(STREAK_KEY) || '{}'); } catch(e) {}
+  const today = new Date().toISOString().slice(0, 10);
+  if (s.lastDate === today) { updateStreakBadge(); return; }
+  const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+  if (s.lastDate === yesterday) {
+    s.streak = (s.streak || 0) + 1;
+  } else {
+    s.streak = 1;
+  }
   s.lastDate = today;
-  s.best = Math.max(s.best || 0, s.streak);
   try { localStorage.setItem(STREAK_KEY, JSON.stringify(s)); } catch(e) {}
-  /* streak 마일스톤 토스트 */
-  if ([3,7,14,30].includes(s.streak)) showToast(`🔥 ${s.streak}일 연속 독서 달성!`);
+  updateStreakBadge();
 }
 
-/* 오늘의 복습 구절 — 저장된 하이라이트 중 랜덤 1개 (서재 진입 시 표시) */
+function updateStreakBadge() {
+  let s = { streak: 0 };
+  try { s = JSON.parse(localStorage.getItem(STREAK_KEY) || '{}'); } catch(e) {}
+  const badge = document.getElementById('streakBadge');
+  if (!badge) return;
+  if (s.streak >= 1) {
+    badge.innerHTML = `<span class="fire">🔥</span>${s.streak}일 연속`;
+    badge.style.display = 'inline-flex';
+  } else {
+    badge.style.display = 'none';
+  }
+}
+
 function showTodayReview() {
-  const allMarks = [];
-  try {
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key && key.startsWith(MARK_STORE + '_')) {
-        const marks = JSON.parse(localStorage.getItem(key) || '[]');
-        marks.forEach(m => { if (m.text && m.text.trim().length > 5) allMarks.push(m); });
-      }
-    }
-  } catch(e) {}
-  if (!allMarks.length) return;
-  /* 오늘 이미 보여줬으면 skip */
-  const today = new Date().toLocaleDateString('ko-KR');
-  const lastReview = localStorage.getItem('meslap_last_review');
-  if (lastReview === today) return;
-  localStorage.setItem('meslap_last_review', today);
-  const m = allMarks[Math.floor(Math.random() * allMarks.length)];
-  showToast(`💛 오늘의 복습: "${m.text.slice(0, 30)}…"`);
-}
-
-function greet(u) {
-  const el = document.getElementById('libHi');
-  if (el) el.textContent = `${u.name}님, 안녕하세요`;
+  // 오늘 읽은 글 목록을 서재 헤더 하단에 간단히 표시
+  // (확장 시: 오늘의 복습 뷰로 연결)
+  const today = new Date().toISOString().slice(0, 10);
+  const READ_KEY = 'meslap_read_' + today;
+  let readIds = [];
+  try { readIds = JSON.parse(localStorage.getItem(READ_KEY) || '[]'); } catch(e) {}
+  if (!readIds.length) return;
+  const art = flatList.find(f => f.id === readIds[0]);
+  if (art) showToast(`오늘 읽은 말씀: ${(art.title || '').replace(/<br>/g, ' ')}`);
 }
 
 function signOut() {
   localStorage.removeItem(AUTH_KEY);
   go('landing');
 }
+function greet(u) {
+  const el = document.getElementById('libHi');
+  if (el) el.textContent = `${u.name}님, 안녕하세요`;
+  updateStreakBadge();
+}
+/* ── 소셜 로그인 (Supabase OAuth 연동 전: 안내 메시지) ──
+   Supabase 키 연동 후:
+     supabase.auth.signInWithOAuth({ provider: 'kakao' | 'google' })
      네이버는 Supabase custom OAuth provider(kakao처럼 설정) 또는 별도 구성 */
 function socialLogin(provider) {
   const names = { kakao:'카카오', naver:'네이버', google:'Google' };
   alert(`${names[provider]} 로그인은 Supabase 연동 후 활성화됩니다.\n지금은 이메일로 가입해 주세요.`);
 }
+
 /* ── 리플 효과: 모든 .btn-p .btn-t .social-btn .tb-btn .ctrl-btn ── */
 function addRipple(el) {
   el.addEventListener('click', function(e) {
@@ -5371,7 +5219,6 @@ function renderShelf() {
   shelf.innerHTML = html;
   // 카드 stagger reveal 애니메이션
   requestAnimationFrame(revealShelf);
-  showTodayReview();
 }
 function openBook() { go('cover'); }
 
@@ -5460,7 +5307,7 @@ function openLegal(from) { legalReturn = from || 'about'; go('legal'); }
 function goBackFromLegal() { go(legalReturn || 'about'); }
 
 /* ── 뷰 전환 ── */
-let _prevView = 'library'; // 이전 뷰 추적 — 뒤로가기에 사용
+let _prevView = 'library';
 
 function go(id) {
   const cur = document.querySelector('.view.active');
@@ -5470,16 +5317,11 @@ function go(id) {
   if (!next) return;
   next.classList.add('active');
   if (id === 'contents') renderTOC();
-  if (id === 'notes') { _recTab = 'all'; _recColor = 'all'; renderRecords(); }
+  if (id === 'notes') renderNotes();
   if (id === 'bookmarks') renderBookmarks();
 }
 
-/* 뒤로가기 — 리더에서 온 경우 리더로, 서재 등에서 온 경우 서재로 */
-function goBack() {
-  go(_prevView === 'reader' ? 'reader' : 'library');
-}
-
-/* 내 기록으로 이동 */
+function goBack() { go(_prevView === 'reader' ? 'reader' : 'library'); }
 function goNotes() { go('notes'); }
 
 /* ══════════════════════════════════════════════
@@ -5499,15 +5341,12 @@ function showToast(msg) {
    책갈피 (Bookmark)
 ══════════════════════════════════════════════ */
 const BMK_KEY = 'meslap_bookmarks';
-
 function getBookmarks() {
   try { return JSON.parse(localStorage.getItem(BMK_KEY) || '[]'); } catch { return []; }
 }
 function setBookmarks(arr) {
   try { localStorage.setItem(BMK_KEY, JSON.stringify(arr)); } catch (e) {}
 }
-
-/* 현재 글이 책갈피 되어 있는지 확인 → 버튼 상태 반영 */
 function syncBmkBtn() {
   const btn = document.getElementById('bmkBtn');
   if (!btn) return;
@@ -5516,8 +5355,6 @@ function syncBmkBtn() {
   btn.classList.toggle('saved', saved);
   btn.title = saved ? '책갈피 제거' : '책갈피 추가';
 }
-
-/* 책갈피 토글 */
 function toggleBookmark() {
   const art = flatList[curIdx] || {};
   if (!art.id) return;
@@ -5530,7 +5367,7 @@ function toggleBookmark() {
     syncBmkBtn();
     showToast('책갈피가 제거됐습니다');
   } else {
-    const bmk = {
+    bookmarks.unshift({
       id:        Date.now().toString(36) + Math.random().toString(36).slice(2, 5),
       artId:     art.id,
       artIdx:    curIdx,
@@ -5539,18 +5376,12 @@ function toggleBookmark() {
       bookTitle: (BOOK_META && BOOK_META.title || '').replace(/<br>/g, ' '),
       pageIdx:   pageMode ? pageIdx : null,
       date:      new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' })
-    };
-    bookmarks.unshift(bmk);
+    });
     setBookmarks(bookmarks);
     syncBmkBtn();
-    /* popb 애니 트리거 (cheatsheet like/popb 패턴) */
-    const btn = document.getElementById('bmkBtn');
-    if (btn) { btn.classList.remove('pop'); void btn.offsetWidth; btn.classList.add('pop'); setTimeout(() => btn.classList.remove('pop'), 400); }
     showToast('📖 책갈피가 저장됐습니다');
   }
 }
-
-/* 책갈피 목록 렌더 */
 function renderBookmarks() {
   const list = document.getElementById('bookmarksList');
   if (!list) return;
@@ -5561,9 +5392,7 @@ function renderBookmarks() {
   }
   list.innerHTML = bookmarks.map(b => `
     <div class="bmk-item" onclick="jumpToBookmark('${b.artId}', ${b.artIdx ?? 0}, ${b.pageIdx ?? 0})">
-      <div class="bmk-item-icon">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--gold)" stroke="none"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-      </div>
+      <div class="bmk-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="var(--gold)" stroke="none"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div>
       <div class="bmk-item-body">
         <div class="bmk-item-title">${b.artTitle || '(제목 없음)'}</div>
         <div class="bmk-item-book">${b.bookTitle || ''}</div>
@@ -5572,28 +5401,18 @@ function renderBookmarks() {
       <button class="bmk-del" onclick="event.stopPropagation();deleteBookmark('${b.id}')" title="삭제">×</button>
     </div>`).join('');
 }
-
-/* 책갈피 위치로 이동 */
 function jumpToBookmark(artId, artIdx, savedPageIdx) {
   const idx = flatList.findIndex((f, i) => f.id === artId || i === artIdx);
   const target = idx >= 0 ? idx : artIdx;
   if (pageMode && savedPageIdx > 0) {
-    pendingLastPage = false;
     openArt(target);
-    // relayoutPages 후 savedPageIdx로 이동
-    relayoutPages(() => {
-      goPage(savedPageIdx);
-      const artIdVal = (flatList[target] || {}).id;
-      if (artIdVal) restoreMarks(artIdVal);
-    });
+    relayoutPages(() => { goPage(savedPageIdx); });
   } else {
     openArt(target);
   }
   go('reader');
   showToast('📖 책갈피 위치로 이동했습니다');
 }
-
-/* 책갈피 삭제 */
 function deleteBookmark(id) {
   setBookmarks(getBookmarks().filter(b => b.id !== id));
   renderBookmarks();
@@ -5604,8 +5423,8 @@ function openArt(idx) {
   curIdx = idx;
   renderArt(idx);
   go('reader');
+  recordReadingDay(); // 독서 streak 기록
   syncBmkBtn(); // 책갈피 버튼 상태 갱신
-  recordReadingDay();
   if (pageMode) {
     pageIdx = 0;
     relayoutPages(() => {
@@ -5757,12 +5576,6 @@ function renderArt(idx) {
 
   document.getElementById('rTopLabel').textContent = a.cat + '. ' + a.catName;
 
-  /* 읽기 예상 시간 (Track C) — 한국어 평균 분당 350자 */
-  const rawText = (a.blocks || []).map(b => b.c || '').join('');
-  const mins = Math.max(1, Math.round(rawText.length / 350));
-  const rt = document.getElementById('readTime');
-  if (rt) rt.textContent = `약 ${mins}분 읽기 · ${rawText.length.toLocaleString()}자`;
-
   let html = `
     <div class="r-lbl">${a.label}</div>
     <h1 class="r-title">${a.title}</h1>
@@ -5802,12 +5615,6 @@ function renderArt(idx) {
     </div>`;
 
   document.getElementById('rContent').innerHTML = html;
-
-  // 읽기 예상 시간 (분당 250자 기준)
-  const allText = (a.blocks || []).map(b => b.c || '').join('');
-  const mins = Math.max(1, Math.ceil(allText.length / 250));
-  const rt = document.getElementById('readTime');
-  if (rt) rt.textContent = `읽기 약 ${mins}분`;
 }
 
 /* ── 진행률 ── */

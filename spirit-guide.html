@@ -9,8 +9,8 @@
 <meta property="og:site_name"   content="MeslapBooks">
 <meta property="og:title"       content="MeslapBooks — 말씀이 삶이 되는 자리">
 <meta property="og:description" content="박상혁 목사의 말씀 묵상을 주제별로 엮은 모바일 전자책. 성령론·기도·조직신학 등 13권을 손 안에서.">
-<meta property="og:url"         content="https://meslap-books.netlify.app">
-<meta property="og:image"       content="https://meslap-books.netlify.app/og-image.png">
+<meta property="og:url"         content="https://gerrardbak08.github.io/meslap-books">
+<meta property="og:image"       content="https://gerrardbak08.github.io/meslap-books/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale"      content="ko_KR">
@@ -18,7 +18,7 @@
 <meta name="twitter:card"        content="summary_large_image">
 <meta name="twitter:title"       content="MeslapBooks — 말씀이 삶이 되는 자리">
 <meta name="twitter:description" content="박상혁 목사의 말씀 묵상을 주제별로 엮은 모바일 전자책. 무료책으로 시작하세요.">
-<meta name="twitter:image"       content="https://meslap-books.netlify.app/og-image.png">
+<meta name="twitter:image"       content="https://gerrardbak08.github.io/meslap-books/og-image.png">
 <!-- 카카오톡 공유 -->
 <meta name="description"         content="박상혁 목사의 말씀 묵상을 주제별로 엮은 모바일 전자책. 성령론·기도·조직신학 등 13권을 손 안에서.">
 <!-- ── PWA(설치형 웹) ── -->
@@ -48,7 +48,7 @@
 .app.night{--bg:#161514;--bg2:#211F1C;--ink:#D8D2C8;--ink2:#A39C90;--ink3:#6E675C;--line:#322F2A;--gold:#C9A86A;--gold-bg:#2A2620}
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;margin:0;padding:0}
+html,body{height:100%;margin:0;padding:0;background:var(--bg)}
 body{font-family:var(--sans);-webkit-font-smoothing:antialiased;background:radial-gradient(circle at 50% 30%,#3A3A40,#1C1C20);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:28px 16px}
 .hint{text-align:center;color:#8A8A92;font-size:12.5px;line-height:1.7;max-width:360px}
 .hint b{color:#C8C8D0;font-weight:600}
@@ -78,8 +78,9 @@ body{font-family:var(--sans);-webkit-font-smoothing:antialiased;background:radia
 
 /* 앱 */
 .app{position:absolute;inset:0;background:var(--bg);transition:background .4s var(--ease)}
-.view{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);transition:transform .38s var(--ease),opacity .38s var(--ease);transform:translateX(100%);opacity:0;pointer-events:none}
-.view.active{transform:translateX(0);opacity:1;pointer-events:auto}
+/* 뷰: 기본 숨김 — display:none으로 블랙화면 원천 차단 */
+.view{display:none;position:absolute;inset:0;flex-direction:column;background:var(--bg);opacity:1;transform:none;pointer-events:none}
+.view.active{display:flex;pointer-events:auto}
 
 /* 표지 — 책 재킷(컬러 클로스 + 금박) 처리 */
 #cover{
@@ -177,7 +178,11 @@ body{font-family:var(--sans);-webkit-font-smoothing:antialiased;background:radia
 .r-prog-fill{height:100%;background:var(--gold);width:0%;transition:width .15s linear;box-shadow:0 0 6px rgba(154,123,79,.4)}
 .r-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .r-scroll::-webkit-scrollbar{display:none}
-.r-body{padding:28px 22px 60px;max-width:100%}
+.r-body{padding:28px 22px 60px;max-width:100%;
+  /* iOS: 네이티브 텍스트 선택 완전 차단 → 커스텀 하이라이트로 대체 */
+  -webkit-user-select:none;user-select:none;
+  -webkit-touch-callout:none;
+}
 .r-lbl{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-align:center;margin-bottom:14px}
 .r-title{font-family:var(--reader-font);font-size:24px;font-weight:700;line-height:1.5;color:var(--ink);text-align:center;word-break:keep-all;margin-bottom:10px}
 .r-sub{font-family:var(--reader-font);font-size:14px;font-style:italic;font-weight:300;color:var(--ink2);text-align:center;margin-bottom:22px}
@@ -269,11 +274,7 @@ svg{display:block}
 @keyframes pulsering{0%{transform:scale(1);opacity:.6}100%{transform:scale(2.5);opacity:0}}
 @keyframes shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
 
-/* 뷰 전환: 활성 뷰 진입 시 fade 전환 (filter:blur 제거 — 일부 환경에서 pointer-events 차단 문제) */
-.view.active{animation:fadeIn .28s ease both}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-/* 비활성 뷰는 애니메이션 없음 */
-.view{animation:none}
+/* 뷰 전환 완료 (위 .view/.view.active 로 처리됨) */
 
 /* 버튼 리플 */
 .btn-p,.btn-t,.social-btn,.tb-btn,.ctrl-btn{position:relative;overflow:hidden}
@@ -428,6 +429,22 @@ svg{display:block}
 /* 리더 본문 말미 — 성경 저작권 고지(상시·절제) */
 .r-copyright{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);font-size:10.5px;line-height:1.6;color:var(--ink3);text-align:center;word-break:keep-all}
 
+/* ── 책갈피 ── */
+#bmkBtn.saved svg{color:var(--gold)}
+#bmkBtn.saved svg path{fill:var(--gold);stroke:var(--gold)}
+.toast{position:fixed;bottom:calc(env(safe-area-inset-bottom) + 80px);left:50%;transform:translateX(-50%) translateY(12px);background:var(--ink);color:var(--bg);font-size:13px;font-weight:600;padding:10px 20px;border-radius:22px;white-space:nowrap;opacity:0;transition:opacity .22s,transform .22s;pointer-events:none;z-index:9000}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.bmk-empty{padding:60px 36px;text-align:center;font-size:14px;color:var(--ink3);line-height:1.7}
+.bmk-item{display:flex;align-items:center;gap:12px;padding:14px 22px;border-top:1px solid var(--line);cursor:pointer;transition:background .12s}
+.bmk-item:active{background:var(--bg2)}
+.bmk-item-icon{color:var(--gold);flex-shrink:0}
+.bmk-item-body{flex:1;min-width:0}
+.bmk-item-title{font-size:14px;font-weight:600;color:var(--ink);line-height:1.4;word-break:keep-all}
+.bmk-item-book{font-size:11.5px;color:var(--gold);margin-top:2px}
+.bmk-item-date{font-size:11px;color:var(--ink3);margin-top:1px}
+.bmk-del{background:none;border:none;color:var(--ink3);cursor:pointer;padding:6px;border-radius:8px;font-size:18px;line-height:1;flex-shrink:0;transition:background .12s}
+.bmk-del:active{background:var(--bg2)}
+
 /* ── 관리자 뷰 (#admin) ── */
 .admin-tabs{display:flex;border-bottom:1px solid var(--line);background:var(--bg);flex-shrink:0;overflow-x:auto;-webkit-overflow-scrolling:touch}
 .admin-tabs::-webkit-scrollbar{display:none}
@@ -539,6 +556,10 @@ svg{display:block}
 .note-item-date{font-size:11px;color:var(--ink3)}
 .note-del-btn{background:none;border:none;color:var(--ink3);cursor:pointer;font-size:18px;padding:2px 6px;line-height:1;flex-shrink:0;border-radius:6px;transition:background .12s}
 .note-del-btn:active{background:var(--bg2)}
+
+/* ── 서재 streak 배지 ── */
+.streak-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:var(--gold-bg);border:1px solid var(--gold);border-radius:20px;font-size:11.5px;font-weight:700;color:var(--gold);margin-top:6px}
+.streak-badge .fire{font-size:13px}
 
 /* ── 모바일/PWA 전체화면(full-bleed) — 목업 프레임 없이 진짜 설치앱처럼 ── */
 @media (display-mode: standalone), (max-width:480px){
@@ -657,7 +678,7 @@ svg{display:block}
           <button class="tb-btn" onclick="signOut()" title="로그아웃"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></button>
         </div>
         <div class="scroll">
-          <div class="lib-hd"><span id="libHi">안녕하세요</span><span class="lib-hd-sub">오늘도 말씀 앞에 머무는 시간 되시길</span></div>
+          <div class="lib-hd"><span id="libHi">안녕하세요</span><span class="lib-hd-sub">오늘도 말씀 앞에 머무는 시간 되시길</span><span class="streak-badge" id="streakBadge" style="display:none">🔥 0일 연속</span></div>
           <div class="shelf" id="shelf"></div>
         </div>
       </div>
@@ -772,11 +793,17 @@ svg{display:block}
       <!-- 리더 -->
       <div class="view" id="reader">
         <div class="r-topbar" id="rTop">
-          <button class="tb-btn" onclick="go('contents')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg></button>
-          <span style="font-size:12px;color:var(--ink3);font-weight:500" id="rTopLabel"></span>
+          <button class="tb-btn" onclick="go('library')" title="서재로">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </button>
+          <span style="font-size:12px;color:var(--ink3);font-weight:500;flex:1;text-align:center;padding:0 6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" id="rTopLabel"></span>
           <div style="display:flex;align-items:center;gap:0">
-            <button class="tb-btn" onclick="go('notes')" title="내 기록"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
-            <button class="tb-btn" onclick="go('contents')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+            <button class="tb-btn" id="bmkBtn" onclick="toggleBookmark()" title="책갈피">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            </button>
+            <button class="tb-btn" onclick="goNotes()" title="내 기록">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M11 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>
+            </button>
           </div>
         </div>
         <div class="r-prog-track"><div class="r-prog-fill" id="progFill"></div></div>
@@ -793,12 +820,25 @@ svg{display:block}
       <!-- 내 기록 뷰 -->
       <div class="view" id="notes">
         <div class="topbar">
-          <button class="tb-btn" onclick="go('library')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <button class="tb-btn" onclick="goBack()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg></button>
           <span class="tb-title">내 기록</span>
           <div style="width:38px"></div>
         </div>
         <div class="scroll" id="notesList"></div>
       </div>
+
+      <!-- 책갈피 목록 뷰 -->
+      <div class="view" id="bookmarks">
+        <div class="topbar">
+          <button class="tb-btn" onclick="goBack()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <span class="tb-title">책갈피</span>
+          <div style="width:38px"></div>
+        </div>
+        <div class="scroll" id="bookmarksList"></div>
+      </div>
+
+      <!-- 토스트 알림 -->
+      <div class="toast" id="toast"></div>
 
       <!-- 설정 패널 -->
       <div class="backdrop" id="backdrop" onclick="closePanel()"></div>
@@ -4537,40 +4577,59 @@ function getParaIndex(node) {
   return Array.from(c.children).indexOf(el);
 }
 
-/* 하이라이트 즉시 적용 (Kindle/리디 표준: 색상 탭 → 즉시 적용) */
+/* 하이라이트 즉시 적용
+ * user-select:none 상태에서 extractContents/surroundContents 실패 문제 해결
+ * → 텍스트 노드 직접 조작 방식 */
 function applyHighlight(color) {
-  // _selRange가 없으면 현재 selection에서 복구
-  if (!_selRange) {
-    const sel = window.getSelection();
-    if (sel && !sel.isCollapsed && sel.rangeCount) {
-      const r = sel.getRangeAt(0);
-      const rc = document.getElementById('rContent');
-      if (rc && rc.contains(r.commonAncestorContainer)) _selRange = r.cloneRange();
-    }
-    if (!_selRange) { closeSelPopup(); return; }
-  }
+  if (!_selRange) { closeSelPopup(); return; }
+  const range = _selRange;
+  const text = range.toString().trim();
+  if (!text) { closeSelPopup(); return; }
+
   const colorClass = 'highlight-' + color;
+
   try {
-    const mark = document.createElement('mark');
-    mark.className = 'r-mark ' + colorClass;
-    _selRange.surroundContents(mark);
-    mark.addEventListener('click', onMarkClick);
-  } catch(e) {
-    try {
-      const frag = _selRange.extractContents();
+    if (range.startContainer === range.endContainer &&
+        range.startContainer.nodeType === Node.TEXT_NODE) {
+      /* 단일 텍스트 노드 내 선택 */
+      const node = range.startContainer;
+      const before = node.textContent.slice(0, range.startOffset);
+      const marked = node.textContent.slice(range.startOffset, range.endOffset);
+      const after  = node.textContent.slice(range.endOffset);
+      if (!marked.trim()) { closeSelPopup(); return; }
       const mark = document.createElement('mark');
       mark.className = 'r-mark ' + colorClass;
-      mark.appendChild(frag);
-      _selRange.insertNode(mark);
+      mark.textContent = marked;
       mark.addEventListener('click', onMarkClick);
-    } catch(e2) {}
+      const parent = node.parentNode;
+      if (before) parent.insertBefore(document.createTextNode(before), node);
+      parent.insertBefore(mark, node);
+      if (after) parent.insertBefore(document.createTextNode(after), node);
+      parent.removeChild(node);
+    } else {
+      /* 여러 노드에 걸친 선택 */
+      try {
+        const mark = document.createElement('mark');
+        mark.className = 'r-mark ' + colorClass;
+        range.surroundContents(mark);
+        mark.addEventListener('click', onMarkClick);
+      } catch(e) {
+        const frag = range.extractContents();
+        const mark = document.createElement('mark');
+        mark.className = 'r-mark ' + colorClass;
+        mark.appendChild(frag);
+        range.insertNode(mark);
+        mark.addEventListener('click', onMarkClick);
+      }
+    }
+    const sel = window.getSelection();
+    if (sel) sel.removeAllRanges();
+    persistMarks();
+    closeSelPopup();
+  } catch(e) {
+    closeSelPopup();
   }
-  const sel = window.getSelection();
-  if (sel) sel.removeAllRanges();
-  persistMarks();
-  closeSelPopup();    // 즉시 팝업 닫힘
 }
-
 /* 이미 마크된 요소 탭 → 삭제 팝업 */
 function onMarkClick(e) {
   e.stopPropagation();
@@ -4602,87 +4661,133 @@ function closeMarkPopup() {
 
 /* 선택 변화 감지 */
 function initSelectionDetection() {
+/* 선택 변화 감지 — iOS: 터치 드래그로 직접 Range 생성, 데스크탑: selectionchange */
+function initSelectionDetection() {
   const rContentEl = document.getElementById('rContent');
-  let selTimer = null;
-  let _popupInteracting = false; // 팝업 조작 중 플래그
+  const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent) ||
+                (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  let _popupInteracting = false;
 
-  // ── selectionchange: PC/iOS/Android 모두 텍스트 선택 변화 시 발생 ──
-  document.addEventListener('selectionchange', () => {
-    clearTimeout(selTimer);
-    selTimer = setTimeout(() => {
-      const sel = window.getSelection();
-      if (!sel || sel.isCollapsed || !sel.rangeCount) {
-        // 팝업 조작 중이 아닐 때만 닫기
-        if (!_popupInteracting) {
-          setTimeout(() => {
-            if (!_popupInteracting) closeSelPopup();
-          }, 150);
-        }
-        return;
-      }
-      const range = sel.getRangeAt(0);
-      if (!rContentEl || !rContentEl.contains(range.commonAncestorContainer)) {
-        closeSelPopup(); return;
-      }
-      const text = sel.toString().trim();
-      if (!text || text.length < 2) { closeSelPopup(); return; }
-      _selRange = range.cloneRange();
-      showSelPopup(range);
-    }, 250); // iOS 비동기 selectionchange 대응
-  });
-
-  // ── 팝업 버튼: pointerdown에서 preventDefault → 팝업 탭 시 selection 해제 방지 ──
   const popup = document.getElementById('selPopup');
-  popup.addEventListener('pointerdown', e => {
-    e.preventDefault();
-    _popupInteracting = true;
-  });
-  popup.addEventListener('pointerup', () => {
-    setTimeout(() => { _popupInteracting = false; }, 300);
-  });
-  // 구형 브라우저 대응: mousedown/touchstart도 preventDefault
+  popup.addEventListener('pointerdown', e => { e.preventDefault(); _popupInteracting = true; });
+  popup.addEventListener('pointerup', () => { setTimeout(() => { _popupInteracting = false; }, 300); });
   popup.addEventListener('mousedown', e => e.preventDefault());
   popup.addEventListener('touchstart', e => e.preventDefault(), { passive: false });
 
-  // 팝업 외부 포인터 → 닫기 (버튼 클릭 처리 후)
   document.addEventListener('pointerdown', e => {
     if (!e.target.closest('#selPopup') && !e.target.closest('#markPopup')) {
-      setTimeout(() => {
-        if (!_popupInteracting) { closeSelPopup(); closeMarkPopup(); }
-      }, 80);
+      setTimeout(() => { if (!_popupInteracting) { closeSelPopup(); closeMarkPopup(); } }, 80);
     }
   });
 
-  // ── 롱프레스 지원: touchstart 500ms 후 선택 텍스트 확인 → 팝업 표시 ──
-  let _lpTimer = null;
-  let _lpStartX = 0, _lpStartY = 0;
-  rContentEl.addEventListener('touchstart', e => {
-    if (e.touches.length !== 1) return;
-    _lpStartX = e.touches[0].clientX;
-    _lpStartY = e.touches[0].clientY;
-    clearTimeout(_lpTimer);
-    _lpTimer = setTimeout(() => {
-      const sel = window.getSelection();
-      if (!sel || sel.isCollapsed || !sel.rangeCount) return;
-      const range = sel.getRangeAt(0);
-      if (!rContentEl.contains(range.commonAncestorContainer)) return;
-      const text = sel.toString().trim();
-      if (!text || text.length < 2) return;
-      _selRange = range.cloneRange();
-      showSelPopup(range);
-    }, 500);
-  }, { passive: true });
+  if (isIOS) {
+    /* iOS 전용: caretRangeFromPoint 방식 */
+    let _lpTimer = null;
+    let _startPt = null;
+    let _isSelecting = false;
 
-  rContentEl.addEventListener('touchmove', e => {
-    if (Math.abs(e.touches[0].clientX - _lpStartX) > 10 ||
-        Math.abs(e.touches[0].clientY - _lpStartY) > 10) {
-      clearTimeout(_lpTimer);
+    function caretAt(x, y) {
+      if (document.caretRangeFromPoint) return document.caretRangeFromPoint(x, y);
+      if (document.caretPositionFromPoint) {
+        const pos = document.caretPositionFromPoint(x, y);
+        if (!pos) return null;
+        const r = document.createRange();
+        r.setStart(pos.offsetNode, pos.offset);
+        r.collapse(true);
+        return r;
+      }
+      return null;
     }
-  }, { passive: true });
 
-  rContentEl.addEventListener('touchend', () => {
-    clearTimeout(_lpTimer);
-  }, { passive: true });
+    function wordRangeAt(x, y) {
+      const r = caretAt(x, y);
+      if (!r || !rContentEl.contains(r.startContainer)) return null;
+      const node = r.startContainer;
+      if (node.nodeType !== Node.TEXT_NODE) return null;
+      const text = node.textContent;
+      let start = r.startOffset, end = r.startOffset;
+      while (start > 0 && /\S/.test(text[start - 1])) start--;
+      while (end < text.length && /\S/.test(text[end])) end++;
+      if (start === end) return null;
+      const wr = document.createRange();
+      wr.setStart(node, start);
+      wr.setEnd(node, end);
+      return wr;
+    }
+
+    function applyVisualSelection(range) {
+      const sel = window.getSelection();
+      if (!sel) return;
+      sel.removeAllRanges();
+      try { sel.addRange(range); } catch(e) {}
+    }
+
+    rContentEl.addEventListener('touchstart', e => {
+      if (e.touches.length !== 1) return;
+      const t = e.touches[0];
+      _startPt = { x: t.clientX, y: t.clientY };
+      _isSelecting = false;
+      clearTimeout(_lpTimer);
+      _lpTimer = setTimeout(() => {
+        const wr = wordRangeAt(_startPt.x, _startPt.y);
+        if (!wr) return;
+        _selRange = wr.cloneRange();
+        _isSelecting = true;
+        applyVisualSelection(_selRange);
+        if (navigator.vibrate) navigator.vibrate(30);
+      }, 500);
+    }, { passive: true });
+
+    rContentEl.addEventListener('touchmove', e => {
+      if (e.touches.length !== 1) return;
+      const t = e.touches[0];
+      if (_startPt && (Math.abs(t.clientX - _startPt.x) > 10 || Math.abs(t.clientY - _startPt.y) > 10)) {
+        clearTimeout(_lpTimer);
+      }
+      if (!_isSelecting || !_selRange) return;
+      const endCaret = caretAt(t.clientX, t.clientY);
+      if (!endCaret || !rContentEl.contains(endCaret.startContainer)) return;
+      try {
+        const newRange = _selRange.cloneRange();
+        if (endCaret.compareBoundaryPoints(Range.START_TO_START, _selRange) > 0) {
+          newRange.setEnd(endCaret.startContainer, endCaret.startOffset);
+        } else {
+          newRange.setStart(endCaret.startContainer, endCaret.startOffset);
+        }
+        _selRange = newRange;
+        applyVisualSelection(_selRange);
+      } catch(e) {}
+    }, { passive: true });
+
+    rContentEl.addEventListener('touchend', e => {
+      clearTimeout(_lpTimer);
+      if (!_isSelecting || !_selRange) { _isSelecting = false; return; }
+      const text = _selRange.toString().trim();
+      if (!text || text.length < 1) { _isSelecting = false; closeSelPopup(); return; }
+      _isSelecting = false;
+      showSelPopup(_selRange);
+    }, { passive: true });
+
+  } else {
+    /* 데스크탑 / Android */
+    let selTimer = null;
+    document.addEventListener('selectionchange', () => {
+      clearTimeout(selTimer);
+      selTimer = setTimeout(() => {
+        const sel = window.getSelection();
+        if (!sel || sel.isCollapsed || !sel.rangeCount) {
+          if (!_popupInteracting) setTimeout(() => { if (!_popupInteracting) closeSelPopup(); }, 150);
+          return;
+        }
+        const range = sel.getRangeAt(0);
+        if (!rContentEl || !rContentEl.contains(range.commonAncestorContainer)) { closeSelPopup(); return; }
+        const text = sel.toString().trim();
+        if (!text || text.length < 2) { closeSelPopup(); return; }
+        _selRange = range.cloneRange();
+        showSelPopup(range);
+      }, 120);
+    });
+  }
 }
 
 /* 팝업 위치 계산 + 표시 */
@@ -4694,10 +4799,9 @@ function showSelPopup(range) {
   const screenEl = document.querySelector('.screen') || document.documentElement;
   const screenRect = screenEl.getBoundingClientRect();
   const cx = rect.left + rect.width / 2 - screenRect.left;
-  // 팝업을 선택 영역 위에, 공간 부족 시 아래
-  let cy = rect.top - screenRect.top - 55;
-  if (cy < 10) cy = rect.bottom - screenRect.top + 8;
-  popup.style.left = Math.max(80, Math.min(cx, screenRect.width - 80)) + 'px';
+  let cy = rect.top - screenRect.top - 58;
+  if (cy < 10) cy = rect.bottom - screenRect.top + 10;
+  popup.style.left = Math.max(90, Math.min(cx, screenRect.width - 90)) + 'px';
   popup.style.top  = Math.max(10, cy) + 'px';
   popup.style.transform = 'translateX(-50%)';
 }
@@ -4705,6 +4809,8 @@ function showSelPopup(range) {
 function closeSelPopup() {
   document.getElementById('selPopup').classList.add('hidden');
   _selRange = null;
+  const sel = window.getSelection();
+  if (sel) sel.removeAllRanges();
 }
 
 /* 현재 rContent의 mark 직렬화 저장 */
@@ -4966,6 +5072,50 @@ function submitAuth() {
   greet(user);
   go('library');
 }
+/* ── 독서 Streak ── */
+const STREAK_KEY = 'meslap_streak';
+
+function recordReadingDay() {
+  let s = { streak: 0, lastDate: '' };
+  try { s = JSON.parse(localStorage.getItem(STREAK_KEY) || '{}'); } catch(e) {}
+  const today = new Date().toISOString().slice(0, 10);
+  if (s.lastDate === today) { updateStreakBadge(); return; }
+  const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+  if (s.lastDate === yesterday) {
+    s.streak = (s.streak || 0) + 1;
+  } else {
+    s.streak = 1;
+  }
+  s.lastDate = today;
+  try { localStorage.setItem(STREAK_KEY, JSON.stringify(s)); } catch(e) {}
+  updateStreakBadge();
+}
+
+function updateStreakBadge() {
+  let s = { streak: 0 };
+  try { s = JSON.parse(localStorage.getItem(STREAK_KEY) || '{}'); } catch(e) {}
+  const badge = document.getElementById('streakBadge');
+  if (!badge) return;
+  if (s.streak >= 1) {
+    badge.innerHTML = `<span class="fire">🔥</span>${s.streak}일 연속`;
+    badge.style.display = 'inline-flex';
+  } else {
+    badge.style.display = 'none';
+  }
+}
+
+function showTodayReview() {
+  // 오늘 읽은 글 목록을 서재 헤더 하단에 간단히 표시
+  // (확장 시: 오늘의 복습 뷰로 연결)
+  const today = new Date().toISOString().slice(0, 10);
+  const READ_KEY = 'meslap_read_' + today;
+  let readIds = [];
+  try { readIds = JSON.parse(localStorage.getItem(READ_KEY) || '[]'); } catch(e) {}
+  if (!readIds.length) return;
+  const art = flatList.find(f => f.id === readIds[0]);
+  if (art) showToast(`오늘 읽은 말씀: ${(art.title || '').replace(/<br>/g, ' ')}`);
+}
+
 function signOut() {
   localStorage.removeItem(AUTH_KEY);
   go('landing');
@@ -4973,6 +5123,7 @@ function signOut() {
 function greet(u) {
   const el = document.getElementById('libHi');
   if (el) el.textContent = `${u.name}님, 안녕하세요`;
+  updateStreakBadge();
 }
 /* ── 소셜 로그인 (Supabase OAuth 연동 전: 안내 메시지) ──
    Supabase 키 연동 후:
@@ -5158,30 +5309,134 @@ function openLegal(from) { legalReturn = from || 'about'; go('legal'); }
 function goBackFromLegal() { go(legalReturn || 'about'); }
 
 /* ── 뷰 전환 ── */
+let _prevView = 'library';
+
 function go(id) {
+  const cur = document.querySelector('.view.active');
+  if (cur && cur.id && cur.id !== id) _prevView = cur.id;
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+  const next = document.getElementById(id);
+  if (!next) return;
+  next.classList.add('active');
   if (id === 'contents') renderTOC();
   if (id === 'notes') renderNotes();
+  if (id === 'bookmarks') renderBookmarks();
+}
+
+function goBack() { go(_prevView === 'reader' ? 'reader' : 'library'); }
+function goNotes() { go('notes'); }
+
+/* ══════════════════════════════════════════════
+   토스트 알림
+══════════════════════════════════════════════ */
+let _toastTimer = null;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => t.classList.remove('show'), 1800);
+}
+
+/* ══════════════════════════════════════════════
+   책갈피 (Bookmark)
+══════════════════════════════════════════════ */
+const BMK_KEY = 'meslap_bookmarks';
+function getBookmarks() {
+  try { return JSON.parse(localStorage.getItem(BMK_KEY) || '[]'); } catch { return []; }
+}
+function setBookmarks(arr) {
+  try { localStorage.setItem(BMK_KEY, JSON.stringify(arr)); } catch (e) {}
+}
+function syncBmkBtn() {
+  const btn = document.getElementById('bmkBtn');
+  if (!btn) return;
+  const art = flatList[curIdx] || {};
+  const saved = getBookmarks().some(b => b.artId === art.id && b.bookSlug === (BOOK_META && BOOK_META.slug));
+  btn.classList.toggle('saved', saved);
+  btn.title = saved ? '책갈피 제거' : '책갈피 추가';
+}
+function toggleBookmark() {
+  const art = flatList[curIdx] || {};
+  if (!art.id) return;
+  const slug = BOOK_META && BOOK_META.slug || '';
+  const bookmarks = getBookmarks();
+  const idx = bookmarks.findIndex(b => b.artId === art.id && b.bookSlug === slug);
+  if (idx >= 0) {
+    bookmarks.splice(idx, 1);
+    setBookmarks(bookmarks);
+    syncBmkBtn();
+    showToast('책갈피가 제거됐습니다');
+  } else {
+    bookmarks.unshift({
+      id:        Date.now().toString(36) + Math.random().toString(36).slice(2, 5),
+      artId:     art.id,
+      artIdx:    curIdx,
+      artTitle:  (art.title || '').replace(/<br>/g, ' '),
+      bookSlug:  slug,
+      bookTitle: (BOOK_META && BOOK_META.title || '').replace(/<br>/g, ' '),
+      pageIdx:   pageMode ? pageIdx : null,
+      date:      new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' })
+    });
+    setBookmarks(bookmarks);
+    syncBmkBtn();
+    showToast('📖 책갈피가 저장됐습니다');
+  }
+}
+function renderBookmarks() {
+  const list = document.getElementById('bookmarksList');
+  if (!list) return;
+  const bookmarks = getBookmarks();
+  if (!bookmarks.length) {
+    list.innerHTML = `<div class="bmk-empty">저장된 책갈피가 없어요.<br>읽던 중 상단 🔖 버튼을 탭하면 저장됩니다.</div>`;
+    return;
+  }
+  list.innerHTML = bookmarks.map(b => `
+    <div class="bmk-item" onclick="jumpToBookmark('${b.artId}', ${b.artIdx ?? 0}, ${b.pageIdx ?? 0})">
+      <div class="bmk-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="var(--gold)" stroke="none"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div>
+      <div class="bmk-item-body">
+        <div class="bmk-item-title">${b.artTitle || '(제목 없음)'}</div>
+        <div class="bmk-item-book">${b.bookTitle || ''}</div>
+        <div class="bmk-item-date">${b.date || ''}</div>
+      </div>
+      <button class="bmk-del" onclick="event.stopPropagation();deleteBookmark('${b.id}')" title="삭제">×</button>
+    </div>`).join('');
+}
+function jumpToBookmark(artId, artIdx, savedPageIdx) {
+  const idx = flatList.findIndex((f, i) => f.id === artId || i === artIdx);
+  const target = idx >= 0 ? idx : artIdx;
+  if (pageMode && savedPageIdx > 0) {
+    openArt(target);
+    relayoutPages(() => { goPage(savedPageIdx); });
+  } else {
+    openArt(target);
+  }
+  go('reader');
+  showToast('📖 책갈피 위치로 이동했습니다');
+}
+function deleteBookmark(id) {
+  setBookmarks(getBookmarks().filter(b => b.id !== id));
+  renderBookmarks();
+  showToast('책갈피가 제거됐습니다');
 }
 function startReading() { openArt(0); }
 function openArt(idx) {
   curIdx = idx;
   renderArt(idx);
   go('reader');
+  recordReadingDay(); // 독서 streak 기록
+  syncBmkBtn(); // 책갈피 버튼 상태 갱신
   if (pageMode) {
     pageIdx = 0;
-    // 레이아웃이 확정된 뒤(폰트 로드 포함) 페이지 적용
     relayoutPages(() => {
       if (pendingLastPage) { pageIdx = Math.max(0, pageCount - 1); pendingLastPage = false; applyPageTransform(); }
-      // 하이라이트 복원
       const artId = (flatList[idx] || {}).id;
       if (artId) restoreMarks(artId);
     });
   } else {
     document.getElementById('rScroll').scrollTop = 0;
     updProg();
-    // 하이라이트 복원
     const artId = (flatList[idx] || {}).id;
     if (artId) requestAnimationFrame(() => restoreMarks(artId));
   }
