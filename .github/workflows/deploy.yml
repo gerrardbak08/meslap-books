@@ -1,0 +1,113 @@
+name: HTML App — QA & Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  qa-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # GitHub Pages 배포용
+
+    steps:
+      # 1. 코드 체크아웃
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2. Node 설정
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # 3. QA — JS 문법 검사
+      - name: QA: JS syntax check (index.html)
+        run: |
+          node -e "
+            const fs = require('fs');
+            const html = fs.readFileSync('index.html', 'utf8');
+            const match = html.match(/<script>([\s\S]*?)<\/script>/g);
+            if (!match) { console.log('스크립트 블록 없음'); process.exit(1); }
+            const lastScript = match[match.length - 1].replace(/<\/?script>/g, '');
+            fs.writeFileSync('/tmp/check.js', lastScript);
+          "
+          node --check /tmp/check.js && echo '✅ JS 문법 OK'
+
+      # 4. QA — 핵심 함수 존재 확인
+      - name: QA: Critical functions exist
+        run: |
+          functions=(
+            "function initSelectionDetection"
+            "function applyHighlight"
+            "function openArt"
+            "function go("
+            "function routeStart"
+            "function renderShelf"
+            "function doSearch"
+            "function openSearch"
+            "function saveReadingTime"
+            "function getReadArts"
+            "function markArtRead"
+            "function checkFinished"
+            "function persistMarks"
+            "function toggleBookmark"
+            "function syncToCloud"
+          )
+          FAIL=0
+          for fn in "${functions[@]}"; do
+            if ! grep -q "$fn" index.html; then
+              echo "❌ 누락: $fn"
+              FAIL=1
+            fi
+          done
+          if [ $FAIL -eq 0 ]; then echo "✅ 핵심 함수 모두 존재 (15/15)"; fi
+          exit $FAIL
+
+      # 5. QA — 필수 HTML 요소
+      - name: QA: Required HTML elements
+        run: |
+          elements=(
+            'id="search"'
+            'id="searchInput"'
+            'id="challenge"'
+            'id="selPopup"'
+            'id="markPopup"'
+            'id="library"'
+            'id="reader"'
+            'id="contents"'
+            'id="cover"'
+            'id="notes"'
+          )
+          FAIL=0
+          for el in "${elements[@]}"; do
+            if ! grep -q "$el" index.html; then
+              echo "❌ 누락: $el"
+              FAIL=1
+            fi
+          done
+          if [ $FAIL -eq 0 ]; then echo "✅ HTML 구조 OK (10/10)"; fi
+          exit $FAIL
+
+      # 6. QA — 중복 함수 선언 없음
+      - name: QA: No duplicate function declarations
+        run: |
+          DUPS=$(grep -oP 'function \w+' index.html | sort | uniq -d)
+          if [ -n "$DUPS" ]; then
+            echo "❌ 중복 함수: $DUPS"
+            exit 1
+          fi
+          echo "✅ 중복 선언 없음"
+
+      # 7. GitHub Pages 배포 (master 브랜치 push 시만)
+      - name: Deploy to GitHub Pages
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
+          publish_branch: gh-pages
+          exclude_assets: '.github,.git,.gitignore,*.bak'
+          commit_message: 'ci: auto-deploy [${{ github.sha }}]'

@@ -2,9 +2,9 @@
  * 전략: Cache-First for shell+books, Network-First for dynamic
  * 캐시 무효화: CACHE_VERSION 올리기
  */
-const CACHE_VERSION = 'meslap-v5';
+const CACHE_VERSION = 'meslap-v6';
 
-/* 앱 셸 + 모든 책 HTML — 설치 시 사전 캐시 */
+/* 앱 셸 + 모든 책 JSON — 설치 시 사전 캐시 (lazy-load 아키텍처) */
 const SHELL = [
   '.',
   'index.html',
@@ -15,20 +15,21 @@ const SHELL = [
   'icon-180.png',
   'icon-192-maskable.png',
   'og-image.png',
-  /* 모든 책 HTML */
   'spirit-guide.html',
-  'spirit-secret.html',
-  'blessed-church.html',
-  'blessed-family.html',
-  'prayer.html',
-  'bible-guide.html',
-  'doctrine-god.html',
-  'doctrine-man.html',
-  'doctrine-christ.html',
-  'doctrine-salvation.html',
-  'doctrine-spirit.html',
-  'doctrine-church.html',
-  'doctrine-last.html',
+  /* 모든 책 JSON */
+  'books/bible-guide.json',
+  'books/blessed-church.json',
+  'books/blessed-family.json',
+  'books/doctrine-christ.json',
+  'books/doctrine-church.json',
+  'books/doctrine-god.json',
+  'books/doctrine-last.json',
+  'books/doctrine-man.json',
+  'books/doctrine-salvation.json',
+  'books/doctrine-spirit.json',
+  'books/prayer.json',
+  'books/spirit-guide.json',
+  'books/spirit-secret.json',
 ];
 
 /* 설치: 앱 셸 + 책 전체 사전 캐시

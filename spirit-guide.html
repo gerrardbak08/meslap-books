@@ -4739,6 +4739,9 @@ const BOOK_CHAPTERS = [
     ]
   }
 ];
+/* ALL_BOOKS: lazy — books/{slug}.json */
+const ALL_BOOKS = [];
+const _BOOK_CACHE = {};
 
 /* ── 상태 ── */
 let flatList = [];   // 전체 글 펼친 배열
@@ -6485,10 +6488,88 @@ function renderShelf() {
 }
 function openBook() { go('cover'); }
 
-/* 다른 책 클릭 → 해당 책 HTML 파일로 이동 */
-function openBookBySlug(slug) {
+/* 다른 책 클릭 → ALL_BOOKS에서 데이터 로드 후 표지로 */
+async function openBookBySlug(slug) {
   if (!slug) return;
-  window.location.href = slug + '.html';
+  if (typeof BOOK_META !== 'undefined' && BOOK_META && BOOK_META.slug === slug) { go('cover'); return; }
+  if (typeof _BOOK_CACHE !== 'undefined' && _BOOK_CACHE[slug]) { _loadBook(_BOOK_CACHE[slug]); return; }
+  showToast('📖 불러오는 중…');
+  try {
+    const base = location.href.replace(/[^/]*$/, '');
+    const res = await fetch(base + 'books/' + slug + '.json');
+    if (!res.ok) throw new Error('404');
+    const data = await res.json();
+    const meta = (typeof BOOK_CATALOG !== 'undefined' ? BOOK_CATALOG : []).find(b => b.slug === slug) || {};
+    const loaded = { ...meta, chapters: data.chapters };
+    if (typeof _BOOK_CACHE !== 'undefined') _BOOK_CACHE[slug] = loaded;
+    _loadBook(loaded);
+  } catch (e) {
+    showToast('책 데이터를 불러올 수 없습니다');
+  }
+}
+
+/* ALL_BOOKS에서 책 데이터를 로드하여 앱 전체를 해당 책으로 전환 */
+function _loadBook(book) {
+  // BOOK_META 교체
+  const newMeta = {
+    slug: book.slug, series: book.series, title: book.title, subtitle: book.subtitle,
+    author: book.author, church: book.church,
+    coverFrom: book.coverFrom, coverTo: book.coverTo,
+    coverMotif: book.coverMotif, volume: book.volume,
+    price: book.price, free: book.free,
+  };
+  // 전역 변수 업데이트
+  Object.assign(BOOK_META, newMeta);
+
+  // flatList 재구성
+  flatList.length = 0;
+  curIdx = 0;
+  book.chapters.forEach(ch => ch.articles.forEach(a => {
+    flatList.push({ ...a, catName: ch.catName, cat: ch.cat });
+  }));
+
+  // BOOK_CATALOG current 업데이트
+  if (typeof BOOK_CATALOG !== 'undefined') {
+    BOOK_CATALOG.forEach(b => { b.current = b.slug === book.slug; });
+  }
+
+  // 표지 컬러 업데이트
+  const cover = document.getElementById('cover');
+  if (cover && book.coverFrom && book.coverTo) {
+    cover.style.background = `linear-gradient(170deg, ${book.coverFrom} 0%, ${book.coverTo} 100%)`;
+  }
+
+  // 메타 재렌더
+  const set = (id, html) => { const el = document.getElementById(id); if (el && html != null) el.innerHTML = html; };
+  let seriesText = newMeta.series || '';
+  if (newMeta.volume) seriesText = seriesText.replace(/\s*·\s*제?\s*\d+\s*권.*$/, '').trim();
+  set('coverSeries', seriesText);
+  const volEl = document.getElementById('coverVol');
+  if (volEl) { if (newMeta.volume) { volEl.textContent = newMeta.volume; volEl.style.display = ''; } else volEl.style.display = 'none'; }
+  const motifEl = document.getElementById('coverMotif');
+  if (motifEl) motifEl.innerHTML = motifSVG(newMeta.coverMotif, 'c-motif-svg');
+  const wmEl = document.getElementById('coverWm');
+  if (wmEl) wmEl.innerHTML = motifSVG(newMeta.coverMotif, 'c-wm-svg');
+  set('coverTitle',  newMeta.title);
+  set('coverSub',    newMeta.subtitle);
+  set('coverAuthor', newMeta.author);
+  set('coverChurch', newMeta.church);
+  if (newMeta.title) document.title = 'MESLAP — ' + newMeta.title.replace(/<br>/g, ' ');
+
+  // 표지 메타 업데이트
+  const total = flatList.length;
+  const cats = book.chapters.length;
+  document.getElementById('coverMeta').innerHTML =
+    `<span>전 ${cats}장</span><span class="dot"></span><span>설교 ${total}편</span>`;
+
+  // 이어읽기 초기화 (새 책)
+  try { localStorage.removeItem('meslap_lastpos'); } catch(e) {}
+
+  // 목차 재렌더 후 표지 이동
+  renderTOC();
+  renderShelf();
+  go('cover');
+  showToast(`📖 ${newMeta.title.replace(/<br>/g, ' ')} 열었습니다`);
 }
 
 /* ── 최근 묵상 RSS ── */
