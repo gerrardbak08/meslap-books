@@ -1,1 +1,19 @@
 .vercel
+
+# 빌드 산출물 — template.html + books.config.json 에서 자동 생성되므로 추적 불필요
+# index.html 과 spirit-guide.html 만 추적 (메인 배포 파일)
+bible-guide.html
+blessed-church.html
+blessed-family.html
+doctrine-christ.html
+doctrine-church.html
+doctrine-god.html
+doctrine-last.html
+doctrine-man.html
+doctrine-salvation.html
+doctrine-spirit.html
+prayer.html
+spirit-secret.html
+
+# 백업 파일
+*.bak

@@ -32,6 +32,19 @@
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- 서비스워커 등록 (없으면 조용히 무시) -->
 <script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}</script>
+<!-- ── Supabase SDK (CDN) ── -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<!-- ── Supabase 설정 — 여기에 실제 키를 입력하세요 ──
+  1. https://supabase.com 에서 프로젝트 생성
+  2. Project Settings > API 에서 URL 과 anon public key 복사
+  3. 카카오 OAuth: Authentication > Providers > Kakao 활성화
+  4. Google OAuth: Authentication > Providers > Google 활성화
+  아직 연동 전이면 SUPABASE_URL = '' 로 두면 로컬스토리지 모드로 동작합니다.
+-->
+<script>
+window.SUPABASE_URL  = '';   // 예: 'https://xxxx.supabase.co'
+window.SUPABASE_ANON = '';   // 예: 'eyJhbGciOiJ...'
+</script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&family=Gowun+Batang:wght@400;700&family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
@@ -429,6 +442,14 @@ svg{display:block}
 /* 리더 본문 말미 — 성경 저작권 고지(상시·절제) */
 .r-copyright{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);font-size:10.5px;line-height:1.6;color:var(--ink3);text-align:center;word-break:keep-all}
 
+/* ── Popular Highlights ── */
+.popular-hl-sec{margin:28px 0 8px;padding:16px;background:var(--bg2);border-radius:14px;border:1px solid var(--line)}
+.popular-hl-lbl{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.popular-hl-item{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line)}
+.popular-hl-item:last-child{border-bottom:none}
+.popular-hl-text{font-family:var(--reader-font);font-size:13px;font-style:italic;color:var(--ink);line-height:1.6;flex:1;word-break:keep-all}
+.popular-hl-cnt{font-size:11px;font-weight:700;color:var(--gold);flex-shrink:0;white-space:nowrap}
+
 /* ── 책갈피 ── */
 #bmkBtn.saved svg{color:var(--gold)}
 #bmkBtn.saved svg path{fill:var(--gold);stroke:var(--gold)}
@@ -678,6 +699,42 @@ svg{display:block}
 .cv-challenge-bar{height:6px;background:rgba(255,255,255,.2);border-radius:3px;overflow:hidden;margin-bottom:5px}
 .cv-challenge-fill{height:100%;background:var(--gold);border-radius:3px;transition:width .6s var(--ease)}
 .cv-challenge-pct{font-size:11px;color:rgba(251,248,242,.6);display:flex;justify-content:space-between}
+/* ── 목차 읽음 표시 ── */
+.toc-art.read .toc-art-title{color:var(--gold);opacity:.7}
+.toc-check{font-size:11px;font-weight:700;color:var(--gold);margin-right:6px;flex-shrink:0}
+/* ── 완독 축하 모달 ── */
+.finished-modal{position:absolute;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:500;display:none;align-items:center;justify-content:center;padding:24px}
+.finished-modal.show{display:flex}
+.finished-inner{background:var(--bg);border-radius:22px;padding:36px 28px;text-align:center;max-width:320px;width:100%;box-shadow:0 12px 48px rgba(0,0,0,.25)}
+.finished-icon{font-size:52px;margin-bottom:16px;line-height:1}
+.finished-title{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--ink);margin-bottom:8px}
+.finished-book{font-size:14px;font-weight:600;color:var(--gold);margin-bottom:14px;line-height:1.4;word-break:keep-all}
+.finished-desc{font-size:13.5px;color:var(--ink2);line-height:1.75;margin-bottom:24px;word-break:keep-all}
+.finished-btn{padding:14px 36px;background:var(--ink);color:var(--bg);border:none;border-radius:12px;font-family:var(--sans);font-size:15px;font-weight:600;cursor:pointer;transition:transform .12s}
+.finished-btn:active{transform:scale(.97)}
+/* ── 서재 독서 진행률 ── */
+.bk-prog-wrap{height:4px;background:var(--line);border-radius:2px;margin-top:8px;overflow:hidden}
+.bk-prog-fill{height:100%;background:linear-gradient(90deg,var(--gold),#C9A86A);border-radius:2px;transition:width .4s var(--ease)}
+.bk-prog-lbl{font-size:10.5px;color:var(--ink3);margin-top:3px}
+/* ── 본문 검색 뷰 ── */
+.search-bar{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);flex-shrink:0}
+.search-input{flex:1;padding:11px 15px;border:1.5px solid var(--line);border-radius:22px;background:var(--bg2);color:var(--ink);font-family:var(--sans);font-size:15px;outline:none;transition:border-color .15s}
+.search-input:focus{border-color:var(--gold)}
+.search-input::placeholder{color:var(--ink3)}
+.search-cancel{background:none;border:none;color:var(--ink2);font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;padding:8px 4px}
+.search-result-cnt{font-size:11px;color:var(--ink3);padding:8px 20px 4px;flex-shrink:0}
+.search-result-list{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.search-result-list::-webkit-scrollbar{display:none}
+.search-item{padding:14px 20px;border-bottom:1px solid var(--line);cursor:pointer;transition:background .12s}
+.search-item:active{background:var(--bg2)}
+.search-item-cat{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--gold);margin-bottom:4px}
+.search-item-title{font-size:14px;font-weight:600;color:var(--ink);line-height:1.4;margin-bottom:5px;word-break:keep-all}
+.search-item-snip{font-size:12.5px;color:var(--ink2);line-height:1.6;word-break:keep-all}
+.search-item-snip mark{background:rgba(255,224,102,.55);color:var(--ink);border-radius:2px;padding:0 1px}
+.search-empty{padding:60px 36px;text-align:center;font-size:14px;color:var(--ink3);line-height:1.8}
+.search-empty .ic{font-size:32px;display:block;margin-bottom:10px;opacity:.5}
+.search-hint{padding:40px 36px;text-align:center;font-size:13px;color:var(--ink3);line-height:1.8}
+.search-hint .ic{font-size:28px;display:block;margin-bottom:8px;opacity:.4}
 </style>
 </head>
 <body>
@@ -759,7 +816,7 @@ svg{display:block}
             <label class="fld"><span>비밀번호</span><input id="inPw" type="password" placeholder="비밀번호" autocomplete="current-password"></label>
             <button class="btn-p" id="authSubmit" onclick="submitAuth()">가입하고 시작하기</button>
             <button class="btn-t" id="authToggle" onclick="toggleAuthMode()">이미 계정이 있어요 · 로그인</button>
-            <p class="auth-note">※ 소셜 로그인은 Supabase 연동 후 활성화됩니다. 지금은 이메일로 가입해 주세요.</p>
+            <p class="auth-note">※ 카카오/구글 로그인은 Supabase 설정 후 즉시 활성화됩니다. 지금은 이메일로 가입해 주세요.</p>
           </div>
         </div>
       </div>
@@ -770,6 +827,7 @@ svg{display:block}
           <button class="tb-btn" onclick="go('about')" title="소개"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg></button>
           <span class="tb-title">내 서재</span>
           <div style="flex:1"></div>
+          <button class="tb-btn" onclick="openSearch()" title="검색"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></button>
           <button class="tb-btn" onclick="go('notes')" title="내 기록"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M11 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
           <button class="tb-btn" onclick="go('catalog')" title="도서 안내"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M8 7h8M8 11h8"/></svg></button>
           <button class="tb-btn" onclick="signOut()" title="로그아웃"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></button>
@@ -915,6 +973,7 @@ svg{display:block}
             <button class="tb-btn" onclick="goNotes()" title="내 기록">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M11 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>
             </button>
+            <button class="tb-btn" onclick="openSearch()" title="검색"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></button>
           </div>
         </div>
         <div class="r-prog-track"><div class="r-prog-fill" id="progFill"></div></div>
@@ -959,6 +1018,22 @@ svg{display:block}
           <div style="width:38px"></div>
         </div>
         <div class="scroll" id="bookmarksList"></div>
+      </div>
+
+      <!-- 본문 검색 -->
+      <div class="view" id="search">
+        <div class="topbar">
+          <button class="tb-btn" onclick="closeSearch()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <span class="tb-title">검색</span>
+          <div style="width:38px"></div>
+        </div>
+        <div class="search-bar">
+          <input class="search-input" id="searchInput" type="search" placeholder="제목, 본문 키워드 검색…" autocomplete="off" oninput="onSearchInput()" onsearch="onSearchInput()">
+        </div>
+        <div class="search-result-cnt" id="searchCnt" style="display:none"></div>
+        <div class="search-result-list" id="searchList">
+          <div class="search-hint"><span class="ic">🔍</span>검색어를 입력하세요.<br>제목과 본문에서 찾아드립니다.</div>
+        </div>
       </div>
 
       <!-- 독서 챌린지 뷰 -->
@@ -1084,6 +1159,12 @@ svg{display:block}
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18l6-6-6-6"/></svg>
           </button>
         </div>
+        <div class="p-sec" id="syncBtnSec">
+          <button class="legal-link" onclick="closePanel();manualSync()" title="기기 간 동기화">
+            <span>☁️ 클라우드 동기화</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+          </button>
+        </div>
       </div>
 
     </div>
@@ -1139,7 +1220,7 @@ const ABOUT = {
   }
 };
 const PASS = {
-  "price": 9900,
+  "price": 0,
   "title": "전권 패스",
   "desc": "모든 책을 영구 소장 · 신간 자동 포함"
 };
@@ -1220,8 +1301,8 @@ const BOOK_CATALOG = [
     "series": "복된 삶 시리즈 · 제2권",
     "title": "성령의 인도하심을<br>따라가는 복된 삶의 비결",
     "subtitle": "분별·말씀·기도로 길을 밝히는 여덟 비결",
-    "price": 1500,
-    "free": false,
+    "price": 0,
+    "free": true,
     "coverFrom": "#2A6F4A",
     "coverTo": "#3C9A66",
     "coverMotif": "lamp",
@@ -1233,8 +1314,8 @@ const BOOK_CATALOG = [
     "series": "복된 교회 시리즈",
     "title": "예수 이름의 권세가<br>흐르는 복된 교회",
     "subtitle": "돌아섬과 회개, 그리고 믿음의 갱신",
-    "price": 1500,
-    "free": false,
+    "price": 0,
+    "free": true,
     "coverFrom": "#7A4A2A",
     "coverTo": "#A8703C",
     "coverMotif": "flame",
@@ -1246,8 +1327,8 @@ const BOOK_CATALOG = [
     "series": "복된 가정 시리즈",
     "title": "하나님이 기뻐하시는<br>복된 가정",
     "subtitle": "말씀 위에 세우는 가정의 길",
-    "price": 1500,
-    "free": false,
+    "price": 0,
+    "free": true,
     "coverFrom": "#8A5A2A",
     "coverTo": "#B8843C",
     "coverMotif": "home",
@@ -1259,8 +1340,8 @@ const BOOK_CATALOG = [
     "series": "복된 삶 시리즈",
     "title": "기도,<br>주님과의 소통",
     "subtitle": "응답을 넘어 동행으로",
-    "price": 2500,
-    "free": false,
+    "price": 0,
+    "free": true,
     "coverFrom": "#3A4A6A",
     "coverTo": "#5A6E9A",
     "coverMotif": "hands",
@@ -1272,8 +1353,8 @@ const BOOK_CATALOG = [
     "series": "조직신학 길잡이",
     "title": "말씀 앞에 서다",
     "subtitle": "성경을 어떻게 읽을 것인가",
-    "price": 2500,
-    "free": false,
+    "price": 0,
+    "free": true,
     "coverFrom": "#4A3A6A",
     "coverTo": "#6E5A9A",
     "coverMotif": "book",
@@ -1285,8 +1366,8 @@ const BOOK_CATALOG = [
     "series": "조직신학 · 제1권",
     "title": "하나님은<br>어떤 분이신가",
     "subtitle": "신론 — 삼위일체와 하나님의 속성",
-    "price": 2500,
-    "free": false,
+    "price": 0,
+    "free": true,
     "coverFrom": "#3A3A5C",
     "coverTo": "#55558A",
     "coverMotif": "trinity",
@@ -1298,8 +1379,8 @@ const BOOK_CATALOG = [
     "series": "조직신학 · 제2권",
     "title": "존귀한 인간,<br>그리고 죄",
     "subtitle": "인간론과 죄론",
-    "price": 2500,
-    "free": false,
+    "price": 0,
+    "free": true,
     "coverFrom": "#5C3A4A",
     "coverTo": "#8A556E",
     "coverMotif": "dust",
@@ -1311,8 +1392,8 @@ const BOOK_CATALOG = [
     "series": "조직신학 · 제3권",
     "title": "예수 그리스도를<br>아는 지식",
     "subtitle": "기독론 — 그리스도의 인격과 사역",
-    "price": 2500,
-    "free": false,
+    "price": 0,
+    "free": true,
     "coverFrom": "#6A2A2A",
     "coverTo": "#9A3C3C",
     "coverMotif": "cross",
@@ -1324,8 +1405,8 @@ const BOOK_CATALOG = [
     "series": "조직신학 · 제4권",
     "title": "은혜로 받은 구원",
     "subtitle": "구원론 — 칭의·성화·견인의 확신",
-    "price": 2500,
-    "free": false,
+    "price": 0,
+    "free": true,
     "coverFrom": "#2A5C6A",
     "coverTo": "#3C8A9A",
     "coverMotif": "anchor",
@@ -1337,8 +1418,8 @@ const BOOK_CATALOG = [
     "series": "조직신학 · 제5권",
     "title": "성령을 따라<br>사는 삶",
     "subtitle": "성령론 — 성령의 인격과 사역",
-    "price": 2500,
-    "free": false,
+    "price": 0,
+    "free": true,
     "coverFrom": "#2A6A5C",
     "coverTo": "#3C9A86",
     "coverMotif": "fire",
@@ -1350,8 +1431,8 @@ const BOOK_CATALOG = [
     "series": "조직신학 · 제6권",
     "title": "교회를<br>아는 지식",
     "subtitle": "교회론 — 교회의 본질과 예배",
-    "price": 2500,
-    "free": false,
+    "price": 0,
+    "free": true,
     "coverFrom": "#4A5A2A",
     "coverTo": "#6E8A3C",
     "coverMotif": "pillar",
@@ -1363,8 +1444,8 @@ const BOOK_CATALOG = [
     "series": "조직신학 · 제7권",
     "title": "마지막 때와<br>영원한 소망",
     "subtitle": "종말론 — 재림·부활·심판",
-    "price": 1500,
-    "free": false,
+    "price": 0,
+    "free": true,
     "coverFrom": "#3A2A5C",
     "coverTo": "#5A3C8A",
     "coverMotif": "star",
@@ -4662,6 +4743,7 @@ const BOOK_CHAPTERS = [
 /* ── 상태 ── */
 let flatList = [];   // 전체 글 펼친 배열
 let curIdx   = 0;
+let _readStartTime = 0; // 독서 시작 시각 (ms)
 let fontLv   = 1;
 let pageMode = false, pageIdx = 0, pageCount = 1, pendingLastPage = false;
 const PAGE_M = 24;   // 페이지 좌우 여백(px)
@@ -4739,52 +4821,104 @@ function getParaIndex(node) {
  * → 텍스트 노드 직접 조작 방식 */
 function applyHighlight(color) {
   if (!_selRange) { closeSelPopup(); return; }
-  const range = _selRange;
+  const range = _selRange.cloneRange(); // 팝업 닫기 전에 복사
   const text = range.toString().trim();
   if (!text) { closeSelPopup(); return; }
 
   const colorClass = 'highlight-' + color;
 
+  // 팝업 먼저 닫기 (선택 해제 전에)
+  document.getElementById('selPopup').classList.add('hidden');
+  _selRange = null;
+
   try {
     if (range.startContainer === range.endContainer &&
         range.startContainer.nodeType === Node.TEXT_NODE) {
-      /* 단일 텍스트 노드 내 선택 */
+      /* ── 단일 텍스트 노드 ── */
       const node = range.startContainer;
       const before = node.textContent.slice(0, range.startOffset);
       const marked = node.textContent.slice(range.startOffset, range.endOffset);
       const after  = node.textContent.slice(range.endOffset);
-      if (!marked.trim()) { closeSelPopup(); return; }
+      if (!marked.trim()) return;
+
       const mark = document.createElement('mark');
       mark.className = 'r-mark ' + colorClass;
+      mark.dataset.markId = Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+      mark.dataset.createdAt = new Date().toISOString();
       mark.textContent = marked;
       mark.addEventListener('click', onMarkClick);
+
       const parent = node.parentNode;
       if (before) parent.insertBefore(document.createTextNode(before), node);
       parent.insertBefore(mark, node);
       if (after) parent.insertBefore(document.createTextNode(after), node);
       parent.removeChild(node);
+
     } else {
-      /* 여러 노드에 걸친 선택 */
+      /* ── 여러 노드에 걸친 선택 ──
+         user-select:none 환경에서 surroundContents는 자주 실패.
+         extractContents → mark 감싸기 방식으로 통일 */
       try {
+        // 먼저 surroundContents 시도
         const mark = document.createElement('mark');
         mark.className = 'r-mark ' + colorClass;
+        mark.dataset.markId = Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+        mark.dataset.createdAt = new Date().toISOString();
         range.surroundContents(mark);
         mark.addEventListener('click', onMarkClick);
-      } catch(e) {
-        const frag = range.extractContents();
-        const mark = document.createElement('mark');
-        mark.className = 'r-mark ' + colorClass;
-        mark.appendChild(frag);
-        range.insertNode(mark);
-        mark.addEventListener('click', onMarkClick);
+      } catch (_) {
+        try {
+          // 실패하면 extractContents로 폴백
+          const frag = range.extractContents();
+          const mark = document.createElement('mark');
+          mark.className = 'r-mark ' + colorClass;
+          mark.dataset.markId = Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+          mark.dataset.createdAt = new Date().toISOString();
+          // fragment 내 텍스트만 추출해서 단순 mark로 저장
+          mark.textContent = frag.textContent || text;
+          range.insertNode(mark);
+          mark.addEventListener('click', onMarkClick);
+        } catch (e2) {
+          // 최후 수단: 선택된 텍스트를 찾아 첫 번째 단락에만 적용
+          const c = document.getElementById('rContent');
+          if (!c) return;
+          const walker = document.createTreeWalker(c, NodeFilter.SHOW_TEXT);
+          let node;
+          while ((node = walker.nextNode())) {
+            if (node.textContent.includes(text.slice(0, 20))) {
+              const idx = node.textContent.indexOf(text.slice(0, 20));
+              if (idx >= 0) {
+                const r2 = document.createRange();
+                r2.setStart(node, idx);
+                r2.setEnd(node, Math.min(idx + text.length, node.textContent.length));
+                const mark = document.createElement('mark');
+                mark.className = 'r-mark ' + colorClass;
+                mark.dataset.markId = Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+                mark.dataset.createdAt = new Date().toISOString();
+                const before = node.textContent.slice(0, idx);
+                const marked = node.textContent.slice(idx, idx + text.length);
+                const after  = node.textContent.slice(idx + text.length);
+                mark.textContent = marked;
+                mark.addEventListener('click', onMarkClick);
+                const parent = node.parentNode;
+                if (before) parent.insertBefore(document.createTextNode(before), node);
+                parent.insertBefore(mark, node);
+                if (after) parent.insertBefore(document.createTextNode(after), node);
+                parent.removeChild(node);
+                break;
+              }
+            }
+          }
+        }
       }
     }
+
     const sel = window.getSelection();
     if (sel) sel.removeAllRanges();
     persistMarks();
-    closeSelPopup();
+    showToast('✨ 하이라이트가 저장됐습니다');
   } catch(e) {
-    closeSelPopup();
+    console.warn('applyHighlight error', e);
   }
 }
 /* 이미 마크된 요소 탭 → 삭제 팝업 */
@@ -4795,8 +4929,12 @@ function onMarkClick(e) {
   const rect = _markTarget.getBoundingClientRect();
   const popup = document.getElementById('markPopup');
   popup.classList.remove('hidden');
-  popup.style.top  = (rect.top - 52 + window.scrollY) + 'px';
-  popup.style.left = (rect.left + rect.width / 2) + 'px';
+  // fixed 포지션: getBoundingClientRect 좌표를 그대로 사용
+  const px = rect.left + rect.width / 2;
+  const py = rect.top - 48;
+  popup.style.top  = Math.max(8, py) + 'px';
+  popup.style.left = Math.max(80, Math.min(px, window.innerWidth - 80)) + 'px';
+  popup.style.transform = 'translateX(-50%)';
 }
 
 function doDeleteMark() {
@@ -4816,131 +4954,183 @@ function closeMarkPopup() {
   if (_markTarget) { _markTarget.classList.remove('selected'); _markTarget = null; }
 }
 
-/* 선택 변화 감지 — iOS: 터치 드래그로 직접 Range 생성, 데스크탑: selectionchange */
+/* ═══════════════════════════════════════════════════════════
+   선택 감지 & 팝업 — v3 (iOS/Android 공통 안정화)
+   ──────────────────────────────────────────────────────────
+   iOS:     long-press(500ms) → 단어 선택 → 드래그로 범위 확장
+            user-select:none 환경에서 caretRangeFromPoint 사용
+   Android: selectionchange 이벤트 (네이티브 핸들 사용)
+   Desktop: selectionchange
+   ═══════════════════════════════════════════════════════════ */
 function initSelectionDetection() {
   const rContentEl = document.getElementById('rContent');
+  const popup = document.getElementById('selPopup');
+
   const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent) ||
                 (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-  let _popupInteracting = false;
 
-  const popup = document.getElementById('selPopup');
-  popup.addEventListener('pointerdown', e => { e.preventDefault(); _popupInteracting = true; });
-  popup.addEventListener('pointerup', () => { setTimeout(() => { _popupInteracting = false; }, 300); });
-  popup.addEventListener('mousedown', e => e.preventDefault());
-  popup.addEventListener('touchstart', e => e.preventDefault(), { passive: false });
+  /* ── 팝업 버튼 탭 시 선택 날아가는 것 방지 ── */
+  popup.addEventListener('pointerdown',  e => e.preventDefault(), { passive: false });
+  popup.addEventListener('mousedown',    e => e.preventDefault());
+  popup.addEventListener('touchstart',   e => e.preventDefault(), { passive: false });
 
+  /* ── 팝업 바깥 탭 → 닫기 (충분한 딜레이로 버튼 탭과 충돌 방지) ── */
   document.addEventListener('pointerdown', e => {
     if (!e.target.closest('#selPopup') && !e.target.closest('#markPopup')) {
-      setTimeout(() => { if (!_popupInteracting) { closeSelPopup(); closeMarkPopup(); } }, 80);
+      setTimeout(() => {
+        // 팝업이 아직 표시 중일 때만 닫기
+        if (!document.getElementById('selPopup').classList.contains('hidden')) {
+          closeSelPopup();
+        }
+        closeMarkPopup();
+      }, 200);
     }
   });
 
+  /* ─────────────────────────────────────────────────────────
+     caretRangeFromPoint 헬퍼 (iOS / 크로스브라우저)
+  ───────────────────────────────────────────────────────── */
+  function caretAt(x, y) {
+    if (document.caretRangeFromPoint) {
+      return document.caretRangeFromPoint(x, y);
+    }
+    if (document.caretPositionFromPoint) {
+      const pos = document.caretPositionFromPoint(x, y);
+      if (!pos) return null;
+      const r = document.createRange();
+      r.setStart(pos.offsetNode, pos.offset);
+      r.collapse(true);
+      return r;
+    }
+    return null;
+  }
+
+  /* 터치 좌표의 단어 Range 반환 */
+  function wordRangeAt(x, y) {
+    const r = caretAt(x, y);
+    if (!r) return null;
+    const node = r.startContainer;
+    if (node.nodeType !== Node.TEXT_NODE) return null;
+    if (!rContentEl.contains(node)) return null;
+    const txt = node.textContent;
+    let s = r.startOffset, e = r.startOffset;
+    while (s > 0 && /\S/.test(txt[s - 1])) s--;
+    while (e < txt.length && /\S/.test(txt[e])) e++;
+    if (s === e) return null;
+    const wr = document.createRange();
+    wr.setStart(node, s);
+    wr.setEnd(node, e);
+    return wr;
+  }
+
+  function applyVisualSelection(range) {
+    const sel = window.getSelection();
+    if (!sel) return;
+    sel.removeAllRanges();
+    try { sel.addRange(range); } catch (_) {}
+  }
+
   if (isIOS) {
-    /* iOS 전용: caretRangeFromPoint 방식 */
-    let _lpTimer = null;
-    let _startPt = null;
-    let _isSelecting = false;
-
-    function caretAt(x, y) {
-      if (document.caretRangeFromPoint) return document.caretRangeFromPoint(x, y);
-      if (document.caretPositionFromPoint) {
-        const pos = document.caretPositionFromPoint(x, y);
-        if (!pos) return null;
-        const r = document.createRange();
-        r.setStart(pos.offsetNode, pos.offset);
-        r.collapse(true);
-        return r;
-      }
-      return null;
-    }
-
-    function wordRangeAt(x, y) {
-      const r = caretAt(x, y);
-      if (!r || !rContentEl.contains(r.startContainer)) return null;
-      const node = r.startContainer;
-      if (node.nodeType !== Node.TEXT_NODE) return null;
-      const text = node.textContent;
-      let start = r.startOffset, end = r.startOffset;
-      while (start > 0 && /\S/.test(text[start - 1])) start--;
-      while (end < text.length && /\S/.test(text[end])) end++;
-      if (start === end) return null;
-      const wr = document.createRange();
-      wr.setStart(node, start);
-      wr.setEnd(node, end);
-      return wr;
-    }
-
-    function applyVisualSelection(range) {
-      const sel = window.getSelection();
-      if (!sel) return;
-      sel.removeAllRanges();
-      try { sel.addRange(range); } catch(e) {}
-    }
+    /* ══ iOS: long-press → caretRangeFromPoint 직접 조작 ══ */
+    let lpTimer  = null;
+    let anchorPt = null;      // long-press 시작 좌표 (고정 앵커)
+    let anchorRange = null;   // 앵커 단어 Range (드래그 기준점)
+    let active   = false;
 
     rContentEl.addEventListener('touchstart', e => {
       if (e.touches.length !== 1) return;
       const t = e.touches[0];
-      _startPt = { x: t.clientX, y: t.clientY };
-      _isSelecting = false;
-      clearTimeout(_lpTimer);
-      _lpTimer = setTimeout(() => {
-        const wr = wordRangeAt(_startPt.x, _startPt.y);
+      anchorPt = { x: t.clientX, y: t.clientY };
+      active = false;
+      clearTimeout(lpTimer);
+
+      lpTimer = setTimeout(() => {
+        const wr = wordRangeAt(anchorPt.x, anchorPt.y);
         if (!wr) return;
-        _selRange = wr.cloneRange();
-        _isSelecting = true;
+        anchorRange = wr.cloneRange();
+        _selRange   = wr.cloneRange();
+        active = true;
         applyVisualSelection(_selRange);
         if (navigator.vibrate) navigator.vibrate(30);
-      }, 500);
+      }, 480);
     }, { passive: true });
 
     rContentEl.addEventListener('touchmove', e => {
       if (e.touches.length !== 1) return;
       const t = e.touches[0];
-      if (_startPt && (Math.abs(t.clientX - _startPt.x) > 10 || Math.abs(t.clientY - _startPt.y) > 10)) {
-        clearTimeout(_lpTimer);
+
+      // 롱프레스 트리거 전에 움직이면 취소
+      if (!active) {
+        if (anchorPt &&
+            (Math.abs(t.clientX - anchorPt.x) > 8 ||
+             Math.abs(t.clientY - anchorPt.y) > 8)) {
+          clearTimeout(lpTimer);
+        }
+        return;
       }
-      if (!_isSelecting || !_selRange) return;
-      const endCaret = caretAt(t.clientX, t.clientY);
-      if (!endCaret || !rContentEl.contains(endCaret.startContainer)) return;
+
+      // 드래그 중: 앵커를 유지하고 현재 손가락 위치로 끝점 확장
+      const cur = caretAt(t.clientX, t.clientY);
+      if (!cur || !rContentEl.contains(cur.startContainer)) return;
+
       try {
-        const newRange = _selRange.cloneRange();
-        if (endCaret.compareBoundaryPoints(Range.START_TO_START, _selRange) > 0) {
-          newRange.setEnd(endCaret.startContainer, endCaret.startOffset);
+        const sel = window.getSelection();
+        if (!sel) return;
+
+        // 앵커 기준으로 방향 결정
+        const cmp = cur.compareBoundaryPoints(Range.START_TO_START, anchorRange);
+        const newRange = document.createRange();
+        if (cmp >= 0) {
+          // 오른쪽/아래 방향: 앵커 시작 → 현재 끝
+          newRange.setStart(anchorRange.startContainer, anchorRange.startOffset);
+          newRange.setEnd(cur.startContainer, cur.startOffset);
         } else {
-          newRange.setStart(endCaret.startContainer, endCaret.startOffset);
+          // 왼쪽/위 방향: 현재 → 앵커 끝
+          newRange.setStart(cur.startContainer, cur.startOffset);
+          newRange.setEnd(anchorRange.endContainer, anchorRange.endOffset);
         }
         _selRange = newRange;
         applyVisualSelection(_selRange);
-      } catch(e) {}
+      } catch (_) {}
     }, { passive: true });
 
-    rContentEl.addEventListener('touchend', e => {
-      clearTimeout(_lpTimer);
-      if (!_isSelecting || !_selRange) { _isSelecting = false; return; }
+    rContentEl.addEventListener('touchend', () => {
+      clearTimeout(lpTimer);
+      if (!active || !_selRange) { active = false; return; }
       const text = _selRange.toString().trim();
-      if (!text || text.length < 1) { _isSelecting = false; closeSelPopup(); return; }
-      _isSelecting = false;
+      active = false;
+      if (!text) { closeSelPopup(); return; }
       showSelPopup(_selRange);
     }, { passive: true });
 
+    rContentEl.addEventListener('touchcancel', () => {
+      clearTimeout(lpTimer);
+      active = false;
+    }, { passive: true });
+
   } else {
-    /* 데스크탑 / Android */
+    /* ══ Android / Desktop: selectionchange ══ */
     let selTimer = null;
     document.addEventListener('selectionchange', () => {
       clearTimeout(selTimer);
       selTimer = setTimeout(() => {
         const sel = window.getSelection();
         if (!sel || sel.isCollapsed || !sel.rangeCount) {
-          if (!_popupInteracting) setTimeout(() => { if (!_popupInteracting) closeSelPopup(); }, 150);
+          setTimeout(() => {
+            if (!document.activeElement?.closest('#selPopup')) closeSelPopup();
+          }, 150);
           return;
         }
         const range = sel.getRangeAt(0);
-        if (!rContentEl || !rContentEl.contains(range.commonAncestorContainer)) { closeSelPopup(); return; }
+        if (!rContentEl?.contains(range.commonAncestorContainer)) {
+          closeSelPopup();
+          return;
+        }
         const text = sel.toString().trim();
         if (!text || text.length < 2) { closeSelPopup(); return; }
         _selRange = range.cloneRange();
         showSelPopup(range);
-      }, 120);
+      }, 100);
     });
   }
 }
@@ -4992,6 +5182,15 @@ function persistMarks() {
     });
   });
   saveMarks(artId, marks);
+  // Popular Highlights 추적 (최신 하이라이트 텍스트)
+  if (marks.length && SB_ENABLED()) {
+    const latest = marks[marks.length - 1];
+    const slug = (BOOK_META && BOOK_META.slug) || 'unknown';
+    trackPopularHighlight(slug, artId, latest.text).catch(() => {});
+  }
+  // 클라우드 동기화 (디바운스: 3초 후)
+  clearTimeout(persistMarks._syncTimer);
+  persistMarks._syncTimer = setTimeout(() => syncToCloud().catch(() => {}), 3000);
 }
 
 /* 저장된 하이라이트 복원 */
@@ -5406,22 +5605,116 @@ function init() {
   renderAbout();
   renderCatalog();
   renderLegal();
-  routeStart();
+  // Supabase 세션 복원 (비동기) → routeStart는 세션 확인 후 실행
+  restoreSession().then(() => {
+    routeStart();
+  }).catch(() => {
+    routeStart();
+  });
   // 하이라이트 선택 감지 + 버튼 리플 초기화
   initSelectionDetection();
   initRipples();
 }
 
-/* ── 인증(프로토타입: 로컬 저장. 추후 Supabase Auth로 대체) ── */
+/* ══════════════════════════════════════════════
+   인증 — Supabase OAuth + 이메일 (로컬 fallback)
+══════════════════════════════════════════════ */
 const AUTH_KEY = 'meslap_user';
 let authMode = 'signup';
+
+/* Supabase 클라이언트 (설정 시 활성화) */
+let _sb = null;
+function getSB() {
+  if (_sb) return _sb;
+  if (window.SUPABASE_URL && window.SUPABASE_ANON && window.supabase) {
+    _sb = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON);
+  }
+  return _sb;
+}
+const SB_ENABLED = () => !!(window.SUPABASE_URL && window.SUPABASE_ANON);
+
+function sbUserToLocal(sbUser) {
+  const meta = sbUser.user_metadata || {};
+  return {
+    id:    sbUser.id,
+    name:  meta.full_name || meta.name || sbUser.email?.split('@')[0] || '독자',
+    email: sbUser.email || '',
+    tier:  'free',
+  };
+}
+
 function getUser() {
   try { return JSON.parse(localStorage.getItem(AUTH_KEY) || 'null'); } catch { return null; }
 }
+
+/* ── 앱 시작 시 Supabase 세션 복원 ── */
+async function restoreSession() {
+  const sb = getSB();
+  if (!sb) return;
+  try {
+    const { data: { session } } = await sb.auth.getSession();
+    if (session?.user) {
+      const u = sbUserToLocal(session.user);
+      localStorage.setItem(AUTH_KEY, JSON.stringify(u));
+      syncFromCloud(u.id).catch(() => {});
+    }
+    sb.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'SIGNED_IN' && session?.user) {
+        const u = sbUserToLocal(session.user);
+        localStorage.setItem(AUTH_KEY, JSON.stringify(u));
+        greet(u);
+        go('library');
+        syncFromCloud(u.id).catch(() => {});
+      } else if (event === 'SIGNED_OUT') {
+        localStorage.removeItem(AUTH_KEY);
+        go('landing');
+      }
+    });
+  } catch(e) { console.warn('Supabase session restore failed', e); }
+}
 function routeStart() {
   const u = getUser();
-  if (u) { greet(u); go('library'); }
-  else { go('landing'); }
+  let resumed = false;
+  try {
+    const pos = JSON.parse(localStorage.getItem('meslap_lastpos') || 'null');
+    if (pos && pos.slug === ((typeof BOOK_META !== 'undefined' && BOOK_META && BOOK_META.slug) || '') && typeof pos.artIdx === 'number' && flatList[pos.artIdx]) {
+      greet(u || { name: '독자', email: '', tier: 'free' });
+      // 이어읽기: 서재를 거치지 않고 바로 리더로
+      curIdx = pos.artIdx;
+      renderArt(pos.artIdx);
+      go('reader');
+      syncBmkBtn();
+      if (pageMode) {
+        relayoutPages(() => {
+          if (pos.pageIdx > 0) { pageIdx = pos.pageIdx; applyPageTransform(); }
+          const artId = (flatList[pos.artIdx] || {}).id;
+          if (artId) restoreMarks(artId);
+        });
+      } else {
+        updProg();
+        const artId = (flatList[pos.artIdx] || {}).id;
+        if (artId) requestAnimationFrame(() => restoreMarks(artId));
+      }
+      // 서재 상단에 "이어읽기" 배너 준비
+      _resumePos = pos;
+      showResumeToast(pos);
+      resumed = true;
+    }
+  } catch(e) {}
+  if (!resumed) {
+    if (u) { greet(u); go('library'); }
+    else { go('landing'); }
+  }
+}
+let _resumePos = null;
+function showResumeToast(pos) {
+  const art = flatList[pos.artIdx] || {};
+  const title = (art.title || '').replace(/<br>/g, ' ').slice(0, 20);
+  const t = document.getElementById('toast');
+  if (!t) return;
+  t.innerHTML = `📖 이어읽기: ${title}… <span style="text-decoration:underline;cursor:pointer" onclick="go('library')">서재로</span>`;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
 }
 function enterAsGuest() { go('library'); }     // 둘러보기(비로그인)
 function toggleAuthMode() {
@@ -5441,10 +5734,37 @@ function submitAuth() {
     alert('필요한 정보를 모두 입력해 주세요.');
     return;
   }
-  const user = { name: name || email.split('@')[0], email, tier: 'free' };
-  localStorage.setItem(AUTH_KEY, JSON.stringify(user));
-  greet(user);
-  go('library');
+
+  if (SB_ENABLED()) {
+    /* ── Supabase 이메일 인증 ── */
+    const btn = document.getElementById('authSubmit');
+    btn.disabled = true;
+    btn.textContent = '처리 중…';
+    const sb = getSB();
+    const action = authMode === 'signup'
+      ? sb.auth.signUp({ email, password: pw, options: { data: { full_name: name } } })
+      : sb.auth.signInWithPassword({ email, password: pw });
+    action.then(({ data, error }) => {
+      btn.disabled = false;
+      btn.textContent = authMode === 'signup' ? '가입하고 시작하기' : '로그인';
+      if (error) { alert('오류: ' + error.message); return; }
+      if (authMode === 'signup' && !data.session) {
+        alert('📧 이메일을 확인해 주세요. 인증 링크를 클릭하면 로그인됩니다.');
+        return;
+      }
+      // onAuthStateChange에서 처리됨
+    }).catch(e => {
+      btn.disabled = false;
+      btn.textContent = authMode === 'signup' ? '가입하고 시작하기' : '로그인';
+      alert('네트워크 오류. 다시 시도해 주세요.');
+    });
+  } else {
+    /* ── 로컬 fallback (Supabase 미설정) ── */
+    const user = { id: 'local_' + Date.now(), name: name || email.split('@')[0], email, tier: 'free' };
+    localStorage.setItem(AUTH_KEY, JSON.stringify(user));
+    greet(user);
+    go('library');
+  }
 }
 /* ── 독서 Streak ── */
 const STREAK_KEY = 'meslap_streak';
@@ -5461,8 +5781,79 @@ function recordReadingDay() {
     s.streak = 1;
   }
   s.lastDate = today;
+  s.best = Math.max(s.best || 0, s.streak || 0);
+  s.totalDays = (s.totalDays || 0) + 1;
   try { localStorage.setItem(STREAK_KEY, JSON.stringify(s)); } catch(e) {}
   updateStreakBadge();
+}
+
+const READTIME_KEY = 'meslap_readtime';
+function saveReadingTime() {
+  if (!_readStartTime) return;
+  const elapsed = Math.floor((Date.now() - _readStartTime) / 1000); // 초
+  if (elapsed < 5 || elapsed > 7200) { _readStartTime = 0; return; } // 5초 미만 or 2시간 초과 무시
+  let t = { totalSec: 0, todaySec: 0, lastDate: '' };
+  try { t = JSON.parse(localStorage.getItem(READTIME_KEY) || '{}'); } catch(e) {}
+  const today = new Date().toISOString().slice(0, 10);
+  if (t.lastDate !== today) { t.todaySec = 0; t.lastDate = today; }
+  t.totalSec = (t.totalSec || 0) + elapsed;
+  t.todaySec = (t.todaySec || 0) + elapsed;
+  try { localStorage.setItem(READTIME_KEY, JSON.stringify(t)); } catch(e) {}
+  _readStartTime = 0;
+}
+function getReadTimeStr(sec) {
+  if (!sec) return '0분';
+  const h = Math.floor(sec / 3600);
+  const m = Math.floor((sec % 3600) / 60);
+  return h > 0 ? `${h}시간 ${m}분` : `${m}분`;
+}
+
+const READ_ARTS_KEY = 'meslap_read_arts';
+function getReadArts() {
+  try { return new Set(JSON.parse(localStorage.getItem(READ_ARTS_KEY) || '[]')); } catch { return new Set(); }
+}
+function markArtRead(artId) {
+  if (!artId) return;
+  const set = getReadArts();
+  set.add(artId);
+  try { localStorage.setItem(READ_ARTS_KEY, JSON.stringify([...set])); } catch(e) {}
+  checkFinished();
+}
+
+const FINISHED_KEY = 'meslap_finished';
+function checkFinished() {
+  const readSet = getReadArts();
+  const total = flatList.length;
+  if (!total) return;
+  const readCount = flatList.filter(a => a.id && readSet.has(a.id)).length;
+  const pct = Math.round(readCount / total * 100);
+  // 100% 달성 & 아직 축하 안 함
+  if (pct >= 100) {
+    const slug = (typeof BOOK_META !== 'undefined' && BOOK_META && BOOK_META.slug) || 'book';
+    const finKey = FINISHED_KEY + '_' + slug;
+    if (!localStorage.getItem(finKey)) {
+      localStorage.setItem(finKey, new Date().toISOString());
+      setTimeout(() => showFinishedModal(), 600);
+    }
+  }
+}
+function showFinishedModal() {
+  const modal = document.getElementById('finishedModal');
+  if (modal) { modal.classList.add('show'); return; }
+  // 동적 생성
+  const el = document.createElement('div');
+  el.id = 'finishedModal';
+  el.className = 'finished-modal show';
+  const bookTitle = (typeof BOOK_META !== 'undefined' && BOOK_META && BOOK_META.title || '이 책').replace(/<br>/g, ' ');
+  el.innerHTML = `
+    <div class="finished-inner">
+      <div class="finished-icon">🎉</div>
+      <div class="finished-title">완독을 축하합니다!</div>
+      <div class="finished-book">${bookTitle}</div>
+      <div class="finished-desc">모든 글을 다 읽으셨어요.<br>말씀이 삶이 되는 자리에서 함께해 주셔서 감사합니다.</div>
+      <button class="finished-btn" onclick="this.closest('.finished-modal').classList.remove('show')">닫기</button>
+    </div>`;
+  document.getElementById('app').appendChild(el);
 }
 
 function updateStreakBadge() {
@@ -5479,15 +5870,28 @@ function updateStreakBadge() {
 }
 
 function showTodayReview() {
-  // 오늘 읽은 글 목록을 서재 헤더 하단에 간단히 표시
-  // (확장 시: 오늘의 복습 뷰로 연결)
-  const today = new Date().toISOString().slice(0, 10);
-  const READ_KEY = 'meslap_read_' + today;
-  let readIds = [];
-  try { readIds = JSON.parse(localStorage.getItem(READ_KEY) || '[]'); } catch(e) {}
-  if (!readIds.length) return;
-  const art = flatList.find(f => f.id === readIds[0]);
-  if (art) showToast(`오늘 읽은 말씀: ${(art.title || '').replace(/<br>/g, ' ')}`);
+  /* 오늘의 복습 — 저장된 하이라이트 중 랜덤 1개 */
+  const today = new Date().toLocaleDateString('ko-KR');
+  const lastKey = 'meslap_last_review';
+  if (localStorage.getItem(lastKey) === today) return; // 오늘 이미 표시
+
+  const allMarks = [];
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith(MARK_STORE + '_')) {
+        const marks = JSON.parse(localStorage.getItem(key) || '[]');
+        marks.forEach(m => { if (m.text && m.text.trim().length > 8) allMarks.push(m); });
+      }
+    }
+  } catch(e) {}
+
+  if (!allMarks.length) return;
+
+  localStorage.setItem(lastKey, today);
+  const m = allMarks[Math.floor(Math.random() * allMarks.length)];
+  const preview = m.text.length > 35 ? m.text.slice(0, 35) + '\u2026' : m.text;
+  setTimeout(() => showToast(`\uD83D\uDC9B 오늘의 복습: "${preview}"`), 1200);
 }
 
 /* ══════════════════════════════════════════════
@@ -5521,6 +5925,8 @@ function getChallengeStats() {
     hlCount,
     memoCount: getNotes().length,
     bmkCount:  getBookmarks().length,
+    totalReadSec: (()=>{ try { return JSON.parse(localStorage.getItem(READTIME_KEY)||'{}').totalSec||0; } catch(e){return 0;} })(),
+    todayReadSec: (()=>{ try { return JSON.parse(localStorage.getItem(READTIME_KEY)||'{}').todaySec||0; } catch(e){return 0;} })(),
   };
 }
 
@@ -5577,7 +5983,7 @@ function renderChallenge() {
         <div class="cv-streak-num">${d.streak}</div>
         <div class="cv-streak-info">
           <div class="cv-streak-label">일 연속 🔥</div>
-          <div class="cv-streak-sub">최고 ${d.best}일 · 총 ${d.totalDays}일</div>
+          <div class="cv-streak-sub">최고 ${d.best}일 · 총 ${d.totalDays}일 · 누적 ${getReadTimeStr(d.totalReadSec)}</div>
         </div>
       </div>
       <div class="cv-streak-days">${last7.map(x =>
@@ -5595,6 +6001,10 @@ function renderChallenge() {
 }
 
 function signOut() {
+  const sb = getSB();
+  if (sb) {
+    sb.auth.signOut().catch(() => {});
+  }
   localStorage.removeItem(AUTH_KEY);
   go('landing');
 }
@@ -5606,16 +6016,383 @@ function greet(u) {
   const streakData = (()=>{try{return JSON.parse(localStorage.getItem(STREAK_KEY)||'{}')}catch{return{}}})();
   if (sb) sb.textContent = (streakData.streak||0) >= 1 ? `🔥${streakData.streak}` : '';
 }
-/* ── 소셜 로그인 (Supabase OAuth 연동 전: 안내 메시지) ──
-   Supabase 키 연동 후:
-     supabase.auth.signInWithOAuth({ provider: 'kakao' | 'google' })
-     네이버는 Supabase custom OAuth provider(kakao처럼 설정) 또는 별도 구성 */
+/* ── 소셜 로그인 (Supabase OAuth) ── */
 function socialLogin(provider) {
-  const names = { kakao:'카카오', naver:'네이버', google:'Google' };
-  alert(`${names[provider]} 로그인은 Supabase 연동 후 활성화됩니다.\n지금은 이메일로 가입해 주세요.`);
+  const sb = getSB();
+  if (!sb) {
+    const names = { kakao:'카카오', naver:'네이버', google:'Google' };
+    alert(`${names[provider]} 로그인은 Supabase 연동 후 활성화됩니다.\n지금은 이메일로 가입해 주세요.`);
+    return;
+  }
+  // 카카오: Supabase Dashboard > Authentication > Providers > Kakao 활성화 필요
+  // 구글:   Authentication > Providers > Google 활성화 필요
+  // 네이버: 현재 Supabase 기본 제공 없음 → 이메일로 안내
+  if (provider === 'naver') {
+    alert('네이버 로그인은 준비 중입니다. 카카오 또는 이메일로 로그인해 주세요.');
+    return;
+  }
+  const redirectTo = window.location.href.replace(/#.*$/, '');
+  sb.auth.signInWithOAuth({
+    provider: provider === 'kakao' ? 'kakao' : 'google',
+    options: { redirectTo }
+  }).catch(e => alert('로그인 오류: ' + e.message));
 }
 
-/* ── 리플 효과: 모든 .btn-p .btn-t .social-btn .tb-btn .ctrl-btn ── */
+/* ══════════════════════════════════════════════
+   기기 간 동기화 — Supabase DB
+   테이블 DDL (Supabase SQL Editor에서 실행):
+   ───────────────────────────────────────────
+   create table if not exists user_highlights (
+     id text primary key,
+     user_id uuid references auth.users(id) on delete cascade,
+     book_slug text,
+     art_id text,
+     text text,
+     color text,
+     range_data jsonb,
+     created_at timestamptz default now()
+   );
+   create table if not exists user_bookmarks (
+     id text primary key,
+     user_id uuid references auth.users(id) on delete cascade,
+     book_slug text,
+     art_id text,
+     art_idx integer,
+     art_title text,
+     book_title text,
+     page_idx integer,
+     date text,
+     created_at timestamptz default now()
+   );
+   create table if not exists user_notes (
+     id text primary key,
+     user_id uuid references auth.users(id) on delete cascade,
+     book_slug text,
+     art_id text,
+     text text,
+     memo text,
+     color text,
+     date text,
+     created_at timestamptz default now()
+   );
+   create table if not exists popular_highlights (
+     book_slug text,
+     art_id text,
+     text_hash text,
+     text text,
+     count integer default 1,
+     primary key (book_slug, art_id, text_hash)
+   );
+   -- RLS
+   alter table user_highlights   enable row level security;
+   alter table user_bookmarks    enable row level security;
+   alter table user_notes        enable row level security;
+   alter table popular_highlights enable row level security;
+
+   create policy "own_highlights" on user_highlights for all using (auth.uid() = user_id);
+   create policy "own_bookmarks"  on user_bookmarks  for all using (auth.uid() = user_id);
+   create policy "own_notes"      on user_notes      for all using (auth.uid() = user_id);
+   create policy "read_popular"   on popular_highlights for select using (true);
+   ───────────────────────────────────────────
+══════════════════════════════════════════════ */
+
+/* 클라우드로 업로드 (upsert) */
+async function syncToCloud() {
+  const sb = getSB();
+  const u = getUser();
+  if (!sb || !u || !u.id || u.id.startsWith('local_')) return;
+
+  try {
+    // 하이라이트 업로드
+    const allMarks = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith(MARK_STORE + '_')) {
+        const artId = key.replace(MARK_STORE + '_', '');
+        const marks = JSON.parse(localStorage.getItem(key) || '[]');
+        marks.forEach(m => allMarks.push({
+          id:         m.id || (artId + '_' + m.start),
+          user_id:    u.id,
+          book_slug:  (BOOK_META && BOOK_META.slug) || 'unknown',
+          art_id:     artId,
+          text:       m.text || '',
+          color:      m.color || 'yellow',
+          range_data: m,
+        }));
+      }
+    }
+    if (allMarks.length) {
+      await sb.from('user_highlights').upsert(allMarks, { onConflict: 'id' });
+    }
+
+    // 책갈피 업로드
+    const bookmarks = getBookmarks().map(b => ({
+      id:         b.id,
+      user_id:    u.id,
+      book_slug:  b.bookSlug || '',
+      art_id:     b.artId   || '',
+      art_idx:    b.artIdx  || 0,
+      art_title:  b.artTitle || '',
+      book_title: b.bookTitle || '',
+      page_idx:   b.pageIdx || 0,
+      date:       b.date || '',
+    }));
+    if (bookmarks.length) {
+      await sb.from('user_bookmarks').upsert(bookmarks, { onConflict: 'id' });
+    }
+
+    // 메모 업로드
+    const notes = getNotes().map(n => ({
+      id:        n.id,
+      user_id:   u.id,
+      book_slug: n.bookSlug || '',
+      art_id:    n.artId   || '',
+      text:      n.text    || '',
+      memo:      n.memo    || '',
+      color:     n.color   || '',
+      date:      n.date    || '',
+    }));
+    if (notes.length) {
+      await sb.from('user_notes').upsert(notes, { onConflict: 'id' });
+    }
+
+    showToast('☁️ 클라우드에 동기화됐습니다');
+  } catch(e) {
+    console.warn('syncToCloud error', e);
+  }
+}
+
+/* 클라우드에서 다운로드 (병합) */
+async function syncFromCloud(userId) {
+  const sb = getSB();
+  if (!sb || !userId || userId.startsWith('local_')) return;
+
+  try {
+    // 하이라이트 다운로드
+    const { data: hlData } = await sb
+      .from('user_highlights')
+      .select('*')
+      .eq('user_id', userId);
+    if (hlData && hlData.length) {
+      const grouped = {};
+      hlData.forEach(h => {
+        const key = MARK_STORE + '_' + h.art_id;
+        if (!grouped[key]) grouped[key] = [];
+        grouped[key].push(h.range_data || {
+          id: h.id, text: h.text, color: h.color
+        });
+      });
+      Object.entries(grouped).forEach(([key, marks]) => {
+        try {
+          // 로컬과 병합 (id 기준 중복 제거)
+          const local = JSON.parse(localStorage.getItem(key) || '[]');
+          const merged = [...local];
+          marks.forEach(m => {
+            if (!merged.some(lm => lm.id === m.id)) merged.push(m);
+          });
+          localStorage.setItem(key, JSON.stringify(merged));
+        } catch(e) {}
+      });
+    }
+
+    // 책갈피 다운로드
+    const { data: bmkData } = await sb
+      .from('user_bookmarks')
+      .select('*')
+      .eq('user_id', userId);
+    if (bmkData && bmkData.length) {
+      const local = getBookmarks();
+      bmkData.forEach(b => {
+        if (!local.some(lb => lb.id === b.id)) {
+          local.unshift({
+            id: b.id, artId: b.art_id, artIdx: b.art_idx,
+            artTitle: b.art_title, bookSlug: b.book_slug,
+            bookTitle: b.book_title, pageIdx: b.page_idx, date: b.date,
+          });
+        }
+      });
+      setBookmarks(local);
+    }
+
+    // 메모 다운로드
+    const { data: noteData } = await sb
+      .from('user_notes')
+      .select('*')
+      .eq('user_id', userId);
+    if (noteData && noteData.length) {
+      const local = getNotes();
+      noteData.forEach(n => {
+        if (!local.some(ln => ln.id === n.id)) {
+          local.unshift({
+            id: n.id, artId: n.art_id, bookSlug: n.book_slug,
+            text: n.text, memo: n.memo, color: n.color, date: n.date,
+          });
+        }
+      });
+      setNotes(local);
+    }
+  } catch(e) {
+    console.warn('syncFromCloud error', e);
+  }
+}
+
+/* ── Popular Highlights — "N명이 이 구절을 하이라이트했습니다" ── */
+async function trackPopularHighlight(bookSlug, artId, text) {
+  const sb = getSB();
+  if (!sb || !text || text.length < 8) return;
+  // 텍스트 해시 (간단한 djb2)
+  let hash = 5381;
+  for (let i = 0; i < Math.min(text.length, 100); i++) {
+    hash = ((hash << 5) + hash) + text.charCodeAt(i);
+    hash &= 0x7fffffff;
+  }
+  const textHash = hash.toString(36);
+  try {
+    const { data: existing } = await sb
+      .from('popular_highlights')
+      .select('count')
+      .eq('book_slug', bookSlug)
+      .eq('art_id', artId)
+      .eq('text_hash', textHash)
+      .single();
+    if (existing) {
+      await sb.from('popular_highlights').update({ count: existing.count + 1 })
+        .eq('book_slug', bookSlug).eq('art_id', artId).eq('text_hash', textHash);
+    } else {
+      await sb.from('popular_highlights').insert({
+        book_slug: bookSlug, art_id: artId, text_hash: textHash,
+        text: text.slice(0, 200), count: 1
+      });
+    }
+  } catch(e) {}
+}
+
+async function loadPopularHighlights(bookSlug, artId) {
+  const sb = getSB();
+  if (!sb) return [];
+  try {
+    const { data } = await sb
+      .from('popular_highlights')
+      .select('text, count')
+      .eq('book_slug', bookSlug)
+      .eq('art_id', artId)
+      .gte('count', 2)
+      .order('count', { ascending: false })
+      .limit(5);
+    return data || [];
+  } catch(e) { return []; }
+}
+
+/* 수동 동기화 버튼 (설정 패널에서 호출) */
+function manualSync() {
+  const u = getUser();
+  if (!u) { showToast('로그인 후 동기화할 수 있습니다'); return; }
+  if (!SB_ENABLED()) { showToast('Supabase 연동 후 사용 가능합니다'); return; }
+  showToast('☁️ 동기화 중…');
+  syncToCloud().then(() => syncFromCloud(u.id));
+}
+/* ══════════════════════════════════════════════
+   본문 검색
+══════════════════════════════════════════════ */
+let _searchTimer = null;
+
+/* 블록 배열을 평문으로 변환 */
+function blocksToText(blocks) {
+  if (!blocks || !blocks.length) return '';
+  return blocks.map(b => {
+    if (typeof b.c === 'string') return b.c.replace(/<[^>]+>/g, '');
+    return '';
+  }).join(' ');
+}
+
+/* HTML 태그 제거 */
+function stripTags(s) { return (s || '').replace(/<[^>]+>/g, ''); }
+
+/* 키워드 하이라이트 스니펫 생성 */
+function makeSnippet(text, keyword, len) {
+  len = len || 80;
+  const kl = keyword.toLowerCase();
+  const tl = text.toLowerCase();
+  const pos = tl.indexOf(kl);
+  if (pos < 0) return text.slice(0, len) + (text.length > len ? '…' : '');
+  const start = Math.max(0, pos - 30);
+  const end   = Math.min(text.length, pos + keyword.length + 50);
+  let snip = (start > 0 ? '…' : '') + text.slice(start, end) + (end < text.length ? '…' : '');
+  // 키워드 강조
+  const re = new RegExp(keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+  snip = snip.replace(re, m => `<mark>${m}</mark>`);
+  return snip;
+}
+
+function onSearchInput() {
+  clearTimeout(_searchTimer);
+  _searchTimer = setTimeout(doSearch, 220);
+}
+
+function doSearch() {
+  const input = document.getElementById('searchInput');
+  const list  = document.getElementById('searchList');
+  const cnt   = document.getElementById('searchCnt');
+  if (!input || !list) return;
+  const q = input.value.trim();
+  if (!q) {
+    list.innerHTML = '<div class="search-hint"><span class="ic">🔍</span>검색어를 입력하세요.<br>제목과 본문에서 찾아드립니다.</div>';
+    if (cnt) cnt.style.display = 'none';
+    return;
+  }
+  if (q.length < 1) return;
+
+  const ql = q.toLowerCase();
+  const results = [];
+  flatList.forEach((a, idx) => {
+    const titlePlain = stripTags(a.title || '');
+    const bodyText   = blocksToText(a.blocks);
+    const fullText   = titlePlain + ' ' + bodyText;
+    if (fullText.toLowerCase().includes(ql)) {
+      // 제목 일치면 우선순위 높임
+      const titleMatch = titlePlain.toLowerCase().includes(ql);
+      results.push({ idx, a, titleMatch, titlePlain, bodyText });
+    }
+  });
+  // 제목 일치 먼저 정렬
+  results.sort((a, b) => b.titleMatch - a.titleMatch);
+
+  if (!results.length) {
+    list.innerHTML = `<div class="search-empty"><span class="ic">🔎</span>'${q}'에 대한 검색 결과가 없습니다.<br>다른 키워드로 검색해 보세요.</div>`;
+    if (cnt) { cnt.textContent = '결과 없음'; cnt.style.display = 'block'; }
+    return;
+  }
+
+  if (cnt) { cnt.textContent = `${results.length}건 검색됨`; cnt.style.display = 'block'; }
+
+  list.innerHTML = results.map(({ idx, a, titlePlain, bodyText }) => {
+    const titleHL  = titlePlain.replace(new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'), m => `<mark>${m}</mark>`);
+    const snip     = makeSnippet(bodyText, q);
+    return `<div class="search-item" onclick="openSearchResult(${idx})">
+      <div class="search-item-cat">${a.catName || ''}</div>
+      <div class="search-item-title">${titleHL}</div>
+      <div class="search-item-snip">${snip}</div>
+    </div>`;
+  }).join('');
+}
+
+function openSearchResult(idx) {
+  openArt(idx);
+  // 검색어 초기화는 하지 않음 — 다시 검색 가능하게
+}
+
+function openSearch() {
+  go('search');
+  setTimeout(() => {
+    const input = document.getElementById('searchInput');
+    if (input) input.focus();
+  }, 200);
+}
+
+function closeSearch() {
+  go(_prevView && _prevView !== 'search' ? _prevView : 'library');
+}
+
 function addRipple(el) {
   el.addEventListener('click', function(e) {
     const r = document.createElement('span');
@@ -5664,6 +6441,7 @@ function renderLanding() {
 
 /* ── 서재 렌더 ── */
 function renderShelf() {
+  const readSet = getReadArts();
   const shelf = document.getElementById('shelf');
   const catalog = (typeof BOOK_CATALOG !== 'undefined' && BOOK_CATALOG.length)
     ? BOOK_CATALOG
@@ -5684,18 +6462,19 @@ function renderShelf() {
   html += catalog.map(b => {
     const grad = `linear-gradient(150deg, ${b.coverFrom || '#1A5C3A'}, ${b.coverTo || '#2D8A55'})`;
     const plain = (b.title || '').replace(/<br>/g, ' ');
-    const tag = b.free
-      ? `<span class="bk-tag free">무료</span>`
-      : `<span class="bk-tag paid">₩${(b.price || 0).toLocaleString()} · 잠금</span>`;
-    const openable = b.current;
-    const onclick = openable ? `onclick="openBook()"` : '';
-    return `<div class="bk ${openable ? '' : 'locked'}" ${onclick}>
+    // 모든 책 무료 오픈 — 잠금 없음
+    const tag = `<span class="bk-tag free">무료</span>`;
+    const onclick = b.current
+      ? `onclick="openBook()"`
+      : `onclick="openBookBySlug('${b.slug}')"`;
+    return `<div class="bk" ${onclick}>
       <div class="bk-cover" style="background:${grad}">${motifSVG(b.coverMotif,'bk-cover-wm')}${motifSVG(b.coverMotif,'chip-motif')}<span>${plain}</span></div>
       <div class="bk-info">
         <div class="bk-series">${(b.series || '').replace(/ · .*/, '')}</div>
         <div class="bk-title">${plain}</div>
         <div class="bk-sub">${b.subtitle || ''}</div>
         ${tag}
+        ${b.current && flatList.length ? `<div class="bk-prog-wrap"><div class="bk-prog-fill" style="width:${Math.round(flatList.filter(a=>a.id&&readSet.has(a.id)).length/flatList.length*100)}%"></div></div><div class="bk-prog-lbl">${flatList.filter(a=>a.id&&readSet.has(a.id)).length}/${flatList.length} 읽음</div>` : ''}
       </div>
     </div>`;
   }).join('');
@@ -5705,6 +6484,12 @@ function renderShelf() {
   loadRecentPosts(false);
 }
 function openBook() { go('cover'); }
+
+/* 다른 책 클릭 → 해당 책 HTML 파일로 이동 */
+function openBookBySlug(slug) {
+  if (!slug) return;
+  window.location.href = slug + '.html';
+}
 
 /* ── 최근 묵상 RSS ── */
 let _recentPage = 0;
@@ -5848,7 +6633,9 @@ function goBackFromLegal() { go(legalReturn || 'about'); }
 let _prevView = 'library';
 
 function go(id) {
+  // 리더에서 나갈 때 독서 시간 저장
   const cur = document.querySelector('.view.active');
+  if (cur && cur.id === 'reader') saveReadingTime();
   if (cur && cur.id && cur.id !== id) _prevView = cur.id;
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   const next = document.getElementById(id);
@@ -5919,6 +6706,9 @@ function toggleBookmark() {
     setBookmarks(bookmarks);
     syncBmkBtn();
     showToast('📖 책갈피가 저장됐습니다');
+    // 클라우드 동기화 (3초 후)
+    clearTimeout(toggleBookmark._syncTimer);
+    toggleBookmark._syncTimer = setTimeout(() => syncToCloud().catch(() => {}), 3000);
   }
 }
 function renderBookmarks() {
@@ -5962,7 +6752,20 @@ function openArt(idx) {
   curIdx = idx;
   renderArt(idx);
   go('reader');
+  // 이어읽기 위치 저장
+  try {
+    localStorage.setItem('meslap_lastpos', JSON.stringify({
+      artIdx: idx,
+      artId:  (flatList[idx] || {}).id || '',
+      slug:   (typeof BOOK_META !== 'undefined' && BOOK_META && BOOK_META.slug) || '',
+      pageIdx: pageMode ? pageIdx : 0,
+      savedAt: Date.now()
+    }));
+  } catch(e) {}
   recordReadingDay(); // 독서 streak 기록
+  _readStartTime = Date.now(); // 독서 시간 측정 시작
+  // 읽은 글 기록
+  markArtRead((flatList[idx] || {}).id);
   syncBmkBtn(); // 책갈피 버튼 상태 갱신
   if (pageMode) {
     pageIdx = 0;
@@ -6062,6 +6865,7 @@ function pagePrev() { if (pageMode) goPage(pageIdx - 1); else prevArt(); }
 
 /* ── 목차 렌더 ── */
 function renderTOC() {
+  const readSet = getReadArts();
   let html = '';
   BOOK_CHAPTERS.forEach((ch, ci) => {
     html += `
@@ -6080,8 +6884,8 @@ function renderTOC() {
     ch.articles.forEach((a, ai) => {
       const gIdx = flatList.findIndex(f => f.id === a.id);
       const isCurr = gIdx === curIdx;
-      html += `<div class="toc-art ${isCurr ? 'curr' : ''}" onclick="openArt(${gIdx})">
-        <span class="toc-art-title">${a.title.replace(/<br>/g,' ')}</span>
+      html += `<div class="toc-art ${isCurr ? 'curr' : ''}${readSet.has(a.id) ? ' read' : ''}" onclick="openArt(${gIdx})">
+        <span class="toc-art-title">${readSet.has(a.id) ? '<span class="toc-check">✓</span>' : ''}${a.title.replace(/<br>/g,' ')}</span>
       </div>`;
     });
     html += `</div></div></div>`;
@@ -6154,9 +6958,30 @@ function renderArt(idx) {
     </div>`;
 
   document.getElementById('rContent').innerHTML = html;
-}
 
-/* ── 진행률 ── */
+  // Popular Highlights 비동기 로드 (Supabase 활성화 시)
+  if (SB_ENABLED() && a.id) {
+    const slug = (BOOK_META && BOOK_META.slug) || 'unknown';
+    loadPopularHighlights(slug, a.id).then(popular => {
+      if (!popular.length) return;
+      const c = document.getElementById('rContent');
+      if (!c) return;
+      const sec = document.createElement('div');
+      sec.className = 'popular-hl-sec';
+      sec.innerHTML = `
+        <div class="popular-hl-lbl">🔥 많이 읽힌 구절</div>
+        ${popular.map(p => `
+          <div class="popular-hl-item">
+            <span class="popular-hl-text">${p.text}</span>
+            <span class="popular-hl-cnt">${p.count}명</span>
+          </div>`).join('')}`;
+      // 저작권 표시 앞에 삽입
+      const copyright = c.querySelector('.r-copyright');
+      if (copyright) c.insertBefore(sec, copyright);
+      else c.appendChild(sec);
+    }).catch(() => {});
+  }
+}
 const rScroll = document.getElementById('rScroll');
 rScroll.addEventListener('scroll', () => { if (!pageMode) updProg(); }, { passive: true });
 function updProg() {
