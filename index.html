@@ -208,31 +208,55 @@ body{font-family:var(--sans);-webkit-font-smoothing:antialiased;background:radia
 @media (hover:hover) and (pointer:fine){
   .r-body{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
 }
-.r-lbl{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-align:center;margin-bottom:14px}
-.r-title{font-family:var(--reader-font);font-size:24px;font-weight:700;line-height:1.5;color:var(--ink);text-align:center;word-break:keep-all;margin-bottom:10px}
-.r-sub{font-family:var(--reader-font);font-size:14px;font-style:italic;font-weight:300;color:var(--ink2);text-align:center;margin-bottom:22px}
-.r-div{width:28px;height:1px;background:var(--gold);margin:0 auto 28px}
-.r-p{font-family:var(--reader-font);font-size:var(--reader-fs);line-height:var(--reader-lh);color:var(--ink);margin-bottom:1.4em;word-break:keep-all;letter-spacing:-0.01em}
+/* ── 리더 타이포 시스템 ──────────────────────────────────────────────
+   모든 본문 요소는 사용자 글자크기(--reader-fs)에 비례한 모듈러 스케일.
+   ratio ≈ 1.18(소장음계)을 기준으로 한 단계씩 위계를 둔다.
+   위계: 라벨 < 부제 < 본문 < 인용(pq) < 소제목3 < 소제목2 < 제목
+   수직 리듬: --r-gap(문단 간격)을 단위로 1·1.6·2.4배 사용.            */
+.r-body{
+  --r-step:1.18;                          /* 타입 스케일 비율 */
+  --r-gap:1.4em;                          /* 기본 문단 수직 리듬 단위 */
+  --r-h2-fs:calc(var(--reader-fs) * 1.42);
+  --r-h3-fs:calc(var(--reader-fs) * 1.18);
+  --r-title-fs:calc(var(--reader-fs) * 1.62);
+  --r-sub-fs:calc(var(--reader-fs) * 0.86);
+  --r-lbl-fs:calc(var(--reader-fs) * 0.66);
+  --r-pq-fs:calc(var(--reader-fs) * 0.97);
+  --r-sc-fs:calc(var(--reader-fs) * 0.92);
+}
+.r-lbl{font-family:var(--sans);font-size:var(--r-lbl-fs);font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);text-align:center;margin-bottom:1.1em}
+.r-title{font-family:var(--reader-font);font-size:var(--r-title-fs);font-weight:700;line-height:1.42;color:var(--ink);text-align:center;word-break:keep-all;letter-spacing:-.015em;margin-bottom:.5em}
+.r-sub{font-family:var(--reader-font);font-size:var(--r-sub-fs);font-style:italic;font-weight:400;color:var(--ink2);text-align:center;line-height:1.6;letter-spacing:.01em;margin-bottom:1.5em}
+.r-div{width:30px;height:1px;background:var(--gold);opacity:.65;margin:0 auto 2.4em}
+.r-p{font-family:var(--reader-font);font-size:var(--reader-fs);line-height:var(--reader-lh);color:var(--ink);margin-bottom:var(--r-gap);word-break:keep-all;letter-spacing:-.003em}
 /* 본문 소제목 위계: r-title > r-h2 > r-h3 > r-lead > r-p (모두 명조 --reader-font) */
-.r-h2{font-family:var(--reader-font);font-size:calc(var(--reader-fs) + 4px);font-weight:700;line-height:1.5;color:var(--ink);margin:40px 0 16px;word-break:keep-all;letter-spacing:-.01em}
-.r-h2::before{content:'';display:block;width:26px;height:2px;background:var(--gold);border-radius:1px;margin-bottom:13px}
-.r-h2:first-child{margin-top:6px}
-.r-h3{font-family:var(--reader-font);font-size:calc(var(--reader-fs) + 2px);font-weight:600;line-height:1.55;color:var(--ink);margin:28px 0 12px;padding-left:11px;border-left:2px solid var(--gold);word-break:keep-all}
-.r-h3:first-child{margin-top:6px}
-.r-lead{font-family:var(--reader-font);font-size:calc(var(--reader-fs) + 2px);font-style:italic;color:var(--ink2);text-align:center;line-height:1.85;margin-bottom:26px}
-.r-pq{margin:32px 0;text-align:center;padding:0 4px}
-.r-pq::before{content:'';display:block;width:20px;height:1px;background:var(--gold);margin:0 auto 16px}
-.r-pq p{font-family:var(--reader-font);font-style:italic;font-size:calc(var(--reader-fs) + 2px);color:var(--ink);line-height:1.7}
+.r-h2{font-family:var(--reader-font);font-size:var(--r-h2-fs);font-weight:700;line-height:1.4;color:var(--ink);margin:2.6em 0 .9em;word-break:keep-all;letter-spacing:-.018em}
+.r-h2::before{content:'';display:block;width:28px;height:2px;background:var(--gold);border-radius:1px;margin-bottom:.75em}
+.r-h2:first-child{margin-top:.3em}
+.r-h3{font-family:var(--reader-font);font-size:var(--r-h3-fs);font-weight:600;line-height:1.5;color:var(--ink);margin:2em 0 .7em;word-break:keep-all;letter-spacing:-.01em}
+.r-h3::before{content:'';display:inline-block;width:.5em;height:1px;background:var(--gold);vertical-align:middle;margin-right:.55em;transform:translateY(-.12em)}
+.r-h3:first-child{margin-top:.3em}
+.r-lead{font-family:var(--reader-font);font-size:var(--r-h3-fs);font-style:italic;color:var(--ink2);text-align:center;line-height:1.75;letter-spacing:.005em;margin-bottom:1.8em}
+/* 인용·강조 구절(pq) — 가장 많이 쓰이는 블록.
+   본문과 구별: 좌측 골드 헤어라인 + 들여쓰기 + 약간 작은 이탤릭 + 부드러운 잉크색.
+   성경 인용(r-sc)과는 다른 처방으로 두 가지를 분명히 구별한다. */
+.r-pq{margin:2.4em 0;padding:.1em 0 .1em 1.25em;border-left:2px solid var(--gold);text-align:left}
+.r-pq p{font-family:var(--reader-font);font-style:italic;font-size:var(--r-pq-fs);color:var(--ink2);line-height:1.72;letter-spacing:.004em;word-break:keep-all}
+.r-pq p + p{margin-top:.65em}
+/* 성경 본문(scripture) — 참조(ref)는 작은 골드 캡션, 본문은 정자(non-italic)
+   세리프 + 옅은 패널. pq의 '이탤릭 인용'과 정반대 결로 시각 구별을 강화. */
 .r-sc{
-  border-left:3px solid var(--gold);
   background:var(--bg2);
-  border-radius:0 10px 10px 0;
-  padding:14px 16px 14px 18px;
-  margin:24px 0;
+  border:1px solid var(--line);
+  border-left:3px solid var(--gold);
+  border-radius:3px 12px 12px 3px;
+  padding:1.05em 1.25em 1.1em;
+  margin:2.4em 0;
   text-align:left;
 }
-.r-sc-ref{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:7px}
-.r-sc-txt{font-family:var(--reader-font);font-size:calc(var(--reader-fs) - 1px);font-style:italic;line-height:1.85;color:var(--ink2)}
+.r-sc-ref{font-family:var(--sans);font-size:calc(var(--reader-fs) * 0.64);font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.6em;display:flex;align-items:center;gap:.55em}
+.r-sc-ref::after{content:'';flex:1;height:1px;background:var(--line)}
+.r-sc-txt{font-family:var(--reader-font);font-size:var(--r-sc-fs);font-style:normal;font-weight:500;line-height:1.78;color:var(--ink);letter-spacing:-.003em;word-break:keep-all}
 /* 글 끝 네비 */
 .art-nav{display:flex;gap:8px;margin-top:40px;padding-top:24px;border-top:1px solid var(--line)}
 .art-nav-btn{flex:1;padding:14px;border:1px solid var(--line);border-radius:12px;background:none;cursor:pointer;text-align:left;transition:background .12s}
@@ -592,12 +616,15 @@ svg{display:block}
 
 /* ── 서재 streak 배지 ── */
 .streak-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:var(--gold-bg);border:1px solid var(--gold);border-radius:20px;font-size:11.5px;font-weight:700;color:var(--gold);margin-top:6px}
-.streak-badge .fire{font-size:13px}
+.streak-badge .fire{font-size:13px;display:inline-flex;align-items:center}
+.streak-badge .fire svg{width:14px;height:14px}
 
 /* ── 말씀 카드 공유 ── */
 .card-sheet{position:absolute;left:0;right:0;bottom:0;background:var(--bg);border-radius:22px 22px 0 0;padding:20px 22px 0;transform:translateY(100%);transition:transform .35s var(--ease);z-index:200;box-shadow:0 -8px 32px rgba(0,0,0,.15);max-height:85%;display:flex;flex-direction:column}
 .card-sheet.show{transform:translateY(0)}
 .card-sheet-handle{width:36px;height:4px;background:var(--line);border-radius:2px;margin:0 auto 16px;flex-shrink:0}
+.card-sheet-close{position:absolute;top:14px;right:16px;width:30px;height:30px;border:none;background:var(--bg2);border-radius:50%;color:var(--ink2);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;-webkit-tap-highlight-color:transparent}
+.card-sheet-close:active{background:var(--line)}
 .card-sheet-title{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:14px;flex-shrink:0}
 .card-preview-wrap{flex:1;overflow-y:auto;display:flex;flex-direction:column;align-items:center;gap:12px;padding-bottom:4px}
 #cardCanvas{max-width:100%;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.15)}
@@ -607,6 +634,12 @@ svg{display:block}
 .card-sheet-btns{display:flex;gap:10px;padding:14px 0 calc(env(safe-area-inset-bottom)+16px);flex-shrink:0}
 .card-dl-btn{flex:1;padding:14px;background:var(--ink);color:var(--bg);border:none;border-radius:12px;font-family:var(--sans);font-size:15px;font-weight:600;cursor:pointer;transition:transform .12s}
 .card-dl-btn:active{transform:scale(.97)}
+.card-verse-list{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:8px;padding-bottom:calc(env(safe-area-inset-bottom)+16px)}
+.card-verse-item{text-align:left;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:13px 15px;cursor:pointer;transition:border-color .12s,transform .12s;font-family:var(--sans)}
+.card-verse-item:active{transform:scale(.99)}
+.card-verse-item .cvi-ref{font-size:13px;font-weight:700;color:var(--gold);margin-bottom:5px}
+.card-verse-item .cvi-txt{font-size:13.5px;line-height:1.5;color:var(--ink2);overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.card-verse-back{align-self:flex-start;background:none;border:none;color:var(--ink3);font-family:var(--sans);font-size:13px;font-weight:600;padding:2px 0 10px;cursor:pointer;display:flex;align-items:center;gap:5px}
 .card-share-btn{padding:14px 20px;background:none;border:1.5px solid var(--line);border-radius:12px;font-family:var(--sans);font-size:14px;font-weight:600;color:var(--ink2);cursor:pointer}
 
 /* ── 내 기록 통합 뷰 탭 ── */
@@ -639,6 +672,8 @@ svg{display:block}
 .rec-del:active{background:var(--bg2)}
 .rec-empty{padding:56px 36px;text-align:center;font-size:14px;color:var(--ink3);line-height:1.8}
 .rec-empty .ic{font-size:32px;display:block;margin-bottom:10px;opacity:.5}
+.rec-empty .ic svg{width:32px;height:32px;margin:0 auto}
+.rec-del svg{display:inline-block;vertical-align:-2px}
 
 /* ── 최근 묵상 섹션 ── */
 .recent-sec{padding:20px 20px 8px;border-top:1px solid var(--line)}
@@ -683,6 +718,7 @@ svg{display:block}
 .challenge-btn-title{font-family:var(--serif);font-size:14px;font-weight:700;color:#FBF8F2;margin-bottom:2px}
 .challenge-btn-sub{font-size:11.5px;color:rgba(251,248,242,.6);line-height:1.4}
 .challenge-btn-streak{font-size:18px;flex-shrink:0}
+.challenge-btn-streak svg{width:15px;height:15px}
 
 /* 챌린지 뷰 */
 .challenge-view-sec{padding:18px 20px;border-bottom:1px solid var(--line)}
@@ -702,6 +738,7 @@ svg{display:block}
 .cv-badge{display:flex;flex-direction:column;align-items:center;gap:5px;padding:12px 6px;border-radius:12px;background:var(--bg2);border:1.5px solid var(--line);transition:border-color .15s}
 .cv-badge.earned{background:var(--gold-bg);border-color:var(--gold)}
 .cv-badge-icon{font-size:26px;line-height:1}
+.cv-badge-icon svg{width:26px;height:26px}
 .cv-badge-name{font-size:10px;font-weight:600;color:var(--ink3);text-align:center;word-break:keep-all;line-height:1.3}
 .cv-badge.earned .cv-badge-name{color:var(--gold)}
 /* 챌린지 카드 */
@@ -745,6 +782,7 @@ svg{display:block}
 .search-item-snip mark{background:rgba(255,224,102,.55);color:var(--ink);border-radius:2px;padding:0 1px}
 .search-empty{padding:60px 36px;text-align:center;font-size:14px;color:var(--ink3);line-height:1.8}
 .search-empty .ic{font-size:32px;display:block;margin-bottom:10px;opacity:.5}
+.search-empty .ic svg,.search-hint .ic svg{width:30px;height:30px;margin:0 auto}
 .search-hint{padding:40px 36px;text-align:center;font-size:13px;color:var(--ink3);line-height:1.8}
 .search-hint .ic{font-size:28px;display:block;margin-bottom:8px;opacity:.4}
 </style>
@@ -845,11 +883,11 @@ svg{display:block}
           <button class="tb-btn" onclick="signOut()" title="로그아웃"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></button>
         </div>
         <div class="scroll">
-          <div class="lib-hd"><span id="libHi">안녕하세요</span><span class="lib-hd-sub">오늘도 말씀 앞에 머무는 시간 되시길</span><span class="streak-badge" id="streakBadge" style="display:none">🔥 0일 연속</span></div>
+          <div class="lib-hd"><span id="libHi">안녕하세요</span><span class="lib-hd-sub">오늘도 말씀 앞에 머무는 시간 되시길</span><span class="streak-badge" id="streakBadge" style="display:none"><svg class="fire" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2c1.2 1.8 1.9 3 1.9 4.3a1.9 1.9 0 0 1-3.8 0c0-.7.3-1.3.9-2.1z"/><path d="M9.2 9.5h5.6l-.7 8.5H9.9z"/><path d="M8.4 18h7.2"/></svg> 0일 연속</span></div>
           <div class="shelf" id="shelf"></div>
           <!-- 독서 챌린지 버튼 -->
           <button class="challenge-btn" onclick="go('challenge')">
-            <span class="challenge-btn-icon">🏆</span>
+            <span class="challenge-btn-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 19c-3-1.2-4.5-4-4.5-7.5 0-2.4.8-4.4 2-5.8.5 2 .2 4-1 5.6 1.6.3 2.9 1.4 3.5 3.2"/><path d="M16 19c3-1.2 4.5-4 4.5-7.5 0-2.4-.8-4.4-2-5.8-.5 2-.2 4 1 5.6-1.6.3-2.9 1.4-3.5 3.2"/><path d="M9.5 20.5c1.6.6 3.4.6 5 0"/></svg></span>
             <div class="challenge-btn-body">
               <div class="challenge-btn-title">독서 챌린지</div>
               <div class="challenge-btn-sub">streak · 배지 · 진행 현황</div>
@@ -994,6 +1032,7 @@ svg{display:block}
         <div class="r-ctrl" id="rCtrl">
           <button class="ctrl-btn" onclick="pagePrev()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg><span>이전</span></button>
           <button class="ctrl-btn" onclick="openPanel()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg><span>설정</span></button>
+          <button class="ctrl-btn" onclick="openVerseCardPicker()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 10h10M7 14h6"/></svg><span>말씀카드</span></button>
           <button class="ctrl-btn" onclick="go('contents')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span>목차</span></button>
           <button class="ctrl-btn" onclick="pageNext()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18l6-6-6-6"/></svg><span>다음</span></button>
         </div>
@@ -1044,7 +1083,7 @@ svg{display:block}
         </div>
         <div class="search-result-cnt" id="searchCnt" style="display:none"></div>
         <div class="search-result-list" id="searchList">
-          <div class="search-hint"><span class="ic">🔍</span>검색어를 입력하세요.<br>제목과 본문에서 찾아드립니다.</div>
+          <div class="search-hint"><span class="ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></span>검색어를 입력하세요.<br>제목과 본문에서 찾아드립니다.</div>
         </div>
       </div>
 
@@ -1079,24 +1118,27 @@ svg{display:block}
           <button class="sp-btn" onpointerdown="event.preventDefault()" onclick="openNoteSheet()" title="메모">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>
           </button>
-          <!-- 카드 공유 -->
-          <button class="sp-btn" onpointerdown="event.preventDefault()" onclick="openCardSheet(_selRange ? _selRange.toString().trim() || (_selRange.startContainer.textContent.slice(_selRange.startOffset,_selRange.endOffset).trim()) : '')" title="카드 공유">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-          </button>
           <!-- 닫기 -->
           <button class="sp-btn sp-close" onpointerdown="event.preventDefault()" onclick="closeSelPopup()" title="닫기">✕</button>
         </div>
       </div>
       <!-- 마크 삭제 팝업 -->
       <div class="mark-popup hidden" id="markPopup">
-        <button onclick="doDeleteMark()">🗑 하이라이트 삭제</button>
+        <button onclick="doDeleteMark()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px"><path d="M4 7h16"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/><path d="M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12"/><path d="M10 11v6M14 11v6"/></svg>하이라이트 삭제</button>
         <button onclick="closeMarkPopup()">취소</button>
       </div>
       <!-- 말씀 카드 공유 시트 -->
       <div class="card-sheet" id="cardSheet">
         <div class="card-sheet-handle"></div>
-        <div class="card-sheet-title">말씀 카드 만들기</div>
-        <div class="card-preview-wrap">
+        <button class="card-sheet-close" onclick="closeCardSheet()" aria-label="닫기"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+        <div class="card-sheet-title" id="cardSheetTitle">말씀 카드 만들기</div>
+        <!-- 1단계: 구절 선택 목록 -->
+        <div class="card-verse-list" id="cardVerseList" style="display:none"></div>
+        <!-- 2단계: 카드 미리보기 -->
+        <div class="card-preview-wrap" id="cardPreviewWrap" style="display:none">
+          <button class="card-verse-back" id="cardVerseBack" onclick="backToVersePicker()" style="display:none">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>다른 구절 선택
+          </button>
           <canvas id="cardCanvas" width="800" height="500"></canvas>
           <div class="card-themes">
             <button class="card-theme-btn sel" data-ct="paper" onclick="setCardTheme('paper')">페이퍼</button>
@@ -1105,9 +1147,9 @@ svg{display:block}
             <button class="card-theme-btn" data-ct="gold" onclick="setCardTheme('gold')">골드</button>
           </div>
         </div>
-        <div class="card-sheet-btns">
-          <button class="card-dl-btn" onclick="shareCardText()" style="background:var(--gold)">📤 공유하기</button>
-          <button class="card-dl-btn" onclick="downloadCard()" style="flex:0 0 auto;padding:14px 16px">📥</button>
+        <div class="card-sheet-btns" id="cardSheetBtns" style="display:none">
+          <button class="card-dl-btn" onclick="shareCardText()" style="background:var(--gold)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px"><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.2 10.8l7.6-4.4M8.2 13.2l7.6 4.4"/></svg>공유하기</button>
+          <button class="card-dl-btn" onclick="downloadCard()" style="flex:0 0 auto;padding:14px 16px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M12 3v11"/><path d="M8 10l4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg></button>
         </div>
       </div>
 
@@ -1173,7 +1215,7 @@ svg{display:block}
         </div>
         <div class="p-sec" id="syncBtnSec">
           <button class="legal-link" onclick="closePanel();manualSync()" title="기기 간 동기화">
-            <span>☁️ 클라우드 동기화</span>
+            <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><path d="M7 18a4 4 0 0 1-.5-7.97 5 5 0 0 1 9.7-1.34A3.5 3.5 0 0 1 17.5 18z"/></svg>클라우드 동기화</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
           </button>
         </div>
@@ -4814,6 +4856,30 @@ function motifSVG(key, cls) {
   return `<svg class="${cls || ''}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${inner}</svg>`;
 }
 
+/* ── 모노크롬 라인 아이콘 (이모지 대체) — innerHTML 렌더 경로용 ──
+   viewBox 0 0 24 24 · stroke=currentColor · 색상 이모지 0 정책. */
+function lineIcon(inner, size) {
+  return `<svg width="${size||18}" height="${size||18}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${inner}</svg>`;
+}
+/* 펼친 책 */
+const IC_BOOK     = lineIcon('<path d="M12 6.4C9.8 5 6.8 5 4 6.2v11.6c2.8-1.2 5.8-1.2 8 .2"/><path d="M12 6.4C14.2 5 17.2 5 20 6.2v11.6c-2.8-1.2-5.8-1.2-8 .2"/><path d="M12 6.4v11.6"/>');
+/* 펜 */
+const IC_PEN      = lineIcon('<path d="M11 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4z"/>');
+/* 리본 북마크 */
+const IC_BOOKMARK = lineIcon('<path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>');
+/* 연필+종이(메모) */
+const IC_MEMO     = lineIcon('<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6"/><path d="M8 8h6M8 12h4"/><path d="M18.5 13.5a1.8 1.8 0 0 1 2.5 2.5L17 20l-3 .8.8-3z"/>');
+/* 복사(겹친 문서 2장) */
+const IC_COPY     = lineIcon('<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>', 15);
+/* 촛불 불꽃 (차분한 묵상 무드 — 촛대 위 작은 불꽃) */
+const IC_CANDLE   = lineIcon('<path d="M12 3.2c1.2 1.8 1.9 3 1.9 4.3a1.9 1.9 0 0 1-3.8 0c0-.7.3-1.3.9-2.1z"/><path d="M9.2 9.5h5.6l-.7 8.5H9.9z"/><path d="M8.4 18h7.2"/>');
+/* 작은 불꽃/스파크 (촛불 계열로 톤 통일) */
+const IC_SPARK    = lineIcon('<path d="M12 2.5c.9 2.4 1.6 3.6 3 4.5-1.4.9-2.1 2.1-3 4.5-.9-2.4-1.6-3.6-3-4.5 1.4-.9 2.1-2.1 3-4.5z"/><path d="M6.5 13c.5 1.3.9 1.9 1.7 2.5-.8.5-1.2 1.2-1.7 2.5-.5-1.3-.9-1.9-1.7-2.5.8-.6 1.2-1.2 1.7-2.5z"/><path d="M16.5 14c.4 1.1.8 1.6 1.5 2.1-.7.5-1.1 1-1.5 2.1-.4-1.1-.8-1.6-1.5-2.1.7-.5 1.1-1 1.5-2.1z"/>');
+/* 월계관 (laurel wreath) */
+const IC_LAUREL   = lineIcon('<path d="M8 19c-3-1.2-4.5-4-4.5-7.5 0-2.4.8-4.4 2-5.8.5 2 .2 4-1 5.6 1.6.3 2.9 1.4 3.5 3.2"/><path d="M16 19c3-1.2 4.5-4 4.5-7.5 0-2.4-.8-4.4-2-5.8-.5 2-.2 4 1 5.6-1.6.3-2.9 1.4-3.5 3.2"/><path d="M9.5 20.5c1.6.6 3.4.6 5 0"/>');
+/* 하트(외곽선) */
+const IC_HEART    = lineIcon('<path d="M12 20s-7-4.6-7-9.5A3.8 3.8 0 0 1 12 7.5 3.8 3.8 0 0 1 19 10.5C19 15.4 12 20 12 20z"/>');
+
 /* ═══════════════════════════════════════════════════
    기능 1: 텍스트 하이라이트
 ═══════════════════════════════════════════════════ */
@@ -4943,7 +5009,7 @@ function applyHighlight(color) {
     const sel = window.getSelection();
     if (sel) sel.removeAllRanges();
     persistMarks();
-    showToast('✨ 하이라이트가 저장됐습니다');
+    showToast('하이라이트가 저장됐습니다');
   } catch(e) {
     console.warn('applyHighlight error', e);
   }
@@ -5366,8 +5432,8 @@ function renderRecords() {
 
   if (!items.length) {
     const msgs = { all:'아직 기록이 없어요', highlight:'형광펜이 없어요', bookmark:'책갈피가 없어요', memo:'메모가 없어요' };
-    const ics  = { all:'📖', highlight:'🖊️', bookmark:'🔖', memo:'📝' };
-    list.innerHTML = `<div class="rec-empty"><span class="ic">${ics[_recTab]||'📖'}</span>${msgs[_recTab]||'기록이 없어요'}</div>`;
+    const ics  = { all:IC_BOOK, highlight:IC_PEN, bookmark:IC_BOOKMARK, memo:IC_MEMO };
+    list.innerHTML = `<div class="rec-empty"><span class="ic">${ics[_recTab]||IC_BOOK}</span>${msgs[_recTab]||'기록이 없어요'}</div>`;
     return;
   }
 
@@ -5382,7 +5448,7 @@ function renderRecords() {
           <div class="rec-meta">
             <span class="rec-book-lbl">${artTitle.replace(/<br>/g,' ')}</span>
             <div class="rec-actions">
-              <button class="rec-del" onclick="event.stopPropagation();copyQuote('${(item.text||'').replace(/'/g,"\\'")}')" title="복사">📋</button>
+              <button class="rec-del" onclick="event.stopPropagation();copyQuote('${(item.text||'').replace(/'/g,"\\'")}')" title="복사">${IC_COPY}</button>
               <button class="rec-del" onclick="event.stopPropagation();deleteHighlightById('${item.artId}','${item.id}')" title="삭제">×</button>
             </div>
           </div>
@@ -5410,7 +5476,7 @@ function renderRecords() {
           <div class="rec-meta">
             <span class="rec-book-lbl">${item.bookTitle ? item.bookTitle+' · ':'' }${item.artTitle||''}</span>
             <div class="rec-actions">
-              <button class="rec-del" onclick="event.stopPropagation();copyQuote('${(item.quote||item.memo||'').replace(/'/g,"\\'")}')" title="복사">📋</button>
+              <button class="rec-del" onclick="event.stopPropagation();copyQuote('${(item.quote||item.memo||'').replace(/'/g,"\\'")}')" title="복사">${IC_COPY}</button>
               <button class="rec-del" onclick="event.stopPropagation();deleteNote('${item.id}')" title="삭제">×</button>
             </div>
           </div>
@@ -5452,6 +5518,7 @@ function copyQuote(text) {
    말씀 카드 공유 (Canvas API)
 ══════════════════════════════════════════════ */
 let _cardText = '';
+let _cardRef = '';
 let _cardTheme = 'paper';
 const CARD_THEMES = {
   paper: { bg:'#FBF8F2', text:'#1A1714', sub:'#9A9089', gold:'#9A7B4F', line:'#E5DECF' },
@@ -5460,15 +5527,72 @@ const CARD_THEMES = {
   gold:  { bg:'#2A1F0A', text:'#F5E8C0', sub:'#C8A87A', gold:'#EBCF96', line:'#4A3A1A' },
 };
 
-function openCardSheet(text) {
-  _cardText = text || '';
+/* HTML 태그 제거 → 순수 텍스트 */
+function _stripTags(html) {
+  if (!html) return '';
+  const tmp = document.createElement('div');
+  tmp.innerHTML = html;
+  return (tmp.textContent || tmp.innerText || '').replace(/\s+/g, ' ').trim();
+}
+
+/* 현재 글의 성경구절을 골라 카드 만들기 */
+let _verseCardHasPicker = false;
+function openVerseCardPicker() {
+  const art = flatList[curIdx];
+  // 성경구절(scripture) + 인용·강조 구절(pq) 모두 카드 후보로 — 대부분의 글은 pq에 핵심 말씀이 들어있음
+  const verses = (art && art.blocks || []).filter(b => b.t === 'scripture' || b.t === 'pq');
+  if (!verses.length) { showToast('이 글에는 카드로 만들 구절이 없습니다'); return; }
+
+  _verseCardHasPicker = true;
+  const list = document.getElementById('cardVerseList');
+  list.innerHTML = verses.map(v => {
+    const ref = _stripTags(v.ref);   // pq 는 참조 없음 → 빈 문자열
+    const txt = _stripTags(v.c);
+    return `<button class="card-verse-item" onclick="pickVerseForCard(this)" data-ref="${encodeURIComponent(ref)}" data-txt="${encodeURIComponent(txt)}">
+        ${ref ? `<div class="cvi-ref">${ref}</div>` : ''}
+        <div class="cvi-txt">${txt}</div>
+      </button>`;
+  }).join('');
+
+  // 목록만 표시
+  document.getElementById('cardSheetTitle').textContent = '카드로 만들 구절 선택';
+  list.style.display = '';
+  document.getElementById('cardPreviewWrap').style.display = 'none';
+  document.getElementById('cardSheetBtns').style.display = 'none';
+  document.getElementById('cardSheet').classList.add('show');
+}
+
+function pickVerseForCard(el) {
+  const ref = decodeURIComponent(el.dataset.ref || '');
+  const txt = decodeURIComponent(el.dataset.txt || '');
+  openCardSheet(txt, ref);
+}
+
+function backToVersePicker() {
+  document.getElementById('cardSheetTitle').textContent = '카드로 만들 구절 선택';
+  document.getElementById('cardVerseList').style.display = '';
+  document.getElementById('cardPreviewWrap').style.display = 'none';
+  document.getElementById('cardSheetBtns').style.display = 'none';
+}
+
+function openCardSheet(text, ref) {
+  _cardText = _stripTags(text) || (text || '');
+  _cardRef = ref || '';
   if (!_cardText) return;
+  // 미리보기 표시 (목록은 숨김)
+  document.getElementById('cardSheetTitle').textContent = '말씀 카드 만들기';
+  document.getElementById('cardVerseList').style.display = 'none';
+  document.getElementById('cardPreviewWrap').style.display = '';
+  document.getElementById('cardSheetBtns').style.display = '';
+  // 구절 선택 경로로 진입했을 때만 '다른 구절 선택' 버튼 노출
+  document.getElementById('cardVerseBack').style.display = _verseCardHasPicker ? '' : 'none';
   document.getElementById('cardSheet').classList.add('show');
   drawCard();
 }
 
 function closeCardSheet() {
   document.getElementById('cardSheet').classList.remove('show');
+  _verseCardHasPicker = false;
 }
 
 function setCardTheme(theme) {
@@ -5516,9 +5640,21 @@ function drawCard() {
   }
   if (line) lines.push(line);
   const lineH = FONT_SIZE * 1.7;
-  const totalH = lines.length * lineH;
+  /* 참조(있을 때만)를 위한 추가 높이 확보 */
+  const REF_SIZE = 18;
+  const refGap = _cardRef ? REF_SIZE * 2.4 : 0;
+  const totalH = lines.length * lineH + refGap;
   const startY = H / 2 - totalH / 2 + FONT_SIZE / 2;
   lines.forEach((l, i) => ctx.fillText(l, W/2, startY + i * lineH));
+
+  /* 참조 (— 요한복음 3:16) */
+  if (_cardRef) {
+    ctx.fillStyle = t.gold;
+    ctx.font = `italic ${REF_SIZE}px "Noto Serif KR", serif`;
+    ctx.textAlign = 'center';
+    const refY = startY + (lines.length - 1) * lineH + refGap;
+    ctx.fillText('— ' + _cardRef, W/2, refY);
+  }
 
   /* 하단 장식 */
   ctx.fillStyle = t.gold;
@@ -5546,25 +5682,26 @@ function downloadCard() {
       const file = new File([blob], 'meslap-card.png', { type:'image/png' });
       try {
         if (navigator.canShare({ files:[file] })) {
-          await navigator.share({ files:[file], title:'말씀 카드', text: _cardText + '\n\n— MeslapBooks' });
+          await navigator.share({ files:[file], title:'말씀 카드', text: _cardText + (_cardRef ? '\n— ' + _cardRef : '') + '\n\n— MeslapBooks' });
           return;
         }
       } catch(e) { if (e.name !== 'AbortError') console.warn(e); }
     });
   }
-  showToast('📥 카드가 저장됐습니다');
+  showToast('카드가 저장됐습니다');
 }
 
 function shareCardText() {
   if (!_cardText) return;
-  const msg = _cardText + '\n\n말씀이 삶이 되는 자리, MeslapBooks\nhttps://gerrardbak08.github.io/meslap-books';
+  const refLine = _cardRef ? '\n— ' + _cardRef : '';
+  const msg = _cardText + refLine + '\n\n말씀이 삶이 되는 자리, MeslapBooks\nhttps://gerrardbak08.github.io/meslap-books';
   if (navigator.share) {
     navigator.share({ title:'말씀 카드', text: msg }).catch(e => {
       if (e.name !== 'AbortError') copyQuote(msg);
     });
   } else {
     copyQuote(msg);
-    showToast('📋 말씀이 복사됐습니다');
+    showToast('말씀이 복사됐습니다');
   }
 }
 
@@ -5741,7 +5878,7 @@ function showResumeToast(pos) {
   const title = (art.title || '').replace(/<br>/g, ' ').slice(0, 20);
   const t = document.getElementById('toast');
   if (!t) return;
-  t.innerHTML = `📖 이어읽기: ${title}… <span style="text-decoration:underline;cursor:pointer" onclick="go('library')">서재로</span>`;
+  t.innerHTML = `<span style="vertical-align:-2px;margin-right:5px;display:inline-block">${IC_BOOK}</span>이어읽기: ${title}… <span style="text-decoration:underline;cursor:pointer" onclick="go('library')">서재로</span>`;
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3500);
 }
@@ -5778,7 +5915,7 @@ function submitAuth() {
       btn.textContent = authMode === 'signup' ? '가입하고 시작하기' : '로그인';
       if (error) { alert('오류: ' + error.message); return; }
       if (authMode === 'signup' && !data.session) {
-        alert('📧 이메일을 확인해 주세요. 인증 링크를 클릭하면 로그인됩니다.');
+        alert('이메일을 확인해 주세요. 인증 링크를 클릭하면 로그인됩니다.');
         return;
       }
       // onAuthStateChange에서 처리됨
@@ -5876,7 +6013,7 @@ function showFinishedModal() {
   const bookTitle = (typeof BOOK_META !== 'undefined' && BOOK_META && BOOK_META.title || '이 책').replace(/<br>/g, ' ');
   el.innerHTML = `
     <div class="finished-inner">
-      <div class="finished-icon">🎉</div>
+      <div class="finished-icon"><svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v3.5M12 18.5V22M2 12h3.5M18.5 12H22M4.9 4.9l2.5 2.5M16.6 16.6l2.5 2.5M19.1 4.9l-2.5 2.5M7.4 16.6l-2.5 2.5"/><circle cx="12" cy="12" r="3.2"/></svg></div>
       <div class="finished-title">완독을 축하합니다!</div>
       <div class="finished-book">${bookTitle}</div>
       <div class="finished-desc">모든 글을 다 읽으셨어요.<br>말씀이 삶이 되는 자리에서 함께해 주셔서 감사합니다.</div>
@@ -5891,7 +6028,7 @@ function updateStreakBadge() {
   const badge = document.getElementById('streakBadge');
   if (!badge) return;
   if (s.streak >= 1) {
-    badge.innerHTML = `<span class="fire">🔥</span>${s.streak}일 연속`;
+    badge.innerHTML = `<span class="fire">${IC_CANDLE}</span>${s.streak}일 연속`;
     badge.style.display = 'inline-flex';
   } else {
     badge.style.display = 'none';
@@ -5920,21 +6057,21 @@ function showTodayReview() {
   localStorage.setItem(lastKey, today);
   const m = allMarks[Math.floor(Math.random() * allMarks.length)];
   const preview = m.text.length > 35 ? m.text.slice(0, 35) + '\u2026' : m.text;
-  setTimeout(() => showToast(`\uD83D\uDC9B 오늘의 복습: "${preview}"`), 1200);
+  setTimeout(() => showToast(`오늘의 복습: "${preview}"`), 1200);
 }
 
 /* ══════════════════════════════════════════════
    독서 챌린지·배지
 ══════════════════════════════════════════════ */
 const BADGES_DEF = [
-  { id:'first_read',  icon:'📖', name:'첫 독서',      cond: d => d.totalDays >= 1 },
-  { id:'streak_3',    icon:'🔥', name:'3일 연속',      cond: d => d.streak >= 3 },
-  { id:'streak_7',    icon:'⚡', name:'7일 연속',      cond: d => d.streak >= 7 },
-  { id:'streak_30',   icon:'🏆', name:'30일 연속',     cond: d => d.streak >= 30 },
-  { id:'hl_10',       icon:'🖊️', name:'하이라이트10', cond: d => d.hlCount >= 10 },
-  { id:'hl_50',       icon:'💛', name:'하이라이트50', cond: d => d.hlCount >= 50 },
-  { id:'memo_5',      icon:'📝', name:'메모 5개',       cond: d => d.memoCount >= 5 },
-  { id:'bmk_10',      icon:'🔖', name:'책갈피 10',      cond: d => d.bmkCount >= 10 },
+  { id:'first_read',  icon:IC_BOOK,     name:'첫 독서',      cond: d => d.totalDays >= 1 },
+  { id:'streak_3',    icon:IC_CANDLE,   name:'3일 연속',      cond: d => d.streak >= 3 },
+  { id:'streak_7',    icon:IC_SPARK,    name:'7일 연속',      cond: d => d.streak >= 7 },
+  { id:'streak_30',   icon:IC_LAUREL,   name:'30일 연속',     cond: d => d.streak >= 30 },
+  { id:'hl_10',       icon:IC_PEN,      name:'하이라이트10', cond: d => d.hlCount >= 10 },
+  { id:'hl_50',       icon:IC_HEART,    name:'하이라이트50', cond: d => d.hlCount >= 50 },
+  { id:'memo_5',      icon:IC_MEMO,     name:'메모 5개',       cond: d => d.memoCount >= 5 },
+  { id:'bmk_10',      icon:IC_BOOKMARK, name:'책갈피 10',      cond: d => d.bmkCount >= 10 },
 ];
 
 function getChallengeStats() {
@@ -5966,7 +6103,7 @@ function renderChallenge() {
 
   /* streak 배지 버튼도 업데이트 */
   const sb = document.getElementById('challengeBtnStreak');
-  if (sb) sb.textContent = d.streak >= 1 ? `🔥${d.streak}` : '';
+  if (sb) sb.innerHTML = d.streak >= 1 ? `<span style="display:inline-flex;align-items:center;gap:3px">${IC_CANDLE}${d.streak}</span>` : '';
 
   /* 최근 7일 표시 */
   const last7 = [];
@@ -6011,7 +6148,7 @@ function renderChallenge() {
       <div class="cv-streak-row">
         <div class="cv-streak-num">${d.streak}</div>
         <div class="cv-streak-info">
-          <div class="cv-streak-label">일 연속 🔥</div>
+          <div class="cv-streak-label" style="display:flex;align-items:center;gap:5px">일 연속 <span style="display:inline-flex">${lineIcon('<path d="M12 3.2c1.2 1.8 1.9 3 1.9 4.3a1.9 1.9 0 0 1-3.8 0c0-.7.3-1.3.9-2.1z"/><path d="M9.2 9.5h5.6l-.7 8.5H9.9z"/><path d="M8.4 18h7.2"/>', 15)}</span></div>
           <div class="cv-streak-sub">최고 ${d.best}일 · 총 ${d.totalDays}일 · 누적 ${getReadTimeStr(d.totalReadSec)}</div>
         </div>
       </div>
@@ -6043,7 +6180,7 @@ function greet(u) {
   updateStreakBadge();
   const sb = document.getElementById('challengeBtnStreak');
   const streakData = (()=>{try{return JSON.parse(localStorage.getItem(STREAK_KEY)||'{}')}catch{return{}}})();
-  if (sb) sb.textContent = (streakData.streak||0) >= 1 ? `🔥${streakData.streak}` : '';
+  if (sb) sb.innerHTML = (streakData.streak||0) >= 1 ? `<span style="display:inline-flex;align-items:center;gap:3px">${IC_CANDLE}${streakData.streak}</span>` : '';
 }
 /* ── 소셜 로그인 (Supabase OAuth) ── */
 function socialLogin(provider) {
@@ -6185,7 +6322,7 @@ async function syncToCloud() {
       await sb.from('user_notes').upsert(notes, { onConflict: 'id' });
     }
 
-    showToast('☁️ 클라우드에 동기화됐습니다');
+    showToast('클라우드에 동기화됐습니다');
   } catch(e) {
     console.warn('syncToCloud error', e);
   }
@@ -6317,7 +6454,7 @@ function manualSync() {
   const u = getUser();
   if (!u) { showToast('로그인 후 동기화할 수 있습니다'); return; }
   if (!SB_ENABLED()) { showToast('Supabase 연동 후 사용 가능합니다'); return; }
-  showToast('☁️ 동기화 중…');
+  showToast('동기화 중…');
   syncToCloud().then(() => syncFromCloud(u.id));
 }
 /* ══════════════════════════════════════════════
@@ -6365,7 +6502,7 @@ function doSearch() {
   if (!input || !list) return;
   const q = input.value.trim();
   if (!q) {
-    list.innerHTML = '<div class="search-hint"><span class="ic">🔍</span>검색어를 입력하세요.<br>제목과 본문에서 찾아드립니다.</div>';
+    list.innerHTML = '<div class="search-hint"><span class="ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></span>검색어를 입력하세요.<br>제목과 본문에서 찾아드립니다.</div>';
     if (cnt) cnt.style.display = 'none';
     return;
   }
@@ -6387,7 +6524,7 @@ function doSearch() {
   results.sort((a, b) => b.titleMatch - a.titleMatch);
 
   if (!results.length) {
-    list.innerHTML = `<div class="search-empty"><span class="ic">🔎</span>'${q}'에 대한 검색 결과가 없습니다.<br>다른 키워드로 검색해 보세요.</div>`;
+    list.innerHTML = `<div class="search-empty"><span class="ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></span>'${q}'에 대한 검색 결과가 없습니다.<br>다른 키워드로 검색해 보세요.</div>`;
     if (cnt) { cnt.textContent = '결과 없음'; cnt.style.display = 'block'; }
     return;
   }
@@ -6519,7 +6656,7 @@ async function openBookBySlug(slug) {
   if (!slug) return;
   if (typeof BOOK_META !== 'undefined' && BOOK_META && BOOK_META.slug === slug) { go('cover'); return; }
   if (typeof _BOOK_CACHE !== 'undefined' && _BOOK_CACHE[slug]) { _loadBook(_BOOK_CACHE[slug]); return; }
-  showToast('📖 불러오는 중…');
+  showToast('불러오는 중…');
   try {
     const base = location.href.replace(/[^/]*$/, '');
     const res = await fetch(base + 'books/' + slug + '.json');
@@ -6597,7 +6734,7 @@ function _loadBook(book) {
   renderTOC();
   renderShelf();
   go('cover');
-  showToast(`📖 ${newMeta.title.replace(/<br>/g, ' ')} 열었습니다`);
+  showToast(`${newMeta.title.replace(/<br>/g, ' ')} 열었습니다`);
 }
 
 /* ── 최근 묵상 RSS ── */
@@ -6814,7 +6951,7 @@ function toggleBookmark() {
     });
     setBookmarks(bookmarks);
     syncBmkBtn();
-    showToast('📖 책갈피가 저장됐습니다');
+    showToast('책갈피가 저장됐습니다');
     // 클라우드 동기화 (3초 후)
     clearTimeout(toggleBookmark._syncTimer);
     toggleBookmark._syncTimer = setTimeout(() => syncToCloud().catch(() => {}), 3000);
@@ -6825,7 +6962,7 @@ function renderBookmarks() {
   if (!list) return;
   const bookmarks = getBookmarks();
   if (!bookmarks.length) {
-    list.innerHTML = `<div class="bmk-empty">저장된 책갈피가 없어요.<br>읽던 중 상단 🔖 버튼을 탭하면 저장됩니다.</div>`;
+    list.innerHTML = `<div class="bmk-empty">저장된 책갈피가 없어요.<br>읽던 중 상단 <span style="display:inline-flex;vertical-align:-3px">${lineIcon('<path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>', 15)}</span> 버튼을 탭하면 저장됩니다.</div>`;
     return;
   }
   list.innerHTML = bookmarks.map(b => `
@@ -6849,7 +6986,7 @@ function jumpToBookmark(artId, artIdx, savedPageIdx) {
     openArt(target);
   }
   go('reader');
-  showToast('📖 책갈피 위치로 이동했습니다');
+  showToast('책갈피 위치로 이동했습니다');
 }
 function deleteBookmark(id) {
   setBookmarks(getBookmarks().filter(b => b.id !== id));
@@ -7089,7 +7226,7 @@ function renderArt(idx) {
       const sec = document.createElement('div');
       sec.className = 'popular-hl-sec';
       sec.innerHTML = `
-        <div class="popular-hl-lbl">🔥 많이 읽힌 구절</div>
+        <div class="popular-hl-lbl"><span style="display:inline-flex;vertical-align:-2px;margin-right:4px">${lineIcon('<path d="M12 3.2c1.2 1.8 1.9 3 1.9 4.3a1.9 1.9 0 0 1-3.8 0c0-.7.3-1.3.9-2.1z"/><path d="M9.2 9.5h5.6l-.7 8.5H9.9z"/><path d="M8.4 18h7.2"/>', 13)}</span>많이 읽힌 구절</div>
         ${popular.map(p => `
           <div class="popular-hl-item">
             <span class="popular-hl-text">${p.text}</span>
