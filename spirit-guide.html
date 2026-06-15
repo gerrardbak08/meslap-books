@@ -31,7 +31,7 @@
 <meta name="apple-mobile-web-app-title" content="MeslapBooks">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- 서비스워커 등록 (없으면 조용히 무시) -->
-<script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}</script>
+<script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').then(function(reg){try{reg.update()}catch(e){}setInterval(function(){try{reg.update()}catch(e){}},1800000)}).catch(function(){});if(navigator.serviceWorker.controller){var _swReloading=false;navigator.serviceWorker.addEventListener('controllerchange',function(){if(_swReloading)return;_swReloading=true;location.reload()})}})}</script>
 <!-- ── Supabase SDK (CDN) ── -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <!-- ── Supabase 설정 — 여기에 실제 키를 입력하세요 ──
@@ -203,6 +203,10 @@ body{font-family:var(--sans);-webkit-font-smoothing:antialiased;background:radia
   /* iOS: 네이티브 텍스트 선택 완전 차단 → 커스텀 하이라이트로 대체 */
   -webkit-user-select:none;user-select:none;
   -webkit-touch-callout:none;
+}
+/* 데스크톱(마우스): 네이티브 텍스트 선택 허용 → selectionchange 기반 하이라이트 작동 */
+@media (hover:hover) and (pointer:fine){
+  .r-body{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
 }
 .r-lbl{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-align:center;margin-bottom:14px}
 .r-title{font-family:var(--reader-font);font-size:24px;font-weight:700;line-height:1.5;color:var(--ink);text-align:center;word-break:keep-all;margin-bottom:10px}
@@ -4991,6 +4995,8 @@ function initSelectionDetection() {
 
   const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent) ||
                 (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  // 터치기기(안드로이드 포함)는 커스텀 롱프레스 경로 사용 — user-select:none 우회. 데스크톱(마우스)만 네이티브 선택.
+  const isTouch = isIOS || (navigator.maxTouchPoints || 0) > 0 || ('ontouchstart' in window);
 
   /* ── 팝업 버튼 탭 시 선택 날아가는 것 방지 ── */
   popup.addEventListener('pointerdown',  e => e.preventDefault(), { passive: false });
@@ -5053,8 +5059,8 @@ function initSelectionDetection() {
     try { sel.addRange(range); } catch (_) {}
   }
 
-  if (isIOS) {
-    /* ══ iOS: long-press → caretRangeFromPoint 직접 조작 ══ */
+  if (isTouch) {
+    /* ══ 터치(iOS·안드로이드): long-press → caretRangeFromPoint 직접 조작 ══ */
     let lpTimer  = null;
     let anchorPt = null;      // long-press 시작 좌표 (고정 앵커)
     let anchorRange = null;   // 앵커 단어 Range (드래그 기준점)
