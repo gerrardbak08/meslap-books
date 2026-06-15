@@ -77,6 +77,14 @@ body{font-family:var(--sans);-webkit-font-smoothing:antialiased;background:radia
 .statusbar .icons{display:flex;align-items:center;gap:6px;color:var(--ink)}
 .home-indicator{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;background:var(--ink);opacity:.32;border-radius:3px;z-index:100}
 
+/* 데스크톱(쇼케이스) 전용: .screen 을 position:fixed 후손의 컨테이닝 블록으로 만들어
+   패널·시트·팝업·토스트가 모바일 프레임 밖으로 새지 않고 .screen 안에 갇히도록 함.
+   transform 이 걸린 요소는 fixed 후손의 기준이 됨. 모바일/PWA(전체화면)에는 영향 없도록
+   데스크톱(481px 이상 & 비-standalone) 으로 한정. translateZ(0) 은 시각적 변형 0. */
+@media (min-width:481px) and (not (display-mode:standalone)) {
+  .screen { transform: translateZ(0); }
+}
+
 @media(max-height:920px){.iphone{transform:scale(.86);margin:-58px 0}}
 @media(max-width:440px){.iphone{transform:scale(.8);margin:-80px 0}.hint{margin-top:48px}}
 
@@ -952,7 +960,7 @@ svg{display:block}
         </div>
         <div class="scroll">
           <div class="toc-hd">
-            <div class="toc-hd-s">복된 교회 시리즈</div>
+            <div class="toc-hd-s" id="tocSeries">복된 교회 시리즈</div>
             <div class="toc-hd-t" id="tocTitle">예수 이름의 권세가 흐르는 교회</div>
           </div>
           <div id="tocList"></div>
@@ -1453,15 +1461,15 @@ const BOOK_CATALOG = [
     "current": false
   }
 ];
-const BOOK_CHAPTERS = [
+let BOOK_CHAPTERS = [
   {
     "cat": "I",
-    "catName": "지침",
+    "catName": "성령 안의 새 생명과 해방",
     "articles": [
       {
         "id": "224053624040",
         "log_no": "224053624040",
-        "label": "I-1 · 지침",
+        "label": "I-1 · 성령 안의 새 생명과 해방",
         "title": "지침 1 | 성령의 해방 — 정죄함 없는 생명의 성령의 법",
         "sub": "",
         "date": "2025.10.26",
@@ -1704,7 +1712,7 @@ const BOOK_CHAPTERS = [
       {
         "id": "224061558640",
         "log_no": "224061558640",
-        "label": "I-2 · 지침",
+        "label": "I-2 · 성령 안의 새 생명과 해방",
         "title": "지침 2 | 생명과 평안으로 이끄시는 성령님 — 육신의 생각 vs 영의 생각",
         "sub": "",
         "date": "2025.11.02",
@@ -1931,7 +1939,7 @@ const BOOK_CHAPTERS = [
       {
         "id": "224069486853",
         "log_no": "224069486853",
-        "label": "I-3 · 지침",
+        "label": "I-3 · 성령 안의 새 생명과 해방",
         "title": "지침 3 | 성령의 내주로 그리스도인 됨을 확신하라 — 흔들리지 않는 정체성의 표징과 부활의 소망",
         "sub": "",
         "date": "2025.11.09",
@@ -2198,7 +2206,7 @@ const BOOK_CHAPTERS = [
       {
         "id": "224084716293",
         "log_no": "224084716293",
-        "label": "I-4 · 지침",
+        "label": "I-4 · 성령 안의 새 생명과 해방",
         "title": "지침 4 | 성령의 능력을 힘입어 육신의 행실을 죽이라",
         "sub": "",
         "date": "2025.11.23",
@@ -2493,11 +2501,17 @@ const BOOK_CHAPTERS = [
             "c": "여러분은 오늘 말씀을 통해 육신의 행실을 '영으로써 죽이는' 실제적인 훈련의 중요성을 깨달았을 것입니다. 자신의 삶에서 육신의 소욕(죄의 오염)에 직면할 때, 성령의 능력을 힘입어 어떻게 승리할 것인지 구체적인 계획과 다짐을 나눠 봅시다."
           }
         ]
-      },
+      }
+    ]
+  },
+  {
+    "cat": "II",
+    "catName": "양자의 영과 상속자의 소망",
+    "articles": [
       {
         "id": "224092681741",
         "log_no": "224092681741",
-        "label": "I-5 · 지침",
+        "label": "II-1 · 양자의 영과 상속자의 소망",
         "title": "지침 5 | 양자의 영으로 아바 아버지를 부르짖으라",
         "sub": "",
         "date": "2025.11.30",
@@ -2768,7 +2782,7 @@ const BOOK_CHAPTERS = [
       {
         "id": "224100714033",
         "log_no": "224100714033",
-        "label": "I-6 · 지침",
+        "label": "II-2 · 양자의 영과 상속자의 소망",
         "title": "지침 6 | 고난 속에서도 상속자의 영광된 소망을 붙들라",
         "sub": "",
         "date": "2025.12.07",
@@ -3123,7 +3137,7 @@ const BOOK_CHAPTERS = [
       {
         "id": "224108915471",
         "log_no": "224108915471",
-        "label": "I-7 · 지침",
+        "label": "II-3 · 양자의 영과 상속자의 소망",
         "title": "지침 7 | 성령의 중보로 연약함을 담대히 이겨내라",
         "sub": "",
         "date": "2025.12.14",
@@ -3758,11 +3772,17 @@ const BOOK_CHAPTERS = [
             "c": "성령의 인도를 '콧 노래 부르듯 기쁨으로' 따라가기 위해, 이번 주 당신이 능동적이고 적극적으로 실천하고자 하는 '복된 삶의 구체적인 순종'은 무엇입니까?"
           }
         ]
-      },
+      }
+    ]
+  },
+  {
+    "cat": "III",
+    "catName": "하나님의 주권과 끊을 수 없는 사랑",
+    "articles": [
       {
         "id": "224125045632",
         "log_no": "224125045632",
-        "label": "I-8 · 지침",
+        "label": "III-1 · 하나님의 주권과 끊을 수 없는 사랑",
         "title": "지침 8 | 하나님의 주권과 선하신 계획을 확신하라",
         "sub": "",
         "date": "2025.12.28",
@@ -4101,7 +4121,7 @@ const BOOK_CHAPTERS = [
       {
         "id": "224133468965",
         "log_no": "224133468965",
-        "label": "I-9 · 지침",
+        "label": "III-2 · 하나님의 주권과 끊을 수 없는 사랑",
         "title": "지침 9 | 그리스도 안에서 끊을 수 없는 하나님의 사랑을 확신하라",
         "sub": "",
         "date": "2026.01.04",
@@ -4368,7 +4388,7 @@ const BOOK_CHAPTERS = [
       {
         "id": "224141916535",
         "log_no": "224141916535",
-        "label": "I-10 · 지침",
+        "label": "III-3 · 하나님의 주권과 끊을 수 없는 사랑",
         "title": "지침 10 | 성령의 인도하심을 따라 그리스도의 형상을 닮아가라",
         "sub": "",
         "date": "2026.01.11",
@@ -6527,6 +6547,8 @@ function _loadBook(book) {
   book.chapters.forEach(ch => ch.articles.forEach(a => {
     flatList.push({ ...a, catName: ch.catName, cat: ch.cat });
   }));
+  // 목차 데이터도 현재 책으로 동기화 — renderTOC/renderShelf 가 BOOK_CHAPTERS 를 읽으므로 필수
+  BOOK_CHAPTERS = book.chapters || [];
 
   // BOOK_CATALOG current 업데이트
   if (typeof BOOK_CATALOG !== 'undefined') {
@@ -6947,6 +6969,17 @@ function pagePrev() { if (pageMode) goPage(pageIdx - 1); else prevArt(); }
 /* ── 목차 렌더 ── */
 function renderTOC() {
   const readSet = getReadArts();
+  // 목차 헤더(시리즈·제목)를 현재 책으로 동기화 (책 전환 시 헤더 고정 버그 수정)
+  if (typeof BOOK_META !== 'undefined' && BOOK_META) {
+    const _tt = document.getElementById('tocTitle');
+    if (_tt) _tt.innerHTML = (BOOK_META.title || '').replace(/<br>/g, ' ');
+    const _ts = document.getElementById('tocSeries');
+    if (_ts) {
+      let s = BOOK_META.series || '';
+      if (BOOK_META.volume) s = s.replace(/\s*·\s*제?\s*\d+\s*권.*$/, '').trim();
+      _ts.textContent = s;
+    }
+  }
   let html = '';
   BOOK_CHAPTERS.forEach((ch, ci) => {
     html += `
