@@ -6727,7 +6727,26 @@ function _loadBook(book) {
 /* ── 최근 묵상 RSS ── */
 let _recentPage = 0;
 let _recentItems = [];
-const RSS2JSON = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent('https://rss.blog.naver.com/meslap3.xml');
+const RSS2JSON   = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent('https://rss.blog.naver.com/meslap3.xml');
+const RSS_PROXY  = 'https://corsproxy.io/?' + encodeURIComponent('https://rss.blog.naver.com/meslap3.xml');
+const KO_RE = /[가-힣]/;
+
+async function _fetchRssItems() {
+  /* 1차: rss2json (JSON 직접) */
+  try {
+    const res = await fetch(RSS2JSON, { signal: AbortSignal.timeout(8000) });
+    const data = await res.json();
+    if (data.status === 'ok' && data.items?.length) return data.items;
+  } catch(_) {}
+  /* 2차 폴백: corsproxy + XML */
+  const res2 = await fetch(RSS_PROXY, { signal: AbortSignal.timeout(8000) });
+  const xml = new DOMParser().parseFromString(await res2.text(), 'text/xml');
+  return Array.from(xml.querySelectorAll('item')).map(it => ({
+    title:   it.querySelector('title')?.textContent?.trim() || '',
+    link:    it.querySelector('link')?.nextSibling?.textContent?.trim() || it.querySelector('link')?.textContent?.trim() || '',
+    pubDate: it.querySelector('pubDate')?.textContent?.trim() || '',
+  }));
+}
 
 async function loadRecentPosts(append) {
   const section = document.getElementById('recentSection');
@@ -6736,10 +6755,9 @@ async function loadRecentPosts(append) {
   if (!append) { list.innerHTML = '<div class="recent-loading">불러오는 중…</div>'; _recentPage = 0; _recentItems = []; }
   try {
     if (!_recentItems.length) {
-      const res = await fetch(RSS2JSON, { signal: AbortSignal.timeout(10000) });
-      const data = await res.json();
-      if (data.status !== 'ok') throw new Error('rss error');
-      _recentItems = data.items || [];
+      const all = await _fetchRssItems();
+      /* 한글 제목만 — 영문 묵상 글 제외 */
+      _recentItems = all.filter(it => KO_RE.test(it.title || ''));
     }
     const start = _recentPage * 5;
     const slice = _recentItems.slice(start, start + 5);
@@ -6750,7 +6768,7 @@ async function loadRecentPosts(append) {
     const html = slice.map(it => {
       const title = (it.title || '').trim();
       const link  = it.link || '#';
-      const d = it.pubDate ? new Date(it.pubDate).toLocaleDateString('ko-KR', { year:'numeric', month:'2-digit', day:'2-digit' }) : '';
+      const d = it.pubDate ? new Date(it.pubDate).toLocaleDateString('ko-KR', { year:'numeric', month:'long', day:'numeric' }) : '';
       const safeLink = link.replace(/'/g, "\\'");
       return `<div class="recent-item" onclick="openExternal('${safeLink}')">
         <div class="recent-dot"></div>
@@ -6760,11 +6778,8 @@ async function loadRecentPosts(append) {
         </div>
       </div>`;
     }).join('');
-    if (append) {
-      list.insertAdjacentHTML('beforeend', html);
-    } else {
-      list.innerHTML = html;
-    }
+    if (append) list.insertAdjacentHTML('beforeend', html);
+    else list.innerHTML = html;
     if (section) section.style.display = 'block';
     _recentPage++;
   } catch(e) {
