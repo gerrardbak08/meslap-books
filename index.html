@@ -6757,7 +6757,7 @@ async function loadRecentPosts(append) {
     if (!_recentItems.length) {
       const all = await _fetchRssItems();
       /* 한글 제목만 — 영문 묵상 글 제외 */
-      _recentItems = all.filter(it => KO_RE.test(it.title || ''));
+      _recentItems = all.filter(it => KO_RE.test(it.title || '') && (it.title || '').trim().length >= 8);
     }
     const start = _recentPage * 5;
     const slice = _recentItems.slice(start, start + 5);
