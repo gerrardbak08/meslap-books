@@ -221,7 +221,7 @@ body{font-family:var(--sans);-webkit-font-smoothing:antialiased;background:radia
   --r-title-fs:calc(var(--reader-fs) * 1.62);
   --r-sub-fs:calc(var(--reader-fs) * 0.86);
   --r-lbl-fs:calc(var(--reader-fs) * 0.66);
-  --r-pq-fs:calc(var(--reader-fs) * 0.97);
+  --r-pq-fs:calc(var(--reader-fs) * 1.06);
   --r-sc-fs:calc(var(--reader-fs) * 0.92);
 }
 .r-lbl{font-family:var(--sans);font-size:var(--r-lbl-fs);font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);text-align:center;margin-bottom:1.1em}
@@ -243,8 +243,8 @@ body{font-family:var(--sans);-webkit-font-smoothing:antialiased;background:radia
 /* 인용·강조 구절(pq) — 가장 많이 쓰이는 블록.
    본문과 구별: 좌측 골드 헤어라인 + 들여쓰기 + 약간 작은 이탤릭 + 부드러운 잉크색.
    성경 인용(r-sc)과는 다른 처방으로 두 가지를 분명히 구별한다. */
-.r-pq{margin:2.4em 0;padding:.1em 0 .1em 1.25em;border-left:2px solid var(--gold);text-align:left}
-.r-pq p{font-family:var(--reader-font);font-style:italic;font-size:var(--r-pq-fs);color:var(--ink2);line-height:1.72;letter-spacing:.004em;word-break:keep-all}
+.r-pq{margin:2.8em 0;padding:.2em 0 .2em 1.4em;border-left:3px solid var(--gold);text-align:left}
+.r-pq p{font-family:var(--reader-font);font-style:italic;font-size:var(--r-pq-fs);color:var(--ink2);line-height:1.82;letter-spacing:.004em;word-break:keep-all}
 .r-pq p + p{margin-top:.65em}
 /* 성경 본문(scripture) — 참조(ref)는 작은 골드 캡션, 본문은 정자(non-italic)
    세리프 + 옅은 패널. pq의 '이탤릭 인용'과 정반대 결로 시각 구별을 강화. */
