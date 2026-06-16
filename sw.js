@@ -2,7 +2,7 @@
  * 전략: Cache-First for shell+books, Network-First for dynamic
  * 캐시 무효화: CACHE_VERSION 올리기
  */
-const CACHE_VERSION = 'meslap-v15';
+const CACHE_VERSION = 'meslap-v16';
 
 /* 앱 셸 + 모든 책 JSON — 설치 시 사전 캐시 (lazy-load 아키텍처) */
 const SHELL = [

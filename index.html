@@ -234,8 +234,16 @@ body{font-family:var(--sans);-webkit-font-smoothing:antialiased;background:radia
 .r-h2::before{content:'';display:block;width:28px;height:2px;background:var(--gold);border-radius:1px;margin-bottom:.75em}
 .r-h2:first-child{margin-top:.3em}
 .r-h3{font-family:var(--reader-font);font-size:var(--r-h3-fs);font-weight:600;line-height:1.5;color:var(--ink);margin:2em 0 .7em;word-break:keep-all;letter-spacing:-.01em}
-.r-h3::before{content:'';display:inline-block;width:.5em;height:1px;background:var(--gold);vertical-align:middle;margin-right:.55em;transform:translateY(-.12em)}
+.r-h3::before{content:'';display:inline-block;width:14px;height:2px;background:var(--gold);vertical-align:middle;margin-right:.6em;border-radius:1px;transform:translateY(-.1em)}
 .r-h3:first-child{margin-top:.3em}
+/* 섹션 레이블 배지 (결론·본론·서론 등) */
+.r-h3-tag{font-family:var(--sans);font-size:calc(var(--reader-fs)*0.62);font-weight:700;letter-spacing:.1em;color:var(--gold);margin-right:.55em;vertical-align:middle;text-transform:uppercase}
+/* 태그 있는 h3는 ::before 골드바 숨김 — 태그 자체가 구분자 역할 */
+.r-h3.r-tagged::before{display:none}
+/* 리스트 블록 — 블로그 `- 항목` 패턴 */
+.r-ul{margin:1.4em 0 1.4em 1.1em;padding:0;list-style:none;display:flex;flex-direction:column;gap:.6em}
+.r-li{font-family:var(--reader-font);font-size:var(--reader-fs);line-height:var(--reader-lh);color:var(--ink);word-break:keep-all;letter-spacing:-.003em;padding-left:1.2em;position:relative}
+.r-li::before{content:'•';position:absolute;left:0;color:var(--gold);font-weight:700}
 /* 번호 헤딩(1. / 첫째 / [1])은 골드 바·대시 장식을 숨긴다 */
 .r-h2.r-num::before,.r-h3.r-num::before{display:none}
 .r-h2.r-num{margin-top:2em}
@@ -3989,8 +3997,9 @@ let BOOK_CHAPTERS = [
           },
           {
             "t": "h3",
-            "c": "본론 | 하나님의 주권과 구원의 황금 사슬 _ 고난 속에 영원한 확신과 승리",
-            "numbered": false
+            "c": "하나님의 주권과 구원의 황금 사슬 _ 고난 속에 영원한 확신과 승리",
+            "numbered": false,
+            "tag": "본론"
           },
           {
             "t": "p",
@@ -4196,8 +4205,9 @@ let BOOK_CHAPTERS = [
           },
           {
             "t": "h3",
-            "c": "결론 | 하나님의 신뢰를 통해 확정된 승리를 취하십시오 _ 우리는 이미 영광의 상속자입니다",
-            "numbered": false
+            "c": "하나님의 신뢰를 통해 확정된 승리를 취하십시오 _ 우리는 이미 영광의 상속자입니다",
+            "numbered": false,
+            "tag": "결론"
           },
           {
             "t": "p",
@@ -7187,11 +7197,15 @@ function renderArt(idx) {
 
   (a.blocks || []).forEach(b => {
     if      (b.t === 'h2') html += `<h2 class="r-h2${b.numbered?' r-num':''}">${b.c}</h2>`;
-    else if (b.t === 'h3') html += `<h3 class="r-h3${b.numbered?' r-num':''}">${b.c}</h3>`;
+    else if (b.t === 'h3') {
+      const tagHtml = b.tag ? `<span class="r-h3-tag">${b.tag}</span>` : '';
+      html += `<h3 class="r-h3${b.numbered?' r-num':''}${b.tag?' r-tagged':''}">${tagHtml}${b.c}</h3>`;
+    }
     else if (b.t === 'heading') { const lv = b.lvl === 2 ? 2 : 3; html += `<h${lv} class="r-h${lv}${b.numbered?' r-num':''}">${b.c}</h${lv}>`; }
     else if (b.t === 'lead') html += `<p class="r-lead">${b.c}</p>`;
     else if (b.t === 'p')    html += `<p class="r-p">${b.c}</p>`;
     else if (b.t === 'pq')   html += `<div class="r-pq"><p>${b.c}</p></div>`;
+    else if (b.t === 'list') html += `<ul class="r-ul">${(b.items||[]).map(it=>`<li class="r-li">${it}</li>`).join('')}</ul>`;
     else if (b.t === 'scripture') html += `
       <div class="r-sc">
         <div class="r-sc-ref">${b.ref}</div>
